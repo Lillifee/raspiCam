@@ -10,7 +10,6 @@ const Container = styled.div`
 `;
 
 const PlayerWrapper = styled.div`
-  /* padding: 5px; */
   background: #000000;
   display: flex;
   align-items: center;
@@ -49,14 +48,12 @@ const usePlayer = (url: string, container: React.RefObject<HTMLElement>) => {
  * Player to display the live stream
  */
 export const Player: React.FC = () => {
-  const containerRef = React.useRef<HTMLDivElement>(null);
   const playerWrapperRef = React.useRef<HTMLDivElement>(null);
 
-  // TODO the port of the server can be adjusted - run the ws on the same port and use document.location.host
-  usePlayer(`ws://${__WEBSOCKET__ || document.location.hostname}:${8001}`, playerWrapperRef);
+  usePlayer(`ws://${__WEBSOCKET__ || document.location.host}`, playerWrapperRef);
 
   return (
-    <Container ref={containerRef}>
+    <Container>
       <PlayerWrapper ref={playerWrapperRef} />
     </Container>
   );

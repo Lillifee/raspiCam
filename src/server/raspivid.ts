@@ -29,7 +29,7 @@ const raspivid = (options: RaspiVidOptions, onData: (data: Buffer) => void): Ras
    * Start raspivid
    */
   const start = () => {
-    console.info('raspivid - Start');
+    console.info('raspivid - start');
     const spawnArgs = Object.entries(options).reduce<string[]>((result, [key, value]) => {
       result.push(`--${key}`);
       result.push(value);

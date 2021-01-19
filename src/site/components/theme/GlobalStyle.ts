@@ -19,10 +19,4 @@ export const GlobalStyle = createGlobalStyle`
     margin: 0;
     font-family: Roboto, Helvetica, Arial, sans-serif;
   }
-
-  // TODO Check if needed
-  /* input, select {
-    font-family: inherit;
-    font-size: inherit;
-  } */
 `;

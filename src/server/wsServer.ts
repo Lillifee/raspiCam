@@ -1,3 +1,4 @@
+import http from 'http';
 import WebSocket from 'ws';
 
 export interface WsServer {
@@ -12,15 +13,15 @@ export interface WsServer {
  * @param port Websocket port
  * @return {WsServer}
  */
-const wsServer = (port: number): WsServer => {
+const wsServer = (server: http.Server): WsServer => {
   let wsServer: WebSocket.Server | undefined;
 
   /**
    * Start the websocket server
    */
   const start = () => {
-    wsServer = new WebSocket.Server({ port });
-    console.info(`wsServer - listening on`, port);
+    wsServer = new WebSocket.Server({ server });
+    console.info(`wsServer - start`);
 
     wsServer.on('connection', (ws: WebSocket) => {
       console.info('wsServer - client connected ' + wsServer?.clients.size);

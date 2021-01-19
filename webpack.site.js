@@ -8,8 +8,8 @@ const styledComponentsTransformer = createStyledComponentsTransformer({ minify: 
 /*
  * Switch the server path during development
  */
-const devServer = '192.168.3.80';
-// const devServer = '192.168.3.72';
+const devServer = '192.168.3.80:8000';
+// const devServer = '192.168.3.72:8000';
 
 module.exports = (env, argv) => ({
   mode: argv.mode || 'production',

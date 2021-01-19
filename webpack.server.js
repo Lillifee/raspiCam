@@ -17,7 +17,6 @@ module.exports = {
       {
         test: /\.(ts|tsx)$/,
         loader: 'ts-loader',
-        include: [path.resolve(__dirname, 'src')],
         exclude: [/node_modules/],
       },
     ],
@@ -38,5 +37,4 @@ module.exports = {
   // Fix the output warnings of yargs and express
   // TODO Check for alternative and if yargs necessary.
   ignoreWarnings: [/warning/, { module: /yargs/ }],
-  externals: [{ express: { commonjs: 'express' } }],
 };
