@@ -54,8 +54,9 @@ module.exports = (env, argv) => ({
   devServer: {
     proxy: {
       '/api': {
-        target: devServer,
+        target: `http://${devServer}`,
         changeOrigin: true,
+        secure: false,
       },
     },
   },

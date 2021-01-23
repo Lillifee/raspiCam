@@ -49,7 +49,6 @@ const usePlayer = (url: string, container: React.RefObject<HTMLElement>) => {
  */
 export const Player: React.FC = () => {
   const playerWrapperRef = React.useRef<HTMLDivElement>(null);
-
   usePlayer(`ws://${__WEBSOCKET__ || document.location.host}`, playerWrapperRef);
 
   return (

@@ -1,46 +1,37 @@
 import { ChildProcess, spawn } from 'child_process';
 import Split from 'stream-split';
+import { RaspiVidOptions } from '../../shared/raspiOptions';
+import { getSpawnArgs, stopProcess } from './processHelper';
 
 const NALSeparator = Buffer.from([0, 0, 0, 1]);
 
-export interface RaspiVidOptions {
-  width: number;
-  height: number;
-  framerate: number;
-  profile: 'baseline' | 'main' | 'high';
-  timeout: number;
-  bitrate?: number;
-  verticalFlip?: boolean;
-  horizontalFlip?: boolean;
-}
-
-export interface RaspiVid {
-  start: () => void;
+export interface RaspiStream {
+  start: (newOptions?: Partial<RaspiVidOptions>) => void;
   stop: () => void;
 }
 
 /**
  * RaspiVid
  */
-const raspivid = (options: RaspiVidOptions, onData: (data: Buffer) => void): RaspiVid => {
+const raspiStream = (
+  baseOptions: Partial<RaspiVidOptions>,
+  onData: (data: Buffer) => void,
+): RaspiStream => {
   let process: ChildProcess | undefined;
 
   /**
-   * Start raspivid
+   * Start raspivid stream
    */
-  const start = () => {
-    console.info('raspivid - start');
-    const spawnArgs = Object.entries(options).reduce<string[]>((result, [key, value]) => {
-      result.push(`--${key}`);
-      result.push(value);
-      return result;
-    }, []);
+  const start = (newOptions?: Partial<RaspiVidOptions>) => {
+    const options = { ...baseOptions, ...newOptions };
+
+    const spawnArgs = getSpawnArgs(options);
+    console.info('raspistream', spawnArgs.join(' '));
 
     // Spawn the raspivid with -ih (Insert PPS, SPS headers) - see end of the file
-    process = spawn('raspivid', ['--nopreview', ...spawnArgs, '-ih', '-o', '-'], {
-      stdio: ['ignore', 'pipe', 'inherit'],
-    }).on('error', (e) => {
-      console.error('raspivid - error', e.message);
+    process = spawn('raspivid', [...spawnArgs], { stdio: ['ignore', 'pipe', 'inherit'] });
+    process.on('error', (e) => {
+      console.error('raspistream - error', e.message);
     });
 
     // TODO Check if we can forward the NAL splitter using pipe
@@ -51,21 +42,14 @@ const raspivid = (options: RaspiVidOptions, onData: (data: Buffer) => void): Ras
   };
 
   /**
-   * Stop the TCP server
+   * Stop the stream
    */
-  const stop = () => {
-    if (process) {
-      process.stdout?.pause();
-      process.kill();
-      process = undefined;
-    }
-  };
+  const stop = () => stopProcess(process);
 
-  start();
   return { start, stop };
 };
 
-export default raspivid;
+export default raspiStream;
 
 /**  
  * Check alternative to startup of raspivid using -ih
