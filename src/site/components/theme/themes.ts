@@ -17,4 +17,12 @@ export const theme: DefaultTheme = {
 
   PrimaryBackground: '#78b956',
   PrimaryForeground: '#1d1d1d',
+
+  FontSize: {
+    xs: '0.7em',
+    s: '0.8em',
+    m: '1em',
+    l: '1.5em',
+    xl: '2em',
+  },
 };

@@ -1,88 +1,88 @@
 import express from 'express';
 import path from 'path';
-import {
-  ParseOption,
-  ParseOptions,
-  raspiStillParseOptions,
-  raspiVidParseOptions,
-} from '../shared/raspiParseOptions';
 import { RaspiStill } from './raspi/raspiStill';
 import { RaspiStream } from './raspi/raspiStream';
 import { RaspiVid } from './raspi/raspiVid';
+import { SettingsBase, SettingsHelper } from './raspi/settingsHelper';
 
 /**
  * Initialize the express server
  */
-const server = (stream: RaspiStream, still: RaspiStill, vid: RaspiVid): express.Express => {
+const server = (
+  settingsHelper: SettingsHelper,
+  stream: RaspiStream,
+  still: RaspiStill,
+  vid: RaspiVid,
+): express.Express => {
   const app = express();
 
   // Serve the static content from public
   app.use(express.static(path.join(__dirname, './public')));
+  app.use(express.json());
 
-  /**
-   * Stop all processes
-   */
+  //#region Helper functions
+
   const stopAll = () => {
     stream.stop();
     still.stop();
     vid.stop();
   };
 
-  /**
-   * Parse the request parameters
-   */
-  const parseParameters = <T>(
+  const getSettings = (x: SettingsBase) => async (_: express.Request, res: express.Response) =>
+    res.send(x.get());
+
+  const applySettings = (x: SettingsBase) => async (req: express.Request, res: express.Response) =>
+    x.apply(x.parse(req.body))
+      ? res.status(200).send(x.get())
+      : res.status(400).send('No changes found');
+
+  const applyAndRestart = (x: SettingsBase) => async (
     req: express.Request,
-    raspiOptions: ParseOptions<Partial<T>>,
-  ): Partial<T> =>
-    Object.entries(raspiOptions).reduce<Partial<T>>((result, [key, option]) => {
-      const qryValue = req.query[key];
-      const parseOption = option as ParseOption;
-      const value = qryValue && parseOption.convert(qryValue.toString());
-      return value ? { ...result, [key]: value } : result;
-    }, {});
+    res: express.Response,
+  ) => {
+    const applied = x.apply(x.parse(req.body));
+    if (applied) stream.restart();
+    return applied ? res.status(200).send(x.get()) : res.status(400).send('No changes found');
+  };
 
-  /**
-   * RaspiStill - capture image
-   */
-  app.get('/api/still', async (req, res) => {
-    const options = parseParameters(req, raspiStillParseOptions);
+  //#endregion
 
+  app.get('/api/camera', getSettings(settingsHelper.camera));
+  app.post('/api/camera', applyAndRestart(settingsHelper.camera));
+
+  app.get('/api/preview', getSettings(settingsHelper.preview));
+  app.post('/api/preview', applyAndRestart(settingsHelper.preview));
+
+  app.get('/api/stream', getSettings(settingsHelper.stream));
+  app.post('/api/stream', applyAndRestart(settingsHelper.stream));
+
+  app.get('/api/vid', getSettings(settingsHelper.vid));
+  app.post('/api/vid', applySettings(settingsHelper.vid));
+
+  app.get('/api/still', getSettings(settingsHelper.still));
+  app.post('/api/still', applySettings(settingsHelper.still));
+
+  app.get('/api/still/capture', async (_, res) => {
     stopAll();
-    await still.start(options).catch((err) => res.send(err));
+
+    await still
+      .start()
+      .then(() => res.send(`Captured picture`))
+      .catch((e) => res.status(400).send(e.message));
+
     stream.start();
-    res.end();
   });
 
-  /**
-   * RaspiStream - Stop and restart with settings
-   */
-  app.get('/api/stream', async (req, res) => {
-    const options = parseParameters(req, raspiVidParseOptions);
-
+  app.get('/api/vid/start', async (_, res) => {
     stopAll();
-    stream.start(options);
-    res.end();
+    vid.start();
+    res.send('video started');
   });
 
-  /**
-   * RaspiVid - start video capture
-   */
-  app.get('/api/vid/start', async (req, res) => {
-    const options = parseParameters(req, raspiVidParseOptions);
-
-    stopAll();
-    vid.start(options);
-    res.end();
-  });
-
-  /**
-   * RaspiVid - stop video capture
-   */
   app.get('/api/vid/stop', async (_, res) => {
     vid.stop();
     stream.start();
-    res.end();
+    res.send('video stopped');
   });
 
   return app;

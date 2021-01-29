@@ -1,9 +1,15 @@
 import http from 'http';
 import yargs from 'yargs';
-import { raspiStillOptions, raspiVidStreamingOptions } from '../shared/raspiOptions';
+import {
+  previewSettings,
+  stillSettings,
+  streamSettings,
+  vidSettings,
+} from '../shared/raspiSettings';
 import raspiStill from './raspi/raspiStill';
 import raspiStream from './raspi/raspiStream';
 import raspiVid from './raspi/raspiVid';
+import { createSettingsHelper } from './raspi/settingsHelper';
 import server from './server';
 import tcpStreamer from './tcpStreamer';
 import wsServer from './wsServer';
@@ -47,11 +53,24 @@ const start = () => {
   }
 
   /**
-   * RaspiVid - Broadcast the stream to the WebSocket clients.
+   * Settings helper
+   * Maintain the settings for all processes
    */
-  const stream = raspiStream(raspiVidStreamingOptions, ws.broadcast);
-  const still = raspiStill(raspiStillOptions);
-  const vid = raspiVid();
+  const settingsHelper = createSettingsHelper();
+  settingsHelper.stream.apply(streamSettings);
+  settingsHelper.still.apply(stillSettings);
+  settingsHelper.preview.apply(previewSettings);
+  settingsHelper.vid.apply(vidSettings);
+
+  /**
+   * Raspi processes
+   * stream - Broadcast the stream to the WebSocket clients.
+   * vid - Capture videos using raspivid.
+   * still - Capture pictures using raspistill.
+   */
+  const stream = raspiStream(settingsHelper, ws.broadcast);
+  const still = raspiStill(settingsHelper);
+  const vid = raspiVid(settingsHelper);
 
   stream.start();
 
@@ -59,7 +78,7 @@ const start = () => {
    * Webserver
    * Start the webserver and serve the website.
    */
-  const app = server(stream, still, vid);
+  const app = server(settingsHelper, stream, still, vid);
   httpServer.on('request', app);
 
   /**

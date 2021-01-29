@@ -1,5 +1,5 @@
 // eslint-disable-next-line @typescript-eslint/no-var-requires
-const Player = require('../../../broadway/Player');
+const Player = require('../../../../broadway/Player');
 
 export interface PlayerSize {
   width: number;

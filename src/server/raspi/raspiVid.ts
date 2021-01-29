@@ -1,25 +1,31 @@
 import { ChildProcess, spawn } from 'child_process';
-import { RaspiVidOptions } from '../../shared/raspiOptions';
+import { vidSettings } from '../../shared/raspiSettings';
 import { getSpawnArgs, stopProcess } from './processHelper';
+import { SettingsHelper } from './settingsHelper';
 
 export interface RaspiVid {
-  start: (newOptions?: Partial<RaspiVidOptions>) => void;
+  start: () => void;
   stop: () => void;
 }
 
 /**
  * RaspiVid
  */
-const raspiVid = (baseOptions?: Partial<RaspiVidOptions>): RaspiVid => {
+const raspiVid = (settingsHelper: SettingsHelper): RaspiVid => {
   let process: ChildProcess | undefined;
 
   /**
    * Start recording
    */
-  const start = (newOptions?: Partial<RaspiVidOptions>) => {
-    const options = { ...baseOptions, ...newOptions };
+  const start = () => {
+    const { camera, preview, stream } = settingsHelper;
+    const spawnArgs = getSpawnArgs({
+      ...vidSettings,
+      ...camera.get(),
+      ...preview.get(),
+      ...stream.get(),
+    });
 
-    const spawnArgs = getSpawnArgs(options);
     console.info('raspivid', spawnArgs.join(' '));
 
     // Spawn the raspivid with -ih (Insert PPS, SPS headers) - see end of the file

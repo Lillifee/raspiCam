@@ -2,9 +2,9 @@
 // https://www.raspberrypi.org/documentation/raspbian/applications/camera.md
 
 /**
- * Camera options
+ * Camera settings
  */
-export interface CameraOptions {
+export interface RaspiCameraSettings {
   /** Set image sharpness (-100 - 100) */
   sharpness: number;
 
@@ -18,7 +18,7 @@ export interface CameraOptions {
   saturation: number;
 
   /** Set capture ISO (100 - 800) */
-  iso: number;
+  ISO: number;
 
   /** Turn on video stabilisation */
   vstab: boolean;
@@ -155,10 +155,9 @@ export interface CameraOptions {
 }
 
 /**
- * Preview options.
- * @interface PreviewOptions
+ * Preview settings
  */
-export interface PreviewOptions {
+export interface RaspiPreviewSettings {
   /**
    * Preview window settings <'x,y,w,h'>
    * Allows the user to define the size of the preview window and its location on the screen.
@@ -188,14 +187,9 @@ export interface PreviewOptions {
 }
 
 /**
- * RaspiStill options
- *
- * @export
- * @interface RaspiStillOptions
- * @extends {CameraOptions}
- * @extends {PreviewOptions}
+ * RaspiStill settings
  */
-export interface RaspiStillOnlyOptions {
+export interface RaspiStillSettings {
   /** Set image width <size> 4056  */
   width: number;
 
@@ -291,14 +285,9 @@ export interface RaspiStillOnlyOptions {
 }
 
 /**
- * RaspiVid Options
- *
- * @export
- * @interface RaspiVidOptions
- * @extends {CameraOptions}
- * @extends {PreviewOptions}
+ * RaspiVid settings
  */
-export interface RaspiVidOnlyOptions {
+export interface RaspiVidSettings {
   /**
    * Width of resulting video. This should be between 64 and 1920.
    */
@@ -432,10 +421,18 @@ export interface RaspiVidOnlyOptions {
   rf: 'yuv' | 'rgb' | 'grey';
 }
 
-export interface RaspiStillOptions extends RaspiStillOnlyOptions, CameraOptions, PreviewOptions {}
-export interface RaspiVidOptions extends RaspiVidOnlyOptions, CameraOptions, PreviewOptions {}
+export const vidSettings: Partial<RaspiVidSettings> = {
+  width: 1920,
+  height: 1080,
+  timeout: 0,
+  framerate: 30,
+  profile: 'baseline',
+  bitrate: 3000000,
+  inline: true,
+  output: 'dummy.mp4',
+};
 
-export const raspiVidStreamingOptions: Partial<RaspiVidOptions> = {
+export const streamSettings: Partial<RaspiVidSettings> = {
   width: 1280,
   height: 720,
   timeout: 0,
@@ -443,14 +440,16 @@ export const raspiVidStreamingOptions: Partial<RaspiVidOptions> = {
   profile: 'baseline',
   bitrate: 3000000,
   inline: true,
-  nopreview: true,
   output: '-',
 };
 
-export const raspiStillOptions: Partial<RaspiStillOptions> = {
+export const stillSettings: Partial<RaspiStillSettings> = {
   width: 4056,
   height: 3040,
   timeout: 1,
-  nopreview: true,
   output: 'dummy.jpg',
+};
+
+export const previewSettings: Partial<RaspiPreviewSettings> = {
+  nopreview: true,
 };

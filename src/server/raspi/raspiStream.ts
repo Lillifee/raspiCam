@@ -1,20 +1,22 @@
 import { ChildProcess, spawn } from 'child_process';
 import Split from 'stream-split';
-import { RaspiVidOptions } from '../../shared/raspiOptions';
+import { streamSettings } from '../../shared/raspiSettings';
 import { getSpawnArgs, stopProcess } from './processHelper';
+import { SettingsHelper } from './settingsHelper';
 
 const NALSeparator = Buffer.from([0, 0, 0, 1]);
 
 export interface RaspiStream {
-  start: (newOptions?: Partial<RaspiVidOptions>) => void;
+  start: () => void;
   stop: () => void;
+  restart: () => void;
 }
 
 /**
  * RaspiVid
  */
 const raspiStream = (
-  baseOptions: Partial<RaspiVidOptions>,
+  settingsHelper: SettingsHelper,
   onData: (data: Buffer) => void,
 ): RaspiStream => {
   let process: ChildProcess | undefined;
@@ -22,10 +24,14 @@ const raspiStream = (
   /**
    * Start raspivid stream
    */
-  const start = (newOptions?: Partial<RaspiVidOptions>) => {
-    const options = { ...baseOptions, ...newOptions };
-
-    const spawnArgs = getSpawnArgs(options);
+  const start = () => {
+    const { camera, preview, stream } = settingsHelper;
+    const spawnArgs = getSpawnArgs({
+      ...streamSettings,
+      ...camera.get(),
+      ...preview.get(),
+      ...stream.get(),
+    });
     console.info('raspistream', spawnArgs.join(' '));
 
     // Spawn the raspivid with -ih (Insert PPS, SPS headers) - see end of the file
@@ -46,7 +52,17 @@ const raspiStream = (
    */
   const stop = () => stopProcess(process);
 
-  return { start, stop };
+  /**
+   * Restart - only if already running
+   */
+  const restart = () => {
+    if (process) {
+      stop();
+      start();
+    }
+  };
+
+  return { start, stop, restart };
 };
 
 export default raspiStream;

@@ -21,5 +21,13 @@ declare module 'styled-components' {
 
     PrimaryBackground: string;
     PrimaryForeground: string;
+
+    FontSize: {
+      xs: string;
+      s: string;
+      m: string;
+      l: string;
+      xl: string;
+    };
   }
 }

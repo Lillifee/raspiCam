@@ -1,23 +1,31 @@
 import { ChildProcess, spawn } from 'child_process';
-import { RaspiStillOptions } from '../../shared/raspiOptions';
+import { stillSettings } from '../../shared/raspiSettings';
 import { getSpawnArgs, stopProcess } from './processHelper';
+import { SettingsHelper } from './settingsHelper';
 
 export interface RaspiStill {
-  start: (options: Partial<RaspiStillOptions>) => Promise<void>;
+  start: () => Promise<void>;
   stop: () => void;
 }
 
 /**
  * RaspiVid
  */
-const raspiStill = (baseOptions: Partial<RaspiStillOptions>): RaspiStill => {
+const raspiStill = (settingsHelper: SettingsHelper): RaspiStill => {
   let process: ChildProcess | undefined;
 
   /**
-   * Capture image
+   * Start video capture
    */
-  const start = (newOptions: Partial<RaspiStillOptions>): Promise<void> => {
-    const spawnArgs = getSpawnArgs({ ...baseOptions, ...newOptions });
+  const start = (): Promise<void> => {
+    const { camera, preview, still } = settingsHelper;
+    const spawnArgs = getSpawnArgs({
+      ...stillSettings,
+      ...camera.get(),
+      ...preview.get(),
+      ...still.get(),
+    });
+
     console.info('raspistill', spawnArgs.join(' '));
 
     // Spawn the raspiStill
@@ -25,12 +33,12 @@ const raspiStill = (baseOptions: Partial<RaspiStillOptions>): RaspiStill => {
       process = spawn('raspistill', [...spawnArgs], {});
       process.stdout?.on('data', (data) => console.log('raspistill', data));
       process.on('exit', () => resolve());
-      process.on('error', () => reject());
+      process.on('error', (e) => reject(e));
     });
   };
 
   /**
-   * Stop the process
+   * Stop video capture
    */
   const stop = () => stopProcess(process);
 
