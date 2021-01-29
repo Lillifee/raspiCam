@@ -1,6 +1,6 @@
 import { useEffect, useCallback, useReducer, useMemo, useRef } from 'react';
 import { ActionTypes, createActions } from '../actionHelper';
-import { useDebouncedCallback } from './useDebounce';
+import { useDebouncedCallback, useTimer } from './timingHooks';
 
 export interface FetchState<T> {
   data: T;
@@ -8,6 +8,10 @@ export interface FetchState<T> {
   userData?: Partial<T>;
 }
 
+/**
+ * Create reducer and typed actions
+ * @template T Type of request data
+ */
 const createFetchSlice = <T>() => {
   const actions = createActions({
     FETCH: () => undefined,
@@ -53,7 +57,6 @@ const createFetchSlice = <T>() => {
 
 export interface UseFetch<T> {
   state: FetchState<T>;
-  refresh: () => void;
   update: (data: Partial<T>) => void;
 }
 
@@ -64,57 +67,54 @@ export const useFetch = <T>(url: RequestInfo, data: T, refreshInterval?: number)
   // Initialize reducer
   const [state, dispatch] = useReducer(reducer, { isLoading: true, data });
 
-  // Refresh timer
-  const [startRefresh, stopRefresh] = useDebouncedCallback(() => fetchData(), refreshInterval);
-
   // Abort controller to cancel the fetch and update
   const abort = useRef(new AbortController());
 
-  // Fetch data
-  const fetchData = useCallback(() => {
+  // Fetch data callback
+  const fetchData = useCallback(async () => {
     dispatch(actions.FETCH());
 
-    fetch(url, { signal: abort.current.signal })
-      .then((res) =>
-        res.json().then((json) => {
-          dispatch(actions.FETCH_SUCCESS(json));
-        }),
-      )
-      .then(() => startRefresh())
+    return fetch(url, { signal: abort.current.signal })
+      .then((res) => res.json())
+      .then((json) => dispatch(actions.FETCH_SUCCESS(json)))
       .catch((error) => {
         if (!abort.current.signal.aborted) {
           dispatch(actions.FETCH_FAILURE(error));
-          startRefresh();
         }
       });
-  }, [abort]);
+  }, [url, actions]);
+
+  // Refresh timer
+  const [startRefresh, stopRefresh] = useTimer(fetchData, refreshInterval);
 
   // Fetch data on mount
   useEffect(() => {
     fetchData();
-    return () => abort.current.abort();
-  }, [fetchData, abort]);
+    startRefresh();
+    const abortCtl = abort.current;
+    return () => abortCtl.abort();
+  }, [fetchData, startRefresh]);
 
   // Post the user input
-  const [updateData] = useDebouncedCallback((data: Partial<T>) => {
+  const [updateData] = useDebouncedCallback(async (data: Partial<T>) => {
     dispatch(actions.UPDATE(data));
 
     // Post the updated data
-    fetch(url, {
+    return fetch(url, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(data),
       signal: abort.current.signal,
     })
-      .then((res) =>
-        res.json().then((json) => {
-          dispatch(actions.UPDATE_SUCCESS(json));
-          startRefresh();
-        }),
-      )
+      .then((res) => res.json())
+      .then((json) => {
+        dispatch(actions.UPDATE_SUCCESS(json));
+        startRefresh();
+      })
       .catch((error) => {
         if (!abort.current.signal.aborted) {
-          dispatch(actions.FETCH_FAILURE(error));
+          dispatch(actions.UPDATE_FAILURE(error));
+          startRefresh();
         }
       });
   }, 1000);
@@ -126,5 +126,5 @@ export const useFetch = <T>(url: RequestInfo, data: T, refreshInterval?: number)
     updateData({ ...state.data, ...state.userData, ...newData });
   };
 
-  return { state, refresh: fetchData, update };
+  return { state, update };
 };

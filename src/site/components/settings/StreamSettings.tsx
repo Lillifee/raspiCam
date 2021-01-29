@@ -10,12 +10,6 @@ import {
   raspiStillParseSettings,
   raspiVidParseSettings,
 } from '../../../shared/raspiParseSettings';
-import {
-  RaspiCameraSettings,
-  RaspiPreviewSettings,
-  RaspiStillSettings,
-  RaspiVidSettings,
-} from '../../../shared/raspiSettings';
 import { useFetch } from '../common/hooks/useFetch';
 import { Label } from '../styled/Label';
 import { SliderValue } from '../styled/Slider';
@@ -131,6 +125,7 @@ export interface SettingsProps {
 const Settings = <T,>(parseSettings: Partial<ParseSettings<T>>): React.FC<SettingsProps> => ({
   url,
 }) => {
+  // eslint-disable-next-line react-hooks/rules-of-hooks
   const { state, update } = useFetch<Partial<T>>(url, {}, 2000);
   const data = { ...state.data, ...state.userData };
   // TODO typing
@@ -154,7 +149,7 @@ const Settings = <T,>(parseSettings: Partial<ParseSettings<T>>): React.FC<Settin
   );
 };
 
-export const VidSettings = Settings<RaspiVidSettings>(raspiVidParseSettings);
-export const StillSettings = Settings<RaspiStillSettings>(raspiStillParseSettings);
-export const PreviewSettings = Settings<RaspiPreviewSettings>(raspiPreviewParseSettings);
-export const CameraSettings = Settings<RaspiCameraSettings>(raspiCameraParseSettings);
+export const VidSettings = Settings(raspiVidParseSettings);
+export const StillSettings = Settings(raspiStillParseSettings);
+export const PreviewSettings = Settings(raspiPreviewParseSettings);
+export const CameraSettings = Settings(raspiCameraParseSettings);
