@@ -12,7 +12,6 @@ const Container = styled.div`
 `;
 
 const PlayerWrapper = styled.div`
-  background: #000000;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -83,12 +82,7 @@ export const Player: React.FC<PlayerProps> = ({ loading }) => {
   return (
     <Container>
       <PlayerWrapper ref={playerWrapperRef} />
-
-      <Overlay blur={loading || !stats.running || stats.dropFrames}>
-        FPS {stats.avgFps}
-        {stats.running && 'running'}
-        width {stats.width}x {stats.height}
-      </Overlay>
+      <Overlay blur={loading || !stats.running || stats.dropFrames} />
     </Container>
   );
 };

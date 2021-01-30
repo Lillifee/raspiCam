@@ -12,11 +12,25 @@ export const GlobalStyle = createGlobalStyle`
     display: flex;
     flex-direction: column;
     overflow: hidden;
-    background: #0d0e1b;
+    background: #1d1d1d;
   }
 
   body {
     margin: 0;
     font-family: Roboto, Helvetica, Arial, sans-serif;
+  }
+
+  *::-webkit-scrollbar {
+    width: 5px;
+  }
+
+  *::-webkit-scrollbar-track {
+    background: #1d1d1d;
+  }
+
+  *::-webkit-scrollbar-thumb {
+    background-color: #444444;
+    border-radius: 0px;
+    border: 0;
   }
 `;

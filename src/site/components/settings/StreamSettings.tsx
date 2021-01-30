@@ -2,42 +2,73 @@ import * as React from 'react';
 import styled from 'styled-components';
 import { isDefined } from '../../../shared/heperFunctions';
 import {
+  BooleanTypeSetting,
+  EnumTypeSetting,
   NumberTypeSetting,
   ParseSetting,
   ParseSettings,
-  raspiCameraParseSettings,
-  raspiPreviewParseSettings,
-  raspiStillParseSettings,
-  raspiVidParseSettings,
 } from '../../../shared/raspiParseSettings';
 import { useFetch } from '../common/hooks/useFetch';
 import { Label } from '../styled/Label';
+import { Select } from '../styled/Select';
 import { SliderValue } from '../styled/Slider';
+import { Toggle } from '../styled/Toggle';
 
 // #region styled
 
 const Wrapper = styled.div`
-  backdrop-filter: blur(5px);
-  background-color: rgba(0, 0, 0, 0.8);
-  color: ${(p) => p.theme.Foreground};
-  padding: 1em;
+  display: flex;
+  flex-direction: column;
+  padding: 2em 3em;
 `;
 
-const SettingContainer = styled.div``;
+const SettingsHeader = styled(Label)`
+  display: flex;
+  padding: 0.2em 0 1em 0;
+`;
+
+const SettingVerticalWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  padding: 0.6em 0;
+`;
+
+const SettingHorizontalWrapper = styled(SettingVerticalWrapper)`
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.9em 0;
+`;
+
+const SettingNameValueContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+`;
+
 const SettingName = styled(Label)``;
-const SettingValueContainer = styled.div``;
+const SettingValue = styled(Label)`
+  color: ${(p) => p.theme.SubForeground};
+`;
 
 // #endregion
 
-// const BooleanSetting: React.FC<{
-//   setting: BooleanTypeSetting;
-//   value?: boolean;
-//   update: (data: Partial<Partial<RaspiVidSettings>>) => void;
-// }> = ({ setting, value }) => (
-//   <SettingValueContainer>
-//     {value} {setting.defaultValue}
-//   </SettingValueContainer>
-// );
+export interface BooleanSettingProps<T> {
+  field: keyof T;
+  setting: BooleanTypeSetting;
+  value?: boolean;
+  update: (data: Partial<Partial<T>>) => void;
+}
+
+const BooleanSetting = <T,>({ field, value, setting, update }: BooleanSettingProps<T>) => (
+  <SettingHorizontalWrapper>
+    <SettingName fontSize="s">{setting.name}</SettingName>
+    <Toggle
+      checked={isDefined(value) ? value : setting.defaultValue}
+      onChange={(e) => update({ [field]: e.target.checked } as any)}
+    />
+  </SettingHorizontalWrapper>
+);
 
 export interface NumberSettingProps<T> {
   field: keyof T;
@@ -47,7 +78,11 @@ export interface NumberSettingProps<T> {
 }
 
 const NumberSetting = <T,>({ field, value, setting, update }: NumberSettingProps<T>) => (
-  <SettingValueContainer>
+  <SettingVerticalWrapper>
+    <SettingNameValueContainer>
+      <SettingName fontSize="s">{setting.name}</SettingName>
+      <SettingValue fontSize="s">{isDefined(value) ? value : setting.defaultValue}</SettingValue>
+    </SettingNameValueContainer>
     <SliderValue
       value={isDefined(value) ? value : setting.defaultValue}
       min={setting.minValue}
@@ -55,41 +90,31 @@ const NumberSetting = <T,>({ field, value, setting, update }: NumberSettingProps
       step={setting.minValue}
       onChange={(e) => update({ [field]: setting.convert(e.target.value) } as any)}
     />
-  </SettingValueContainer>
+  </SettingVerticalWrapper>
 );
 
-// export interface StringSettingProps {
-//   key: string;
-//   setting: StringTypeSetting;
-//   value?: string;
-//   update: (data: Partial<Partial<RaspiVidSettings>>) => void;
-// }
-// const StringSetting: React.FC<StringSettingProps> = ({ setting, value }) => (
-//   <SettingValueContainer>
-//     {value} {setting.defaultValue}
-//   </SettingValueContainer>
-// );
+export interface EnumSettingProps<T> {
+  field: keyof T;
+  setting: EnumTypeSetting;
+  value?: number;
+  update: (data: Partial<Partial<T>>) => void;
+}
 
-// const EnumSetting: React.FC<{ key: string, setting: EnumTypeSetting; value?: string ,update: (data: Partial<Partial<RaspiVidSettings>> }> = ({
-//   setting,
-//   value,
-//   update
-// }) => (
-//   <SettingValueContainer>
-//     {value} {setting.defaultValue}
-//   </SettingValueContainer>
-// );
-
-// type ParseSettingComponentMap<T extends { type: string } = ParseSetting> = {
-//   [P in T['type']]: React.FC<{ setting: Extract<T, { type: P }> }>;
-// };
-
-// const settingComponent: ParseSettingComponentMap = {
-//   BOOLEAN: BooleanSetting,
-//   STRING: StringSetting,
-//   ENUM: EnumSetting,
-//   NUMBER: NumberSetting,
-// };
+const EnumSetting = <T,>({ field, value, setting, update }: EnumSettingProps<T>) => (
+  <SettingHorizontalWrapper>
+    <SettingName fontSize="s">{setting.name}</SettingName>
+    <Select
+      value={isDefined(value) ? value : setting.defaultValue}
+      onChange={(e) => update({ [field]: e.target.value } as any)}
+    >
+      {setting.possibleValues.map((value) => (
+        <option key={value} value={value}>
+          {value}
+        </option>
+      ))}
+    </Select>
+  </SettingHorizontalWrapper>
+);
 
 export interface SettingProps<T> {
   field: keyof T;
@@ -98,17 +123,14 @@ export interface SettingProps<T> {
   update: (data: Partial<Partial<T>>) => void;
 }
 
-const SettingValue = <T,>({ field, setting, value, update }: SettingProps<T>) => {
+const Setting = <T,>({ field, setting, value, update }: SettingProps<T>) => {
   switch (setting.type) {
-    // case 'BOOLEAN': {
-    //   return <BooleanSetting setting={setting} value={value} />;
-    // }
-    // case 'STRING': {
-    //   return <StringSetting setting={setting} value={value} />;
-    // }
-    // case 'ENUM': {
-    //   return <EnumSetting setting={setting} value={value} />;
-    // }
+    case 'BOOLEAN': {
+      return <BooleanSetting field={field} setting={setting} value={value} update={update} />;
+    }
+    case 'ENUM': {
+      return <EnumSetting field={field} setting={setting} value={value} update={update} />;
+    }
     case 'NUMBER': {
       return <NumberSetting field={field} setting={setting} value={value} update={update} />;
     }
@@ -116,46 +138,42 @@ const SettingValue = <T,>({ field, setting, value, update }: SettingProps<T>) =>
   return <div />;
 };
 
-export interface SettingsProps {
+export interface SettingsProps<T> {
+  name: string;
   url: string;
   setLoading: (loading: boolean) => void;
+  parseSettings: Partial<ParseSettings<T>>;
 }
 
-const Settings = <T,>(parseSettings: Partial<ParseSettings<T>>): React.FC<SettingsProps> => ({
+export function Settings<T>({
+  name,
   url,
   setLoading,
-}) => {
-  // eslint-disable-next-line react-hooks/rules-of-hooks
+  parseSettings,
+}: SettingsProps<T>): JSX.Element {
   const { state, update } = useFetch<Partial<T>>(url, {}, 2000);
   const data = { ...state.data, ...state.input };
 
-  // eslint-disable-next-line react-hooks/rules-of-hooks
   React.useEffect(() => {
     setLoading(state.isUpdating);
   }, [setLoading, state.isUpdating]);
 
-  // TODO typing
   return (
     <Wrapper>
+      <SettingsHeader fontSize="m">{name}</SettingsHeader>
+
       {Object.entries(parseSettings).map(
         ([key, setting]: [string, any]) =>
           setting && (
-            <SettingContainer key={key}>
-              <SettingName fontSize="m">{setting.name}</SettingName>
-              <SettingValue
-                field={key as keyof T}
-                setting={setting as ParseSetting}
-                value={(data as any)[key]}
-                update={update}
-              />
-            </SettingContainer>
+            <Setting
+              key={key}
+              field={key as keyof T}
+              setting={setting}
+              value={(data as any)[key]}
+              update={update}
+            />
           ),
       )}
     </Wrapper>
   );
-};
-
-export const VidSettings = Settings(raspiVidParseSettings);
-export const StillSettings = Settings(raspiStillParseSettings);
-export const PreviewSettings = Settings(raspiPreviewParseSettings);
-export const CameraSettings = Settings(raspiCameraParseSettings);
+}

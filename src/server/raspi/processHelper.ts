@@ -5,10 +5,13 @@ import { ChildProcess } from 'child_process';
  */
 export const getSpawnArgs = <T>(options: T): string[] =>
   Object.entries(options).reduce<string[]>((result, [key, value]) => {
-    result.push(`--${key}`);
-
-    if (value !== undefined && value !== true) {
-      result.push(escape(value.toString()));
+    if (value !== undefined) {
+      if (typeof value === 'boolean') {
+        if (value === true) result.push(`--${key}`);
+      } else {
+        result.push(`--${key}`);
+        result.push(escape(value.toString()));
+      }
     }
     return result;
   }, []);

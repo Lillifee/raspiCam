@@ -104,15 +104,15 @@ export type RaspiVidParseSettings = Partial<ParseSettings<RaspiVidSettings>>;
 export type RaspiStillParseSettings = Partial<ParseSettings<RaspiStillSettings>>;
 
 export const raspiCameraParseSettings: RaspiCameraParseSettings = {
-  sharpness: numberSetting('sharpness', -100, 100, 0),
-  contrast: numberSetting('contrast', -100, 100, 0),
-  brightness: numberSetting('brightness', 0, 100, 50),
-  saturation: numberSetting('saturation', -100, 100, 0),
+  sharpness: numberSetting('Sharpness', -100, 100, 0),
+  contrast: numberSetting('Contrast', -100, 100, 0),
+  brightness: numberSetting('Brightness', 0, 100, 50),
+  saturation: numberSetting('Saturation', -100, 100, 0),
   ISO: numberSetting('ISO', 100, 800, 200),
-  vstab: booleanSetting('video stabilisation'),
+  vstab: booleanSetting('Video stabilisation'),
   ev: numberSetting('EV compensation', -10, 10, 0),
   exposure: enumSetting(
-    'exposure mode',
+    'Exposure mode',
     [
       'auto',
       'night',
@@ -129,6 +129,86 @@ export const raspiCameraParseSettings: RaspiCameraParseSettings = {
     ],
     'auto',
   ),
+  flicker: enumSetting('Flicker', ['off', 'auto', '50hz', '60hz'], 'auto'),
+  awb: enumSetting(
+    'AWB',
+    [
+      'off',
+      'auto',
+      'sun',
+      'cloud',
+      'shade',
+      'tungsten',
+      'fluorescent',
+      'incandescent',
+      'flash',
+      'horizon',
+      'greyworld',
+    ],
+    'auto',
+  ),
+  imxfx: enumSetting(
+    'Image effect',
+    [
+      'none',
+      'negative',
+      'solarise',
+      'posterise',
+      'whiteboard',
+      'blackboard',
+      'sketch',
+      'denoise',
+      'emboss',
+      'oilpaint',
+      'hatch',
+      'gpen',
+      'pastel',
+      'watercolour',
+      'film',
+      'blur',
+      'saturation',
+      'colourswap',
+      'washedout',
+      'colourpoint',
+      'colourbalance',
+      'cartoon',
+    ],
+    'none',
+  ),
+
+  // /** Set colour effect <U:V> e.g. 128:128 */
+  // colfx: string;
+
+  metering: enumSetting('Metering mode', ['average', 'spot', 'backlit', 'matrix'], 'average'),
+  hflip: booleanSetting('Horizontal flip', false),
+  vflip: booleanSetting('Vertical flip', false),
+
+  // /** Set sensor region of interest e.g. 0.5,0.5,0.25,0.25  */
+  // roi: string;
+
+  shutter: numberSetting('shutter', 0, 200000000, 1), // Default??
+
+  drc: enumSetting('Dynamic range compression', ['off', 'low', 'med', 'high'], 'off'),
+
+  // /** Use stills capture frame for image statistics */
+  // stats: boolean;
+
+  // /** Sets blue and red gains (as floating point numbers) to be applied when -awb off is set e.g. -awbg 1.5,1.2 */
+  // awbgains: string;
+
+  analoggain: numberSetting('Analog gain', 1, 12, 1),
+  digitalgain: numberSetting('Digital gain', 1, 64, 1),
+
+  mode: numberSetting('Sensor mode', 0, 4, 0),
+  // /** Sets a specified sensor mode  */
+  // mode:
+  //   | '0' // automatic selection
+  //   | '1' // 2028x1080	169:90	0.1-50fps	Partial	2x2 binned
+  //   | '2' // 2028x1520	4:3	0.1-50fps	Full	2x2 binned
+  //   | '3' // 4056x3040	4:3	0.005-10fps	Full	None
+  //   | '4'; // 1332x990	74:55	50.1-120fps	Partial	2x2 binned
+
+  camselect: enumSetting('Camera', ['0', '1'], '0'),
 };
 
 export const raspiPreviewParseSettings: RaspiPreviewParseSettings = {
@@ -139,15 +219,15 @@ export const raspiPreviewParseSettings: RaspiPreviewParseSettings = {
 };
 
 export const raspiVidParseSettings: RaspiVidParseSettings = {
-  width: numberSetting('width', 64, 1920, 1280),
-  height: numberSetting('height', 64, 1080, 720),
-  bitrate: numberSetting('bitrate', 1000000, 25000000, 15000000),
+  width: numberSetting('Width', 64, 1920, 1280),
+  height: numberSetting('Height', 64, 1080, 720),
+  bitrate: numberSetting('Bitrate', 1000000, 25000000, 15000000),
 };
 
 export const raspiStillParseSettings: RaspiStillParseSettings = {
-  width: numberSetting('width', 64, 4056, 4056),
-  height: numberSetting('height', 64, 3040, 3040),
-  quality: numberSetting('quality', 0, 100, 80),
+  width: numberSetting('Width', 64, 4056, 4056),
+  height: numberSetting('Height', 64, 3040, 3040),
+  quality: numberSetting('Quality', 0, 100, 80),
 };
 
 // export type RaspiStillParseSettings = ParseSettings<Partial<RaspiStillSettings>>;
