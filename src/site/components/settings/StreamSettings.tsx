@@ -118,16 +118,22 @@ const SettingValue = <T,>({ field, setting, value, update }: SettingProps<T>) =>
 
 export interface SettingsProps {
   url: string;
+  setLoading: (loading: boolean) => void;
 }
-
-// export const Settings = <T>()
 
 const Settings = <T,>(parseSettings: Partial<ParseSettings<T>>): React.FC<SettingsProps> => ({
   url,
+  setLoading,
 }) => {
   // eslint-disable-next-line react-hooks/rules-of-hooks
   const { state, update } = useFetch<Partial<T>>(url, {}, 2000);
-  const data = { ...state.data, ...state.userData };
+  const data = { ...state.data, ...state.input };
+
+  // eslint-disable-next-line react-hooks/rules-of-hooks
+  React.useEffect(() => {
+    setLoading(state.isUpdating);
+  }, [setLoading, state.isUpdating]);
+
   // TODO typing
   return (
     <Wrapper>

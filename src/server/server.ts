@@ -41,7 +41,7 @@ const server = (
     res: express.Response,
   ) => {
     const applied = x.apply(x.parse(req.body));
-    if (applied) stream.restart();
+    if (applied) await stream.restart();
     return applied ? res.status(200).send(x.get()) : res.status(400).send('No changes found');
   };
 

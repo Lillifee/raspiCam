@@ -1,9 +1,20 @@
+import { shallowEqualObjects } from '../../../shared/heperFunctions';
+
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const Player = require('../../../../broadway/Player');
 
 export interface PlayerSize {
   width: number;
   height: number;
+}
+
+export interface PlayerStats {
+  width?: number;
+  height?: number;
+  running: boolean;
+  dropFrames: boolean;
+  frames: number;
+  avgFps: number;
 }
 
 export interface PlayerOptions {
@@ -13,6 +24,8 @@ export interface PlayerOptions {
   useWorker?: boolean;
   webgl?: boolean;
   size?: PlayerSize;
+  statsPerSecond?: number;
+  onStats?: (stats: PlayerStats) => void;
 }
 
 export interface Player {
@@ -28,9 +41,12 @@ const wsPlayer = (playerOptions: PlayerOptions): Player => {
     size: { width: 640, height: 480 },
     reconnect: 1000,
     dropFrames: 10,
+    statsPerSecond: 5,
+    onStats: () => undefined,
     ...playerOptions,
   };
 
+  const stats: PlayerStats = { avgFps: 0, frames: 0, running: false, dropFrames: false };
   let frames: Uint8Array[] = [];
 
   const createPlayer = () => {
@@ -69,7 +85,7 @@ const wsPlayer = (playerOptions: PlayerOptions): Player => {
 
   const decodeFrame = (): void => {
     if (frames.length > options.dropFrames) {
-      console.log('drop frames', frames.length);
+      stats.dropFrames = true;
       // TODO check if it's worth to wait until the next SPS frame
       // const nextSpsIndex = frames.findIndex((x) => (x[4] & 0x1f) === 7);
       // frames = frames.slice(nextSpsIndex);
@@ -79,23 +95,63 @@ const wsPlayer = (playerOptions: PlayerOptions): Player => {
     const frame = frames.shift();
 
     if (frame) {
-      // debugFragmentType(frame);
+      if (stats.dropFrames) {
+        parseFragmentType(frame);
+      }
       player.decode(frame);
       requestAnimationFrame(decodeFrame);
     }
   };
 
-  // const fragmentTypes: { [key: number]: string } = { 5: 'IDR', 6: 'SEI', 7: 'SPS', 8: 'PPS' };
-  // const debugFragmentType = (frame: Uint8Array) => {
-  //   const fragment = frame[4] & 0x1f;
-  //   const type = fragmentTypes[fragment];
-  //   if (type) console.log(fragmentTypes[fragment]);
-  // };
+  const fragmentTypes: { [key: number]: string } = { 5: 'IDR', 6: 'SEI', 7: 'SPS', 8: 'PPS' };
+  const parseFragmentType = (frame: Uint8Array) => {
+    const fragment = frame[4] & 0x1f;
+    const type = fragmentTypes[fragment];
+    if (type === 'IDR') stats.dropFrames = false;
+    // if (type) console.log(fragmentTypes[fragment]);
+  };
 
   const player = createPlayer();
+  const canvas = player.canvas as HTMLCanvasElement;
+
   const webSocket = createWebSocket();
 
-  return { ...webSocket, canvas: player.canvas };
+  player.onPictureDecoded = (_: Buffer, width: number, height: number) => {
+    stats.width = width;
+    stats.height = height;
+    stats.frames++;
+  };
+
+  const fpsCaluclator = (seconds: number) => {
+    const fpsBuffer: number[] = [];
+    const fpsBufferLength = options.statsPerSecond * seconds;
+    let fpsSum = 0;
+
+    return (frames: number) => {
+      fpsBuffer.push(stats.frames);
+      fpsSum += frames;
+      fpsSum -= fpsBuffer.length > fpsBufferLength ? fpsBuffer.shift() || 0 : 0;
+      return Math.floor(fpsSum / seconds);
+    };
+  };
+
+  const fpcCalc = fpsCaluclator(2);
+  let prevStats: PlayerStats;
+
+  setInterval(() => {
+    const avgFps = fpcCalc(stats.frames);
+    const running = stats.frames > 0;
+    const newStats = { ...stats, avgFps, running };
+    stats.frames = 0;
+
+    if (!shallowEqualObjects(newStats, prevStats)) {
+      options.onStats(newStats);
+    }
+
+    prevStats = newStats;
+  }, 1000 / options.statsPerSecond);
+
+  return { ...webSocket, canvas };
 };
 
 export default wsPlayer;

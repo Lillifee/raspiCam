@@ -1,15 +1,17 @@
 import { useEffect, useCallback, useReducer, useMemo, useRef } from 'react';
 import { ActionTypes, createActions } from '../actionHelper';
-import { useDebouncedCallback, useTimer } from './timingHooks';
+import { useDebounce } from './useDebounce';
+import { useTimer } from './useTimer';
 
 export interface FetchState<T> {
   data: T;
   isLoading: boolean;
-  userData?: Partial<T>;
+  isUpdating: boolean;
+  input?: Partial<T>;
 }
 
 /**
- * Create reducer and typed actions
+ * Create fetch and update reducer with typed actions
  * @template T Type of request data
  */
 const createFetchSlice = <T>() => {
@@ -31,22 +33,22 @@ const createFetchSlice = <T>() => {
       case 'FETCH':
         return { ...state, isLoading: true };
       case 'FETCH_SUCCESS':
-        return { ...state, isLoading: false, data: action.payload };
+        return { ...state, data: action.payload, isLoading: false };
       case 'UPDATE':
         return {
           ...state,
-          isLoading: true,
-          data: { ...state.data, ...state.userData },
-          userData: undefined,
+          data: { ...state.data, ...state.input },
+          input: undefined,
+          isUpdating: true,
         };
       case 'UPDATE_SUCCESS':
         return {
           ...state,
-          isLoading: false,
           data: action.payload,
+          isUpdating: false,
         };
       case 'USER_INPUT':
-        return { ...state, userData: { ...state.userData, ...action.payload } };
+        return { ...state, input: { ...state.input, ...action.payload }, isUpdating: true };
       default:
         return state;
     }
@@ -61,24 +63,24 @@ export interface UseFetch<T> {
 }
 
 export const useFetch = <T>(url: RequestInfo, data: T, refreshInterval?: number): UseFetch<T> => {
-  // Create reducer and actions
+  // Create and initialize reducer and actions
   const { reducer, actions } = useMemo(() => createFetchSlice<T>(), []);
-
-  // Initialize reducer
-  const [state, dispatch] = useReducer(reducer, { isLoading: true, data });
+  const [state, dispatch] = useReducer(reducer, { isLoading: true, isUpdating: false, data });
 
   // Abort controller to cancel the fetch and update
-  const abort = useRef(new AbortController());
+  const abortFetch = useRef(new AbortController());
+  const abortUpdate = useRef(new AbortController());
 
   // Fetch data callback
   const fetchData = useCallback(async () => {
+    abortFetch.current = new AbortController();
     dispatch(actions.FETCH());
 
-    return fetch(url, { signal: abort.current.signal })
+    return fetch(url, { signal: abortFetch.current.signal })
       .then((res) => res.json())
       .then((json) => dispatch(actions.FETCH_SUCCESS(json)))
       .catch((error) => {
-        if (!abort.current.signal.aborted) {
+        if (!abortFetch.current.signal.aborted) {
           dispatch(actions.FETCH_FAILURE(error));
         }
       });
@@ -87,44 +89,56 @@ export const useFetch = <T>(url: RequestInfo, data: T, refreshInterval?: number)
   // Refresh timer
   const [startRefresh, stopRefresh] = useTimer(fetchData, refreshInterval);
 
+  // Post the user input
+  const postData = useCallback(
+    (data: Partial<T>) => {
+      abortUpdate.current = new AbortController();
+      dispatch(actions.UPDATE(data));
+
+      // Post the updated data
+      fetch(url, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data),
+        signal: abortUpdate.current.signal,
+      })
+        .then((res) => res.json())
+        .then((json) => {
+          dispatch(actions.UPDATE_SUCCESS(json));
+        })
+        .catch((error) => {
+          if (!abortUpdate.current.signal.aborted) {
+            dispatch(actions.UPDATE_FAILURE(error));
+          }
+        })
+        .finally(startRefresh);
+    },
+    [url, actions, startRefresh],
+  );
+
+  // Debounce the update
+  const [updateDebounced] = useDebounce(postData, 300);
+
+  // Update the user input
+  const update = (newInput: Partial<T>) => {
+    stopRefresh();
+    abortFetch.current.abort();
+    abortUpdate.current.abort();
+    dispatch(actions.USER_INPUT(newInput));
+    updateDebounced({ ...state.data, ...state.input, ...newInput });
+  };
+
   // Fetch data on mount
   useEffect(() => {
     fetchData();
     startRefresh();
-    const abortCtl = abort.current;
-    return () => abortCtl.abort();
+
+    // Abort fetch on unload
+    return () => {
+      abortUpdate.current.abort();
+      abortFetch.current.abort();
+    };
   }, [fetchData, startRefresh]);
-
-  // Post the user input
-  const [updateData] = useDebouncedCallback(async (data: Partial<T>) => {
-    dispatch(actions.UPDATE(data));
-
-    // Post the updated data
-    return fetch(url, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(data),
-      signal: abort.current.signal,
-    })
-      .then((res) => res.json())
-      .then((json) => {
-        dispatch(actions.UPDATE_SUCCESS(json));
-        startRefresh();
-      })
-      .catch((error) => {
-        if (!abort.current.signal.aborted) {
-          dispatch(actions.UPDATE_FAILURE(error));
-          startRefresh();
-        }
-      });
-  }, 1000);
-
-  // Update the user input
-  const update = (newData: Partial<T>) => {
-    stopRefresh();
-    dispatch(actions.USER_INPUT(newData));
-    updateData({ ...state.data, ...state.userData, ...newData });
-  };
 
   return { state, update };
 };

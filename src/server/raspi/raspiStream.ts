@@ -7,9 +7,9 @@ import { SettingsHelper } from './settingsHelper';
 const NALSeparator = Buffer.from([0, 0, 0, 1]);
 
 export interface RaspiStream {
-  start: () => void;
+  start: () => Promise<void>;
   stop: () => void;
-  restart: () => void;
+  restart: () => Promise<void>;
 }
 
 /**
@@ -24,7 +24,7 @@ const raspiStream = (
   /**
    * Start raspivid stream
    */
-  const start = () => {
+  const start = (): Promise<void> => {
     const { camera, preview, stream } = settingsHelper;
     const spawnArgs = getSpawnArgs({
       ...streamSettings,
@@ -34,17 +34,21 @@ const raspiStream = (
     });
     console.info('raspistream', spawnArgs.join(' '));
 
-    // Spawn the raspivid with -ih (Insert PPS, SPS headers) - see end of the file
-    process = spawn('raspivid', [...spawnArgs], { stdio: ['ignore', 'pipe', 'inherit'] });
-    process.on('error', (e) => {
-      console.error('raspistream - error', e.message);
+    return new Promise((resolve, reject) => {
+      // Spawn the raspivid with -ih (Insert PPS, SPS headers) - see end of the file
+      process = spawn('raspivid', [...spawnArgs], { stdio: ['ignore', 'pipe', 'inherit'] });
+      process.stdout?.once('data', () => resolve());
+      process.on('error', (e) => {
+        console.error('raspistream - error', e.message);
+        reject(e);
+      });
+
+      // TODO Check if we can forward the NAL splitter using pipe
+      const NALSplitter = new Split(NALSeparator);
+      NALSplitter.on('data', (data: Buffer) => onData(Buffer.concat([NALSeparator, data])));
+
+      process?.stdout?.pipe(NALSplitter);
     });
-
-    // TODO Check if we can forward the NAL splitter using pipe
-    const NALSplitter = new Split(NALSeparator);
-    NALSplitter.on('data', (data: Buffer) => onData(Buffer.concat([NALSeparator, data])));
-
-    process?.stdout?.pipe(NALSplitter);
   };
 
   /**
@@ -55,10 +59,10 @@ const raspiStream = (
   /**
    * Restart - only if already running
    */
-  const restart = () => {
+  const restart = async () => {
     if (process) {
       stop();
-      start();
+      await start();
     }
   };
 
