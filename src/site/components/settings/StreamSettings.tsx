@@ -19,12 +19,13 @@ import { Toggle } from '../styled/Toggle';
 const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
-  padding: 2em 3em;
+  padding: 2em 3em 3em 1.5em;
+  /* max-width: 400px; */
 `;
 
 const SettingsHeader = styled(Label)`
   display: flex;
-  padding: 0.2em 0 1em 0;
+  padding: 0.2em 0 2em 0;
 `;
 
 const SettingVerticalWrapper = styled.div`
@@ -87,7 +88,7 @@ const NumberSetting = <T,>({ field, value, setting, update }: NumberSettingProps
       value={isDefined(value) ? value : setting.defaultValue}
       min={setting.minValue}
       max={setting.maxValue}
-      step={setting.minValue}
+      step={setting.stepValue}
       onChange={(e) => update({ [field]: setting.convert(e.target.value) } as any)}
     />
   </SettingVerticalWrapper>

@@ -135,12 +135,14 @@ const wsPlayer = (playerOptions: PlayerOptions): Player => {
     };
   };
 
-  const fpcCalc = fpsCaluclator(2);
+  const fpcCalcAvg = fpsCaluclator(3);
+  const fpcCalc = fpsCaluclator(1);
+
   let prevStats: PlayerStats;
 
   setInterval(() => {
-    const avgFps = fpcCalc(stats.frames);
-    const running = stats.frames > 0;
+    const avgFps = fpcCalcAvg(stats.frames);
+    const running = fpcCalc(stats.frames) > 0;
     const newStats = { ...stats, avgFps, running };
     stats.frames = 0;
 

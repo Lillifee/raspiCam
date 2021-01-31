@@ -22,6 +22,7 @@ export interface NumberTypeSetting extends BaseTypeSetting {
   defaultValue: number;
   minValue: number;
   maxValue: number;
+  stepValue: number;
   convert: (value: string) => number;
 }
 
@@ -62,13 +63,15 @@ const numberSetting = (
   minValue: number,
   maxValue: number,
   defaultValue: number,
+  stepValue: number,
 ): NumberTypeSetting => ({
   name,
   minValue,
   maxValue,
   defaultValue,
+  stepValue,
   type: 'NUMBER',
-  convert: parseInt,
+  convert: parseFloat,
 });
 
 const booleanSetting = (name: string, defaultValue = false): BooleanTypeSetting => ({
@@ -104,13 +107,12 @@ export type RaspiVidParseSettings = Partial<ParseSettings<RaspiVidSettings>>;
 export type RaspiStillParseSettings = Partial<ParseSettings<RaspiStillSettings>>;
 
 export const raspiCameraParseSettings: RaspiCameraParseSettings = {
-  sharpness: numberSetting('Sharpness', -100, 100, 0),
-  contrast: numberSetting('Contrast', -100, 100, 0),
-  brightness: numberSetting('Brightness', 0, 100, 50),
-  saturation: numberSetting('Saturation', -100, 100, 0),
-  ISO: numberSetting('ISO', 100, 800, 200),
-  vstab: booleanSetting('Video stabilisation'),
-  ev: numberSetting('EV compensation', -10, 10, 0),
+  sharpness: numberSetting('Sharpness', -100, 100, 0, 1),
+  contrast: numberSetting('Contrast', -100, 100, 0, 1),
+  brightness: numberSetting('Brightness', 0, 100, 50, 1),
+  saturation: numberSetting('Saturation', -100, 100, 0, 1),
+  ISO: numberSetting('ISO', 100, 800, 200, 100),
+  ev: numberSetting('EV compensation', -10, 10, 0, 1),
   exposure: enumSetting(
     'Exposure mode',
     [
@@ -129,7 +131,7 @@ export const raspiCameraParseSettings: RaspiCameraParseSettings = {
     ],
     'auto',
   ),
-  flicker: enumSetting('Flicker', ['off', 'auto', '50hz', '60hz'], 'auto'),
+
   awb: enumSetting(
     'AWB',
     [
@@ -180,26 +182,27 @@ export const raspiCameraParseSettings: RaspiCameraParseSettings = {
   // colfx: string;
 
   metering: enumSetting('Metering mode', ['average', 'spot', 'backlit', 'matrix'], 'average'),
-  hflip: booleanSetting('Horizontal flip', false),
-  vflip: booleanSetting('Vertical flip', false),
 
   // /** Set sensor region of interest e.g. 0.5,0.5,0.25,0.25  */
   // roi: string;
 
-  shutter: numberSetting('shutter', 0, 200000000, 1), // Default??
-
   drc: enumSetting('Dynamic range compression', ['off', 'low', 'med', 'high'], 'off'),
-
+  shutter: numberSetting('Shutter time', 0, 2500000, 0, 10000), // Default??
   // /** Use stills capture frame for image statistics */
   // stats: boolean;
 
   // /** Sets blue and red gains (as floating point numbers) to be applied when -awb off is set e.g. -awbg 1.5,1.2 */
   // awbgains: string;
 
-  analoggain: numberSetting('Analog gain', 1, 12, 1),
-  digitalgain: numberSetting('Digital gain', 1, 64, 1),
+  analoggain: numberSetting('Analog gain', 0, 12, 1, 0.1),
+  digitalgain: numberSetting('Digital gain', 0, 64, 1, 0.1),
 
-  mode: numberSetting('Sensor mode', 0, 4, 0),
+  flicker: enumSetting('Flicker', ['off', 'auto', '50hz', '60hz'], 'auto'),
+  vstab: booleanSetting('Video stabilisation'),
+  hflip: booleanSetting('Horizontal flip', false),
+  vflip: booleanSetting('Vertical flip', false),
+
+  mode: numberSetting('Sensor mode', 0, 7, 0, 1),
   // /** Sets a specified sensor mode  */
   // mode:
   //   | '0' // automatic selection
@@ -215,19 +218,116 @@ export const raspiPreviewParseSettings: RaspiPreviewParseSettings = {
   preview: stringSetting('preview'),
   fullscreen: booleanSetting('fullscreen', false),
   nopreview: booleanSetting('no preview', true),
-  opacity: numberSetting('opacity', 0, 255, 255),
+  opacity: numberSetting('opacity', 0, 255, 255, 1),
 };
 
 export const raspiVidParseSettings: RaspiVidParseSettings = {
-  width: numberSetting('Width', 64, 1920, 1280),
-  height: numberSetting('Height', 64, 1080, 720),
-  bitrate: numberSetting('Bitrate', 1000000, 25000000, 15000000),
+  width: numberSetting('Width', 64, 1920, 1280, 64),
+  height: numberSetting('Height', 64, 1080, 720, 64),
+
+  /** At present, the minimum frame rate allowed is 2fps, and the maximum is 30fps. */
+  // framerate: number;
+  framerate: numberSetting('Framerate', 2, 30, 25, 1),
+  bitrate: numberSetting('Bitrate', 0, 25000000, 15000000, 1000000),
+
+  /**
+   * Specify the output filename.
+   * To connect to a remote IPv4 host, use tcp or udp followed by the required IP Address.
+   * e.g. tcp://192.168.1.2:1234 or udp://192.168.1.2:1234.
+   */
+  // output: string;
+
+  /**
+   * When using a network connection as the data sink, this option will make the sytem wait
+   * for a connection from the remote system before sending data.
+   */
+  // listen: boolean;
+
+  /**
+   * This options cycles through the range of camera options.
+   * The time between cycles should be specified as a millisecond value.
+   */
+  // demo: number;
+
+  /**  Specify the intra refresh period (key frame rate/GoP) */
+  // intra: numberSetting('Intra key frame rate', 2, 30, 25),
+
+  /**
+   * Sets the initial quantisation parameter for the stream.
+   * Varies from approximately 10 to 40, and will greatly affect the quality of the recording.
+   * Higher values reduce quality and decrease file size. Combine this setting with a bitrate of 0 to set a completely variable bitrate.
+   */
+  qp: numberSetting('Quality quantisation', 2, 40, 10, 1),
+  // qp: number;
+
+  codec: enumSetting('Codec', ['H264', 'MJPEG'], 'H264'),
+
+  profile: enumSetting('H264 Profile', ['baseline', 'main', 'high'], 'baseline'),
+  level: enumSetting('H264 level', ['4', '4.1', '4.2'], '4'),
+
+  irefresh: enumSetting(
+    'H264 intra-refresh',
+    ['cyclic', 'adaptive', 'both', 'cyclicrows'],
+    'cyclic',
+  ),
+
+  /**
+   * The total length of time that the program will run for.
+   * If not specified, the default is 5000ms (5 seconds).
+   * If set to 0, the application will run indefinitely until stopped with Ctrl-C.
+   */
+  timeout: numberSetting('Duration', 0, 60000000, 0, 1000),
+
+  inline: booleanSetting('Insert PPS, SPS headers', false),
+
+  spstimings: booleanSetting('SPS timings', false),
+
+  /**
+   * Do timed switches between capture and pause
+   * raspivid -o test.h264 -t 25000 -timed 2500,5000
+   * 2.5 record – 5 pause - 2.5 record – 5 pause - 2.5 record – 5 pause – 2.5 record
+   */
+  // timed: string;
+
+  // TODO some missing.. check if we can use it.
+
+  /**
+   * Forces a flush of output data buffers as soon as video data is written.
+   * This bypasses any OS caching of written data, and can decrease latency.
+   */
+  flush: booleanSetting('Flush ouput buffers', false),
+
+  /*
+   * Rather than creating a single file, the file is split into segments of
+   * approximately the number of milliseconds specified.
+   * -o video_%c.h264
+   */
+  // segment: number;
+
+  /*
+   * When outputting segments, this is the maximum the segment number
+   * can reach before it's reset to 1, giving the ability to keep recording segments,
+   * but overwriting the oldest one. So if set to 4, in the segment example above,
+   * the files produced will be video0001.h264, video0002.h264, video0003.h264, and video0004.h264.
+   * Once video0004.h264 is recorded, the count will reset to 1, and video0001.h264 will be overwritten.
+   */
+  // wrap: number;
+
+  /*
+   * When outputting segments, this is the initial segment number, giving the ability
+   * to resume a previous recording from a given segment. The default value is 1.
+   */
+  // start: number;
+
+  // raw: booleanSetting('Raw', false),
+
+  // rf: enumSetting('Raw format', ['yuv', 'rgb', 'grey'], 'yuv'),
 };
 
 export const raspiStillParseSettings: RaspiStillParseSettings = {
-  width: numberSetting('Width', 64, 4056, 4056),
-  height: numberSetting('Height', 64, 3040, 3040),
-  quality: numberSetting('Quality', 0, 100, 80),
+  width: numberSetting('Width', 64, 4056, 4056, 64),
+  height: numberSetting('Height', 64, 3040, 3040, 64),
+  quality: numberSetting('Quality', 0, 100, 80, 5),
 };
 
 // export type RaspiStillParseSettings = ParseSettings<Partial<RaspiStillSettings>>;

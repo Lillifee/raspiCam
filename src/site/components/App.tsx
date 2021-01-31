@@ -1,6 +1,7 @@
 import * as React from 'react';
 import styled, { ThemeProvider } from 'styled-components';
 import { useFullscreen } from './common/hooks/useFullscreen';
+import { Main } from './Main';
 import { Overlay } from './Overlay';
 import { Player } from './player/Player';
 import { GlobalStyle, theme } from './theme';
@@ -37,11 +38,9 @@ export const App: React.FC = () => {
           <Player loading={loading} />
         </PlayerWrapper>
 
-        <Overlay
-          isFullscreen={isFullscreen}
-          setFullscreen={setFullscreen}
-          setLoading={setLoading}
-        />
+        <Main isFullscreen={isFullscreen} setFullscreen={setFullscreen} />
+
+        <Overlay setLoading={setLoading} />
       </AppContainer>
     </ThemeProvider>
   );

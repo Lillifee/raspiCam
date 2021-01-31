@@ -3,8 +3,8 @@ import styled from 'styled-components';
 export const Select = styled.select`
   height: 2em;
   appearance: none;
-  width: 150px;
-  padding: 0.2em 1em;
+  width: 130px;
+  padding: 0.2em 0.5em;
   background: ${(p) => p.theme.Background};
   color: ${(p) => p.theme.Foreground};
   font-size: 14px;
