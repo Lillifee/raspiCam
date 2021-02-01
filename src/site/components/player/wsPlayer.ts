@@ -1,4 +1,4 @@
-import { shallowEqualObjects } from '../../../shared/heperFunctions';
+import { shallowEqualObjects } from '../../../shared/helperFunctions';
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const Player = require('../../../../broadway/Player');

@@ -397,18 +397,3 @@ export const raspiStillParseSettings: RaspiStillParseSettings = {
    */
   // output: string;
 };
-
-// export type RaspiStillParseSettings = ParseSettings<Partial<RaspiStillSettings>>;
-// export type RaspiVidParseSettings = ParseSettings<Partial<RaspiVidSettings>>;
-
-// export const raspiVidParseSettings: RaspiVidParseSettings = {
-//   ...vidOnlyParseSettings,
-//   ...cameraParseSettings,
-//   ...previewSettings,
-// };
-
-// export const raspiStillParseSettings: RaspiStillParseSettings = {
-//   ...stillOnlySettings,
-//   ...cameraParseSettings,
-//   ...previewSettings,
-// };

@@ -67,50 +67,49 @@ export interface OverlayProps {
   setLoading: (loading: boolean) => void;
 }
 
-export const Overlay: React.FC<OverlayProps> = ({ mode, setLoading }) => {
+export const Overlay: React.FC<OverlayProps> = ({ setLoading }) => {
   const [showSettings, setShowSettings] = React.useState(false);
+
   return (
     <Container>
       <Toolbar>
         <ButtonIcon type="Tune" onClick={() => setShowSettings(!showSettings)} />
       </Toolbar>
       <SettingsContainer show={showSettings}>
-        {mode === 'Stream' && (
-          <Settings
-            name="Stream"
-            url="/api/stream"
-            setLoading={setLoading}
-            parseSettings={raspiVidParseSettings}
-          />
+        {showSettings && (
+          <React.Fragment>
+            <Settings
+              name="Stream"
+              url="/api/stream"
+              setLoading={setLoading}
+              parseSettings={raspiVidParseSettings}
+            />
+            <Settings
+              name="Photo"
+              url="/api/still"
+              setLoading={setLoading}
+              parseSettings={raspiStillParseSettings}
+            />
+            <Settings
+              name="Video"
+              url="/api/vid"
+              setLoading={setLoading}
+              parseSettings={raspiVidParseSettings}
+            />
+            <Settings
+              name="Camera"
+              url="/api/camera"
+              setLoading={setLoading}
+              parseSettings={raspiCameraParseSettings}
+            />
+            <Settings
+              name="Preview"
+              url="/api/preview"
+              setLoading={setLoading}
+              parseSettings={raspiPreviewParseSettings}
+            />
+          </React.Fragment>
         )}
-        {['Photo', 'Timelapse'].includes(mode) && (
-          <Settings
-            name="Photo"
-            url="/api/still"
-            setLoading={setLoading}
-            parseSettings={raspiStillParseSettings}
-          />
-        )}
-        {mode === 'Video' && (
-          <Settings
-            name="Video"
-            url="/api/vid"
-            setLoading={setLoading}
-            parseSettings={raspiVidParseSettings}
-          />
-        )}
-        <Settings
-          name="Camera"
-          url="/api/camera"
-          setLoading={setLoading}
-          parseSettings={raspiCameraParseSettings}
-        />
-        <Settings
-          name="Preview"
-          url="/api/preview"
-          setLoading={setLoading}
-          parseSettings={raspiPreviewParseSettings}
-        />
       </SettingsContainer>
       <Filler enableClick={showSettings} onClick={() => setShowSettings(false)} />
     </Container>

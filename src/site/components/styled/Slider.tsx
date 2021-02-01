@@ -1,6 +1,5 @@
 import * as React from 'react';
 import styled from 'styled-components';
-// import { Label } from './Label';
 
 export const Slider = styled.input`
   flex: 1;

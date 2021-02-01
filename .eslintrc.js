@@ -16,10 +16,10 @@ module.exports = {
     'plugin:react/recommended', // Uses the recommended rules from @eslint-plugin-react
     'plugin:@typescript-eslint/recommended', // Uses the recommended rules from the @typescript-eslint/eslint-plugin
     'plugin:prettier/recommended', // Enables eslint-plugin-prettier and eslint-config-prettier. This will display prettier errors as ESLint errors. Make sure this is always the last configuration in the extends array.
+    'plugin:react-hooks/recommended', // Enable eslint-plugin-react-hooks
     'prettier', // Use prettier within eslint to format the code
     'prettier/react', //  Uses prettier react to disable ESLint rules that would conflict with prettier
     'prettier/@typescript-eslint', // Uses eslint-config-prettier to disable ESLint rules from @typescript-eslint/eslint-plugin that would conflict with prettier
-    'plugin:react-hooks/recommended', // Enable eslint-plugin-react-hooks
   ],
   rules: {
     'react/prop-types': 'off',

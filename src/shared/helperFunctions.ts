@@ -41,4 +41,4 @@ export const shallowEqualObjects = (
 /**
  * Return current date time
  */
-export const getDataTime = (): string => new Date().toISOString().replace(/[:.]/g, '-');
+export const getIsoDataTime = (): string => new Date().toISOString().replace(/[:.]/g, '-');

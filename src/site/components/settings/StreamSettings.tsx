@@ -1,6 +1,6 @@
 import * as React from 'react';
 import styled from 'styled-components';
-import { isDefined } from '../../../shared/heperFunctions';
+import { isDefined } from '../../../shared/helperFunctions';
 import {
   BooleanTypeSetting,
   EnumTypeSetting,
@@ -9,6 +9,7 @@ import {
   ParseSettings,
 } from '../../../shared/raspiParseSettings';
 import { useFetch } from '../common/hooks/useFetch';
+import { ButtonIcon } from '../common/icons';
 import { Label } from '../styled/Label';
 import { Select } from '../styled/Select';
 import { SliderValue } from '../styled/Slider';
@@ -20,7 +21,6 @@ const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
   padding: 2em 3em 3em 1.5em;
-  /* max-width: 400px; */
 `;
 
 const SettingsHeader = styled(Label)`
@@ -162,7 +162,30 @@ export function Settings<T>({
   return (
     <Wrapper>
       <SettingsHeader fontSize="m">{name}</SettingsHeader>
-
+      <ButtonIcon
+        type="Brightness"
+        onClick={
+          () =>
+            update({
+              height: null,
+              framerate: null,
+              bitrate: null,
+              qp: null,
+              profile: null,
+              timeout: null,
+              inline: true,
+              width: null,
+            } as any)
+          // Object.keys(parseSettings).reduce<any>(
+          //   (result, key) => ({
+          //     ...result,
+          //     [key]: null,
+          //   }),
+          //   {},
+          // ),
+          // )
+        }
+      />
       {Object.entries(parseSettings).map(
         ([key, setting]: [string, any]) =>
           setting && (

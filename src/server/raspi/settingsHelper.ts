@@ -1,5 +1,5 @@
 import path from 'path';
-import { isDefined } from '../../shared/heperFunctions';
+import { isDefined } from '../../shared/helperFunctions';
 import {
   ParseSetting,
   ParseSettings,

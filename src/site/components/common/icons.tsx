@@ -89,10 +89,9 @@ export const ButtonIconElement: React.FC<React.HTMLProps<HTMLButtonElement> & Ic
 export const ButtonIcon = styled(ButtonIconElement)`
   border: 0;
   outline: none;
-  /* background: ${(props) => props.theme.Background}; */
-  background: transparent;
-  fill: ${(props) => props.theme.Foreground};
   display: flex;
+  fill: ${(props) => props.theme.Foreground};
+  background: transparent;
 
   padding: 8px;
   display: flex;
@@ -114,6 +113,7 @@ export const ButtonIcon = styled(ButtonIconElement)`
     color: ${(props) => props.theme.HighlightForeground};
     fill: ${(props) => props.theme.HighlightForeground};
   } */
+
   :active {
     background: ${(props) => props.theme.SelectedBackground};
     color: ${(props) => props.theme.SelectedForeground};

@@ -1,6 +1,6 @@
 import { ChildProcess, exec, spawn } from 'child_process';
 import path from 'path';
-import { getDataTime } from '../../shared/heperFunctions';
+import { getIsoDataTime } from '../../shared/helperFunctions';
 import { stillSettings } from '../../shared/raspiSettings';
 import { getSpawnArgs, stopProcess } from './processHelper';
 import { PhotosAbsPath, PhotosPath, SettingsHelper } from './settingsHelper';
@@ -43,7 +43,7 @@ const raspiStill = (settingsHelper: SettingsHelper): RaspiStill => {
       ...still.get(),
     };
 
-    const fileBaseName = getDataTime();
+    const fileBaseName = getIsoDataTime();
     const fileExtension = settings.encoding || 'jpg';
     const fileCounter = settings.timelapse ? `-%04d` : '';
     const fileName = `${fileBaseName}${fileCounter}.${fileExtension}`;

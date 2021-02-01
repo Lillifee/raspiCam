@@ -7,7 +7,6 @@ import wsPlayer, { PlayerStats } from './wsPlayer';
 const Container = styled.div`
   display: flex;
   overflow: hidden;
-  color: white;
   position: relative;
 `;
 
@@ -22,11 +21,7 @@ const PlayerWrapper = styled.div`
   }
 `;
 
-interface OverlayProps {
-  blur: boolean;
-}
-
-const Overlay = styled.div<OverlayProps>`
+const BlurOverlay = styled.div<{ blur: boolean }>`
   backdrop-filter: ${(p) => (p.blur ? 'blur(10px)' : '')};
   background-color: ${(p) => (p.blur ? 'rgba(0, 0, 0, 0.5)' : '')};
   transition: backdrop-filter ease-in-out 0.3s, background-color ease-in-out 0.3s;
@@ -82,7 +77,7 @@ export const Player: React.FC<PlayerProps> = ({ loading }) => {
   return (
     <Container>
       <PlayerWrapper ref={playerWrapperRef} />
-      <Overlay blur={loading || !stats.running || stats.dropFrames} />
+      <BlurOverlay blur={loading || !stats.running || stats.dropFrames} />
     </Container>
   );
 };
