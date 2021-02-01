@@ -25,9 +25,12 @@ const PlayerWrapper = styled.section`
   height: 100%;
 `;
 
+export type CameraMode = 'Stream' | 'Photo' | 'Video' | 'Timelapse';
+
 export const App: React.FC = () => {
   const appRef = React.useRef<HTMLDivElement>(null);
   const [loading, setLoading] = React.useState(false);
+  const [mode, setMode] = React.useState<CameraMode>('Stream');
   const [isFullscreen, setFullscreen] = useFullscreen(appRef);
 
   return (
@@ -38,9 +41,13 @@ export const App: React.FC = () => {
           <Player loading={loading} />
         </PlayerWrapper>
 
-        <Main isFullscreen={isFullscreen} setFullscreen={setFullscreen} />
-
-        <Overlay setLoading={setLoading} />
+        <Main
+          mode={mode}
+          setMode={setMode}
+          isFullscreen={isFullscreen}
+          setFullscreen={setFullscreen}
+        />
+        <Overlay mode={mode} setLoading={setLoading} />
       </AppContainer>
     </ThemeProvider>
   );

@@ -98,12 +98,12 @@ export const ButtonIcon = styled(ButtonIconElement)`
   display: flex;
   align-items: center;
   justify-content: center;
+  cursor: pointer;
 
   > svg {
     width: 24px;
     height: 24px;
   }
-  cursor: pointer;
 
   :disabled {
     opacity: 0.5;

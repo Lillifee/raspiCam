@@ -3,7 +3,7 @@ import path from 'path';
 import { RaspiStill } from './raspi/raspiStill';
 import { RaspiStream } from './raspi/raspiStream';
 import { RaspiVid } from './raspi/raspiVid';
-import { SettingsBase, SettingsHelper } from './raspi/settingsHelper';
+import { PhotosAbsPath, SettingsBase, SettingsHelper } from './raspi/settingsHelper';
 
 /**
  * Initialize the express server
@@ -18,6 +18,7 @@ const server = (
 
   // Serve the static content from public
   app.use(express.static(path.join(__dirname, './public')));
+  app.use('/photos', express.static(PhotosAbsPath));
   app.use(express.json());
 
   //#region Helper functions
@@ -67,7 +68,7 @@ const server = (
 
     await still
       .start()
-      .then(() => res.send(`Captured picture`))
+      .then((fileName) => res.send(fileName))
       .catch((e) => res.status(400).send(e.message));
 
     stream.start();

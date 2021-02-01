@@ -58,6 +58,11 @@ module.exports = (env, argv) => ({
         changeOrigin: true,
         secure: false,
       },
+      '/photos': {
+        target: `http://${devServer}`,
+        changeOrigin: true,
+        secure: false,
+      },
     },
   },
 

@@ -37,3 +37,8 @@ export const shallowEqualObjects = (
 
   return true;
 };
+
+/**
+ * Return current date time
+ */
+export const getDataTime = (): string => new Date().toISOString().replace(/[:.]/g, '-');

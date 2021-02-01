@@ -448,6 +448,7 @@ export const stillSettings: Partial<RaspiStillSettings> = {
   height: 3040,
   timeout: 1,
   output: 'dummy.jpg',
+  thumb: '320:240:35',
 };
 
 export const previewSettings: Partial<RaspiPreviewSettings> = {

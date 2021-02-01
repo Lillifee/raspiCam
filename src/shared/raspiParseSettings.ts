@@ -93,13 +93,13 @@ const enumSetting = (
   convert: parseEnum(possibleValues, defaultValue),
 });
 
-const stringSetting = (name: string, defaultValue = '', maxLength = 50): StringTypeSetting => ({
-  name,
-  maxLength,
-  defaultValue,
-  type: 'STRING',
-  convert: (x) => x,
-});
+// const stringSetting = (name: string, defaultValue = '', maxLength = 50): StringTypeSetting => ({
+//   name,
+//   maxLength,
+//   defaultValue,
+//   type: 'STRING',
+//   convert: (x) => x,
+// });
 
 export type RaspiCameraParseSettings = Partial<ParseSettings<RaspiCameraSettings>>;
 export type RaspiPreviewParseSettings = Partial<ParseSettings<RaspiPreviewSettings>>;
@@ -215,9 +215,8 @@ export const raspiCameraParseSettings: RaspiCameraParseSettings = {
 };
 
 export const raspiPreviewParseSettings: RaspiPreviewParseSettings = {
-  preview: stringSetting('preview'),
-  fullscreen: booleanSetting('fullscreen', false),
   nopreview: booleanSetting('no preview', true),
+  fullscreen: booleanSetting('fullscreen', false),
   opacity: numberSetting('opacity', 0, 255, 255, 1),
 };
 
@@ -328,6 +327,75 @@ export const raspiStillParseSettings: RaspiStillParseSettings = {
   width: numberSetting('Width', 64, 4056, 4056, 64),
   height: numberSetting('Height', 64, 3040, 3040, 64),
   quality: numberSetting('Quality', 0, 100, 80, 5),
+
+  timeout: numberSetting('Timeout', 1, 60000, 1, 500),
+  timelapse: numberSetting('Timelapse', 0, 60000, 0, 500),
+
+  encoding: enumSetting('Encoding', ['jpg', 'bmp', 'gif', 'png'], 'jpg'),
+
+  /** Add raw Bayer data to JPEG metadata */
+  raw: booleanSetting('Raw', false),
+
+  /**
+   * Link latest frame to filename <filename>
+   * Makes a file system link under this name to the latest frame.
+   */
+  // latest: string;
+
+  /** Output verbose information during run */
+  // verbose: string;
+
+  /**
+   * Specifies the first frame number in the timelapse.
+   * Useful if you have already saved a number of frames, and want to start again at the next frame.
+   */
+  // framestart: number;
+
+  /**
+   * Instead of a simple frame number, the timelapse file names will use a date/time value
+   * of the format aabbccddee, where aa is the month, bb is the day of the month,
+   * cc is the hour, dd is the minute, and ee is the second.
+   */
+  // timestamp: boolean;
+
+  /**
+   * Set thumbnail parameters (x:y:quality)
+   * Allows specification of the thumbnail image inserted into the JPEG file.
+   * If not specified, defaults are a size of 64x48 at quality 35.
+   */
+  // thumb: string | 'none';
+
+  /**
+   * Encoding to use for output file
+   * Valid options are jpg, bmp, gif, and png. Note that unaccelerated image types (GIF, PNG, BMP)
+   * will take much longer to save than jpg, which is hardware accelerated.
+   * Also note that the filename suffix is completely ignored when deciding the encoding of a file.
+   */
+
+  /**
+   * Sets the JPEG restart marker interval to a specific value.
+   * Can be useful for lossy transport streams because it allows a broken JPEG file to still be partially displayed.
+   */
+  restart: booleanSetting('Restart', false),
+
+  /**
+   * EXIF tag to apply to captures (format as 'key=value')
+   * Allows the insertion of specific EXIF tags into the JPEG image. You can have up to 32 EXIF tag entries.
+   */
+  // exif: string;
+
+  /**
+   * Full preview mode
+   * This runs the preview window using the full resolution capture mode.
+   * Maximum frames per second in this mode is 15fps, and the preview will have the same field of view as the capture.
+   * Captures should happen more quickly, as no mode change should be required. This feature is currently under development.
+   */
+  fullpreview: booleanSetting('Full preview mode', false),
+
+  /**
+   * Specify the output filename.
+   */
+  // output: string;
 };
 
 // export type RaspiStillParseSettings = ParseSettings<Partial<RaspiStillSettings>>;

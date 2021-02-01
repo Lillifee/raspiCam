@@ -1,6 +1,12 @@
 import * as React from 'react';
 import styled from 'styled-components';
-import { raspiCameraParseSettings, raspiVidParseSettings } from '../../shared/raspiParseSettings';
+import {
+  raspiCameraParseSettings,
+  raspiPreviewParseSettings,
+  raspiStillParseSettings,
+  raspiVidParseSettings,
+} from '../../shared/raspiParseSettings';
+import { CameraMode } from './App';
 import { ButtonIcon } from './common/icons';
 import { Settings } from './settings/StreamSettings';
 
@@ -42,7 +48,7 @@ const SettingsContainer = styled.div<SettingsContainerProps>`
 `;
 
 interface FillerProps {
-  pointerEvents: boolean;
+  enableClick: boolean;
 }
 
 const Filler = styled.div<FillerProps>`
@@ -51,16 +57,17 @@ const Filler = styled.div<FillerProps>`
   flex-direction: row;
   justify-content: flex-end;
 
-  pointer-events: ${(p) => (p.pointerEvents ? 'all' : 'none')};
+  pointer-events: ${(p) => (p.enableClick ? 'all' : 'none')};
 `;
 
 //#endregion
 
 export interface OverlayProps {
+  mode: CameraMode;
   setLoading: (loading: boolean) => void;
 }
 
-export const Overlay: React.FC<OverlayProps> = ({ setLoading }) => {
+export const Overlay: React.FC<OverlayProps> = ({ mode, setLoading }) => {
   const [showSettings, setShowSettings] = React.useState(false);
   return (
     <Container>
@@ -68,23 +75,44 @@ export const Overlay: React.FC<OverlayProps> = ({ setLoading }) => {
         <ButtonIcon type="Tune" onClick={() => setShowSettings(!showSettings)} />
       </Toolbar>
       <SettingsContainer show={showSettings}>
-        <Settings
-          name="Stream"
-          url="/api/stream"
-          setLoading={setLoading}
-          parseSettings={raspiVidParseSettings}
-        />
+        {mode === 'Stream' && (
+          <Settings
+            name="Stream"
+            url="/api/stream"
+            setLoading={setLoading}
+            parseSettings={raspiVidParseSettings}
+          />
+        )}
+        {['Photo', 'Timelapse'].includes(mode) && (
+          <Settings
+            name="Photo"
+            url="/api/still"
+            setLoading={setLoading}
+            parseSettings={raspiStillParseSettings}
+          />
+        )}
+        {mode === 'Video' && (
+          <Settings
+            name="Video"
+            url="/api/vid"
+            setLoading={setLoading}
+            parseSettings={raspiVidParseSettings}
+          />
+        )}
         <Settings
           name="Camera"
           url="/api/camera"
           setLoading={setLoading}
           parseSettings={raspiCameraParseSettings}
         />
-        {/* <VidSettings url="/api/vid" />
-        <StillSettings url="/api/still" />
-        <PreviewSettings url="/api/preview" /> */}
+        <Settings
+          name="Preview"
+          url="/api/preview"
+          setLoading={setLoading}
+          parseSettings={raspiPreviewParseSettings}
+        />
       </SettingsContainer>
-      <Filler pointerEvents={showSettings} onClick={() => setShowSettings(false)} />
+      <Filler enableClick={showSettings} onClick={() => setShowSettings(false)} />
     </Container>
   );
 };

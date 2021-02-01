@@ -1,3 +1,4 @@
+import path from 'path';
 import { isDefined } from '../../shared/heperFunctions';
 import {
   ParseSetting,
@@ -14,7 +15,10 @@ import {
   RaspiVidSettings,
 } from '../../shared/raspiSettings';
 
-/**
+export const PhotosPath = './photos';
+export const PhotosAbsPath = path.join(__dirname, PhotosPath);
+
+/**;
  * Parse the settings
  */
 export const parseSettings = <T>(

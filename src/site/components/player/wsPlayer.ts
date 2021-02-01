@@ -38,7 +38,7 @@ const wsPlayer = (playerOptions: PlayerOptions): Player => {
   const options: Required<PlayerOptions> = {
     useWorker: true,
     webgl: true,
-    size: { width: 640, height: 480 },
+    size: { width: 1280, height: 768 },
     reconnect: 1000,
     dropFrames: 10,
     statsPerSecond: 5,

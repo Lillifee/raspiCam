@@ -1,5 +1,6 @@
 import http from 'http';
 import yargs from 'yargs';
+import fs from 'fs';
 import {
   previewSettings,
   stillSettings,
@@ -9,7 +10,7 @@ import {
 import raspiStill from './raspi/raspiStill';
 import raspiStream from './raspi/raspiStream';
 import raspiVid from './raspi/raspiVid';
-import { createSettingsHelper } from './raspi/settingsHelper';
+import { createSettingsHelper, PhotosAbsPath } from './raspi/settingsHelper';
 import server from './server';
 import tcpStreamer from './tcpStreamer';
 import wsServer from './wsServer';
@@ -73,6 +74,13 @@ const start = () => {
   const vid = raspiVid(settingsHelper);
 
   stream.start();
+
+  /**
+   * Create photos and thumbnail directory
+   */
+  if (!fs.existsSync(PhotosAbsPath)) {
+    fs.mkdirSync(PhotosAbsPath);
+  }
 
   /**
    * Webserver

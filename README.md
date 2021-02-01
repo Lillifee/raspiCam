@@ -12,4 +12,7 @@ or
 yarn build
 ```
 
+sudo apt install exiv2
+
+
 to bundle your application
