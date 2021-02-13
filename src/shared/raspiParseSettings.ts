@@ -328,8 +328,8 @@ export const raspiStillParseSettings: RaspiStillParseSettings = {
   height: numberSetting('Height', 64, 3040, 3040, 64),
   quality: numberSetting('Quality', 0, 100, 80, 5),
 
-  timeout: numberSetting('Timeout', 1, 60000, 1, 500),
-  timelapse: numberSetting('Timelapse', 0, 60000, 0, 500),
+  timeout: numberSetting('Timeout', 1, 216000000, 1, 500),
+  timelapse: numberSetting('Timelapse', 0, 120000, 0, 500),
 
   encoding: enumSetting('Encoding', ['jpg', 'bmp', 'gif', 'png'], 'jpg'),
 

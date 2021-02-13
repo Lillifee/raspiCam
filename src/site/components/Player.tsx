@@ -1,6 +1,7 @@
 import * as React from 'react';
 import styled from 'styled-components';
-import wsPlayer, { PlayerStats } from './wsPlayer';
+import { abbreviateNumber, roundToSignificant } from '../../shared/helperFunctions';
+import { createPlayerStats, player, PlayerStats } from './bwPlayer';
 
 // #region styled
 
@@ -40,23 +41,18 @@ const BlurOverlay = styled.div<{ blur: boolean }>`
  * @param {React.RefObject<HTMLElement>} container html reference object
  */
 const usePlayer = (url: string, container: React.RefObject<HTMLElement>) => {
-  const [stats, setStats] = React.useState<PlayerStats>({
-    avgFps: 0,
-    frames: 0,
-    running: false,
-    dropFrames: false,
-  });
+  const [stats, setStats] = React.useState<PlayerStats>(createPlayerStats());
 
   React.useEffect(() => {
     const element = container.current;
     if (!element) return;
 
-    const player = wsPlayer({ url, onStats: setStats });
-    element.appendChild(player.canvas);
+    const bwPlayer = player({ url, onStats: setStats });
+    element.appendChild(bwPlayer.canvas);
 
     return () => {
-      element.removeChild(player.canvas);
-      player.close();
+      element.removeChild(bwPlayer.canvas);
+      bwPlayer.stop();
     };
   }, [url, container]);
 
@@ -72,12 +68,24 @@ export interface PlayerProps {
  */
 export const Player: React.FC<PlayerProps> = ({ loading }) => {
   const playerWrapperRef = React.useRef<HTMLDivElement>(null);
-  const [stats] = usePlayer(`ws://${__WEBSOCKET__ || document.location.host}`, playerWrapperRef);
+  const [stats] = usePlayer('/api/stream/live', playerWrapperRef);
 
+  // console.log(!stats.running, stats.dropFrames);
   return (
     <Container>
       <PlayerWrapper ref={playerWrapperRef} />
-      <BlurOverlay blur={loading || !stats.running || stats.dropFrames} />
+      <BlurOverlay
+        blur={loading || !stats.streamRunning || !stats.playerRunning || stats.droppingFrames}
+      >
+        <div>dropped: {stats.totalDroppedFrames}</div>
+        <div>frames: {stats.framesPerCycle}</div>
+        <div>avgFps: {stats.avgFps}</div>
+        <div>avgSize: {abbreviateNumber(roundToSignificant(stats.avgSize, 2), 'bit/s')}</div>
+        {loading && <div>loading</div>}
+        {!stats.playerRunning && <div>player not running</div>}
+        {!stats.streamRunning && <div>stream not running</div>}
+        {stats.droppingFrames && <div>drop frames</div>}
+      </BlurOverlay>
     </Container>
   );
 };

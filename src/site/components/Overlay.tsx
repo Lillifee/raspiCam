@@ -8,7 +8,7 @@ import {
 } from '../../shared/raspiParseSettings';
 import { CameraMode } from './App';
 import { ButtonIcon } from './common/icons';
-import { Settings } from './settings/StreamSettings';
+import { Settings } from './Settings';
 
 //#region styled
 
@@ -76,40 +76,36 @@ export const Overlay: React.FC<OverlayProps> = ({ setLoading }) => {
         <ButtonIcon type="Tune" onClick={() => setShowSettings(!showSettings)} />
       </Toolbar>
       <SettingsContainer show={showSettings}>
-        {showSettings && (
-          <React.Fragment>
-            <Settings
-              name="Stream"
-              url="/api/stream"
-              setLoading={setLoading}
-              parseSettings={raspiVidParseSettings}
-            />
-            <Settings
-              name="Photo"
-              url="/api/still"
-              setLoading={setLoading}
-              parseSettings={raspiStillParseSettings}
-            />
-            <Settings
-              name="Video"
-              url="/api/vid"
-              setLoading={setLoading}
-              parseSettings={raspiVidParseSettings}
-            />
-            <Settings
-              name="Camera"
-              url="/api/camera"
-              setLoading={setLoading}
-              parseSettings={raspiCameraParseSettings}
-            />
-            <Settings
-              name="Preview"
-              url="/api/preview"
-              setLoading={setLoading}
-              parseSettings={raspiPreviewParseSettings}
-            />
-          </React.Fragment>
-        )}
+        <Settings
+          name="Stream"
+          url="/api/stream"
+          setLoading={setLoading}
+          parseSettings={raspiVidParseSettings}
+        />
+        <Settings
+          name="Photo"
+          url="/api/still"
+          setLoading={setLoading}
+          parseSettings={raspiStillParseSettings}
+        />
+        <Settings
+          name="Video"
+          url="/api/vid"
+          setLoading={setLoading}
+          parseSettings={raspiVidParseSettings}
+        />
+        <Settings
+          name="Camera"
+          url="/api/camera"
+          setLoading={setLoading}
+          parseSettings={raspiCameraParseSettings}
+        />
+        <Settings
+          name="Preview"
+          url="/api/preview"
+          setLoading={setLoading}
+          parseSettings={raspiPreviewParseSettings}
+        />
       </SettingsContainer>
       <Filler enableClick={showSettings} onClick={() => setShowSettings(false)} />
     </Container>

@@ -3,7 +3,7 @@ import styled, { ThemeProvider } from 'styled-components';
 import { useFullscreen } from './common/hooks/useFullscreen';
 import { Main } from './Main';
 import { Overlay } from './Overlay';
-import { Player } from './player/Player';
+import { Player } from './Player';
 import { GlobalStyle, theme } from './theme';
 
 const AppContainer = styled.div`
@@ -29,8 +29,8 @@ export type CameraMode = 'Stream' | 'Photo' | 'Video' | 'Timelapse';
 
 export const App: React.FC = () => {
   const appRef = React.useRef<HTMLDivElement>(null);
-  const [loading, setLoading] = React.useState(false);
   const [mode, setMode] = React.useState<CameraMode>('Stream');
+  const [loading, setLoading] = React.useState(false);
   const [isFullscreen, setFullscreen] = useFullscreen(appRef);
 
   return (

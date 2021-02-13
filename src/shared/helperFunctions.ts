@@ -42,3 +42,37 @@ export const shallowEqualObjects = (
  * Return current date time
  */
 export const getIsoDataTime = (): string => new Date().toISOString().replace(/[:.]/g, '-');
+
+const symbol = ['', 'k', 'M', 'G', 'T', 'P', 'E'];
+
+/**
+ * Abbreviate number with suffix.
+ *
+ * @param number number to abbreviate
+ * @param [fractionDigits=2] Digits after the decimal point.
+ */
+export const abbreviateNumber = (number: number, unit: string): string => {
+  const tier = (Math.log10(Math.abs(number)) / 3) | 0;
+  if (tier == 0) return `${number.toFixed(0)}${unit}`;
+
+  const suffix = symbol[tier];
+  const scale = Math.pow(10, tier * 3);
+
+  // scale and format the number
+  const scaled = number / scale;
+  const fractionDigits = Math.ceil(Math.log10(Math.abs(scaled))) > 1 ? 0 : 2;
+  return `${scaled.toFixed(fractionDigits)} ${suffix}${unit}`;
+};
+
+/**
+ * Round a number by significants
+ * e.g. 1234 with 2 significants result in 1200
+ *
+ * @param number number to round
+ * @param [significants=2] significants
+ */
+export const roundToSignificant = (number: number, significants = 2): number => {
+  const tier = Math.ceil(Math.log10(Math.abs(number)));
+  const scale = Math.pow(10, tier - significants);
+  return Math.round(number / scale) * scale;
+};

@@ -1,24 +1,20 @@
 import { ChildProcess, spawn } from 'child_process';
-import Split from 'stream-split';
+import { Readable } from 'stream';
 import { streamSettings } from '../../shared/raspiSettings';
 import { getSpawnArgs, stopProcess } from './processHelper';
 import { SettingsHelper } from './settingsHelper';
-
-const NALSeparator = Buffer.from([0, 0, 0, 1]);
 
 export interface RaspiStream {
   start: () => Promise<void>;
   stop: () => void;
   restart: () => Promise<void>;
+  stream: () => Readable | null | undefined;
 }
 
 /**
  * RaspiVid
  */
-const raspiStream = (
-  settingsHelper: SettingsHelper,
-  onData: (data: Buffer) => void,
-): RaspiStream => {
+const raspiStream = (settingsHelper: SettingsHelper): RaspiStream => {
   let process: ChildProcess | undefined;
 
   /**
@@ -42,14 +38,13 @@ const raspiStream = (
         console.error('raspistream - error', e.message);
         reject(e);
       });
-
-      // TODO Check if we can forward the NAL splitter using pipe
-      const NALSplitter = new Split(NALSeparator);
-      NALSplitter.on('data', (data: Buffer) => onData(Buffer.concat([NALSeparator, data])));
-
-      process?.stdout?.pipe(NALSplitter);
     });
   };
+
+  /**
+   * Return the process output
+   */
+  const stream = () => process?.stdout;
 
   /**
    * Stop the stream
@@ -66,7 +61,7 @@ const raspiStream = (
     }
   };
 
-  return { start, stop, restart };
+  return { start, stop, stream, restart };
 };
 
 export default raspiStream;

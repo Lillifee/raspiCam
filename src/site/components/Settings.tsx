@@ -1,19 +1,19 @@
 import * as React from 'react';
 import styled from 'styled-components';
-import { isDefined } from '../../../shared/helperFunctions';
+import { isDefined } from '../../shared/helperFunctions';
 import {
   BooleanTypeSetting,
   EnumTypeSetting,
   NumberTypeSetting,
   ParseSetting,
   ParseSettings,
-} from '../../../shared/raspiParseSettings';
-import { useFetch } from '../common/hooks/useFetch';
-import { ButtonIcon } from '../common/icons';
-import { Label } from '../styled/Label';
-import { Select } from '../styled/Select';
-import { SliderValue } from '../styled/Slider';
-import { Toggle } from '../styled/Toggle';
+} from '../../shared/raspiParseSettings';
+import { useFetch } from './common/hooks/useFetch';
+import { ButtonIcon } from './common/icons';
+import { Label } from './styled/Label';
+import { Select } from './styled/Select';
+import { SliderValue } from './styled/Slider';
+import { Toggle } from './styled/Toggle';
 
 // #region styled
 
@@ -164,26 +164,17 @@ export function Settings<T>({
       <SettingsHeader fontSize="m">{name}</SettingsHeader>
       <ButtonIcon
         type="Brightness"
-        onClick={
-          () =>
-            update({
-              height: null,
-              framerate: null,
-              bitrate: null,
-              qp: null,
-              profile: null,
-              timeout: null,
-              inline: true,
-              width: null,
-            } as any)
-          // Object.keys(parseSettings).reduce<any>(
-          //   (result, key) => ({
-          //     ...result,
-          //     [key]: null,
-          //   }),
-          //   {},
-          // ),
-          // )
+        onClick={() =>
+          update({
+            height: null,
+            framerate: null,
+            bitrate: null,
+            qp: null,
+            profile: null,
+            timeout: null,
+            inline: true,
+            width: null,
+          } as any)
         }
       />
       {Object.entries(parseSettings).map(

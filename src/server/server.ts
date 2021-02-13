@@ -86,6 +86,23 @@ const server = (
     res.send('video stopped');
   });
 
+  app.get('/api/stream/live', (_, res) => {
+    const liveStream = stream.stream();
+
+    if (liveStream) {
+      console.log('Stream client: open');
+      res.writeHead(200, { 'Content-Type': 'video/mp4' });
+
+      res.on('close', () => {
+        console.log('Stream client: close');
+        res.destroy();
+      });
+
+      liveStream.pipe(res);
+    } else {
+      res.status(503).send('Camera restarting or in use');
+    }
+  });
   return app;
 };
 
