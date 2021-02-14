@@ -23,14 +23,6 @@ export const Slider = styled.input`
 
 export type SliderValueProps = React.InputHTMLAttributes<HTMLInputElement>;
 
-// TODO remove?
-const SliderWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-`;
-
 export const SliderValue: React.FC<SliderValueProps> = ({ ...rest }) => (
-  <SliderWrapper>
-    <Slider type="range" {...rest} />
-  </SliderWrapper>
+  <Slider type="range" {...rest} />
 );

@@ -44,34 +44,28 @@ const concatUint8Array = (chunks: Uint8Array[]) => {
  * Split the stream by each NAL separator [0,0,0,1].
  *
  * @param {(frame: Uint8Array) => void} onFrame callback on frame
- * @return {(((data: Uint8Array | undefined) => void))} data feed
+ * @return {(((data: Uint8Array) => void))} data feed
  */
 export const streamSplitter = (
   onFrame: (frame: Uint8Array) => void,
-): ((data: Uint8Array | undefined) => void) => {
+): ((data: Uint8Array) => void) => {
   let bufferAr: Uint8Array[] = [];
 
-  return (data: Uint8Array | undefined) => {
-    if (!(data && data.length)) {
-      return;
-    }
-
+  return (data: Uint8Array) => {
     let foundHit = false;
-
-    let b = 0;
-    const l = data.length;
     let zeroCnt = 0;
-    for (b; b < l; ++b) {
-      if (data[b] === 0) {
+
+    for (let index = 0; index < data.length; index++) {
+      if (data[index] === 0) {
         zeroCnt++;
       } else {
-        if (data[b] == 1 && zeroCnt >= 3) {
+        if (zeroCnt >= 3 && data[index] == 1) {
           foundHit = true;
-          bufferAr.push(data.subarray(0, b - 3));
+          bufferAr.push(data.subarray(0, index - 3));
           onFrame(concatUint8Array(bufferAr));
 
           bufferAr = [];
-          bufferAr.push(data.subarray(b - 3));
+          bufferAr.push(data.subarray(index - 3));
           break;
         }
         zeroCnt = 0;

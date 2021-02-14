@@ -62,6 +62,14 @@ export interface UseFetch<T> {
   update: (data: Partial<T>) => void;
 }
 
+/**
+ * Fetch and post data
+ *
+ * @template T type of the response
+ * @param url url to fetch
+ * @param data default data
+ * @param [refreshInterval] refresh intervall in ms
+ */
 export const useFetch = <T>(url: RequestInfo, data: T, refreshInterval?: number): UseFetch<T> => {
   // Create and initialize reducer and actions
   const { reducer, actions } = useMemo(() => createFetchSlice<T>(), []);

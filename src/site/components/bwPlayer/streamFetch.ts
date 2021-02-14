@@ -16,6 +16,7 @@ export const streamFetch = (
 
   const start = () => {
     stats.streamRunning = false;
+    stats.droppingFrames = true;
 
     fetch(options.url, { signal: abortStream.signal })
       .then((response) => {

@@ -39,7 +39,6 @@ export const statsCalculator = (
 
   const calculate = () => {
     const avgFps = fpsCalcAvg(stats.framesPerCycle);
-
     const avgSize = sizeCalcAvg(stats.sizePerCycle);
     const playerRunning = fpsCalc(stats.framesPerCycle) > 0;
 
