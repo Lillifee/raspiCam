@@ -1,5 +1,5 @@
 import path from 'path';
-import { isDefined } from '../../shared/helperFunctions';
+import { isDefined, shallowEqualObjects } from '../../shared/helperFunctions';
 import {
   ParseSetting,
   ParseSettings,
@@ -18,7 +18,7 @@ import {
 export const PhotosPath = './photos';
 export const PhotosAbsPath = path.join(__dirname, PhotosPath);
 
-/**;
+/**
  * Parse the settings
  */
 export const parseSettings = <T>(
@@ -33,14 +33,14 @@ export const parseSettings = <T>(
   }, {});
 
 /**
- * RaspiVid
+ * Settings base functions
  */
 const settingsBase = <T>(parseSetting: ParseSettings<Partial<T>>) => () => {
   let curSettings: Partial<T> = {};
   const get = (): Partial<T> => curSettings;
   const parse = (object: Record<string, any>): Partial<T> => parseSettings(object, parseSetting);
   const apply = (settings: Partial<T>): boolean => {
-    if (Object.keys(settings).length === 0) {
+    if (shallowEqualObjects(curSettings, settings)) {
       return false;
     } else {
       curSettings = settings;

@@ -20,12 +20,22 @@ import { Toggle } from './styled/Toggle';
 const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
-  padding: 2em 3em 3em 1.5em;
+  padding: 2em 4em 3em 1.5em;
 `;
 
 const SettingsHeader = styled(Label)`
   display: flex;
+  flex-direction: row;
+  align-items: center;
   padding: 0.2em 0 2em 0;
+`;
+
+const SettingsHeaderText = styled(Label)`
+  flex: 1;
+`;
+
+const SettingsRestoreButton = styled(ButtonIcon)`
+  flex: 0 0 auto;
 `;
 
 const SettingVerticalWrapper = styled.div`
@@ -146,6 +156,12 @@ export interface SettingsProps<T> {
   parseSettings: Partial<ParseSettings<T>>;
 }
 
+const restoreSettings = <T,>(parseSettings: Partial<ParseSettings<T>>) => {
+  const test = Object.keys(parseSettings).reduce((result, key) => ({ ...result, [key]: null }), {});
+  console.log(test);
+  return test;
+};
+
 export function Settings<T>({
   name,
   url,
@@ -161,22 +177,14 @@ export function Settings<T>({
 
   return (
     <Wrapper>
-      <SettingsHeader fontSize="m">{name}</SettingsHeader>
-      <ButtonIcon
-        type="Brightness"
-        onClick={() =>
-          update({
-            height: null,
-            framerate: null,
-            bitrate: null,
-            qp: null,
-            profile: null,
-            timeout: null,
-            inline: true,
-            width: null,
-          } as any)
-        }
-      />
+      <SettingsHeader fontSize="m">
+        <SettingsHeaderText>{name}</SettingsHeaderText>
+        <SettingsRestoreButton
+          type="SettingsRestore"
+          onClick={() => update(restoreSettings(parseSettings))}
+        />
+      </SettingsHeader>
+
       {Object.entries(parseSettings).map(
         ([key, setting]: [string, any]) =>
           setting && (

@@ -427,7 +427,6 @@ export const vidSettings: Partial<RaspiVidSettings> = {
   timeout: 0,
   framerate: 30,
   profile: 'baseline',
-  bitrate: 3000000,
   inline: true,
   output: 'dummy.mp4',
 };
@@ -438,7 +437,7 @@ export const streamSettings: Partial<RaspiVidSettings> = {
   timeout: 0,
   framerate: 25,
   profile: 'baseline',
-  bitrate: 3000000,
+  qp: 20,
   inline: true,
   output: '-',
 };

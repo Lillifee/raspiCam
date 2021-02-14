@@ -201,16 +201,7 @@ export const raspiCameraParseSettings: RaspiCameraParseSettings = {
   vstab: booleanSetting('Video stabilisation'),
   hflip: booleanSetting('Horizontal flip', false),
   vflip: booleanSetting('Vertical flip', false),
-
   mode: numberSetting('Sensor mode', 0, 7, 0, 1),
-  // /** Sets a specified sensor mode  */
-  // mode:
-  //   | '0' // automatic selection
-  //   | '1' // 2028x1080	169:90	0.1-50fps	Partial	2x2 binned
-  //   | '2' // 2028x1520	4:3	0.1-50fps	Full	2x2 binned
-  //   | '3' // 4056x3040	4:3	0.005-10fps	Full	None
-  //   | '4'; // 1332x990	74:55	50.1-120fps	Partial	2x2 binned
-
   camselect: enumSetting('Camera', ['0', '1'], '0'),
 };
 
@@ -220,15 +211,25 @@ export const raspiPreviewParseSettings: RaspiPreviewParseSettings = {
   opacity: numberSetting('opacity', 0, 255, 255, 1),
 };
 
-export const raspiVidParseSettings: RaspiVidParseSettings = {
-  width: numberSetting('Width', 64, 1920, 1280, 64),
-  height: numberSetting('Height', 64, 1080, 720, 64),
+export const raspiStreamParseSettings: RaspiVidParseSettings = {
+  width: numberSetting('Width', 64, 1920, 1280, 1),
+  height: numberSetting('Height', 64, 1080, 720, 1),
 
-  /** At present, the minimum frame rate allowed is 2fps, and the maximum is 30fps. */
-  // framerate: number;
   framerate: numberSetting('Framerate', 2, 30, 25, 1),
-  bitrate: numberSetting('Bitrate', 0, 25000000, 15000000, 1000000),
+  bitrate: numberSetting('Bitrate', 0, 20000000, 15000000, 1000000),
 
+  qp: numberSetting('Quality quantisation', 2, 40, 20, 1),
+  level: enumSetting('H264 level', ['4', '4.1', '4.2'], '4'),
+
+  irefresh: enumSetting(
+    'H264 intra-refresh',
+    ['cyclic', 'adaptive', 'both', 'cyclicrows'],
+    'cyclic',
+  ),
+};
+
+export const raspiVidParseSettings: RaspiVidParseSettings = {
+  ...raspiStreamParseSettings,
   /**
    * Specify the output filename.
    * To connect to a remote IPv4 host, use tcp or udp followed by the required IP Address.
@@ -247,28 +248,13 @@ export const raspiVidParseSettings: RaspiVidParseSettings = {
    * The time between cycles should be specified as a millisecond value.
    */
   // demo: number;
-
+  // demo: numberSetting('Demo', 2, 5000, 1000, 1),
   /**  Specify the intra refresh period (key frame rate/GoP) */
   // intra: numberSetting('Intra key frame rate', 2, 30, 25),
-
-  /**
-   * Sets the initial quantisation parameter for the stream.
-   * Varies from approximately 10 to 40, and will greatly affect the quality of the recording.
-   * Higher values reduce quality and decrease file size. Combine this setting with a bitrate of 0 to set a completely variable bitrate.
-   */
-  qp: numberSetting('Quality quantisation', 2, 40, 10, 1),
-  // qp: number;
 
   codec: enumSetting('Codec', ['H264', 'MJPEG'], 'H264'),
 
   profile: enumSetting('H264 Profile', ['baseline', 'main', 'high'], 'baseline'),
-  level: enumSetting('H264 level', ['4', '4.1', '4.2'], '4'),
-
-  irefresh: enumSetting(
-    'H264 intra-refresh',
-    ['cyclic', 'adaptive', 'both', 'cyclicrows'],
-    'cyclic',
-  ),
 
   /**
    * The total length of time that the program will run for.
@@ -324,8 +310,8 @@ export const raspiVidParseSettings: RaspiVidParseSettings = {
 };
 
 export const raspiStillParseSettings: RaspiStillParseSettings = {
-  width: numberSetting('Width', 64, 4056, 4056, 64),
-  height: numberSetting('Height', 64, 3040, 3040, 64),
+  width: numberSetting('Width', 64, 4056, 4056, 1),
+  height: numberSetting('Height', 64, 3040, 3040, 1),
   quality: numberSetting('Quality', 0, 100, 80, 5),
 
   timeout: numberSetting('Timeout', 1, 216000000, 1, 500),
@@ -337,28 +323,6 @@ export const raspiStillParseSettings: RaspiStillParseSettings = {
   raw: booleanSetting('Raw', false),
 
   /**
-   * Link latest frame to filename <filename>
-   * Makes a file system link under this name to the latest frame.
-   */
-  // latest: string;
-
-  /** Output verbose information during run */
-  // verbose: string;
-
-  /**
-   * Specifies the first frame number in the timelapse.
-   * Useful if you have already saved a number of frames, and want to start again at the next frame.
-   */
-  // framestart: number;
-
-  /**
-   * Instead of a simple frame number, the timelapse file names will use a date/time value
-   * of the format aabbccddee, where aa is the month, bb is the day of the month,
-   * cc is the hour, dd is the minute, and ee is the second.
-   */
-  // timestamp: boolean;
-
-  /**
    * Set thumbnail parameters (x:y:quality)
    * Allows specification of the thumbnail image inserted into the JPEG file.
    * If not specified, defaults are a size of 64x48 at quality 35.
@@ -366,23 +330,10 @@ export const raspiStillParseSettings: RaspiStillParseSettings = {
   // thumb: string | 'none';
 
   /**
-   * Encoding to use for output file
-   * Valid options are jpg, bmp, gif, and png. Note that unaccelerated image types (GIF, PNG, BMP)
-   * will take much longer to save than jpg, which is hardware accelerated.
-   * Also note that the filename suffix is completely ignored when deciding the encoding of a file.
-   */
-
-  /**
    * Sets the JPEG restart marker interval to a specific value.
    * Can be useful for lossy transport streams because it allows a broken JPEG file to still be partially displayed.
    */
   restart: booleanSetting('Restart', false),
-
-  /**
-   * EXIF tag to apply to captures (format as 'key=value')
-   * Allows the insertion of specific EXIF tags into the JPEG image. You can have up to 32 EXIF tag entries.
-   */
-  // exif: string;
 
   /**
    * Full preview mode

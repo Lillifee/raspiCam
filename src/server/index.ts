@@ -1,12 +1,6 @@
 import http from 'http';
 import yargs from 'yargs';
 import fs from 'fs';
-import {
-  previewSettings,
-  stillSettings,
-  streamSettings,
-  vidSettings,
-} from '../shared/raspiSettings';
 import raspiStill from './raspi/raspiStill';
 import raspiStream from './raspi/raspiStream';
 import raspiVid from './raspi/raspiVid';
@@ -23,7 +17,6 @@ const argv = yargs
     description: 'Port number of the express server',
     default: 8000,
   })
-  .option('streamingPort', { alias: 's', type: 'number', description: 'TCP streaming port number' })
   .help()
   .alias('help', 'h').argv;
 
@@ -39,10 +32,11 @@ const start = () => {
    * Maintain the settings for all processes
    */
   const settingsHelper = createSettingsHelper();
-  settingsHelper.stream.apply(streamSettings);
-  settingsHelper.still.apply(stillSettings);
-  settingsHelper.vid.apply(vidSettings);
-  settingsHelper.preview.apply(previewSettings);
+  // TODO load and apply stored settings
+  // settingsHelper.stream.apply(streamSettings);
+  // settingsHelper.still.apply(stillSettings);
+  // settingsHelper.vid.apply(vidSettings);
+  // settingsHelper.preview.apply(previewSettings);
 
   /**
    * Raspi processes

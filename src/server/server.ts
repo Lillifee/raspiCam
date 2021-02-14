@@ -32,10 +32,13 @@ const server = (
   const getSettings = (x: SettingsBase) => async (_: express.Request, res: express.Response) =>
     res.send(x.get());
 
-  const applySettings = (x: SettingsBase) => async (req: express.Request, res: express.Response) =>
-    x.apply(x.parse(req.body))
-      ? res.status(200).send(x.get())
-      : res.status(400).send('No changes found');
+  const applySettings = (x: SettingsBase) => async (
+    req: express.Request,
+    res: express.Response,
+  ) => {
+    x.apply(x.parse(req.body));
+    res.status(200).send(x.get());
+  };
 
   const applyAndRestart = (x: SettingsBase) => async (
     req: express.Request,
@@ -43,7 +46,7 @@ const server = (
   ) => {
     const applied = x.apply(x.parse(req.body));
     if (applied) await stream.restart();
-    return applied ? res.status(200).send(x.get()) : res.status(400).send('No changes found');
+    return res.status(200).send(x.get());
   };
 
   //#endregion
@@ -90,11 +93,11 @@ const server = (
     const liveStream = stream.stream();
 
     if (liveStream) {
-      console.log('Stream client: open');
+      // console.log('Stream client: open');
       res.writeHead(200, { 'Content-Type': 'video/mp4' });
 
       res.on('close', () => {
-        console.log('Stream client: close');
+        // console.log('Stream client: close');
         res.destroy();
       });
 

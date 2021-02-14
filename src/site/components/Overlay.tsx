@@ -4,6 +4,7 @@ import {
   raspiCameraParseSettings,
   raspiPreviewParseSettings,
   raspiStillParseSettings,
+  raspiStreamParseSettings,
   raspiVidParseSettings,
 } from '../../shared/raspiParseSettings';
 import { CameraMode } from './App';
@@ -80,7 +81,7 @@ export const Overlay: React.FC<OverlayProps> = ({ setLoading }) => {
           name="Stream"
           url="/api/stream"
           setLoading={setLoading}
-          parseSettings={raspiVidParseSettings}
+          parseSettings={raspiStreamParseSettings}
         />
         <Settings
           name="Photo"
