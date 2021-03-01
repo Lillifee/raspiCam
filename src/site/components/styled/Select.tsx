@@ -11,6 +11,7 @@ export const Select = styled.select`
   border: 2px solid ${(p) => p.theme.SubBackground};
   text-align-last: center;
   outline: none;
+  cursor: pointer;
 
   option {
     background: ${(p) => p.theme.Background};

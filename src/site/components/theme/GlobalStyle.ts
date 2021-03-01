@@ -13,6 +13,7 @@ export const GlobalStyle = createGlobalStyle`
     flex-direction: column;
     overflow: hidden;
     background: #1d1d1d;
+    user-select: none;
   }
 
   body {

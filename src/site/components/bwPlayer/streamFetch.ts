@@ -25,26 +25,26 @@ export const streamFetch = (
 
         const stream = new ReadableStream({
           start(controller) {
-            const push = () => {
-              reader.read().then(({ done, value }) => {
-                // When no more data needs to be consumed, close the stream
-                if (done) {
-                  controller.close();
-                  stats.streamRunning = false;
-                  reconnect();
-                  return;
-                }
+            const push = async (): Promise<void> => {
+              const { done, value } = await reader.read();
 
-                if (value) {
-                  stats.streamRunning = true;
-                  stats.sizePerCycle += value.length;
-                  onData(value);
-                }
+              // When no more data needs to be consumed, close the stream
+              if (done) {
+                controller.close();
+                stats.streamRunning = false;
+                reconnect();
+                return;
+              }
 
-                // Enqueue the next data chunk into our target stream
-                controller.enqueue(value);
-                return push();
-              });
+              if (value) {
+                stats.streamRunning = true;
+                stats.sizePerCycle += value.length;
+                onData(value);
+              }
+
+              // Enqueue the next data chunk into our target stream
+              controller.enqueue(value);
+              return push();
             };
 
             return push();

@@ -1,6 +1,5 @@
-interface ActionCreatorsMap {
-  [key: string]: (...args: any[]) => any;
-}
+/* eslint-disable @typescript-eslint/no-explicit-any */
+type ActionCreatorsMap = Record<string, (...args: any[]) => any>;
 
 type ActionCreatorsReturnMap<T extends ActionCreatorsMap> = {
   [K in keyof T]: (...args: Parameters<T[K]>) => { type: K; payload: ReturnType<T[K]> };

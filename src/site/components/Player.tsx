@@ -22,7 +22,11 @@ const PlayerWrapper = styled.div`
   }
 `;
 
-const BlurOverlay = styled.div<{ blur: boolean }>`
+interface BlurOverlayProps {
+  blur: boolean;
+}
+
+const BlurOverlay = styled.div<BlurOverlayProps>`
   backdrop-filter: ${(p) => (p.blur ? 'blur(10px)' : '')};
   background-color: ${(p) => (p.blur ? 'rgba(0, 0, 0, 0.5)' : '')};
   transition: backdrop-filter ease-in-out 0.3s, background-color ease-in-out 0.3s;
@@ -71,6 +75,7 @@ export const Player: React.FC<PlayerProps> = ({ loading }) => {
   const [stats] = usePlayer('/api/stream/live', playerWrapperRef);
 
   // console.log(!stats.running, stats.dropFrames);
+
   return (
     <Container>
       <PlayerWrapper ref={playerWrapperRef} />
@@ -80,7 +85,7 @@ export const Player: React.FC<PlayerProps> = ({ loading }) => {
         <div>dropped: {stats.totalDroppedFrames}</div>
         <div>frames: {stats.framesPerCycle}</div>
         <div>avgFps: {stats.avgFps}</div>
-        <div>avgSize: {abbreviateNumber(roundToSignificant(stats.avgSize, 2), 'bit/s')}</div>
+        <div>avgSize: {abbreviateNumber('bit/s')(roundToSignificant(stats.avgSize, 2))}</div>
         {loading && <div>loading</div>}
         {!stats.playerRunning && <div>player not running</div>}
         {!stats.streamRunning && <div>stream not running</div>}

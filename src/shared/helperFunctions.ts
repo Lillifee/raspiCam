@@ -8,8 +8,8 @@ export const isDefined = <T>(obj: T | undefined | null): obj is T =>
  * Shallow compares two objects
  */
 export const shallowEqualObjects = (
-  objA: Record<string, any>,
-  objB: Record<string, any>,
+  objA: Record<string, unknown>,
+  objB: Record<string, unknown>,
 ): boolean => {
   if (objA === objB) {
     return true;
@@ -49,9 +49,9 @@ const symbol = ['', 'k', 'M', 'G', 'T', 'P', 'E'];
  * Abbreviate number with suffix.
  *
  * @param number number to abbreviate
- * @param [fractionDigits=2] Digits after the decimal point.
+ * @param [fractionDigits=-1] Digits after the decimal point. -1 = auto
  */
-export const abbreviateNumber = (number: number, unit: string): string => {
+export const abbreviateNumber = (unit = '', fractionDigits = -1) => (number: number): string => {
   const tier = (Math.log10(Math.abs(number)) / 3) | 0;
   if (tier == 0) return `${number.toFixed(0)}${unit}`;
 
@@ -60,9 +60,19 @@ export const abbreviateNumber = (number: number, unit: string): string => {
 
   // scale and format the number
   const scaled = number / scale;
-  const fractionDigits = Math.ceil(Math.log10(Math.abs(scaled))) > 1 ? 0 : 2;
-  return `${scaled.toFixed(fractionDigits)} ${suffix}${unit}`;
+  const usedFractionDigits =
+    fractionDigits >= 0 ? fractionDigits : Math.ceil(Math.log10(Math.abs(scaled))) > 1 ? 0 : 2;
+  return `${scaled.toFixed(usedFractionDigits)} ${suffix}${unit}`;
 };
+
+/**
+ * Format number and append unit
+ *
+ * @param number number
+ * @param [unit] unit
+ */
+export const appendUnit = (unit: string) => (number: number): string =>
+  unit ? `${number} ${unit}` : number.toString();
 
 /**
  * Round a number by significants

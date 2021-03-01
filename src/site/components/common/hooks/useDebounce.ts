@@ -7,7 +7,7 @@ import { useCallback, useEffect, useRef } from 'react';
  * @param wait wait time in ms
  * @return debounde trigger function
  */
-export function useDebounce<T extends ((...args: any[]) => void) | (() => void)>(
+export function useDebounce<T extends ((...args: never[]) => void) | (() => void)>(
   callback: T,
   wait?: number,
 ): [(...args: Parameters<T>) => void] {
@@ -26,7 +26,7 @@ export function useDebounce<T extends ((...args: any[]) => void) | (() => void)>
 
   // Start timer
   const debounceCallback = useCallback(
-    (...args: any[]) => {
+    (...args: never[]) => {
       clearTimer();
       if (wait) {
         timeout.current = setTimeout(() => callback(...args), wait);

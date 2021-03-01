@@ -1,7 +1,7 @@
 import { ChildProcess, exec, spawn } from 'child_process';
 import path from 'path';
 import { getIsoDataTime } from '../../shared/helperFunctions';
-import { stillSettings } from '../../shared/raspiSettings';
+import { defaultSettings } from '../../shared/settings';
 import { getSpawnArgs, stopProcess } from './processHelper';
 import { PhotosAbsPath, PhotosPath, SettingsHelper } from './settingsHelper';
 
@@ -35,12 +35,14 @@ const raspiStill = (settingsHelper: SettingsHelper): RaspiStill => {
    */
   const start = (): Promise<string> => {
     const { camera, preview, still } = settingsHelper;
+    const overrideSetting = { thumb: '320:240:35' }; // TODO calculate}
 
     const settings = {
-      ...stillSettings,
-      ...camera.get(),
-      ...preview.get(),
-      ...still.get(),
+      ...defaultSettings.still,
+      ...camera.convert(),
+      ...preview.convert(),
+      ...still.convert(),
+      ...overrideSetting,
     };
 
     const fileBaseName = getIsoDataTime();

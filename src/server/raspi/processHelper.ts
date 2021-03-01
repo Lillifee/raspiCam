@@ -10,7 +10,7 @@ export const getSpawnArgs = <T>(options: T): string[] =>
         if (value === true) result.push(`--${key}`);
       } else {
         result.push(`--${key}`);
-        result.push(value.toString()); // escape(value.toString()) - lead to error on resolution (320:240:35)
+        result.push(value.toString());
       }
     }
     return result;

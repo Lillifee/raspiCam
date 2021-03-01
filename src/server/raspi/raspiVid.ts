@@ -1,5 +1,5 @@
 import { ChildProcess, spawn } from 'child_process';
-import { vidSettings } from '../../shared/raspiSettings';
+import { defaultSettings } from '../../shared/settings';
 import { getSpawnArgs, stopProcess } from './processHelper';
 import { SettingsHelper } from './settingsHelper';
 
@@ -19,11 +19,14 @@ const raspiVid = (settingsHelper: SettingsHelper): RaspiVid => {
    */
   const start = () => {
     const { camera, preview, stream } = settingsHelper;
+    const overrideSetting = { output: 'dummy.mp4' };
+
     const spawnArgs = getSpawnArgs({
-      ...vidSettings,
-      ...camera.get(),
-      ...preview.get(),
-      ...stream.get(),
+      ...defaultSettings.vid,
+      ...camera.convert(),
+      ...preview.convert(),
+      ...stream.convert(),
+      ...overrideSetting,
     });
 
     console.info('raspivid', spawnArgs.join(' '));

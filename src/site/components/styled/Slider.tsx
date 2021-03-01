@@ -1,7 +1,11 @@
 import * as React from 'react';
 import styled from 'styled-components';
 
-export const Slider = styled.input`
+export interface SliderProps {
+  unset?: boolean;
+}
+
+const SliderStyled = styled.input<SliderProps>`
   flex: 1;
   appearance: none;
   outline: none;
@@ -10,19 +14,28 @@ export const Slider = styled.input`
   height: 8px;
   background: ${(props) => props.theme.Background};
 
+  // Disable range pointer events for mobile devices
+  @media only screen and (max-width: 800px) {
+    pointer-events: none;
+  }
+
   ::-webkit-slider-thumb {
     cursor: pointer;
+    pointer-events: auto;
     appearance: none;
     width: 22px;
     height: 22px;
-    background: ${(props) => props.theme.PrimaryBackground};
+    background: ${(props) =>
+      props.unset ? props.theme.Background : props.theme.PrimaryBackground};
     border: 2px solid ${(props) => props.theme.SubBackground};
     border-radius: 15px;
   }
+
+  &:disabled {
+    opacity: 0.5;
+  }
 `;
 
-export type SliderValueProps = React.InputHTMLAttributes<HTMLInputElement>;
-
-export const SliderValue: React.FC<SliderValueProps> = ({ ...rest }) => (
-  <Slider type="range" {...rest} />
-);
+export const Slider: React.FC<SliderProps & React.InputHTMLAttributes<HTMLInputElement>> = ({
+  ...rest
+}) => <SliderStyled type="range" {...rest} />;

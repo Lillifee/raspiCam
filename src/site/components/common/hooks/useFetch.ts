@@ -57,11 +57,6 @@ const createFetchSlice = <T>() => {
   return { reducer, actions };
 };
 
-export interface UseFetch<T> {
-  state: FetchState<T>;
-  update: (data: Partial<T>) => void;
-}
-
 /**
  * Fetch and post data
  *
@@ -70,7 +65,11 @@ export interface UseFetch<T> {
  * @param data default data
  * @param [refreshInterval] refresh intervall in ms
  */
-export const useFetch = <T>(url: RequestInfo, data: T, refreshInterval?: number): UseFetch<T> => {
+export const useFetch = <T>(
+  url: RequestInfo,
+  data: T,
+  refreshInterval?: number,
+): [FetchState<T>, (data: T) => void] => {
   // Create and initialize reducer and actions
   const { reducer, actions } = useMemo(() => createFetchSlice<T>(), []);
   const [state, dispatch] = useReducer(reducer, { isLoading: true, isUpdating: false, data });
@@ -99,21 +98,19 @@ export const useFetch = <T>(url: RequestInfo, data: T, refreshInterval?: number)
 
   // Post the user input
   const postData = useCallback(
-    (data: Partial<T>) => {
+    (data: T) => {
       abortUpdate.current = new AbortController();
       dispatch(actions.UPDATE(data));
 
       // Post the updated data
-      fetch(url, {
+      return fetch(url, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(data),
         signal: abortUpdate.current.signal,
       })
         .then((res) => res.json())
-        .then((json) => {
-          dispatch(actions.UPDATE_SUCCESS(json));
-        })
+        .then((json) => dispatch(actions.UPDATE_SUCCESS(json)))
         .catch((error) => {
           if (!abortUpdate.current.signal.aborted) {
             dispatch(actions.UPDATE_FAILURE(error));
@@ -128,7 +125,7 @@ export const useFetch = <T>(url: RequestInfo, data: T, refreshInterval?: number)
   const [updateDebounced] = useDebounce(postData, 300);
 
   // Update the user input
-  const update = (newInput: Partial<T>) => {
+  const update = (newInput: T) => {
     stopRefresh();
     abortFetch.current.abort();
     abortUpdate.current.abort();
@@ -148,5 +145,5 @@ export const useFetch = <T>(url: RequestInfo, data: T, refreshInterval?: number)
     };
   }, [fetchData, startRefresh]);
 
-  return { state, update };
+  return [state, update];
 };

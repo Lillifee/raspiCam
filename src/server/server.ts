@@ -30,23 +30,23 @@ const server = (
   };
 
   const getSettings = (x: SettingsBase) => async (_: express.Request, res: express.Response) =>
-    res.send(x.get());
+    res.send(x.read());
 
   const applySettings = (x: SettingsBase) => async (
     req: express.Request,
     res: express.Response,
   ) => {
-    x.apply(x.parse(req.body));
-    res.status(200).send(x.get());
+    x.apply(req.body);
+    res.status(200).send(x.read());
   };
 
   const applyAndRestart = (x: SettingsBase) => async (
     req: express.Request,
     res: express.Response,
   ) => {
-    const applied = x.apply(x.parse(req.body));
+    const applied = x.apply(req.body);
     if (applied) await stream.restart();
-    return res.status(200).send(x.get());
+    return res.status(200).send(x.read());
   };
 
   //#endregion
@@ -74,7 +74,7 @@ const server = (
       .then((fileName) => res.send(fileName))
       .catch((e) => res.status(400).send(e.message));
 
-    stream.start();
+    await stream.start();
   });
 
   app.get('/api/vid/start', async (_, res) => {
@@ -85,7 +85,7 @@ const server = (
 
   app.get('/api/vid/stop', async (_, res) => {
     vid.stop();
-    stream.start();
+    await stream.start();
     res.send('video stopped');
   });
 

@@ -33,10 +33,10 @@ const start = () => {
    */
   const settingsHelper = createSettingsHelper();
   // TODO load and apply stored settings
-  // settingsHelper.stream.apply(streamSettings);
-  // settingsHelper.still.apply(stillSettings);
-  // settingsHelper.vid.apply(vidSettings);
-  // settingsHelper.preview.apply(previewSettings);
+  // settingsHelper.stream.apply(defaultSettings.stream);
+  // settingsHelper.still.apply(defaultSettings.still);
+  // settingsHelper.vid.apply(defaultSettings.vid);
+  // settingsHelper.preview.apply(defaultSettings.preview);
 
   /**
    * Raspi processes

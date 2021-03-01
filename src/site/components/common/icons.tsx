@@ -75,6 +75,31 @@ export const IconMap = {
       <path d="M14 12c0-1.1-.9-2-2-2s-2 .9-2 2 .9 2 2 2 2-.9 2-2zm-2-9c-4.97 0-9 4.03-9 9H0l4 4 4-4H5c0-3.87 3.13-7 7-7s7 3.13 7 7-3.13 7-7 7c-1.51 0-2.91-.49-4.06-1.3l-1.42 1.44C8.04 20.3 9.94 21 12 21c4.97 0 9-4.03 9-9s-4.03-9-9-9z" />
     </svg>
   ),
+  ExpandLess: (
+    <svg viewBox="0 0 24 24">
+      <path d="M0 0h24v24H0z" fill="none" />
+      <path d="M12 8l-6 6 1.41 1.41L12 10.83l4.59 4.58L18 14z" />
+    </svg>
+  ),
+  ExpandMore: (
+    <svg viewBox="0 0 24 24">
+      <path d="M0 0h24v24H0z" fill="none" />
+      <path d="M16.59 8.59L12 13.17 7.41 8.59 6 10l6 6 6-6z" />
+    </svg>
+  ),
+  Auto: (
+    <svg viewBox="0 0 24 24">
+      <g>
+        <path d="M0,0h24v24H0V0z" fill="none" />
+      </g>
+      <g>
+        <g>
+          <polygon points="12.04,8.04 11.95,8.04 10.35,12.59 13.64,12.59" />
+          <path d="M12,2C6.48,2,2,6.48,2,12s4.48,10,10,10s10-4.48,10-10S17.52,2,12,2z M15.21,17l-0.98-2.81H9.78l-1,2.81h-1.9l4.13-11 h1.97l4.13,11H15.21z" />
+        </g>
+      </g>
+    </svg>
+  ),
 };
 
 export type IconType = keyof typeof IconMap;

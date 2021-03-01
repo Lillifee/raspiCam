@@ -1,10 +1,16 @@
 import React from 'react';
 
+interface ExtendedDocument extends Document {
+  mozFullScreenElement?: Element;
+  msFullscreenElement?: Element;
+  webkitFullscreenElement?: Element;
+}
+
 /**
  * Returns the fullscreen element
  */
 const isDocumentFullscreen = (): boolean => {
-  const curDocument = document as any;
+  const curDocument = document as ExtendedDocument;
 
   if (typeof curDocument.fullscreenElement !== 'undefined') {
     return curDocument.fullscreenElement != null;

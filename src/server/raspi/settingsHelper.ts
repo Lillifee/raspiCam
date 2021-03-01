@@ -1,86 +1,62 @@
 import path from 'path';
-import { isDefined, shallowEqualObjects } from '../../shared/helperFunctions';
+import { shallowEqualObjects } from '../../shared/helperFunctions';
 import {
-  ParseSetting,
-  ParseSettings,
-  raspiPreviewParseSettings,
-  raspiStillParseSettings,
-  raspiVidParseSettings,
-} from '../../shared/raspiParseSettings';
-import { raspiCameraParseSettings } from '../../shared/raspiParseSettings';
-import {
-  RaspiCameraSettings,
-  RaspiPreviewSettings,
-  RaspiStillSettings,
-  RaspiVidSettings,
-} from '../../shared/raspiSettings';
+  vidSettingDesc,
+  stillSettingDesc,
+  cameraSettingDesc,
+  previewSettingDesc,
+  streamSettingDesc,
+  extractSettings,
+  applySettings,
+  GenericSettingDesc,
+  Setting,
+  defaultSettings,
+  cameraSettingConverter,
+} from '../../shared/settings';
 
 export const PhotosPath = './photos';
 export const PhotosAbsPath = path.join(__dirname, PhotosPath);
 
 /**
- * Parse the settings
- */
-export const parseSettings = <T>(
-  object: Record<string, any>,
-  parse: ParseSettings<Partial<T>>,
-): Partial<T> =>
-  Object.entries(parse).reduce<Partial<T>>((result, [key, settings]) => {
-    const curValue = object[key];
-    const parseSetting = settings as ParseSetting;
-    const value = curValue && parseSetting.convert(curValue.toString());
-    return isDefined(value) ? { ...result, [key]: value } : result;
-  }, {});
-
-/**
  * Settings base functions
  */
-const settingsBase = <T>(parseSetting: ParseSettings<Partial<T>>) => () => {
-  let curSettings: Partial<T> = {};
-  const get = (): Partial<T> => curSettings;
-  const parse = (object: Record<string, any>): Partial<T> => parseSettings(object, parseSetting);
-  const apply = (settings: Partial<T>): boolean => {
-    if (shallowEqualObjects(curSettings, settings)) {
-      return false;
-    } else {
-      curSettings = settings;
+const settingsBase = <T extends GenericSettingDesc>(
+  settingDescription: T,
+  defaultSettings: Setting<T>,
+  convertSettings?: (settings: Setting<T>) => Record<string, unknown>,
+) => {
+  let settingDesc = settingDescription;
+
+  const read = () => extractSettings(settingDesc);
+  const convert = () => (convertSettings ? convertSettings(read()) : read());
+  const apply = (settings: Setting<T>): boolean => {
+    const curSettings = read();
+
+    if (!shallowEqualObjects(curSettings, settings)) {
+      settingDesc = applySettings(settingDesc, { ...defaultSettings, ...settings });
       return true;
     }
+    return false;
   };
-  return { get, parse, apply };
+
+  apply(defaultSettings);
+  return { read, convert, apply };
 };
 
-const streamSettings = settingsBase<RaspiVidSettings>(raspiVidParseSettings)();
-const stillSettings = settingsBase<RaspiStillSettings>(raspiStillParseSettings)();
-const vidSettings = settingsBase<RaspiVidSettings>(raspiVidParseSettings)();
-const cameraSettings = settingsBase<RaspiCameraSettings>(raspiCameraParseSettings)();
-const previewSettings = settingsBase<RaspiPreviewSettings>(raspiPreviewParseSettings)();
+export type SettingsBase = ReturnType<typeof settingsBase>;
 
-type StreamSettings = typeof streamSettings;
-type StillSettings = typeof stillSettings;
-type VidSettings = typeof vidSettings;
-type CameraSettings = typeof cameraSettings;
-type PreviewSettings = typeof previewSettings;
-
-export type SettingsBase =
-  | StreamSettings
-  | StillSettings
-  | VidSettings
-  | CameraSettings
-  | PreviewSettings;
+const stream = settingsBase(streamSettingDesc, defaultSettings.stream);
+const still = settingsBase(stillSettingDesc, defaultSettings.still);
+const vid = settingsBase(vidSettingDesc, defaultSettings.vid);
+const camera = settingsBase(cameraSettingDesc, defaultSettings.camera, cameraSettingConverter);
+const preview = settingsBase(previewSettingDesc, defaultSettings.preview);
 
 export interface SettingsHelper {
-  stream: StreamSettings;
-  still: StillSettings;
-  vid: VidSettings;
-  camera: CameraSettings;
-  preview: PreviewSettings;
+  stream: typeof stream;
+  still: typeof still;
+  vid: typeof vid;
+  camera: typeof camera;
+  preview: typeof preview;
 }
 
-export const createSettingsHelper = (): SettingsHelper => ({
-  stream: streamSettings,
-  still: stillSettings,
-  vid: vidSettings,
-  camera: cameraSettings,
-  preview: previewSettings,
-});
+export const createSettingsHelper = (): SettingsHelper => ({ stream, still, vid, camera, preview });

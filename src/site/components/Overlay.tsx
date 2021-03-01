@@ -1,15 +1,9 @@
 import * as React from 'react';
 import styled from 'styled-components';
-import {
-  raspiCameraParseSettings,
-  raspiPreviewParseSettings,
-  raspiStillParseSettings,
-  raspiStreamParseSettings,
-  raspiVidParseSettings,
-} from '../../shared/raspiParseSettings';
 import { CameraMode } from './App';
 import { ButtonIcon } from './common/icons';
-import { Settings } from './Settings';
+import { CameraSettings } from './settings/CameraSettings';
+import { StreamSettings } from './settings/StreamSettings';
 
 //#region styled
 
@@ -40,9 +34,9 @@ const SettingsContainer = styled.div<SettingsContainerProps>`
   flex: ${(p) => (p.show ? '0.3 1 350px' : 0)};
   flex-direction: column;
   display: flex;
-  overflow: auto;
+  overflow-y: scroll;
   backdrop-filter: blur(5px);
-  background-color: rgba(15, 15, 15, 0.8);
+  background-color: rgba(20, 20, 20, 0.8);
   color: ${(p) => p.theme.Foreground};
   transition: flex 0.3s;
   pointer-events: all;
@@ -57,7 +51,6 @@ const Filler = styled.div<FillerProps>`
   display: flex;
   flex-direction: row;
   justify-content: flex-end;
-
   pointer-events: ${(p) => (p.enableClick ? 'all' : 'none')};
 `;
 
@@ -77,36 +70,8 @@ export const Overlay: React.FC<OverlayProps> = ({ setLoading }) => {
         <ButtonIcon type="Tune" onClick={() => setShowSettings(!showSettings)} />
       </Toolbar>
       <SettingsContainer show={showSettings}>
-        <Settings
-          name="Stream"
-          url="/api/stream"
-          setLoading={setLoading}
-          parseSettings={raspiStreamParseSettings}
-        />
-        <Settings
-          name="Photo"
-          url="/api/still"
-          setLoading={setLoading}
-          parseSettings={raspiStillParseSettings}
-        />
-        <Settings
-          name="Video"
-          url="/api/vid"
-          setLoading={setLoading}
-          parseSettings={raspiVidParseSettings}
-        />
-        <Settings
-          name="Camera"
-          url="/api/camera"
-          setLoading={setLoading}
-          parseSettings={raspiCameraParseSettings}
-        />
-        <Settings
-          name="Preview"
-          url="/api/preview"
-          setLoading={setLoading}
-          parseSettings={raspiPreviewParseSettings}
-        />
+        <CameraSettings setLoading={setLoading} />
+        <StreamSettings setLoading={setLoading} />
       </SettingsContainer>
       <Filler enableClick={showSettings} onClick={() => setShowSettings(false)} />
     </Container>

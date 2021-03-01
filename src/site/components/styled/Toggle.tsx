@@ -38,6 +38,8 @@ const CheckBox = styled.input`
   width: 54px;
   height: 24px;
   border-radius: 15px;
+  cursor: pointer;
+
   &:checked + ${CheckBoxLabel} {
     background: ${(props) => props.theme.PrimaryBackground};
     &::after {
