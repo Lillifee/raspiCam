@@ -1,5 +1,3 @@
-import { GenericSettingDesc } from '../../../../shared/settings';
-
 type RestoredSetting<T> = { [K in keyof T]: undefined };
 
 export const restoreSettings = <T extends Record<string, unknown>>(data: T): RestoredSetting<T> =>
