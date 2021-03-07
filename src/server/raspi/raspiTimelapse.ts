@@ -1,45 +1,31 @@
-import { ChildProcess, exec, spawn } from 'child_process';
+import { ChildProcess, spawn } from 'child_process';
 import path from 'path';
 import { getIsoDataTime } from '../../shared/helperFunctions';
-import { getSpawnArgs, stopProcess } from './processHelper';
-import { PhotosAbsPath, PhotosPath, SettingsHelper } from './settingsHelper';
+import { extractThumbnail, getSpawnArgs, stopProcess } from './processHelper';
+import { PhotosAbsPath, SettingsHelper } from './settingsHelper';
 
-export interface RaspiStill {
+export interface RaspiTimelapse {
   start: () => Promise<string>;
   stop: () => void;
 }
 
 /**
- * Extract thumbnail using exiv2
+ * RaspiTimelapse
  */
-const extractThumbnail = async (fileBaseName: string, fileExtension: string): Promise<string> => {
-  const filePath = path.join(PhotosAbsPath, `${fileBaseName}.${fileExtension}`);
-  const thumbnailPath = path.join(PhotosPath, `${fileBaseName}-preview1.${fileExtension}`);
-
-  return new Promise((resolve, reject) =>
-    exec(`exiv2 -ep1 ${filePath}`, (err, _, stderr) => {
-      err || stderr ? reject(err || stderr) : resolve(thumbnailPath);
-    }),
-  );
-};
-
-/**
- * RaspiStill
- */
-const raspiStill = (settingsHelper: SettingsHelper): RaspiStill => {
+const raspiTimelapse = (settingsHelper: SettingsHelper): RaspiTimelapse => {
   let process: ChildProcess | undefined;
 
   /**
    * Start photo capture
    */
   const start = (): Promise<string> => {
-    const { camera, preview, still } = settingsHelper;
+    const { camera, preview, timelapse } = settingsHelper;
     const overrideSetting = { thumb: '320:240:35' }; // TODO calculate}
 
     const settings = {
       ...camera.convert(),
       ...preview.convert(),
-      ...still.convert(),
+      ...timelapse.convert(),
       ...overrideSetting,
     };
 
@@ -76,4 +62,4 @@ const raspiStill = (settingsHelper: SettingsHelper): RaspiStill => {
   return { start, stop };
 };
 
-export default raspiStill;
+export default raspiTimelapse;

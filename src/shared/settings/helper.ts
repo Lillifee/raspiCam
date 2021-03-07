@@ -1,16 +1,11 @@
+import { isDefined } from '../helperFunctions';
 import {
-  NumberTypeSetting,
   BooleanTypeSetting,
   EnumTypeSetting,
   GenericSettingDesc,
+  NumberTypeSetting,
   Setting,
-  StreamSettingDesc,
-  PreviewSettingDesc,
-  StillSettingDesc,
-  VidSettingDesc,
-} from '.';
-import { isDefined } from '../helperFunctions';
-import { CameraSettingDesc } from './types';
+} from './types';
 
 const defaultFormatValue = (value?: number | boolean | string) =>
   isDefined(value) ? `${value.toString()}` : '';
@@ -19,7 +14,7 @@ export const numberSetting = (
   name: string,
   minValue: number,
   maxValue: number,
-  defaultValue: number | undefined,
+  defaultValue: number,
   stepValue: number,
   format?: (value?: number) => string,
 ): NumberTypeSetting => ({
@@ -78,35 +73,3 @@ export const applySettings = <T extends GenericSettingDesc>(
     }),
     {} as T,
   );
-
-interface DefaultSettings {
-  stream: Setting<StreamSettingDesc>;
-  still: Setting<StillSettingDesc>;
-  vid: Setting<VidSettingDesc>;
-  camera: Setting<CameraSettingDesc>;
-  preview: Setting<PreviewSettingDesc>;
-}
-
-export const baseSettings: DefaultSettings = {
-  stream: {
-    width: 1280,
-    height: 720,
-    framerate: 25,
-    qp: 20,
-  },
-  still: {
-    width: 4056,
-    height: 3040,
-    timeout: 1,
-  },
-  vid: {
-    width: 1920,
-    height: 1080,
-    framerate: 30,
-    timeout: 0,
-  },
-  camera: {},
-  preview: {
-    nopreview: true,
-  },
-};

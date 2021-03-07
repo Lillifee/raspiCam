@@ -1,4 +1,6 @@
-import { ChildProcess } from 'child_process';
+import { ChildProcess, exec } from 'child_process';
+import path from 'path';
+import { PhotosAbsPath, PhotosPath } from './settingsHelper';
 
 /**
  * Helper function to transform a object to process arguments.
@@ -26,4 +28,21 @@ export const stopProcess = (process?: ChildProcess): void => {
     process.kill();
     process = undefined;
   }
+};
+
+/**
+ * Extract thumbnail using exiv2
+ */
+export const extractThumbnail = async (
+  fileBaseName: string,
+  fileExtension: string,
+): Promise<string> => {
+  const filePath = path.join(PhotosAbsPath, `${fileBaseName}.${fileExtension}`);
+  const thumbnailPath = path.join(PhotosPath, `${fileBaseName}-preview1.${fileExtension}`);
+
+  return new Promise((resolve, reject) =>
+    exec(`exiv2 -ep1 ${filePath}`, (err, _, stderr) => {
+      err || stderr ? reject(err || stderr) : resolve(thumbnailPath);
+    }),
+  );
 };

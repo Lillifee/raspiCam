@@ -15,7 +15,7 @@ const SliderStyled = styled.input<SliderProps>`
   background: ${(props) => props.theme.Background};
 
   // Disable range pointer events for mobile devices
-  @media only screen and (max-width: 800px) {
+  @media only screen and (max-width: 1000px) {
     pointer-events: none;
   }
 

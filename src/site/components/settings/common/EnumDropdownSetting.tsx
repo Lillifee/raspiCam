@@ -1,8 +1,8 @@
 import React from 'react';
-import { SettingHorizontalWrapper, SettingName } from '.';
 import { isDefined } from '../../../../shared/helperFunctions';
-import { EnumTypeSetting } from '../../../../shared/settings';
+import { EnumTypeSetting } from '../../../../shared/settings/types';
 import { Select } from '../../styled/Select';
+import { SettingHorizontalWrapper, SettingName } from './Styled';
 
 export interface EnumDropdownSettingProps extends EnumTypeSetting {
   update: (value: string) => void;

@@ -2,6 +2,7 @@ import * as React from 'react';
 import styled from 'styled-components';
 import { CameraMode } from './App';
 import { CameraSettings } from './settings/CameraSettings';
+import { PhotoSettings } from './settings/PhotoSettings';
 import { StreamSettings } from './settings/StreamSettings';
 import { ButtonIcon } from './styled/ButtonIcon';
 
@@ -70,6 +71,7 @@ export const Overlay: React.FC<OverlayProps> = ({ setLoading }) => {
         <ButtonIcon type="Tune" onClick={() => setShowSettings(!showSettings)} />
       </Toolbar>
       <SettingsContainer show={showSettings}>
+        <PhotoSettings />
         <CameraSettings setLoading={setLoading} />
         <StreamSettings setLoading={setLoading} />
       </SettingsContainer>

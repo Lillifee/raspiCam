@@ -1,5 +1,5 @@
-import { numberSetting, enumSetting } from '.';
 import { abbreviateNumber, appendUnit } from '../helperFunctions';
+import { numberSetting, enumSetting } from './helper';
 
 /**
  * Stream settings
@@ -44,3 +44,5 @@ export const streamSettingDesc = {
     'cyclic',
   ),
 };
+
+export type StreamSettingDesc = typeof streamSettingDesc;

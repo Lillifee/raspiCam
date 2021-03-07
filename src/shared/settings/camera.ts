@@ -1,6 +1,6 @@
 import { isDefined } from '../helperFunctions';
 import { numberSetting, enumSetting, booleanSetting } from './helper';
-import { CameraSettingDesc, Setting } from './types';
+import { Setting } from './types';
 
 /**
  * Camera settings
@@ -148,6 +148,8 @@ export const cameraSettingDesc = {
   /** Use stills capture frame for image statistics */
   // stats: boolean;
 };
+
+export type CameraSettingDesc = typeof cameraSettingDesc;
 
 export const cameraSettingConverter = (
   settings: Setting<CameraSettingDesc>,

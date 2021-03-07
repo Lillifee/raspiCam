@@ -1,15 +1,16 @@
-import { numberSetting, enumSetting, booleanSetting } from '.';
+import { appendUnit } from '../helperFunctions';
+import { numberSetting, enumSetting, booleanSetting } from './helper';
 
 /**
  * Still settings
  * https://www.raspberrypi.org/documentation/raspbian/applications/camera.md
  */
-export const stillSettingDesc = {
+export const photoSettingDesc = {
   /** Set image width <size> 4056  */
-  width: numberSetting('Width', 64, 4056, 4056, 1),
+  width: numberSetting('Width', 64, 4056, 4056, 1, appendUnit('px')),
 
   /** Set image height <size> 3040 */
-  height: numberSetting('Height', 64, 3040, 3040, 1),
+  height: numberSetting('Height', 64, 3040, 3040, 1, appendUnit('px')),
 
   /** Set JPEG quality <0 to 100> */
   quality: numberSetting('Quality', 0, 100, 80, 5),
@@ -23,15 +24,7 @@ export const stillSettingDesc = {
    * may not give enough time for the camera to start up and provide enough frames
    * for the automatic algorithms like AWB and AGC to provide accurate results.
    */
-  timeout: numberSetting('Timeout', 1, 216000000, 1, 500),
-
-  /**
-   * time-lapse mode
-   * The specific value is the time between shots in milliseconds.
-   * Note that you should specify %04d at the point in the filename where you want a frame count number to appear.
-   * -t 30000 -tl 2000 -o image%04d.jpg
-   */
-  timelapse: numberSetting('Timelapse', 0, 120000, 0, 500),
+  timeout: numberSetting('Duration', 100, 20000, 2000, 500),
 
   /**
    * Encoding to use for output file
@@ -44,19 +37,19 @@ export const stillSettingDesc = {
   /** Add raw Bayer data to JPEG metadata */
   raw: booleanSetting('Raw', false),
 
-  /**
-   * Sets the JPEG restart marker interval to a specific value.
-   * Can be useful for lossy transport streams because it allows a broken JPEG file to still be partially displayed.
-   */
-  restart: booleanSetting('Restart', false),
+  // /**
+  //  * Sets the JPEG restart marker interval to a specific value.
+  //  * Can be useful for lossy transport streams because it allows a broken JPEG file to still be partially displayed.
+  //  */
+  // restart: booleanSetting('Restart', false),
 
-  /**
-   * Full preview mode
-   * This runs the preview window using the full resolution capture mode.
-   * Maximum frames per second in this mode is 15fps, and the preview will have the same field of view as the capture.
-   * Captures should happen more quickly, as no mode change should be required. This feature is currently under development.
-   */
-  fullpreview: booleanSetting('Full preview mode', false),
+  // /**
+  //  * Full preview mode
+  //  * This runs the preview window using the full resolution capture mode.
+  //  * Maximum frames per second in this mode is 15fps, and the preview will have the same field of view as the capture.
+  //  * Captures should happen more quickly, as no mode change should be required. This feature is currently under development.
+  //  */
+  // fullpreview: booleanSetting('Full preview mode', false),
 
   /**
    * Link latest frame to filename <filename>
@@ -66,19 +59,6 @@ export const stillSettingDesc = {
 
   /** Output verbose information during run */
   // verbose: string;
-
-  /**
-   * Specifies the first frame number in the timelapse.
-   * Useful if you have already saved a number of frames, and want to start again at the next frame.
-   */
-  // framestart: number;
-
-  /**
-   * Instead of a simple frame number, the timelapse file names will use a date/time value
-   * of the format aabbccddee, where aa is the month, bb is the day of the month,
-   * cc is the hour, dd is the minute, and ee is the second.
-   */
-  // timestamp: boolean;
 
   /**
    * Set thumbnail parameters (x:y:quality)
@@ -98,3 +78,5 @@ export const stillSettingDesc = {
    */
   // output: string;
 };
+
+export type PhotoSettingDesc = typeof photoSettingDesc;

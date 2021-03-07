@@ -1,6 +1,11 @@
 import React from 'react';
-import { SettingVerticalWrapper, SettingNameValueContainer, SettingName, SettingValue } from '.';
 import { Slider } from '../../styled/Slider';
+import {
+  SettingVerticalWrapper,
+  SettingNameValueContainer,
+  SettingName,
+  SettingValue,
+} from './Styled';
 
 export interface EnumSlider<T> {
   name: string;

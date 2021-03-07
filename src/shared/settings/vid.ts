@@ -1,4 +1,6 @@
-import { numberSetting, enumSetting, booleanSetting, streamSettingDesc } from '.';
+import { appendUnit } from '../helperFunctions';
+import { enumSetting, numberSetting, booleanSetting } from './helper';
+import { streamSettingDesc } from './stream';
 
 /**
  * Vid settings
@@ -6,6 +8,15 @@ import { numberSetting, enumSetting, booleanSetting, streamSettingDesc } from '.
  */
 export const vidSettingDesc = {
   ...streamSettingDesc,
+  /**
+   * Width of resulting video. This should be between 64 and 1920.
+   */
+  width: numberSetting('Width', 64, 1920, 1920, 1, appendUnit('px')),
+
+  /**
+   * Height of resulting video. This should be between 64 and 1080.
+   */
+  height: numberSetting('Height', 64, 1080, 1080, 1, appendUnit('px')),
 
   /**
    * Specifies the encoder codec to use.
@@ -103,3 +114,5 @@ export const vidSettingDesc = {
    */
   // rf: 'yuv' | 'rgb' | 'grey';
 };
+
+export type VidSettingDesc = typeof vidSettingDesc;

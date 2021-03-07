@@ -4,7 +4,8 @@ import { useFullscreen } from './common/hooks/useFullscreen';
 import { Main } from './Main';
 import { Overlay } from './Overlay';
 import { Player } from './Player';
-import { GlobalStyle, theme } from './theme';
+import { GlobalStyle } from './theme/GlobalStyle';
+import { theme } from './theme/themes';
 
 const AppContainer = styled.div`
   flex: 1;
@@ -25,11 +26,11 @@ const PlayerWrapper = styled.section`
   height: 100%;
 `;
 
-export type CameraMode = 'Stream' | 'Photo' | 'Video' | 'Timelapse';
+export type CameraMode = 'Photo' | 'Video' | 'Timelapse';
 
 export const App: React.FC = () => {
   const appRef = React.useRef<HTMLDivElement>(null);
-  const [mode, setMode] = React.useState<CameraMode>('Stream');
+  const [mode, setMode] = React.useState<CameraMode>('Photo');
   const [loading, setLoading] = React.useState(false);
   const [isFullscreen, setFullscreen] = useFullscreen(appRef);
 

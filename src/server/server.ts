@@ -1,7 +1,8 @@
 import express from 'express';
 import path from 'path';
-import { RaspiStill } from './raspi/raspiStill';
+import { RaspiPhoto } from './raspi/raspiPhoto';
 import { RaspiStream } from './raspi/raspiStream';
+import { RaspiTimelapse } from './raspi/raspiTimelapse';
 import { RaspiVid } from './raspi/raspiVid';
 import { PhotosAbsPath, SettingsBase, SettingsHelper } from './raspi/settingsHelper';
 
@@ -11,7 +12,8 @@ import { PhotosAbsPath, SettingsBase, SettingsHelper } from './raspi/settingsHel
 const server = (
   settingsHelper: SettingsHelper,
   stream: RaspiStream,
-  still: RaspiStill,
+  photo: RaspiPhoto,
+  timelapse: RaspiTimelapse,
   vid: RaspiVid,
 ): express.Express => {
   const app = express();
@@ -25,7 +27,7 @@ const server = (
 
   const stopAll = () => {
     stream.stop();
-    still.stop();
+    photo.stop();
     vid.stop();
   };
 
@@ -63,13 +65,27 @@ const server = (
   app.get('/api/vid', getSettings(settingsHelper.vid));
   app.post('/api/vid', applySettings(settingsHelper.vid));
 
-  app.get('/api/still', getSettings(settingsHelper.still));
-  app.post('/api/still', applySettings(settingsHelper.still));
+  app.get('/api/photo', getSettings(settingsHelper.photo));
+  app.post('/api/photo', applySettings(settingsHelper.photo));
 
-  app.get('/api/still/capture', async (_, res) => {
+  app.get('/api/timelapse', getSettings(settingsHelper.timelapse));
+  app.post('/api/timelapse', applySettings(settingsHelper.timelapse));
+
+  app.get('/api/timelapse/capture', async (_, res) => {
     stopAll();
 
-    await still
+    await timelapse
+      .start()
+      .then((fileName) => res.send(fileName))
+      .catch((e) => res.status(400).send(e.message));
+
+    await stream.start();
+  });
+
+  app.get('/api/photo/capture', async (_, res) => {
+    stopAll();
+
+    await photo
       .start()
       .then((fileName) => res.send(fileName))
       .catch((e) => res.status(400).send(e.message));

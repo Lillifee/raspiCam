@@ -68,7 +68,7 @@ const createFetchSlice = <T>() => {
 export const useFetch = <T>(
   url: RequestInfo,
   data: T,
-  refreshInterval?: number,
+  refreshInterval = 5000,
 ): [FetchState<T>, (data: T) => void] => {
   // Create and initialize reducer and actions
   const { reducer, actions } = useMemo(() => createFetchSlice<T>(), []);

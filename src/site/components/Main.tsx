@@ -94,7 +94,6 @@ const PhotoPreviewLink = styled.a`
 `;
 
 const PhotoPreview = styled.img`
-  /* border: 2px solid ${(p) => p.theme.Background}; */
   width: 3em;
   height: 3em;
   object-fit: cover;
@@ -111,7 +110,6 @@ export interface OverlayProps {
 }
 
 const cameraModes: { [K in CameraMode]: { icon: IconType; name: string } } = {
-  Stream: { icon: 'Camera', name: 'Stream' },
   Photo: { icon: 'PhotoCamera', name: 'Photo' },
   Video: { icon: 'Videocam', name: 'Video' },
   Timelapse: { icon: 'Timelapse', name: 'Timelapse' },
@@ -132,7 +130,7 @@ const useCapturePhoto = (url: RequestInfo): [string, () => void] => {
 
 export const Main: React.FC<OverlayProps> = ({ mode, isFullscreen, setMode, setFullscreen }) => {
   const [showMode, setShowMode] = React.useState(false);
-  const [photoPath, capturePhoto] = useCapturePhoto('/api/still/capture');
+  const [photoPath, capturePhoto] = useCapturePhoto('/api/photo/capture');
 
   return (
     <Container>

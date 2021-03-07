@@ -1,23 +1,19 @@
 import React from 'react';
-import {
-  applySettings,
-  Setting,
-  StreamSettingDesc,
-  streamSettingDesc,
-} from '../../../shared/settings';
+import { applySettings } from '../../../shared/settings/helper';
+import { streamSettingDesc, StreamSettingDesc } from '../../../shared/settings/stream';
+import { Setting } from '../../../shared/settings/types';
 import { useFetch } from '../common/hooks/useFetch';
+import { EnumDropdownSetting } from './common/EnumDropdownSetting';
+import { EnumSlider } from './common/EnumSlider';
+import { updateTypedField, restoreSettings } from './common/helperFunctions';
+import { NumberSetting } from './common/NumberSetting';
+import { SettingsExpander } from './common/SettingsExpander';
 import {
   SettingsWrapper,
   SettingsHeader,
   SettingsHeaderText,
   SettingsRestoreButton,
-  restoreSettings,
-  NumberSetting,
-  EnumDropdownSetting,
-  EnumSlider,
-  SettingsExpander,
-  updateTypedField,
-} from './common';
+} from './common/Styled';
 
 const videoResolutionPresets = [
   { name: '240p', width: 426, height: 240 },
@@ -37,7 +33,7 @@ export interface StreamSettingsProps {
   setLoading: (loading: boolean) => void;
 }
 export const StreamSettings: React.FC<StreamSettingsProps> = ({ setLoading }) => {
-  const [state, updateData] = useFetch<Setting<StreamSettingDesc>>('/api/stream', {}, 2000);
+  const [state, updateData] = useFetch<Setting<StreamSettingDesc>>('/api/stream', {});
   const data = applySettings(streamSettingDesc, { ...state.data, ...state.input });
   const updateField = updateTypedField(updateData);
 

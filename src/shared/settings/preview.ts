@@ -1,4 +1,4 @@
-import { booleanSetting, numberSetting } from '.';
+import { booleanSetting, numberSetting } from './helper';
 
 /**
  * Preview settings
@@ -32,3 +32,5 @@ export const previewSettingDesc = {
    */
   //   preview: string;
 };
+
+export type PreviewSettingDesc = typeof previewSettingDesc;

@@ -1,11 +1,12 @@
 import http from 'http';
 import yargs from 'yargs';
 import fs from 'fs';
-import raspiStill from './raspi/raspiStill';
+import raspiPhoto from './raspi/raspiPhoto';
 import raspiStream from './raspi/raspiStream';
 import raspiVid from './raspi/raspiVid';
 import { createSettingsHelper, PhotosAbsPath } from './raspi/settingsHelper';
 import server from './server';
+import raspiTimelapse from './raspi/raspiTimelapse';
 
 /**
  * Parse the command line arguments
@@ -42,10 +43,11 @@ const start = () => {
    * Raspi processes
    * stream - Broadcast the stream to the WebSocket clients.
    * vid - Capture videos using raspivid.
-   * still - Capture pictures using raspistill.
+   * photo - Capture pictures using raspistill.
    */
   const stream = raspiStream(settingsHelper);
-  const still = raspiStill(settingsHelper);
+  const photo = raspiPhoto(settingsHelper);
+  const timelapse = raspiTimelapse(settingsHelper);
   const vid = raspiVid(settingsHelper);
 
   stream.start();
@@ -61,7 +63,7 @@ const start = () => {
    * Webserver
    * Start the webserver and serve the website.
    */
-  const app = server(settingsHelper, stream, still, vid);
+  const app = server(settingsHelper, stream, photo, timelapse, vid);
   httpServer.on('request', app);
 
   /**

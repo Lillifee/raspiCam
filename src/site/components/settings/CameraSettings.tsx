@@ -1,29 +1,24 @@
 import React from 'react';
 import { isDefined } from '../../../shared/helperFunctions';
-import {
-  applySettings,
-  CameraSettingDesc,
-  cameraSettingDesc,
-  Setting,
-} from '../../../shared/settings';
+import { CameraSettingDesc, cameraSettingDesc } from '../../../shared/settings/camera';
+import { applySettings } from '../../../shared/settings/helper';
+import { Setting } from '../../../shared/settings/types';
 import { useFetch } from '../common/hooks/useFetch';
 import { RadioButton, RadioContainer } from '../styled/RadioButton';
+import { BooleanSetting } from './common/BooleanSetting';
+import { EnumDropdownSetting } from './common/EnumDropdownSetting';
+import { EnumSlider } from './common/EnumSlider';
+import { EnumSliderSetting } from './common/EnumSliderSetting';
+import { updateTypedField, restoreSettings } from './common/helperFunctions';
+import { NumberSetting } from './common/NumberSetting';
+import { SettingsExpander, SettingsExpanderHeader } from './common/SettingsExpander';
 import {
   SettingsWrapper,
   SettingsHeader,
   SettingsHeaderText,
   SettingsRestoreButton,
-  restoreSettings,
-  NumberSetting,
-  EnumDropdownSetting,
-  SettingsExpander,
-  SettingsExpanderHeader,
-  EnumSliderSetting,
-  BooleanSetting,
-  EnumSlider,
   SettingHorizontalWrapper,
-  updateTypedField,
-} from './common';
+} from './common/Styled';
 
 const secToMicro = (seconds: number) => Math.round(seconds * 1e6);
 
@@ -57,7 +52,7 @@ export interface CameraSettingsProps {
 }
 
 export const CameraSettings: React.FC<CameraSettingsProps> = ({ setLoading }) => {
-  const [state, updateData] = useFetch<Setting<CameraSettingDesc>>('/api/camera', {}, 2000);
+  const [state, updateData] = useFetch<Setting<CameraSettingDesc>>('/api/camera', {});
   const data = applySettings(cameraSettingDesc, { ...state.data, ...state.input });
   const updateField = updateTypedField(updateData);
 

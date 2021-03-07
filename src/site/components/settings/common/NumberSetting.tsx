@@ -1,8 +1,13 @@
 import React from 'react';
-import { SettingVerticalWrapper, SettingNameValueContainer, SettingName, SettingValue } from '.';
 import { isDefined } from '../../../../shared/helperFunctions';
-import { NumberTypeSetting } from '../../../../shared/settings';
+import { NumberTypeSetting } from '../../../../shared/settings/types';
 import { Slider } from '../../styled/Slider';
+import {
+  SettingVerticalWrapper,
+  SettingNameValueContainer,
+  SettingName,
+  SettingValue,
+} from './Styled';
 
 export interface NumberSettingProps extends NumberTypeSetting {
   update: (value: number) => void;
