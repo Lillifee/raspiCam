@@ -91,7 +91,7 @@ export const CameraSettings: React.FC<CameraSettingsProps> = ({ setLoading }) =>
               ISO
             </RadioButton>
             <RadioButton
-              active={isDefined(data.exposure.value)}
+              active={!isDefined(data.ISO.value)}
               onClick={() => updateData({ exposure: data.exposure.defaultValue, ISO: undefined })}
             >
               EV

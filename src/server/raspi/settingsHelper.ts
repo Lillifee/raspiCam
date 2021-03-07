@@ -10,7 +10,7 @@ import {
   applySettings,
   GenericSettingDesc,
   Setting,
-  defaultSettings,
+  baseSettings,
   cameraSettingConverter,
 } from '../../shared/settings';
 
@@ -23,7 +23,7 @@ export const PhotosAbsPath = path.join(__dirname, PhotosPath);
 const settingsBase = <T extends GenericSettingDesc>(
   settingDescription: T,
   defaultSettings: Setting<T>,
-  convertSettings?: (settings: Setting<T>) => Record<string, unknown>,
+  convertSettings?: (settings: Setting<T>) => Setting<T>,
 ) => {
   let settingDesc = settingDescription;
 
@@ -45,11 +45,11 @@ const settingsBase = <T extends GenericSettingDesc>(
 
 export type SettingsBase = ReturnType<typeof settingsBase>;
 
-const stream = settingsBase(streamSettingDesc, defaultSettings.stream);
-const still = settingsBase(stillSettingDesc, defaultSettings.still);
-const vid = settingsBase(vidSettingDesc, defaultSettings.vid);
-const camera = settingsBase(cameraSettingDesc, defaultSettings.camera, cameraSettingConverter);
-const preview = settingsBase(previewSettingDesc, defaultSettings.preview);
+const stream = settingsBase(streamSettingDesc, baseSettings.stream);
+const still = settingsBase(stillSettingDesc, baseSettings.still);
+const vid = settingsBase(vidSettingDesc, baseSettings.vid);
+const camera = settingsBase(cameraSettingDesc, baseSettings.camera, cameraSettingConverter);
+const preview = settingsBase(previewSettingDesc, baseSettings.preview);
 
 export interface SettingsHelper {
   stream: typeof stream;

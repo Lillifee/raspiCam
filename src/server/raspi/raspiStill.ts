@@ -1,7 +1,6 @@
 import { ChildProcess, exec, spawn } from 'child_process';
 import path from 'path';
 import { getIsoDataTime } from '../../shared/helperFunctions';
-import { defaultSettings } from '../../shared/settings';
 import { getSpawnArgs, stopProcess } from './processHelper';
 import { PhotosAbsPath, PhotosPath, SettingsHelper } from './settingsHelper';
 
@@ -38,7 +37,6 @@ const raspiStill = (settingsHelper: SettingsHelper): RaspiStill => {
     const overrideSetting = { thumb: '320:240:35' }; // TODO calculate}
 
     const settings = {
-      ...defaultSettings.still,
       ...camera.convert(),
       ...preview.convert(),
       ...still.convert(),

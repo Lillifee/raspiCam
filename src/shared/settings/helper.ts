@@ -79,39 +79,34 @@ export const applySettings = <T extends GenericSettingDesc>(
     {} as T,
   );
 
-const defaultStreamSettings: Setting<StreamSettingDesc> = {
-  width: 1280,
-  height: 720,
-  framerate: 25,
-  qp: 20,
-};
-const defaultStillSettings: Setting<StillSettingDesc> = {
-  width: 4056,
-  height: 3040,
-  timeout: 1,
-};
+interface DefaultSettings {
+  stream: Setting<StreamSettingDesc>;
+  still: Setting<StillSettingDesc>;
+  vid: Setting<VidSettingDesc>;
+  camera: Setting<CameraSettingDesc>;
+  preview: Setting<PreviewSettingDesc>;
+}
 
-const defaultPreviewSettings: Setting<PreviewSettingDesc> = {
-  nopreview: true,
-};
-
-const defaultVidSettings: Setting<VidSettingDesc> = {
-  width: 1920,
-  height: 1080,
-  timeout: 0,
-  framerate: 30,
-  profile: 'baseline',
-  inline: true,
-};
-
-const defaultCameraSettings: Setting<CameraSettingDesc> = {
-  exposure: 'auto',
-};
-
-export const defaultSettings = {
-  stream: defaultStreamSettings,
-  still: defaultStillSettings,
-  vid: defaultVidSettings,
-  camera: defaultCameraSettings,
-  preview: defaultPreviewSettings,
+export const baseSettings: DefaultSettings = {
+  stream: {
+    width: 1280,
+    height: 720,
+    framerate: 25,
+    qp: 20,
+  },
+  still: {
+    width: 4056,
+    height: 3040,
+    timeout: 1,
+  },
+  vid: {
+    width: 1920,
+    height: 1080,
+    framerate: 30,
+    timeout: 0,
+  },
+  camera: {},
+  preview: {
+    nopreview: true,
+  },
 };

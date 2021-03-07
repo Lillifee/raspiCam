@@ -1,6 +1,5 @@
 import { ChildProcess, spawn } from 'child_process';
 import { Readable } from 'stream';
-import { defaultSettings } from '../../shared/settings';
 import { getSpawnArgs, stopProcess } from './processHelper';
 import { SettingsHelper } from './settingsHelper';
 
@@ -25,7 +24,6 @@ const raspiStream = (settingsHelper: SettingsHelper): RaspiStream => {
     const overrideSettings = { timeout: 0, profile: 'baseline', inline: true, output: '-' };
 
     const spawnArgs = getSpawnArgs({
-      ...defaultSettings.stream,
       ...camera.convert(),
       ...preview.convert(),
       ...stream.convert(),
