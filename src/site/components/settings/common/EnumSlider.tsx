@@ -30,7 +30,7 @@ export const EnumSlider = <T,>({
         value={index}
         unset={index < 0}
         max={items.length - 1}
-        onChange={(e) => update(items[parseInt(e.target.value, 10)])}
+        onChange={(e) => update(items[e.target.valueAsNumber])}
       />
     </SettingVerticalWrapper>
   );

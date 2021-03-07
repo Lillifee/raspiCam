@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { ButtonIcon } from '../../common/icons';
+import { ButtonIcon } from '../../styled/ButtonIcon';
 import { Label } from '../../styled/Label';
 
 export const SettingsWrapper = styled.div`

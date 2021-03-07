@@ -34,7 +34,7 @@ export const EnumSliderSetting: React.FC<EnumSliderSettingProps> = ({
         value={displayIndex}
         unset={displayIndex < 0}
         max={possibleValues.length - 1}
-        onChange={(e) => update(possibleValues[parseInt(e.target.value, 10)])}
+        onChange={(e) => update(possibleValues[e.target.valueAsNumber])}
       />
     </SettingVerticalWrapper>
   );

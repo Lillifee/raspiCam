@@ -1,3 +1,4 @@
+import { isDefined } from '../helperFunctions';
 import { numberSetting, enumSetting, booleanSetting } from './helper';
 import { CameraSettingDesc, Setting } from './types';
 
@@ -102,8 +103,9 @@ export const cameraSettingDesc = {
    * The supplied U and V parameters (range 0 - 255) are applied to the U and Y channels of the image.
    * For example, --colfx 128:128 should result in a monochrome image.
    */
-  colfxu: numberSetting('Color effect U', 0, 255, 0, 1),
-  colfxv: numberSetting('Color effect V', 0, 255, 0, 1),
+  colfxEnabled: booleanSetting('Color effect', false),
+  colfxu: numberSetting('U channel - blue', 0, 255, 128, 1),
+  colfxv: numberSetting('V channel - red', 0, 255, 128, 1),
 
   /** Set metering mode */
   metering: enumSetting('Metering mode', ['average', 'spot', 'backlit', 'matrix'], 'average'),
@@ -150,10 +152,12 @@ export const cameraSettingDesc = {
 export const cameraSettingConverter = (
   settings: Setting<CameraSettingDesc>,
 ): Record<string, unknown> => {
-  const { awbb, awbr, colfxu, colfxv, ...passThroughSettings } = settings;
+  const { awbb, awbr, colfxEnabled, colfxu, colfxv, ...passThroughSettings } = settings;
 
   const awbgains = passThroughSettings.awb === 'off' ? `${awbr || '1'},${awbb || '1'}` : undefined;
-  const colfx = colfxu || colfxv ? `${colfxu || '0'}:${colfxv || '0'}` : undefined;
+  const colfx = colfxEnabled
+    ? `${isDefined(colfxu) ? colfxu : '128'}:${isDefined(colfxv) ? colfxv : '128'}`
+    : undefined;
 
   return { ...passThroughSettings, awbgains, colfx };
 };

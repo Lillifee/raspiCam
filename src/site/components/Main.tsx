@@ -1,7 +1,8 @@
 import * as React from 'react';
 import styled from 'styled-components';
 import { CameraMode } from './App';
-import { ButtonIcon, IconType } from './common/icons';
+import { IconType } from './common/icons';
+import { ButtonIcon } from './styled/ButtonIcon';
 
 //#region styled
 

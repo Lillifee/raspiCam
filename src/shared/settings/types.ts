@@ -10,13 +10,13 @@ interface BaseTypeSetting<T> {
   name: string;
   value?: T;
   description?: string;
-  format: (value: T) => string;
+  defaultValue: T | undefined;
+  format: (value: T | undefined) => string;
   validate: (value: unknown) => T | undefined;
 }
 
 export interface NumberTypeSetting extends BaseTypeSetting<number> {
   type: 'NUMBER';
-  defaultValue: number;
   minValue: number;
   maxValue: number;
   stepValue: number;
@@ -24,13 +24,11 @@ export interface NumberTypeSetting extends BaseTypeSetting<number> {
 
 export interface EnumTypeSetting extends BaseTypeSetting<string> {
   type: 'ENUM';
-  defaultValue: string;
   possibleValues: string[];
 }
 
 export interface BooleanTypeSetting extends BaseTypeSetting<boolean> {
   type: 'BOOLEAN';
-  defaultValue: boolean;
 }
 
 export type TypeSetting = BooleanTypeSetting | NumberTypeSetting | EnumTypeSetting;

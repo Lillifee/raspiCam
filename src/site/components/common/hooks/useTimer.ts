@@ -29,6 +29,7 @@ export const useTimer = (
 
   // Start the timer
   const start = useCallback(() => {
+    stop();
     if (interval) {
       timeout.current = setTimeout(async () => {
         await callback();

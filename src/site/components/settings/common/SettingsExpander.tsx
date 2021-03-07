@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import { ButtonIcon } from '../../common/icons';
+import { ButtonIcon } from '../../styled/ButtonIcon';
 
 const Wrapper = styled.div``;
 

@@ -10,16 +10,18 @@ import {
   VidSettingDesc,
 } from '.';
 import { isDefined } from '../helperFunctions';
+import { CameraSettingDesc } from './types';
 
-const defaultFormatValue = (value: number | boolean) => `${value.toString()}`;
+const defaultFormatValue = (value?: number | boolean | string) =>
+  isDefined(value) ? `${value.toString()}` : '';
 
 export const numberSetting = (
   name: string,
   minValue: number,
   maxValue: number,
-  defaultValue: number,
+  defaultValue: number | undefined,
   stepValue: number,
-  format?: (value: number) => string,
+  format?: (value?: number) => string,
 ): NumberTypeSetting => ({
   type: 'NUMBER',
   name,
@@ -49,7 +51,7 @@ export const enumSetting = (
   name,
   possibleValues,
   defaultValue,
-  format: (value: string) => value,
+  format: defaultFormatValue,
   validate: (value: unknown) => {
     const index = possibleValues.findIndex((x) => x === value);
     return index >= 0 ? possibleValues[index] : defaultValue;
@@ -69,7 +71,10 @@ export const applySettings = <T extends GenericSettingDesc>(
   Object.entries(settingDesc).reduce(
     (result, [key, desc]) => ({
       ...result,
-      [key]: { ...desc, value: desc.validate(settings[key]) },
+      [key]: {
+        ...desc,
+        value: isDefined(settings[key]) ? desc.validate(settings[key]) : undefined,
+      },
     }),
     {} as T,
   );
@@ -99,10 +104,14 @@ const defaultVidSettings: Setting<VidSettingDesc> = {
   inline: true,
 };
 
+const defaultCameraSettings: Setting<CameraSettingDesc> = {
+  exposure: 'auto',
+};
+
 export const defaultSettings = {
   stream: defaultStreamSettings,
   still: defaultStillSettings,
   vid: defaultVidSettings,
-  camera: {},
+  camera: defaultCameraSettings,
   preview: defaultPreviewSettings,
 };

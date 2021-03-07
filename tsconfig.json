@@ -29,4 +29,6 @@
   "ts-node": {
     "files": true /* Enable d.ts files */
   },
+  "include": ["src"],
+  "exclude": ["**/node_modules", "**/.*/"],
 }

@@ -8,14 +8,6 @@ export const restoreSettings = <T extends Record<string, unknown>>(data: T): Res
     {},
   ) as RestoredSetting<T>;
 
-export type TypedSetting<T extends GenericSettingDesc, K extends keyof T> = T[K] & {
-  update: (value: T[K]['value']) => void;
-};
-
-export const getTypedSetting = <T extends GenericSettingDesc>(
-  settings: T,
-  updateData: (data: Record<string, unknown>) => void,
-) => <K extends keyof T>(field: K): TypedSetting<T, K> => ({
-  ...settings[field],
-  update: (value: T[K]['value']) => updateData({ [field]: value } as Partial<T>),
-});
+export const updateTypedField = <T extends Record<string, unknown>>(
+  updateData: (data: T) => void,
+) => <K extends keyof T>(field: K) => (value: T[K]): void => updateData({ [field]: value } as T);

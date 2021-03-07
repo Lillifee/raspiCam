@@ -3,7 +3,11 @@ const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CopyPlugin = require('copy-webpack-plugin');
 const createStyledComponentsTransformer = require('typescript-plugin-styled-components').default;
-const styledComponentsTransformer = createStyledComponentsTransformer({ minify: true });
+
+const styledComponentTransformer = {
+  production: createStyledComponentsTransformer({ minify: true }),
+  development: createStyledComponentsTransformer({ minify: false }),
+};
 
 /*
  * Switch the server path during development
@@ -29,7 +33,15 @@ module.exports = (env, argv) => ({
         loader: 'ts-loader',
         exclude: [/node_modules/],
         options: {
-          getCustomTransformers: () => ({ before: [styledComponentsTransformer] }),
+          transpileOnly: argv.mode === 'development',
+          onlyCompileBundledFiles: true,
+          getCustomTransformers: () => ({
+            before: [
+              argv.mode === 'development'
+                ? styledComponentTransformer.development
+                : styledComponentTransformer.production,
+            ],
+          }),
         },
       },
     ],

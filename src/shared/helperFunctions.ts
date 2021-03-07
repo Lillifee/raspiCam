@@ -51,7 +51,8 @@ const symbol = ['', 'k', 'M', 'G', 'T', 'P', 'E'];
  * @param number number to abbreviate
  * @param [fractionDigits=-1] Digits after the decimal point. -1 = auto
  */
-export const abbreviateNumber = (unit = '', fractionDigits = -1) => (number: number): string => {
+export const abbreviateNumber = (unit = '', fractionDigits = -1) => (number?: number): string => {
+  if (!number) return '';
   const tier = (Math.log10(Math.abs(number)) / 3) | 0;
   if (tier == 0) return `${number.toFixed(0)}${unit}`;
 
@@ -71,8 +72,8 @@ export const abbreviateNumber = (unit = '', fractionDigits = -1) => (number: num
  * @param number number
  * @param [unit] unit
  */
-export const appendUnit = (unit: string) => (number: number): string =>
-  unit ? `${number} ${unit}` : number.toString();
+export const appendUnit = (unit: string) => (number?: number): string =>
+  number ? (unit ? `${number} ${unit}` : number.toString()) : '';
 
 /**
  * Round a number by significants

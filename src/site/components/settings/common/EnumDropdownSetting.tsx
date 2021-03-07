@@ -4,11 +4,11 @@ import { isDefined } from '../../../../shared/helperFunctions';
 import { EnumTypeSetting } from '../../../../shared/settings';
 import { Select } from '../../styled/Select';
 
-export interface EnumSettingProps extends EnumTypeSetting {
+export interface EnumDropdownSettingProps extends EnumTypeSetting {
   update: (value: string) => void;
 }
 
-export const EnumSetting: React.FC<EnumSettingProps> = ({
+export const EnumDropdownSetting: React.FC<EnumDropdownSettingProps> = ({
   name,
   value,
   defaultValue,

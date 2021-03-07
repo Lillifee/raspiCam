@@ -5,7 +5,6 @@ import { NumberTypeSetting } from '../../../../shared/settings';
 import { Slider } from '../../styled/Slider';
 
 export interface NumberSettingProps extends NumberTypeSetting {
-  disabled?: boolean;
   update: (value: number) => void;
 }
 
@@ -16,7 +15,6 @@ export const NumberSetting: React.FC<NumberSettingProps> = ({
   minValue,
   maxValue,
   stepValue,
-  disabled,
   format,
   update,
 }) => {
@@ -29,12 +27,11 @@ export const NumberSetting: React.FC<NumberSettingProps> = ({
       </SettingNameValueContainer>
 
       <Slider
-        value={displayValue}
+        value={displayValue || 0}
         min={minValue}
         max={maxValue}
         step={stepValue}
-        disabled={disabled}
-        onChange={(e) => update(parseFloat(e.target.value))}
+        onChange={(e) => update(e.target.valueAsNumber)}
       />
     </SettingVerticalWrapper>
   );

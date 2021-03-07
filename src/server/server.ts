@@ -93,11 +93,9 @@ const server = (
     const liveStream = stream.stream();
 
     if (liveStream) {
-      // console.log('Stream client: open');
       res.writeHead(200, { 'Content-Type': 'video/mp4' });
 
       res.on('close', () => {
-        // console.log('Stream client: close');
         res.destroy();
       });
 

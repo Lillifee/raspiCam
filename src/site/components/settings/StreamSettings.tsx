@@ -7,16 +7,16 @@ import {
 } from '../../../shared/settings';
 import { useFetch } from '../common/hooks/useFetch';
 import {
-  getTypedSetting,
   SettingsWrapper,
   SettingsHeader,
   SettingsHeaderText,
   SettingsRestoreButton,
   restoreSettings,
   NumberSetting,
-  EnumSetting,
+  EnumDropdownSetting,
   EnumSlider,
   SettingsExpander,
+  updateTypedField,
 } from './common';
 
 const videoResolutionPresets = [
@@ -39,7 +39,7 @@ export interface StreamSettingsProps {
 export const StreamSettings: React.FC<StreamSettingsProps> = ({ setLoading }) => {
   const [state, updateData] = useFetch<Setting<StreamSettingDesc>>('/api/stream', {}, 2000);
   const data = applySettings(streamSettingDesc, { ...state.data, ...state.input });
-  const getSetting = getTypedSetting(data, updateData);
+  const updateField = updateTypedField(updateData);
 
   React.useEffect(() => setLoading(state.isUpdating), [setLoading, state.isUpdating]);
 
@@ -64,9 +64,9 @@ export const StreamSettings: React.FC<StreamSettingsProps> = ({ setLoading }) =>
           />
         }
       >
-        <NumberSetting {...getSetting('width')} />
-        <NumberSetting {...getSetting('height')} />
-        <NumberSetting {...getSetting('framerate')} />
+        <NumberSetting {...data.width} update={updateField('width')} />
+        <NumberSetting {...data.height} update={updateField('height')} />
+        <NumberSetting {...data.framerate} update={updateField('framerate')} />
       </SettingsExpander>
 
       <SettingsExpander
@@ -80,10 +80,10 @@ export const StreamSettings: React.FC<StreamSettingsProps> = ({ setLoading }) =>
           />
         }
       >
-        <NumberSetting {...getSetting('qp')} />
-        <NumberSetting {...getSetting('bitrate')} />
-        <EnumSetting {...getSetting('level')} />
-        <EnumSetting {...getSetting('irefresh')} />
+        <NumberSetting {...data.qp} update={updateField('qp')} />
+        <NumberSetting {...data.bitrate} update={updateField('bitrate')} />
+        <EnumDropdownSetting {...data.level} update={updateField('level')} />
+        <EnumDropdownSetting {...data.irefresh} update={updateField('irefresh')} />
       </SettingsExpander>
     </SettingsWrapper>
   );

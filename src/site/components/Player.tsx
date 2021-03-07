@@ -74,8 +74,6 @@ export const Player: React.FC<PlayerProps> = ({ loading }) => {
   const playerWrapperRef = React.useRef<HTMLDivElement>(null);
   const [stats] = usePlayer('/api/stream/live', playerWrapperRef);
 
-  // console.log(!stats.running, stats.dropFrames);
-
   return (
     <Container>
       <PlayerWrapper ref={playerWrapperRef} />

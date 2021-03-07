@@ -1,9 +1,9 @@
 import * as React from 'react';
 import styled from 'styled-components';
 import { CameraMode } from './App';
-import { ButtonIcon } from './common/icons';
 import { CameraSettings } from './settings/CameraSettings';
 import { StreamSettings } from './settings/StreamSettings';
+import { ButtonIcon } from './styled/ButtonIcon';
 
 //#region styled
 
@@ -31,7 +31,7 @@ interface SettingsContainerProps {
 }
 
 const SettingsContainer = styled.div<SettingsContainerProps>`
-  flex: ${(p) => (p.show ? '0.3 1 350px' : 0)};
+  flex: ${(p) => (p.show ? '0.2 1 350px' : 0)};
   flex-direction: column;
   display: flex;
   overflow-y: scroll;
