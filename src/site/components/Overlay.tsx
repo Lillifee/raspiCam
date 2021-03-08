@@ -1,9 +1,9 @@
 import * as React from 'react';
 import styled from 'styled-components';
-import { CameraMode } from './App';
 import { CameraSettings } from './settings/CameraSettings';
 import { PhotoSettings } from './settings/PhotoSettings';
 import { StreamSettings } from './settings/StreamSettings';
+import { TimelapseSettings } from './settings/TimelapseSettings';
 import { ButtonIcon } from './styled/ButtonIcon';
 
 //#region styled
@@ -58,7 +58,6 @@ const Filler = styled.div<FillerProps>`
 //#endregion
 
 export interface OverlayProps {
-  mode: CameraMode;
   setLoading: (loading: boolean) => void;
 }
 
@@ -71,8 +70,9 @@ export const Overlay: React.FC<OverlayProps> = ({ setLoading }) => {
         <ButtonIcon type="Tune" onClick={() => setShowSettings(!showSettings)} />
       </Toolbar>
       <SettingsContainer show={showSettings}>
-        <PhotoSettings />
         <CameraSettings setLoading={setLoading} />
+        <PhotoSettings />
+        <TimelapseSettings />
         <StreamSettings setLoading={setLoading} />
       </SettingsContainer>
       <Filler enableClick={showSettings} onClick={() => setShowSettings(false)} />

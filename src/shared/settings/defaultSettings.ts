@@ -29,10 +29,8 @@ export const defaultSettings: DefaultSettings = {
     quality: photoSettingDesc.quality.defaultValue,
   },
   timelapse: {
-    width: timelapseSettingDesc.width.defaultValue,
-    height: timelapseSettingDesc.height.defaultValue,
     timeout: timelapseSettingDesc.timeout.defaultValue,
-    quality: timelapseSettingDesc.quality.defaultValue,
+    timelapse: timelapseSettingDesc.timelapse.defaultValue,
   },
   vid: {
     width: vidSettingDesc.width.defaultValue,

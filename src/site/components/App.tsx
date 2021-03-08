@@ -1,5 +1,7 @@
 import * as React from 'react';
 import styled, { ThemeProvider } from 'styled-components';
+import { RaspiControlStatus } from '../../shared/settings/types';
+import { useFetch } from './common/hooks/useFetch';
 import { useFullscreen } from './common/hooks/useFullscreen';
 import { Main } from './Main';
 import { Overlay } from './Overlay';
@@ -26,11 +28,23 @@ const PlayerWrapper = styled.section`
   height: 100%;
 `;
 
-export type CameraMode = 'Photo' | 'Video' | 'Timelapse';
+const useControlAction = (control: RaspiControlStatus, update: () => void): [() => void] => {
+  const action = React.useCallback(() => {
+    const requestUrl = control.running ? '/api/stop' : '/api/start';
+    fetch(requestUrl)
+      .finally(update)
+      .catch((error) => console.log('Start/stop failed', error));
+  }, [control.running, update]);
+
+  return [action];
+};
 
 export const App: React.FC = () => {
   const appRef = React.useRef<HTMLDivElement>(null);
-  const [mode, setMode] = React.useState<CameraMode>('Photo');
+  const [control, setControl, refresh] = useFetch<RaspiControlStatus>('api/control', {
+    mode: 'Photo',
+  });
+  const [controlAction] = useControlAction(control.data, refresh);
   const [loading, setLoading] = React.useState(false);
   const [isFullscreen, setFullscreen] = useFullscreen(appRef);
 
@@ -43,12 +57,13 @@ export const App: React.FC = () => {
         </PlayerWrapper>
 
         <Main
-          mode={mode}
-          setMode={setMode}
+          control={control.data}
+          setControl={setControl}
+          controlAction={controlAction}
           isFullscreen={isFullscreen}
           setFullscreen={setFullscreen}
         />
-        <Overlay mode={mode} setLoading={setLoading} />
+        <Overlay setLoading={setLoading} />
       </AppContainer>
     </ThemeProvider>
   );

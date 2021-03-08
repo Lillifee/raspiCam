@@ -26,3 +26,13 @@ export interface BooleanTypeSetting extends BaseTypeSetting<boolean> {
 export type TypeSetting = BooleanTypeSetting | NumberTypeSetting | EnumTypeSetting;
 export type GenericSettingDesc = Record<string, TypeSetting>;
 export type Setting<T extends { [k in keyof T]: TypeSetting }> = { [K in keyof T]?: T[K]['value'] };
+
+export type RaspiMode = 'Photo' | 'Video' | 'Timelapse';
+export const raspiModes: RaspiMode[] = ['Photo', 'Video', 'Timelapse'];
+
+export interface RaspiControlStatus {
+  mode: RaspiMode;
+  running?: boolean;
+  lastImagePath?: string;
+  lastError?: string;
+}

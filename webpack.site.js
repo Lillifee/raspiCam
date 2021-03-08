@@ -51,9 +51,6 @@ module.exports = (env, argv) => ({
     new HtmlWebpackPlugin({
       template: './src/site/public/index.html',
     }),
-    new webpack.DefinePlugin({
-      __WEBSOCKET__: argv.mode === 'development' ? JSON.stringify(devServer) : undefined,
-    }),
     new CopyPlugin({
       patterns: [
         { from: './Broadway/Decoder.js' },

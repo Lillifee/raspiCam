@@ -7,6 +7,7 @@ import raspiVid from './raspi/raspiVid';
 import { createSettingsHelper, PhotosAbsPath } from './raspi/settingsHelper';
 import server from './server';
 import raspiTimelapse from './raspi/raspiTimelapse';
+import raspiControl from './raspi/raspiControl';
 
 /**
  * Parse the command line arguments
@@ -41,7 +42,7 @@ const start = () => {
 
   /**
    * Raspi processes
-   * stream - Broadcast the stream to the WebSocket clients.
+   * stream - Stream using raspivid.
    * vid - Capture videos using raspivid.
    * photo - Capture pictures using raspistill.
    */
@@ -49,6 +50,7 @@ const start = () => {
   const photo = raspiPhoto(settingsHelper);
   const timelapse = raspiTimelapse(settingsHelper);
   const vid = raspiVid(settingsHelper);
+  const control = raspiControl(stream, photo, timelapse, vid);
 
   stream.start();
 
@@ -63,7 +65,7 @@ const start = () => {
    * Webserver
    * Start the webserver and serve the website.
    */
-  const app = server(settingsHelper, stream, photo, timelapse, vid);
+  const app = server(control, settingsHelper);
   httpServer.on('request', app);
 
   /**

@@ -17,13 +17,13 @@ import {
 } from './common/Styled';
 
 const photoResolutionPresets = [
-  { name: '0.3 MP (4:3)', width: 640, height: 480 },
-  { name: '2 MP (4:3)', width: 1600, height: 1200 },
-  { name: '2.07 MP (16:9)', width: 1920, height: 1080 },
-  { name: '5 MP (4:3)', width: 2560, height: 1920 },
-  { name: '8 MP (4:3)', width: 3264, height: 2448 },
-  { name: '8.6 MP (16:9)', width: 3840, height: 2160 },
-  { name: '12.3 MP (4:3)', width: 4056, height: 3040 },
+  { name: '0.3 MP', width: 640, height: 480 },
+  { name: '2 MP', width: 1600, height: 1200 },
+  { name: '2.07 MP', width: 1920, height: 1080 },
+  { name: '5 MP', width: 2560, height: 1920 },
+  { name: '8 MP', width: 3264, height: 2448 },
+  { name: '8.6 MP', width: 3840, height: 2160 },
+  { name: '12.3 MP', width: 4056, height: 3040 },
 ];
 
 const photoTimoutPresets = [

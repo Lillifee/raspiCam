@@ -24,7 +24,7 @@ export const photoSettingDesc = {
    * may not give enough time for the camera to start up and provide enough frames
    * for the automatic algorithms like AWB and AGC to provide accurate results.
    */
-  timeout: numberSetting('Duration', 100, 20000, 2000, 500),
+  timeout: numberSetting('Timeout', 100, 20000, 2000, 500),
 
   /**
    * Encoding to use for output file

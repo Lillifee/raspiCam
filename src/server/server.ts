@@ -1,21 +1,13 @@
 import express from 'express';
 import path from 'path';
-import { RaspiPhoto } from './raspi/raspiPhoto';
-import { RaspiStream } from './raspi/raspiStream';
-import { RaspiTimelapse } from './raspi/raspiTimelapse';
-import { RaspiVid } from './raspi/raspiVid';
+import { raspiModes } from '../shared/settings/types';
+import { RaspiControl } from './raspi/raspiControl';
 import { PhotosAbsPath, SettingsBase, SettingsHelper } from './raspi/settingsHelper';
 
 /**
  * Initialize the express server
  */
-const server = (
-  settingsHelper: SettingsHelper,
-  stream: RaspiStream,
-  photo: RaspiPhoto,
-  timelapse: RaspiTimelapse,
-  vid: RaspiVid,
-): express.Express => {
+const server = (control: RaspiControl, settingsHelper: SettingsHelper): express.Express => {
   const app = express();
 
   // Serve the static content from public
@@ -24,12 +16,6 @@ const server = (
   app.use(express.json());
 
   //#region Helper functions
-
-  const stopAll = () => {
-    stream.stop();
-    photo.stop();
-    vid.stop();
-  };
 
   const getSettings = (x: SettingsBase) => async (_: express.Request, res: express.Response) =>
     res.send(x.read());
@@ -47,7 +33,7 @@ const server = (
     res: express.Response,
   ) => {
     const applied = x.apply(req.body);
-    if (applied) await stream.restart();
+    if (applied) await control.restartStream();
     return res.status(200).send(x.read());
   };
 
@@ -71,42 +57,30 @@ const server = (
   app.get('/api/timelapse', getSettings(settingsHelper.timelapse));
   app.post('/api/timelapse', applySettings(settingsHelper.timelapse));
 
-  app.get('/api/timelapse/capture', async (_, res) => {
-    stopAll();
+  app.get('/api/control', async (_, res) => res.send(control.getStatus()));
 
-    await timelapse
-      .start()
-      .then((fileName) => res.send(fileName))
-      .catch((e) => res.status(400).send(e.message));
-
-    await stream.start();
+  app.post('/api/control', async (req, res) => {
+    if (raspiModes.includes(req.body.mode)) {
+      control.setMode(req.body.mode);
+    }
+    res.send(control.getStatus());
   });
 
-  app.get('/api/photo/capture', async (_, res) => {
-    stopAll();
-
-    await photo
-      .start()
-      .then((fileName) => res.send(fileName))
-      .catch((e) => res.status(400).send(e.message));
-
-    await stream.start();
+  app.get('/api/status', async (_, res) => {
+    res.send(control.getStatus());
   });
 
-  app.get('/api/vid/start', async (_, res) => {
-    stopAll();
-    vid.start();
-    res.send('video started');
+  app.get('/api/start', async (_, res) => {
+    control.start();
+    res.status(200).send('starting...');
   });
-
-  app.get('/api/vid/stop', async (_, res) => {
-    vid.stop();
-    await stream.start();
-    res.send('video stopped');
+  app.get('/api/stop', async (_, res) => {
+    control.stop();
+    res.status(200).send('stopping...');
   });
 
   app.get('/api/stream/live', (_, res) => {
-    const liveStream = stream.stream();
+    const liveStream = control.getStream();
 
     if (liveStream) {
       res.writeHead(200, { 'Content-Type': 'video/mp4' });

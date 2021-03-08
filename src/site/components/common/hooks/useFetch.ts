@@ -69,7 +69,8 @@ export const useFetch = <T>(
   url: RequestInfo,
   data: T,
   refreshInterval = 5000,
-): [FetchState<T>, (data: T) => void] => {
+  updateDebounce = 300,
+): [FetchState<T>, (data: T) => void, () => void] => {
   // Create and initialize reducer and actions
   const { reducer, actions } = useMemo(() => createFetchSlice<T>(), []);
   const [state, dispatch] = useReducer(reducer, { isLoading: true, isUpdating: false, data });
@@ -122,7 +123,7 @@ export const useFetch = <T>(
   );
 
   // Debounce the update
-  const [updateDebounced] = useDebounce(postData, 300);
+  const [updateDebounced] = useDebounce(postData, updateDebounce);
 
   // Update the user input
   const update = (newInput: T) => {
@@ -145,5 +146,5 @@ export const useFetch = <T>(
     };
   }, [fetchData, startRefresh]);
 
-  return [state, update];
+  return [state, update, fetchData];
 };

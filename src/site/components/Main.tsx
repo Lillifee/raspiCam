@@ -1,6 +1,6 @@
 import * as React from 'react';
 import styled from 'styled-components';
-import { CameraMode } from './App';
+import { RaspiControlStatus, RaspiMode } from '../../shared/settings/types';
 import { IconType } from './common/icons';
 import { ButtonIcon } from './styled/ButtonIcon';
 
@@ -71,14 +71,18 @@ const CameraModeList = styled.div<CameraModeListProps>`
   border-radius: 2px;
 `;
 
-const TakePhotoButton = styled.button`
+interface ActionButtonProps {
+  running?: boolean;
+}
+
+const ActionButton = styled.button<ActionButtonProps>`
   width: 3em;
   height: 3em;
-  border: 3px solid ${(p) => p.theme.Foreground};
-  border-radius: 50%;
-  background: transparent;
-  pointer-events: all;
   outline: none;
+  pointer-events: all;
+  border: 3px solid ${(p) => p.theme.Foreground};
+  border-radius: ${(p) => (p.running ? '15%' : '50%')};
+  background: ${(p) => (p.running ? 'rgba(255,0,0,0.5)' : 'transparent')};
   box-shadow: inset 0 0 5px ${(p) => p.theme.Background};
 
   :not(:active) {
@@ -103,69 +107,76 @@ const PhotoPreview = styled.img`
 //#endregion
 
 export interface OverlayProps {
-  mode: CameraMode;
+  control: RaspiControlStatus;
   isFullscreen: boolean;
-  setMode: (mode: CameraMode) => void;
+  setControl: (data: RaspiControlStatus) => void;
+  controlAction: () => void;
   setFullscreen: () => void;
 }
 
-const cameraModes: { [K in CameraMode]: { icon: IconType; name: string } } = {
-  Photo: { icon: 'PhotoCamera', name: 'Photo' },
-  Video: { icon: 'Videocam', name: 'Video' },
-  Timelapse: { icon: 'Timelapse', name: 'Timelapse' },
+const cameraModes: {
+  [K in RaspiMode]: { icon: IconType; name: string };
+} = {
+  Photo: {
+    icon: 'PhotoCamera',
+    name: 'Photo',
+  },
+  Video: {
+    icon: 'Videocam',
+    name: 'Video',
+  },
+  Timelapse: {
+    icon: 'Timelapse',
+    name: 'Timelapse',
+  },
 };
 
-const useCapturePhoto = (url: RequestInfo): [string, () => void] => {
-  const [photoPath, setPhotoPath] = React.useState('');
-  const capturePhoto = React.useCallback(() => {
-    fetch(url)
-      .then((res) => res.text())
-      .then((path) => setPhotoPath(path))
-      .catch((error) => {
-        console.log('Take photo failed', error);
-      });
-  }, [url]);
-  return [photoPath, capturePhoto];
-};
-
-export const Main: React.FC<OverlayProps> = ({ mode, isFullscreen, setMode, setFullscreen }) => {
+export const Main: React.FC<OverlayProps> = ({
+  control,
+  isFullscreen,
+  setControl,
+  controlAction,
+  setFullscreen,
+}) => {
   const [showMode, setShowMode] = React.useState(false);
-  const [photoPath, capturePhoto] = useCapturePhoto('/api/photo/capture');
 
   return (
     <Container>
       <OverflowContainer>
         <ActionBar>
-          <TakePhotoButton onClick={capturePhoto} />
+          <ActionButton running={control.running} onClick={controlAction} />
         </ActionBar>
       </OverflowContainer>
       <OverflowContainer>
         <Toolbar>
-          {photoPath && (
+          {control.lastImagePath && (
             <PhotoPreviewLink
               target="_blank"
               rel="noreferrer"
-              href={photoPath.replace('-preview1', '')}
+              href={control.lastImagePath.replace('-preview1', '')}
             >
-              <PhotoPreview src={photoPath} />
+              <PhotoPreview src={control.lastImagePath} />
             </PhotoPreviewLink>
           )}
 
           <ToolbarFiller />
           <CameraModeDropdown>
             <CameraModeList show={showMode}>
-              {Object.entries(cameraModes).map(([key, value]) => (
+              {Object.entries(cameraModes).map(([mode, value]) => (
                 <ToolbarButton
-                  key={key}
+                  key={mode}
                   type={value.icon}
                   onClick={() => {
-                    setMode(key as CameraMode);
+                    setControl({ mode: mode as RaspiMode });
                     setShowMode(false);
                   }}
                 />
               ))}
             </CameraModeList>
-            <ToolbarButton type={cameraModes[mode].icon} onClick={() => setShowMode(!showMode)} />
+            <ToolbarButton
+              type={cameraModes[control.mode || 'Photo'].icon}
+              onClick={() => setShowMode(!showMode)}
+            />
           </CameraModeDropdown>
 
           {!isFullscreen && <ToolbarButton type="Fullscreen" onClick={() => setFullscreen()} />}
