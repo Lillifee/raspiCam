@@ -74,6 +74,7 @@ const server = (control: RaspiControl, settingsHelper: SettingsHelper): express.
     control.start();
     res.status(200).send('starting...');
   });
+
   app.get('/api/stop', async (_, res) => {
     control.stop();
     res.status(200).send('stopping...');

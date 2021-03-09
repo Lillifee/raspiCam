@@ -4,6 +4,7 @@ import { CameraSettings } from './settings/CameraSettings';
 import { PhotoSettings } from './settings/PhotoSettings';
 import { StreamSettings } from './settings/StreamSettings';
 import { TimelapseSettings } from './settings/TimelapseSettings';
+import { VideoSettings } from './settings/VideoSettings';
 import { ButtonIcon } from './styled/ButtonIcon';
 
 //#region styled
@@ -73,6 +74,7 @@ export const Overlay: React.FC<OverlayProps> = ({ setLoading }) => {
         <CameraSettings setLoading={setLoading} />
         <PhotoSettings />
         <TimelapseSettings />
+        <VideoSettings />
         <StreamSettings setLoading={setLoading} />
       </SettingsContainer>
       <Filler enableClick={showSettings} onClick={() => setShowSettings(false)} />

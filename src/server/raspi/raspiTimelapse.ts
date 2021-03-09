@@ -1,11 +1,11 @@
 import { ChildProcess, spawn } from 'child_process';
 import path from 'path';
 import { getIsoDataTime } from '../../shared/helperFunctions';
-import { getSpawnArgs, stopProcess } from './processHelper';
+import { extractThumbnail, getSpawnArgs, stopProcess } from './processHelper';
 import { PhotosAbsPath, SettingsHelper } from './settingsHelper';
 
 export interface RaspiTimelapse {
-  start: () => void;
+  start: () => Promise<string>;
   stop: () => void;
 }
 
@@ -18,7 +18,7 @@ const raspiTimelapse = (settingsHelper: SettingsHelper): RaspiTimelapse => {
   /**
    * Start timelapse capture
    */
-  const start = (): void => {
+  const start = (): Promise<string> => {
     const { camera, preview, photo, timelapse } = settingsHelper;
     const overrideSetting = { thumb: '320:240:35' }; // TODO calculate}
 
@@ -33,6 +33,7 @@ const raspiTimelapse = (settingsHelper: SettingsHelper): RaspiTimelapse => {
     const fileBaseName = getIsoDataTime();
     const fileExtension = settings.encoding || 'jpg';
     const fileName = `${fileBaseName}-%04d.${fileExtension}`;
+    const firstFileName = `${fileBaseName}-0001`;
 
     const spawnArgs = getSpawnArgs({
       ...settings,
@@ -41,11 +42,12 @@ const raspiTimelapse = (settingsHelper: SettingsHelper): RaspiTimelapse => {
 
     console.info('raspistill', spawnArgs.join(' '));
 
-    // Spawn the raspiStill
-    process = spawn('raspistill', [...spawnArgs], {});
-
-    process.on('error', (e) => {
-      console.error('raspivid - error', e.message);
+    return new Promise<string>((resolve, reject) => {
+      process = spawn('raspistill', [...spawnArgs], {});
+      process.on('error', reject);
+      process.on('exit', () =>
+        extractThumbnail(firstFileName, fileExtension).then(resolve).catch(reject),
+      );
     });
   };
 

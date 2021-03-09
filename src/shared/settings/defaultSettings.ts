@@ -36,6 +36,7 @@ export const defaultSettings: DefaultSettings = {
     width: vidSettingDesc.width.defaultValue,
     height: vidSettingDesc.height.defaultValue,
     framerate: vidSettingDesc.framerate.defaultValue,
+    qp: vidSettingDesc.qp.defaultValue,
     timeout: 0,
   },
   camera: {},

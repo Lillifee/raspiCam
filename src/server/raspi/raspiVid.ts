@@ -1,9 +1,11 @@
 import { ChildProcess, spawn } from 'child_process';
+import path from 'path';
+import { getIsoDataTime } from '../../shared/helperFunctions';
 import { getSpawnArgs, stopProcess } from './processHelper';
-import { SettingsHelper } from './settingsHelper';
+import { PhotosAbsPath, SettingsHelper } from './settingsHelper';
 
 export interface RaspiVid {
-  start: () => void;
+  start: () => Promise<string>;
   stop: () => void;
 }
 
@@ -16,23 +18,31 @@ const raspiVid = (settingsHelper: SettingsHelper): RaspiVid => {
   /**
    * Start recording
    */
-  const start = () => {
-    const { camera, preview, stream } = settingsHelper;
-    const overrideSetting = { output: 'dummy.mp4' };
+  const start = (): Promise<string> => {
+    const { camera, preview, vid } = settingsHelper;
+    const overrideSetting = {};
 
-    const spawnArgs = getSpawnArgs({
+    const settings = {
       ...camera.convert(),
       ...preview.convert(),
-      ...stream.convert(),
+      ...vid.convert(),
       ...overrideSetting,
+    };
+
+    const fileBaseName = getIsoDataTime();
+    const fileExtension = 'h264';
+    const fileName = `${fileBaseName}.${fileExtension}`;
+
+    const spawnArgs = getSpawnArgs({
+      ...settings,
+      output: path.join(PhotosAbsPath, fileName),
     });
 
     console.info('raspivid', spawnArgs.join(' '));
-
-    // Spawn the raspivid with -ih (Insert PPS, SPS headers) - see end of the file
-    process = spawn('raspivid', [...spawnArgs]);
-    process.on('error', (e) => {
-      console.error('raspivid - error', e.message);
+    return new Promise<string>((resolve, reject) => {
+      process = spawn('raspivid', [...spawnArgs]);
+      process.on('error', reject);
+      process.on('exit', () => resolve(fileName));
     });
   };
 

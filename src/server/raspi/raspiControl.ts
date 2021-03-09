@@ -1,9 +1,10 @@
 import internal from 'stream';
 import { RaspiControlStatus, RaspiMode } from '../../shared/settings/types';
-import { RaspiPhoto } from './raspiPhoto';
-import { RaspiStream } from './raspiStream';
-import { RaspiTimelapse } from './raspiTimelapse';
-import { RaspiVid } from './raspiVid';
+import raspiPhoto from './raspiPhoto';
+import raspiStream from './raspiStream';
+import raspiTimelapse from './raspiTimelapse';
+import raspiVid from './raspiVid';
+import { SettingsHelper } from './settingsHelper';
 
 export interface RaspiControl {
   start: () => void;
@@ -17,12 +18,12 @@ export interface RaspiControl {
 /**
  * RaspiControl
  */
-const raspiControl = (
-  stream: RaspiStream,
-  photo: RaspiPhoto,
-  timelapse: RaspiTimelapse,
-  vid: RaspiVid,
-): RaspiControl => {
+const raspiControl = (settingsHelper: SettingsHelper): RaspiControl => {
+  const stream = raspiStream(settingsHelper);
+  const photo = raspiPhoto(settingsHelper);
+  const timelapse = raspiTimelapse(settingsHelper);
+  const vid = raspiVid(settingsHelper);
+
   const status: RaspiControlStatus = {
     mode: 'Photo',
     running: false,
@@ -34,6 +35,11 @@ const raspiControl = (
     photo.stop();
     timelapse.stop();
     vid.stop();
+  };
+
+  const stop = async () => {
+    stopAll();
+    await stream.start();
   };
 
   const getStream = () => stream.stream();
@@ -60,11 +66,19 @@ const raspiControl = (
         break;
 
       case 'Timelapse':
-        timelapse.start();
+        timelapse
+          .start()
+          .then((fileName) => (status.lastImagePath = fileName))
+          .finally(() => stop())
+          .catch((e) => (status.lastError = e.message));
+
         break;
 
       case 'Video':
-        vid.start();
+        vid
+          .start()
+          .finally(() => stop())
+          .catch((e) => (status.lastError = e.message));
         break;
 
       default:
@@ -72,12 +86,8 @@ const raspiControl = (
     }
   };
 
-  const stop = () => {
-    stopAll();
-    stream.start();
-  };
-
-  return { start, stop, getStatus, setMode, restartStream: restartStream, getStream };
+  stream.start();
+  return { start, stop, getStatus, setMode, restartStream, getStream };
 };
 
 export default raspiControl;

@@ -56,6 +56,7 @@ const raspiStream = (settingsHelper: SettingsHelper): RaspiStream => {
   /**
    * Restart - only if already running
    */
+  // TODO Check if needed (only if already running) - move it to raspiControl?
   const restart = async () => {
     if (process) {
       stop();

@@ -1,12 +1,8 @@
 import http from 'http';
 import yargs from 'yargs';
 import fs from 'fs';
-import raspiPhoto from './raspi/raspiPhoto';
-import raspiStream from './raspi/raspiStream';
-import raspiVid from './raspi/raspiVid';
 import { createSettingsHelper, PhotosAbsPath } from './raspi/settingsHelper';
 import server from './server';
-import raspiTimelapse from './raspi/raspiTimelapse';
 import raspiControl from './raspi/raspiControl';
 
 /**
@@ -34,25 +30,18 @@ const start = () => {
    * Maintain the settings for all processes
    */
   const settingsHelper = createSettingsHelper();
+
+  /**
+   * Raspi control
+   * Control (start and stop) the different processes
+   */
+  const control = raspiControl(settingsHelper);
+
   // TODO load and apply stored settings
   // settingsHelper.stream.apply(initialSettings.stream);
   // settingsHelper.still.apply(initialSettings.still);
   // settingsHelper.vid.apply(initialSettings.vid);
   // settingsHelper.preview.apply(initialSettings.preview);
-
-  /**
-   * Raspi processes
-   * stream - Stream using raspivid.
-   * vid - Capture videos using raspivid.
-   * photo - Capture pictures using raspistill.
-   */
-  const stream = raspiStream(settingsHelper);
-  const photo = raspiPhoto(settingsHelper);
-  const timelapse = raspiTimelapse(settingsHelper);
-  const vid = raspiVid(settingsHelper);
-  const control = raspiControl(stream, photo, timelapse, vid);
-
-  stream.start();
 
   /**
    * Create photos and thumbnail directory

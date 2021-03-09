@@ -43,7 +43,6 @@ const raspiPhoto = (settingsHelper: SettingsHelper): RaspiPhoto => {
     // Spawn the raspiStill
     return new Promise<string>((resolve, reject) => {
       process = spawn('raspistill', [...spawnArgs], {});
-      process.stdout?.on('data', (data) => console.log('raspistill', data));
       process.on('exit', () =>
         extractThumbnail(fileBaseName, fileExtension).then(resolve).catch(reject),
       );
