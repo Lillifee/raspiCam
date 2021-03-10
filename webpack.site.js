@@ -12,8 +12,8 @@ const styledComponentTransformer = {
 /*
  * Switch the server path during development
  */
-// const devServer = '192.168.3.80:8000';
-const devServer = '192.168.3.70:8000';
+const devServer = '192.168.3.80:8000';
+// const devServer = '192.168.3.70:8000';
 
 module.exports = (env, argv) => ({
   mode: argv.mode || 'production',
@@ -82,8 +82,5 @@ module.exports = (env, argv) => ({
 
   resolve: {
     extensions: ['.tsx', '.ts', '.js'],
-    fallback: {
-      fs: require.resolve('fs'),
-    },
   },
 });

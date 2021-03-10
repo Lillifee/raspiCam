@@ -24,17 +24,9 @@ module.exports = {
 
   resolve: {
     extensions: ['.tsx', '.ts', '.js'],
-
-    fallback: {
-      child_process: false,
-      fs: require.resolve('fs'),
-      buffer: require.resolve('buffer'),
-      bufferutil: require.resolve('bufferutil'),
-      'utf-8-validate': require.resolve('utf-8-validate'),
-    },
   },
 
-  // Fix the output warnings of yargs and express
+  // Fix the output warnings of yargs
   // TODO Check for alternative and if yargs necessary.
   ignoreWarnings: [/warning/, { module: /yargs/ }],
 };
