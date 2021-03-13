@@ -1,10 +1,13 @@
 import path from 'path';
 import internal from 'stream';
-import { getIsoDataTime } from '../../shared/helperFunctions';
-import { RaspiControlStatus, RaspiMode } from '../../shared/settings/types';
-import { photosAbsPath } from './fileWatcher';
-import { spawnProcess } from './processHelper';
-import { SettingsHelper } from './settingsHelper';
+import { getIsoDataTime } from '../shared/helperFunctions';
+import { RaspiControlStatus, RaspiMode } from '../shared/settings/types';
+import { photosAbsPath } from './watcher';
+import { createLogger } from './logger';
+import { spawnProcess } from './process';
+import { SettingsHelper } from './settings';
+
+const logger = createLogger('control');
 
 export interface RaspiControl {
   start: () => void;
@@ -34,9 +37,12 @@ const raspiControl = (settingsHelper: SettingsHelper): RaspiControl => {
     streamProcess.stop();
 
     const mode = modeHelper.Stream(settingsHelper);
-    return streamProcess
-      .start(mode.command, mode.settings)
-      .catch((e) => (status.lastError = e.message));
+    logger.info('starting', 'Stream', '...');
+
+    return streamProcess.start(mode.command, mode.settings).catch((e) => {
+      logger.error('Stream failed:', e.message);
+      status.lastError = e.message;
+    });
   };
 
   const getStream = () => streamProcess.output();
@@ -64,14 +70,19 @@ const raspiControl = (settingsHelper: SettingsHelper): RaspiControl => {
 
     status.running = true;
     const mode = modeHelper[status.mode](settingsHelper);
+    logger.info('starting', status.mode, '...');
 
     actionProcess
       .start(mode.command, mode.settings)
       .then(() => startStream())
-      .catch((e) => (status.lastError = e.message));
+      .catch((e) => {
+        logger.error(status.mode, 'failed:', e.message);
+        status.lastError = e.message;
+      });
   };
 
   const stop = async () => {
+    logger.info('stop', status.mode, '...');
     actionProcess.stop();
   };
 
@@ -91,23 +102,6 @@ const modeHelper: {
       ...camera.convert(),
       ...preview.convert(),
       ...photo.convert(),
-    };
-
-    return {
-      command: 'raspistill',
-      settings: {
-        ...settings,
-        output: path.join(photosAbsPath, `${getIsoDataTime()}.${settings.encoding || 'jpg'}`),
-      },
-    };
-  },
-  Timelapse: (settingsHelper: SettingsHelper) => {
-    const { camera, preview, photo, timelapse } = settingsHelper;
-    const settings = {
-      ...camera.convert(),
-      ...preview.convert(),
-      ...photo.convert(),
-      ...timelapse.convert(),
     };
 
     return {

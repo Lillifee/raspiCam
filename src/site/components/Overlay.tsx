@@ -3,7 +3,6 @@ import styled from 'styled-components';
 import { CameraSettings } from './settings/CameraSettings';
 import { PhotoSettings } from './settings/PhotoSettings';
 import { StreamSettings } from './settings/StreamSettings';
-import { TimelapseSettings } from './settings/TimelapseSettings';
 import { VideoSettings } from './settings/VideoSettings';
 import { ButtonIcon } from './styled/ButtonIcon';
 
@@ -73,7 +72,6 @@ export const Overlay: React.FC<OverlayProps> = ({ setLoading }) => {
       <SettingsContainer show={showSettings}>
         <CameraSettings setLoading={setLoading} />
         <PhotoSettings />
-        <TimelapseSettings />
         <VideoSettings />
         <StreamSettings setLoading={setLoading} />
       </SettingsContainer>

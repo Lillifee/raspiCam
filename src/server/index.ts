@@ -1,9 +1,12 @@
 import http from 'http';
 import yargs from 'yargs';
-import { createSettingsHelper } from './raspi/settingsHelper';
+import { createSettingsHelper } from './settings';
 import server from './server';
-import raspiControl from './raspi/raspiControl';
-import { fileWatcher } from './raspi/fileWatcher';
+import raspiControl from './control';
+import { fileWatcher } from './watcher';
+import { createLogger } from './logger';
+
+const logger = createLogger('server');
 
 /**
  * Parse the command line arguments
@@ -19,6 +22,8 @@ const argv = yargs
   .alias('help', 'h').argv;
 
 const start = () => {
+  logger.info('starting services...');
+
   /**
    * https server
    * Create an http server to bind the express server.
@@ -59,7 +64,7 @@ const start = () => {
    * Start the web server
    */
   httpServer.listen(argv.port);
-  console.info('Server listening on', argv.port);
+  logger.success('server listening on', argv.port);
 };
 
 start();

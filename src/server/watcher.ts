@@ -1,7 +1,10 @@
 import fs from 'fs';
 import path from 'path';
 import { exec } from 'child_process';
-import { photosPath, RaspiFile, RaspiFileType } from '../../shared/settings/types';
+import { photosPath, RaspiFile, RaspiFileType } from '../shared/settings/types';
+import { createLogger } from './logger';
+
+const logger = createLogger('watcher');
 
 const thumbnailExt = '-preview1';
 
@@ -33,17 +36,16 @@ export const fileWatcher = (): FileWatcher => {
   const getFiles = () => files;
   const getLatestFile = () => files[files.length - 1];
 
-  fs.watch(photosAbsPath, {}, (eventType, fileName) => {
+  fs.watch(photosAbsPath, {}, (_, fileName) => {
     const { name, base, ext } = path.parse(fileName);
     const type = fileTypes[ext.substring(1)];
     const file: RaspiFile = { name, base, ext, type };
     if (!type || isThumbnail(file)) return;
 
-    console.log(eventType, fileName);
     const filePath = path.join(photosAbsPath, fileName);
     fs.access(filePath, (err) => {
       if (err) {
-        console.log('FS access failed', fileName, err.message);
+        logger.warning('remove file', fileName);
         files = files.filter((x) => x.base === fileName);
       } else {
         extractThumbnail(file);
@@ -68,10 +70,10 @@ const extractThumbnail = (file: RaspiFile) => {
 
       exec(`exiv2 -ep1 ${filePath}`, (err) => {
         if (err) {
-          console.error('Failed to extract thumbnail', file.base);
+          logger.warning('failed to extract thumbnail', file.base);
         } else {
           file.thumb = thumbFile;
-          console.info('Extracted thumbnail', thumbFile);
+          logger.success('extracted thumbnail', thumbFile);
         }
       });
     });

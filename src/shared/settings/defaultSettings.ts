@@ -2,14 +2,12 @@ import { CameraSettingDesc } from './camera';
 import { PhotoSettingDesc, photoSettingDesc } from './photo';
 import { PreviewSettingDesc, previewSettingDesc } from './preview';
 import { StreamSettingDesc, streamSettingDesc } from './stream';
-import { TimelapseSettingDesc, timelapseSettingDesc } from './timelapse';
 import { RaspiStatus, Setting } from './types';
 import { VidSettingDesc, vidSettingDesc } from './vid';
 
 interface DefaultSettings {
   stream: Setting<StreamSettingDesc>;
   photo: Setting<PhotoSettingDesc>;
-  timelapse: Setting<TimelapseSettingDesc>;
   vid: Setting<VidSettingDesc>;
   camera: Setting<CameraSettingDesc>;
   preview: Setting<PreviewSettingDesc>;
@@ -25,12 +23,9 @@ export const defaultSettings: DefaultSettings = {
   photo: {
     width: photoSettingDesc.width.defaultValue,
     height: photoSettingDesc.height.defaultValue,
-    timeout: photoSettingDesc.timeout.defaultValue,
     quality: photoSettingDesc.quality.defaultValue,
-  },
-  timelapse: {
-    timeout: timelapseSettingDesc.timeout.defaultValue,
-    timelapse: timelapseSettingDesc.timelapse.defaultValue,
+    timeout: photoSettingDesc.timeout.defaultValue,
+    timelapseTimeout: photoSettingDesc.timelapseTimeout.defaultValue,
   },
   vid: {
     width: vidSettingDesc.width.defaultValue,

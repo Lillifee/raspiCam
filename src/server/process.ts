@@ -1,6 +1,9 @@
 import { ChildProcess, spawn } from 'child_process';
 import { StdioOptions } from 'child_process';
 import { Readable } from 'stream';
+import { createLogger } from './logger';
+
+const logger = createLogger('process');
 
 /**
  * Helper function to transform a object to process arguments.
@@ -50,7 +53,7 @@ export const spawnProcess = (options?: {
   const start = (command: string, args: Record<string, unknown>): Promise<void> => {
     return new Promise<void>((resolve, reject) => {
       const spawnArgs = getSpawnArgs(args);
-      console.info(command, spawnArgs.join(' '));
+      logger.log(command, spawnArgs.join(' '));
 
       process = spawn(command, spawnArgs, { stdio: options?.stdioOptions });
       if (options?.resolveOnData) {

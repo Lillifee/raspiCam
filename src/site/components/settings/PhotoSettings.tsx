@@ -15,6 +15,7 @@ import {
   SettingsHeaderText,
   SettingsRestoreButton,
 } from './common/Styled';
+import { TimeSetting } from './common/TimeSetting';
 
 const photoResolutionPresets = [
   { name: '0.3 MP', width: 640, height: 480 },
@@ -40,6 +41,15 @@ const qualityPresets = [
   { name: 'low', value: 60 },
   { name: 'medium', value: 80 },
   { name: 'high', value: 100 },
+];
+
+const timelapsePresets = [
+  { name: 'off', value: undefined },
+  { name: '3 sec', value: 3 * 1000 },
+  { name: '10 sec', value: 10 * 1000 },
+  { name: '1 min', value: 60 * 1000 },
+  { name: '5 min', value: 5 * 60 * 1000 },
+  { name: '10 min', value: 10 * 60 * 1000 },
 ];
 
 export const PhotoSettings: React.FC = () => {
@@ -94,6 +104,21 @@ export const PhotoSettings: React.FC = () => {
         <NumberSetting {...data.quality} update={updateField('quality')} />
         <EnumDropdownSetting {...data.encoding} update={updateField('encoding')} />
         <BooleanSetting {...data.raw} update={updateField('raw')} />
+      </SettingsExpander>
+
+      <SettingsExpander
+        header={
+          <EnumSlider
+            name="Timelapse"
+            items={timelapsePresets}
+            predicate={(x) => x.value === data.timelapse.value}
+            displayValue={(x) => x.name}
+            update={(x) => updateData({ timelapse: x.value })}
+          />
+        }
+      >
+        <TimeSetting {...data.timelapse} update={updateField('timelapse')} />
+        <TimeSetting {...data.timelapseTimeout} update={updateField('timelapseTimeout')} />
       </SettingsExpander>
     </SettingsWrapper>
   );

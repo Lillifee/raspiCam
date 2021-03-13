@@ -1,9 +1,9 @@
 import express from 'express';
 import path from 'path';
 import { raspiModes, RaspiStatus } from '../shared/settings/types';
-import { FileWatcher } from './raspi/fileWatcher';
-import { RaspiControl } from './raspi/raspiControl';
-import { SettingsBase, SettingsHelper } from './raspi/settingsHelper';
+import { FileWatcher } from './watcher';
+import { RaspiControl } from './control';
+import { SettingsBase, SettingsHelper } from './settings';
 
 /**
  * Initialize the express server
@@ -63,9 +63,6 @@ const server = (
 
   app.get('/api/photo', getSettings(settingsHelper.photo));
   app.post('/api/photo', applySettings(settingsHelper.photo));
-
-  app.get('/api/timelapse', getSettings(settingsHelper.timelapse));
-  app.post('/api/timelapse', applySettings(settingsHelper.timelapse));
 
   app.get('/api/control', async (_, res) => {
     res.send(getStatus());

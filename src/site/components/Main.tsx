@@ -141,10 +141,6 @@ const cameraModes: {
     icon: 'Videocam',
     name: 'Video',
   },
-  Timelapse: {
-    icon: 'Timelapse',
-    name: 'Timelapse',
-  },
 };
 
 export const Main: React.FC<OverlayProps> = ({

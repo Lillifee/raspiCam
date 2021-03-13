@@ -38,6 +38,19 @@ export const photoSettingDesc = {
   /** Add raw Bayer data to JPEG metadata */
   raw: booleanSetting('Raw', false),
 
+  /**
+   * time-lapse mode
+   * The specific value is the time between shots in milliseconds.
+   * Note that you should specify %04d at the point in the filename where you want a frame count number to appear.
+   * -t 30000 -tl 2000 -o image%04d.jpg
+   */
+  timelapse: numberSetting('Timelapse', 0, 60 * 60 * 24 * 1000, 3000, 1000),
+
+  /**
+   * Additional setting for timelapse duration.
+   */
+  timelapseTimeout: numberSetting('Duration', 0, 60 * 60 * 24 * 1000, 0, 1000),
+
   // /**
   //  * Sets the JPEG restart marker interval to a specific value.
   //  * Can be useful for lossy transport streams because it allows a broken JPEG file to still be partially displayed.
@@ -84,4 +97,10 @@ export type PhotoSettingDesc = typeof photoSettingDesc;
 
 export const photoSettingConverter = (
   settings: Setting<PhotoSettingDesc>,
-): Record<string, unknown> => ({ ...settings, thumb: '320:240:35' });
+): Record<string, unknown> => {
+  const { timelapseTimeout, ...passThroughSettings } = settings;
+
+  const timeout = settings.timelapse ? timelapseTimeout : settings.timeout;
+
+  return { ...passThroughSettings, timeout };
+};
