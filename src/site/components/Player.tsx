@@ -47,6 +47,7 @@ const BlurOverlay = styled.div<BlurOverlayProps>`
 const usePlayer = (url: string, container: React.RefObject<HTMLElement>) => {
   const [stats, setStats] = React.useState<PlayerStats>(createPlayerStats());
 
+  // TODO create player in a separate effect and start/stop based on stream running
   React.useEffect(() => {
     const element = container.current;
     if (!element) return;

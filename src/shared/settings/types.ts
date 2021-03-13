@@ -28,11 +28,27 @@ export type GenericSettingDesc = Record<string, TypeSetting>;
 export type Setting<T extends { [k in keyof T]: TypeSetting }> = { [K in keyof T]?: T[K]['value'] };
 
 export type RaspiMode = 'Photo' | 'Video' | 'Timelapse';
+
+export const photosPath = './photos';
 export const raspiModes: RaspiMode[] = ['Photo', 'Video', 'Timelapse'];
+
+export type RaspiFileType = 'IMAGE' | 'VIDEO';
+
+export interface RaspiFile {
+  name: string;
+  base: string;
+  ext: string;
+  thumb?: string;
+  type: RaspiFileType;
+}
 
 export interface RaspiControlStatus {
   mode: RaspiMode;
   running?: boolean;
-  lastImagePath?: string;
+  streamRunning?: boolean;
   lastError?: string;
+}
+
+export interface RaspiStatus extends RaspiControlStatus {
+  latestFile?: RaspiFile;
 }

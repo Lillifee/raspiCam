@@ -1,9 +1,9 @@
 import http from 'http';
 import yargs from 'yargs';
-import fs from 'fs';
-import { createSettingsHelper, PhotosAbsPath } from './raspi/settingsHelper';
+import { createSettingsHelper } from './raspi/settingsHelper';
 import server from './server';
 import raspiControl from './raspi/raspiControl';
+import { fileWatcher } from './raspi/fileWatcher';
 
 /**
  * Parse the command line arguments
@@ -46,15 +46,13 @@ const start = () => {
   /**
    * Create photos and thumbnail directory
    */
-  if (!fs.existsSync(PhotosAbsPath)) {
-    fs.mkdirSync(PhotosAbsPath);
-  }
+  const watcher = fileWatcher();
 
   /**
    * Webserver
    * Start the webserver and serve the website.
    */
-  const app = server(control, settingsHelper);
+  const app = server(control, settingsHelper, watcher);
   httpServer.on('request', app);
 
   /**

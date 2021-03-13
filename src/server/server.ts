@@ -1,18 +1,23 @@
 import express from 'express';
 import path from 'path';
-import { raspiModes } from '../shared/settings/types';
+import { raspiModes, RaspiStatus } from '../shared/settings/types';
+import { FileWatcher } from './raspi/fileWatcher';
 import { RaspiControl } from './raspi/raspiControl';
-import { PhotosAbsPath, SettingsBase, SettingsHelper } from './raspi/settingsHelper';
+import { SettingsBase, SettingsHelper } from './raspi/settingsHelper';
 
 /**
  * Initialize the express server
  */
-const server = (control: RaspiControl, settingsHelper: SettingsHelper): express.Express => {
+const server = (
+  control: RaspiControl,
+  settingsHelper: SettingsHelper,
+  fileWatcher: FileWatcher,
+): express.Express => {
   const app = express();
 
   // Serve the static content from public
   app.use(express.static(path.join(__dirname, './public')));
-  app.use('/photos', express.static(PhotosAbsPath));
+  app.use('/photos', express.static(fileWatcher.getPath()));
   app.use(express.json());
 
   //#region Helper functions
@@ -37,6 +42,11 @@ const server = (control: RaspiControl, settingsHelper: SettingsHelper): express.
     return res.status(200).send(x.read());
   };
 
+  const getStatus = (): RaspiStatus => ({
+    ...control.getStatus(),
+    latestFile: fileWatcher.getLatestFile(),
+  });
+
   //#endregion
 
   app.get('/api/camera', getSettings(settingsHelper.camera));
@@ -57,17 +67,15 @@ const server = (control: RaspiControl, settingsHelper: SettingsHelper): express.
   app.get('/api/timelapse', getSettings(settingsHelper.timelapse));
   app.post('/api/timelapse', applySettings(settingsHelper.timelapse));
 
-  app.get('/api/control', async (_, res) => res.send(control.getStatus()));
+  app.get('/api/control', async (_, res) => {
+    res.send(getStatus());
+  });
 
   app.post('/api/control', async (req, res) => {
     if (raspiModes.includes(req.body.mode)) {
       control.setMode(req.body.mode);
     }
-    res.send(control.getStatus());
-  });
-
-  app.get('/api/status', async (_, res) => {
-    res.send(control.getStatus());
+    res.send(getStatus());
   });
 
   app.get('/api/start', async (_, res) => {

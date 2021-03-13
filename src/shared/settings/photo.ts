@@ -1,5 +1,6 @@
 import { appendUnit } from '../helperFunctions';
 import { numberSetting, enumSetting, booleanSetting } from './helper';
+import { Setting } from './types';
 
 /**
  * Still settings
@@ -80,3 +81,7 @@ export const photoSettingDesc = {
 };
 
 export type PhotoSettingDesc = typeof photoSettingDesc;
+
+export const photoSettingConverter = (
+  settings: Setting<PhotoSettingDesc>,
+): Record<string, unknown> => ({ ...settings, thumb: '320:240:35' });

@@ -1,7 +1,12 @@
 import * as React from 'react';
 import styled from 'styled-components';
-import { RaspiControlStatus, RaspiMode } from '../../shared/settings/types';
-import { IconType } from './common/icons';
+import {
+  photosPath,
+  RaspiControlStatus,
+  RaspiMode,
+  RaspiStatus,
+} from '../../shared/settings/types';
+import { Icon, IconType } from './common/icons';
 import { ButtonIcon } from './styled/ButtonIcon';
 
 //#region styled
@@ -93,21 +98,32 @@ const ActionButton = styled.button<ActionButtonProps>`
   }
 `;
 
-const PhotoPreviewLink = styled.a`
+const PreviewLink = styled.a`
   pointer-events: all;
 `;
 
-const PhotoPreview = styled.img`
+const ThumbPreview = styled.img`
   width: 3em;
   height: 3em;
   object-fit: cover;
   border-radius: 3em;
 `;
 
+const NoThumbPreview = styled.div`
+  display: flex;
+  background: ${(p) => p.theme.Background};
+  fill: ${(p) => p.theme.Foreground};
+  justify-content: center;
+  align-items: center;
+  width: 3em;
+  height: 3em;
+  border-radius: 3em;
+`;
+
 //#endregion
 
 export interface OverlayProps {
-  control: RaspiControlStatus;
+  status: RaspiStatus;
   isFullscreen: boolean;
   setControl: (data: RaspiControlStatus) => void;
   controlAction: () => void;
@@ -132,7 +148,7 @@ const cameraModes: {
 };
 
 export const Main: React.FC<OverlayProps> = ({
-  control,
+  status,
   isFullscreen,
   setControl,
   controlAction,
@@ -144,19 +160,25 @@ export const Main: React.FC<OverlayProps> = ({
     <Container>
       <OverflowContainer>
         <ActionBar>
-          <ActionButton running={control.running} onClick={controlAction} />
+          <ActionButton running={status.running} onClick={controlAction} />
         </ActionBar>
       </OverflowContainer>
       <OverflowContainer>
         <Toolbar>
-          {control.lastImagePath && (
-            <PhotoPreviewLink
+          {status.latestFile && (
+            <PreviewLink
               target="_blank"
               rel="noreferrer"
-              href={control.lastImagePath.replace('-preview1', '')}
+              href={`${photosPath}/${status.latestFile.base}`}
             >
-              <PhotoPreview src={control.lastImagePath} />
-            </PhotoPreviewLink>
+              {status.latestFile.thumb ? (
+                <ThumbPreview src={`${photosPath}/${status.latestFile.thumb}`} />
+              ) : (
+                <NoThumbPreview>
+                  <Icon type={status.latestFile.type === 'IMAGE' ? 'Photo' : 'Video'} />
+                </NoThumbPreview>
+              )}
+            </PreviewLink>
           )}
 
           <ToolbarFiller />
@@ -174,7 +196,7 @@ export const Main: React.FC<OverlayProps> = ({
               ))}
             </CameraModeList>
             <ToolbarButton
-              type={cameraModes[control.mode || 'Photo'].icon}
+              type={cameraModes[status.mode || 'Photo'].icon}
               onClick={() => setShowMode(!showMode)}
             />
           </CameraModeDropdown>

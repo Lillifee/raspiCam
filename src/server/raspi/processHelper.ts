@@ -1,16 +1,17 @@
-import { ChildProcess, exec } from 'child_process';
-import path from 'path';
-import { PhotosAbsPath, PhotosPath } from './settingsHelper';
+import { ChildProcess, spawn } from 'child_process';
+import { StdioOptions } from 'child_process';
+import { Readable } from 'stream';
 
 /**
  * Helper function to transform a object to process arguments.
  */
-export const getSpawnArgs = <T>(options: T): string[] =>
+const getSpawnArgs = (options: Record<string, unknown>): string[] =>
   Object.entries(options).reduce<string[]>((result, [key, value]) => {
     if (value !== undefined) {
       if (typeof value === 'boolean') {
         if (value === true) result.push(`--${key}`);
-      } else {
+      }
+      if (typeof value === 'string' || typeof value === 'number') {
         result.push(`--${key}`);
         result.push(value.toString());
       }
@@ -18,31 +19,47 @@ export const getSpawnArgs = <T>(options: T): string[] =>
     return result;
   }, []);
 
-/**
- * Stop the Process
- */
-export const stopProcess = (process?: ChildProcess): void => {
-  if (process) {
-    process.stdout?.pause();
-    process.unref();
-    process.kill();
-    process = undefined;
-  }
-};
+export interface SpawnProcess {
+  start: (command: string, args: Record<string, unknown>) => Promise<void>;
+  stop: () => void;
+  running: () => boolean;
+  output: () => Readable | null | undefined;
+}
 
 /**
- * Extract thumbnail using exiv2
+ * Helper function to spawn the raspi processes
  */
-export const extractThumbnail = async (
-  fileBaseName: string,
-  fileExtension: string,
-): Promise<string> => {
-  const filePath = path.join(PhotosAbsPath, `${fileBaseName}.${fileExtension}`);
-  const thumbnailPath = path.join(PhotosPath, `${fileBaseName}-preview1.${fileExtension}`);
+export const spawnProcess = (options?: {
+  stdioOptions?: StdioOptions;
+  resolveOnData?: boolean;
+}): SpawnProcess => {
+  let process: ChildProcess | undefined;
 
-  return new Promise((resolve, reject) =>
-    exec(`exiv2 -ep1 ${filePath}`, (err, _, stderr) => {
-      err || stderr ? reject(err || stderr) : resolve(thumbnailPath);
-    }),
-  );
+  const stop = () => {
+    if (process) {
+      process.stdout?.pause();
+      process.unref();
+      process.kill();
+      process = undefined;
+    }
+  };
+
+  const running = () => !!process;
+  const output = () => process?.stdout;
+
+  const start = (command: string, args: Record<string, unknown>): Promise<void> => {
+    return new Promise<void>((resolve, reject) => {
+      const spawnArgs = getSpawnArgs(args);
+      console.info(command, spawnArgs.join(' '));
+
+      process = spawn(command, spawnArgs, { stdio: options?.stdioOptions });
+      if (options?.resolveOnData) {
+        process.stdout?.once('data', () => resolve());
+      }
+      process.on('error', (e) => reject(e));
+      process.on('exit', () => resolve());
+    });
+  };
+
+  return { start, stop, running, output };
 };

@@ -3,7 +3,7 @@ import { PhotoSettingDesc, photoSettingDesc } from './photo';
 import { PreviewSettingDesc, previewSettingDesc } from './preview';
 import { StreamSettingDesc, streamSettingDesc } from './stream';
 import { TimelapseSettingDesc, timelapseSettingDesc } from './timelapse';
-import { Setting } from './types';
+import { RaspiStatus, Setting } from './types';
 import { VidSettingDesc, vidSettingDesc } from './vid';
 
 interface DefaultSettings {
@@ -43,4 +43,8 @@ export const defaultSettings: DefaultSettings = {
   preview: {
     nopreview: previewSettingDesc.nopreview.defaultValue,
   },
+};
+
+export const defaultRaspiStatus: RaspiStatus = {
+  mode: 'Photo',
 };

@@ -1,6 +1,7 @@
 import * as React from 'react';
 import styled, { ThemeProvider } from 'styled-components';
-import { RaspiControlStatus } from '../../shared/settings/types';
+import { defaultRaspiStatus } from '../../shared/settings/defaultSettings';
+import { RaspiControlStatus, RaspiStatus } from '../../shared/settings/types';
 import { useFetch } from './common/hooks/useFetch';
 import { useFullscreen } from './common/hooks/useFullscreen';
 import { Main } from './Main';
@@ -28,23 +29,26 @@ const PlayerWrapper = styled.section`
   height: 100%;
 `;
 
-const useControlAction = (control: RaspiControlStatus, update: () => void): [() => void] => {
+const useControlAction = (status: RaspiControlStatus, refresh: () => void): [() => void] => {
   const action = React.useCallback(() => {
-    const requestUrl = control.running ? '/api/stop' : '/api/start';
+    const requestUrl = status.running ? '/api/stop' : '/api/start';
     fetch(requestUrl)
-      .finally(update)
+      .finally(refresh)
       .catch((error) => console.log('Start/stop failed', error));
-  }, [control.running, update]);
+  }, [status.running, refresh]);
 
   return [action];
 };
 
 export const App: React.FC = () => {
   const appRef = React.useRef<HTMLDivElement>(null);
-  const [control, setControl, refresh] = useFetch<RaspiControlStatus>('api/control', {
-    mode: 'Photo',
-  });
-  const [controlAction] = useControlAction(control.data, refresh);
+  const [status, setControl, refresh] = useFetch<RaspiStatus>(
+    'api/control',
+    defaultRaspiStatus,
+    1000,
+  );
+
+  const [controlAction] = useControlAction(status.data, refresh);
   const [loading, setLoading] = React.useState(false);
   const [isFullscreen, setFullscreen] = useFullscreen(appRef);
 
@@ -57,7 +61,7 @@ export const App: React.FC = () => {
         </PlayerWrapper>
 
         <Main
-          control={control.data}
+          status={status.data}
           setControl={setControl}
           controlAction={controlAction}
           isFullscreen={isFullscreen}
