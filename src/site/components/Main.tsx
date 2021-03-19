@@ -6,13 +6,13 @@ import {
   RaspiMode,
   RaspiStatus,
 } from '../../shared/settings/types';
-import { Icon, IconType } from './common/icons';
+import { Icon, IconType } from './common/Icon';
 import { ButtonIcon } from './styled/ButtonIcon';
 
 //#region styled
 
 const Container = styled.div`
-  z-index: 100;
+  z-index: 10;
   pointer-events: none;
 `;
 
@@ -31,6 +31,7 @@ const ActionBar = styled.div`
   align-items: center;
   justify-content: flex-end;
   padding: 1em;
+  padding-top: 3em;
   margin: 3em;
 
   @media (orientation: portrait) {
@@ -44,6 +45,7 @@ const Toolbar = styled.div`
   flex-direction: column;
   align-items: flex-end;
   padding: 1em;
+  padding-top: 4em;
 `;
 
 const ToolbarFiller = styled.div`
@@ -192,7 +194,7 @@ export const Main: React.FC<OverlayProps> = ({
               ))}
             </CameraModeList>
             <ToolbarButton
-              type={cameraModes[status.mode || 'Photo'].icon}
+              type={cameraModes[status.mode].icon}
               onClick={() => setShowMode(!showMode)}
             />
           </CameraModeDropdown>

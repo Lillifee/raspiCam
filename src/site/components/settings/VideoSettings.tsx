@@ -1,8 +1,6 @@
 import React from 'react';
-import { applySettings } from '../../../shared/settings/helper';
 import { Setting } from '../../../shared/settings/types';
-import { VidSettingDesc, vidSettingDesc } from '../../../shared/settings/vid';
-import { useFetch } from '../common/hooks/useFetch';
+import { VidSettingDesc } from '../../../shared/settings/vid';
 import { BooleanSetting } from './common/BooleanSetting';
 import { EnumDropdownSetting } from './common/EnumDropdownSetting';
 import { EnumSlider } from './common/EnumSlider';
@@ -40,9 +38,12 @@ const timeoutPresets = [
   { name: '10 min', value: 10 * 60 * 1000 },
 ];
 
-export const VideoSettings: React.FC = () => {
-  const [state, updateData] = useFetch<Setting<VidSettingDesc>>('/api/vid', {});
-  const data = applySettings(vidSettingDesc, { ...state.data, ...state.input });
+export interface VidSettingsProps {
+  data: VidSettingDesc;
+  updateData: (data: Setting<VidSettingDesc>) => void;
+}
+
+export const VideoSettings: React.FC<VidSettingsProps> = ({ data, updateData }) => {
   const updateField = updateTypedField(updateData);
 
   return (
@@ -51,7 +52,7 @@ export const VideoSettings: React.FC = () => {
         <SettingsHeaderText>Video</SettingsHeaderText>
         <SettingsRestoreButton
           type="SettingsRestore"
-          onClick={() => updateData(restoreSettings(state.data))}
+          onClick={() => updateData(restoreSettings(data))}
         />
       </SettingsHeader>
 

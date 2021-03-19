@@ -29,12 +29,28 @@ const PlayerWrapper = styled.section`
   height: 100%;
 `;
 
+const PopoverContainer = styled.div`
+  overflow: hidden;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  z-index: 100;
+  pointer-events: none;
+
+  > div {
+    flex: 1;
+    display: flex;
+    overflow: hidden;
+  }
+`;
+
 const useControlAction = (status: RaspiControlStatus, refresh: () => void): [() => void] => {
   const action = React.useCallback(() => {
     const requestUrl = status.running ? '/api/stop' : '/api/start';
     fetch(requestUrl)
       .finally(refresh)
-      .catch((error) => console.log('Start/stop failed', error));
+      .catch((error) => console.error('Start/stop failed', error));
   }, [status.running, refresh]);
 
   return [action];
@@ -67,8 +83,9 @@ export const App: React.FC = () => {
           isFullscreen={isFullscreen}
           setFullscreen={setFullscreen}
         />
-        <Overlay setLoading={setLoading} />
+        <Overlay status={status.data} setLoading={setLoading} />
       </AppContainer>
+      <PopoverContainer id="Popover" />
     </ThemeProvider>
   );
 };

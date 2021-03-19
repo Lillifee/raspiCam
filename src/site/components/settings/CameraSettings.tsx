@@ -1,9 +1,7 @@
 import React from 'react';
 import { isDefined } from '../../../shared/helperFunctions';
-import { CameraSettingDesc, cameraSettingDesc } from '../../../shared/settings/camera';
-import { applySettings } from '../../../shared/settings/helper';
+import { CameraSettingDesc } from '../../../shared/settings/camera';
 import { Setting } from '../../../shared/settings/types';
-import { useFetch } from '../common/hooks/useFetch';
 import { RadioButton, RadioContainer } from '../styled/RadioButton';
 import { BooleanSetting } from './common/BooleanSetting';
 import { EnumDropdownSetting } from './common/EnumDropdownSetting';
@@ -48,15 +46,76 @@ const isoPresets = [
 ];
 
 export interface CameraSettingsProps {
-  setLoading: (loading: boolean) => void;
+  data: CameraSettingDesc;
+  updateData: (data: Setting<CameraSettingDesc>) => void;
 }
 
-export const CameraSettings: React.FC<CameraSettingsProps> = ({ setLoading }) => {
-  const [state, updateData] = useFetch<Setting<CameraSettingDesc>>('/api/camera', {});
-  const data = applySettings(cameraSettingDesc, { ...state.data, ...state.input });
-  const updateField = updateTypedField(updateData);
+export const ExposureIsoSetting: React.FC<CameraSettingsProps> = ({ data, updateData }) => (
+  <React.Fragment>
+    <SettingHorizontalWrapper>
+      <SettingsHeaderText fontSize="s">Mode</SettingsHeaderText>
+      <RadioContainer>
+        <RadioButton
+          active={isDefined(data.ISO.value)}
+          onClick={() => updateData({ ISO: data.ISO.defaultValue, exposure: undefined })}
+        >
+          ISO
+        </RadioButton>
+        <RadioButton
+          active={!isDefined(data.ISO.value)}
+          onClick={() => updateData({ exposure: data.exposure.defaultValue, ISO: undefined })}
+        >
+          EV
+        </RadioButton>
+      </RadioContainer>
+    </SettingHorizontalWrapper>
 
-  React.useEffect(() => setLoading(state.isUpdating), [setLoading, state.isUpdating]);
+    {isDefined(data.ISO.value) ? (
+      <EnumSlider
+        name={data.ISO.name}
+        items={isoPresets}
+        predicate={(x) => x.iso === data.ISO.value}
+        displayValue={(x) => x.name}
+        update={(x) => updateData({ ISO: x.iso })}
+      />
+    ) : (
+      <React.Fragment>
+        <EnumSliderSetting {...data.exposure} update={(x) => updateData({ exposure: x })} />
+        <NumberSetting {...data.ev} update={(x) => updateData({ ev: x })} />
+      </React.Fragment>
+    )}
+  </React.Fragment>
+);
+
+export const ShutterSetting: React.FC<CameraSettingsProps> = ({ data, updateData }) => (
+  <EnumSlider
+    name={data.shutter.name}
+    items={shutterPresets}
+    predicate={(x) => x.time === data.shutter.value}
+    displayValue={(x) => x.name}
+    update={(x) => updateData({ shutter: x.time })}
+  />
+);
+
+export const AwbSetting: React.FC<CameraSettingsProps> = ({ data, updateData }) => (
+  <React.Fragment>
+    <EnumSliderSetting {...data.awb} update={(x) => updateData({ awb: x })} />
+
+    {data.awb.value === 'off' && (
+      <React.Fragment>
+        <NumberSetting {...data.awbb} update={(x) => updateData({ awbb: x })} />
+        <NumberSetting {...data.awbr} update={(x) => updateData({ awbr: x })} />
+      </React.Fragment>
+    )}
+  </React.Fragment>
+);
+
+export const EffectSetting: React.FC<CameraSettingsProps> = ({ data, updateData }) => (
+  <EnumDropdownSetting {...data.imxfx} update={(x) => updateData({ imxfx: x })} />
+);
+
+export const CameraSettings: React.FC<CameraSettingsProps> = ({ data, updateData }) => {
+  const updateField = updateTypedField(updateData);
 
   return (
     <SettingsWrapper>
@@ -64,7 +123,7 @@ export const CameraSettings: React.FC<CameraSettingsProps> = ({ setLoading }) =>
         <SettingsHeaderText>Camera</SettingsHeaderText>
         <SettingsRestoreButton
           type="SettingsRestore"
-          onClick={() => updateData(restoreSettings(state.data))}
+          onClick={() => updateData(restoreSettings(data))}
         />
       </SettingsHeader>
 
@@ -76,68 +135,26 @@ export const CameraSettings: React.FC<CameraSettingsProps> = ({ setLoading }) =>
       </SettingsExpander>
 
       <SettingsExpander header={<SettingsExpanderHeader>Exposure</SettingsExpanderHeader>}>
-        <SettingHorizontalWrapper>
-          <SettingsHeaderText fontSize="s">Mode</SettingsHeaderText>
-          <RadioContainer>
-            <RadioButton
-              active={isDefined(data.ISO.value)}
-              onClick={() => updateData({ ISO: data.ISO.defaultValue, exposure: undefined })}
-            >
-              ISO
-            </RadioButton>
-            <RadioButton
-              active={!isDefined(data.ISO.value)}
-              onClick={() => updateData({ exposure: data.exposure.defaultValue, ISO: undefined })}
-            >
-              EV
-            </RadioButton>
-          </RadioContainer>
-        </SettingHorizontalWrapper>
-
-        <EnumSlider
-          name={data.shutter.name}
-          items={shutterPresets}
-          predicate={(x) => x.time === data.shutter.value}
-          displayValue={(x) => x.name}
-          update={(x) => updateField('shutter')(x.time)}
-        />
-
-        {isDefined(data.ISO.value) && (
-          <EnumSlider
-            name={data.ISO.name}
-            items={isoPresets}
-            predicate={(x) => x.iso === data.ISO.value}
-            displayValue={(x) => x.name}
-            update={(x) => updateField('ISO')(x.iso)}
-          />
-        )}
+        <ShutterSetting data={data} updateData={updateData} />
+        <ExposureIsoSetting data={data} updateData={updateData} />
 
         {isDefined(data.exposure.value) && (
           <React.Fragment>
-            <EnumSliderSetting {...data.exposure} update={updateField('exposure')} />
-            <NumberSetting {...data.ev} update={updateField('ev')} />
-
             <NumberSetting {...data.analoggain} update={updateField('analoggain')} />
             <NumberSetting {...data.digitalgain} update={updateField('digitalgain')} />
           </React.Fragment>
         )}
+
         <EnumSliderSetting {...data.metering} update={updateField('metering')} />
         <EnumSliderSetting {...data.drc} update={updateField('drc')} />
       </SettingsExpander>
 
       <SettingsExpander header={<SettingsExpanderHeader>White Balance</SettingsExpanderHeader>}>
-        <EnumSliderSetting {...data.awb} update={updateField('awb')} />
-
-        {data.awb.value === 'off' && (
-          <React.Fragment>
-            <NumberSetting {...data.awbb} update={updateField('awbb')} />
-            <NumberSetting {...data.awbr} update={updateField('awbr')} />
-          </React.Fragment>
-        )}
+        <AwbSetting data={data} updateData={updateData} />
       </SettingsExpander>
 
       <SettingsExpander header={<SettingsExpanderHeader>Effect</SettingsExpanderHeader>}>
-        <EnumDropdownSetting {...data.imxfx} update={updateField('imxfx')} />
+        <EffectSetting data={data} updateData={updateData} />
         <BooleanSetting {...data.colfxEnabled} update={updateField('colfxEnabled')} />
         {data.colfxEnabled.value && (
           <React.Fragment>

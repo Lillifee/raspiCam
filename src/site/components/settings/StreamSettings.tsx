@@ -1,8 +1,6 @@
 import React from 'react';
-import { applySettings } from '../../../shared/settings/helper';
-import { streamSettingDesc, StreamSettingDesc } from '../../../shared/settings/stream';
+import { StreamSettingDesc } from '../../../shared/settings/stream';
 import { Setting } from '../../../shared/settings/types';
-import { useFetch } from '../common/hooks/useFetch';
 import { EnumDropdownSetting } from './common/EnumDropdownSetting';
 import { EnumSlider } from './common/EnumSlider';
 import { updateTypedField, restoreSettings } from './common/helperFunctions';
@@ -30,14 +28,12 @@ const qualityPresets = [
 ];
 
 export interface StreamSettingsProps {
-  setLoading: (loading: boolean) => void;
+  data: StreamSettingDesc;
+  updateData: (data: Setting<StreamSettingDesc>) => void;
 }
-export const StreamSettings: React.FC<StreamSettingsProps> = ({ setLoading }) => {
-  const [state, updateData] = useFetch<Setting<StreamSettingDesc>>('/api/stream', {});
-  const data = applySettings(streamSettingDesc, { ...state.data, ...state.input });
-  const updateField = updateTypedField(updateData);
 
-  React.useEffect(() => setLoading(state.isUpdating), [setLoading, state.isUpdating]);
+export const StreamSettings: React.FC<StreamSettingsProps> = ({ data, updateData }) => {
+  const updateField = updateTypedField(updateData);
 
   return (
     <SettingsWrapper>
@@ -45,7 +41,7 @@ export const StreamSettings: React.FC<StreamSettingsProps> = ({ setLoading }) =>
         <SettingsHeaderText>Stream</SettingsHeaderText>
         <SettingsRestoreButton
           type="SettingsRestore"
-          onClick={() => updateData(restoreSettings(state.data))}
+          onClick={() => updateData(restoreSettings(data))}
         />
       </SettingsHeader>
 

@@ -5,7 +5,7 @@ import { Label } from '../../styled/Label';
 export const SettingsWrapper = styled.div`
   display: flex;
   flex-direction: column;
-  padding: 2em 1em 2em 0.5em;
+  padding: 2em 1em;
 `;
 
 export const SettingsHeader = styled(Label)`

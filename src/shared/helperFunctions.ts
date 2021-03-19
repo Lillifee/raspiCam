@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 /**
  * Type guard function to remove undefined and null values
  */
@@ -8,8 +10,8 @@ export const isDefined = <T>(obj: T | undefined | null): obj is T =>
  * Shallow compares two objects
  */
 export const shallowEqualObjects = (
-  objA: Record<string, unknown>,
-  objB: Record<string, unknown>,
+  objA?: Record<string, unknown>,
+  objB?: Record<string, unknown>,
 ): boolean => {
   if (objA === objB) {
     return true;

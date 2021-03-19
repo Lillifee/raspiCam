@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { IconProps, IconMap } from '../common/icons';
+import { IconProps, IconMap } from '../common/Icon';
 
 /* Button icon */
 export const ButtonIconElement: React.FC<React.HTMLProps<HTMLButtonElement> & IconProps> = ({
@@ -15,7 +15,7 @@ export const ButtonIcon = styled(ButtonIconElement)`
   fill: ${(props) => props.theme.Foreground};
   background: transparent;
 
-  padding: 8px;
+  padding: 0.5em;
   display: flex;
   align-items: center;
   justify-content: center;

@@ -1,8 +1,6 @@
 import React from 'react';
-import { applySettings } from '../../../shared/settings/helper';
-import { photoSettingDesc, PhotoSettingDesc } from '../../../shared/settings/photo';
+import { PhotoSettingDesc } from '../../../shared/settings/photo';
 import { Setting } from '../../../shared/settings/types';
-import { useFetch } from '../common/hooks/useFetch';
 import { BooleanSetting } from './common/BooleanSetting';
 import { EnumDropdownSetting } from './common/EnumDropdownSetting';
 import { EnumSlider } from './common/EnumSlider';
@@ -52,9 +50,32 @@ const timelapsePresets = [
   { name: '10 min', value: 10 * 60 * 1000 },
 ];
 
-export const PhotoSettings: React.FC = () => {
-  const [state, updateData] = useFetch<Setting<PhotoSettingDesc>>('/api/photo', {});
-  const data = applySettings(photoSettingDesc, { ...state.data, ...state.input });
+export interface PhotoSettingsProps {
+  data: PhotoSettingDesc;
+  updateData: (data: Setting<PhotoSettingDesc>) => void;
+}
+
+export const TimelapseSetting: React.FC<PhotoSettingsProps> = ({ data, updateData }) => (
+  <EnumSlider
+    name="Timelapse"
+    items={timelapsePresets}
+    predicate={(x) => x.value === data.timelapse.value}
+    displayValue={(x) => x.name}
+    update={(x) => updateData({ timelapse: x.value })}
+  />
+);
+
+export const FilterSetting: React.FC<PhotoSettingsProps> = ({ data, updateData }) => (
+  <EnumSlider
+    name="Timelapse"
+    items={timelapsePresets}
+    predicate={(x) => x.value === data.timelapse.value}
+    displayValue={(x) => x.name}
+    update={(x) => updateData({ timelapse: x.value })}
+  />
+);
+
+export const PhotoSettings: React.FC<PhotoSettingsProps> = ({ data, updateData }) => {
   const updateField = updateTypedField(updateData);
 
   return (
@@ -63,7 +84,7 @@ export const PhotoSettings: React.FC = () => {
         <SettingsHeaderText>Photo</SettingsHeaderText>
         <SettingsRestoreButton
           type="SettingsRestore"
-          onClick={() => updateData(restoreSettings(state.data))}
+          onClick={() => updateData(restoreSettings(data))}
         />
       </SettingsHeader>
 
@@ -106,17 +127,7 @@ export const PhotoSettings: React.FC = () => {
         <BooleanSetting {...data.raw} update={updateField('raw')} />
       </SettingsExpander>
 
-      <SettingsExpander
-        header={
-          <EnumSlider
-            name="Timelapse"
-            items={timelapsePresets}
-            predicate={(x) => x.value === data.timelapse.value}
-            displayValue={(x) => x.name}
-            update={(x) => updateData({ timelapse: x.value })}
-          />
-        }
-      >
+      <SettingsExpander header={<TimelapseSetting data={data} updateData={updateData} />}>
         <TimeSetting {...data.timelapse} update={updateField('timelapse')} />
         <TimeSetting {...data.timelapseTimeout} update={updateField('timelapseTimeout')} />
       </SettingsExpander>
