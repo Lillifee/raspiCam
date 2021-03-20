@@ -1,7 +1,7 @@
 import * as React from 'react';
 import styled from 'styled-components';
-import { abbreviateNumber, roundToSignificant } from '../../shared/helperFunctions';
-import { createPlayerStats, player, PlayerStats } from './bwPlayer';
+import { abbreviateNumber, roundToSignificant } from '../../../shared/helperFunctions';
+import { createPlayerStats, player, PlayerStats } from '../bwPlayer';
 
 // #region styled
 

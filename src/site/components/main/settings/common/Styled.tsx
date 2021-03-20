@@ -1,6 +1,6 @@
 import styled from 'styled-components';
-import { ButtonIcon } from '../../styled/ButtonIcon';
-import { Label } from '../../styled/Label';
+import { ButtonIcon } from '../../../styled/ButtonIcon';
+import { Label } from '../../../styled/Label';
 
 export const SettingsWrapper = styled.div`
   display: flex;

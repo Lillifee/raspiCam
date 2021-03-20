@@ -10,6 +10,25 @@ const fadeIn = keyframes`
   to { opacity: 1 }
 `;
 
+// Wrapper not added
+// <PopoverWrapper id="Popover" />
+
+export const PopoverWrapper = styled.div`
+  display: flex;
+  overflow: hidden;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  z-index: 100;
+  pointer-events: none;
+
+  > div {
+    flex: 1;
+    display: flex;
+    overflow: hidden;
+  }
+`;
+
 export const PopoverContainer = styled.div`
   display: flex;
   flex-direction: column;
@@ -140,7 +159,7 @@ export const PopoverContent: React.FC<PopoverContentProps> = ({
       {...gridPosition}
       maxWidth={maxWidth}
       maxHeight={maxHeight}
-      onClick={(e) => e.stopPropagation()}
+      onClick={(e: React.MouseEvent<HTMLDivElement, MouseEvent>) => e.stopPropagation()}
     >
       <Background onClick={onClose} />
       <Element onClick={(e) => e.stopPropagation()}>{children}</Element>

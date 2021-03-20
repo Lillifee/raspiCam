@@ -1,6 +1,5 @@
 import React from 'react';
-import { StreamSettingDesc } from '../../../shared/settings/stream';
-import { Setting } from '../../../shared/settings/types';
+import { StreamSetting, StreamSettingDesc } from '../../../../shared/settings/stream';
 import { EnumDropdownSetting } from './common/EnumDropdownSetting';
 import { EnumSlider } from './common/EnumSlider';
 import { updateTypedField, restoreSettings } from './common/helperFunctions';
@@ -29,7 +28,7 @@ const qualityPresets = [
 
 export interface StreamSettingsProps {
   data: StreamSettingDesc;
-  updateData: (data: Setting<StreamSettingDesc>) => void;
+  updateData: (data: StreamSetting) => void;
 }
 
 export const StreamSettings: React.FC<StreamSettingsProps> = ({ data, updateData }) => {

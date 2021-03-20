@@ -1,7 +1,7 @@
 import React from 'react';
-import { isDefined } from '../../../../shared/helperFunctions';
-import { NumberTypeSetting } from '../../../../shared/settings/types';
-import { Slider } from '../../styled/Slider';
+import { isDefined } from '../../../../../shared/helperFunctions';
+import { NumberTypeSetting } from '../../../../../shared/settings/types';
+import { Slider } from '../../../styled/Slider';
 import {
   SettingVerticalWrapper,
   SettingNameValueContainer,

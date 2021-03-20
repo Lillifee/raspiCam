@@ -1,5 +1,5 @@
 import React from 'react';
-import { Slider } from '../../styled/Slider';
+import { Slider } from '../../../styled/Slider';
 import {
   SettingVerticalWrapper,
   SettingNameValueContainer,

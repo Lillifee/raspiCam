@@ -1,6 +1,7 @@
 import { appendUnit } from '../helperFunctions';
 import { enumSetting, numberSetting, booleanSetting } from './helper';
 import { streamSettingDesc } from './stream';
+import { Setting } from './types';
 
 /**
  * Vid settings
@@ -116,3 +117,4 @@ export const vidSettingDesc = {
 };
 
 export type VidSettingDesc = typeof vidSettingDesc;
+export type VidSetting = Setting<VidSettingDesc>;

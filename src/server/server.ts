@@ -1,10 +1,9 @@
 import express from 'express';
 import path from 'path';
-import { raspiModes, RaspiStatus } from '../shared/settings/types';
+import { Gallery, raspiModes, RaspiStatus } from '../shared/settings/types';
 import { FileWatcher } from './watcher';
 import { RaspiControl } from './control';
 import { SettingsBase, SettingsHelper } from './settings';
-
 /**
  * Initialize the express server
  */
@@ -100,6 +99,14 @@ const server = (
       res.status(503).send('Camera restarting or in use');
     }
   });
+
+  app.get('/api/gallery', async (_, res) => {
+    const gallery: Gallery = {
+      files: fileWatcher.getFiles(),
+    };
+    res.status(200).send(gallery);
+  });
+
   return app;
 };
 

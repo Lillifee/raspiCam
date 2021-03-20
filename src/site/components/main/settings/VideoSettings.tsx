@@ -1,6 +1,5 @@
 import React from 'react';
-import { Setting } from '../../../shared/settings/types';
-import { VidSettingDesc } from '../../../shared/settings/vid';
+import { VidSetting, VidSettingDesc } from '../../../../shared/settings/vid';
 import { BooleanSetting } from './common/BooleanSetting';
 import { EnumDropdownSetting } from './common/EnumDropdownSetting';
 import { EnumSlider } from './common/EnumSlider';
@@ -40,7 +39,7 @@ const timeoutPresets = [
 
 export interface VidSettingsProps {
   data: VidSettingDesc;
-  updateData: (data: Setting<VidSettingDesc>) => void;
+  updateData: (data: VidSetting) => void;
 }
 
 export const VideoSettings: React.FC<VidSettingsProps> = ({ data, updateData }) => {

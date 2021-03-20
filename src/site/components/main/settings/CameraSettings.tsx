@@ -1,8 +1,7 @@
 import React from 'react';
-import { isDefined } from '../../../shared/helperFunctions';
-import { CameraSettingDesc } from '../../../shared/settings/camera';
-import { Setting } from '../../../shared/settings/types';
-import { RadioButton, RadioContainer } from '../styled/RadioButton';
+import { isDefined } from '../../../../shared/helperFunctions';
+import { CameraSetting, CameraSettingDesc } from '../../../../shared/settings/camera';
+import { RadioButton, RadioContainer } from '../../styled/RadioButton';
 import { BooleanSetting } from './common/BooleanSetting';
 import { EnumDropdownSetting } from './common/EnumDropdownSetting';
 import { EnumSlider } from './common/EnumSlider';
@@ -47,10 +46,10 @@ const isoPresets = [
 
 export interface CameraSettingsProps {
   data: CameraSettingDesc;
-  updateData: (data: Setting<CameraSettingDesc>) => void;
+  updateData: (data: CameraSetting) => void;
 }
 
-export const ExposureIsoSetting: React.FC<CameraSettingsProps> = ({ data, updateData }) => (
+export const ExposureSetting: React.FC<CameraSettingsProps> = ({ data, updateData }) => (
   <React.Fragment>
     <SettingHorizontalWrapper>
       <SettingsHeaderText fontSize="s">Mode</SettingsHeaderText>
@@ -136,7 +135,7 @@ export const CameraSettings: React.FC<CameraSettingsProps> = ({ data, updateData
 
       <SettingsExpander header={<SettingsExpanderHeader>Exposure</SettingsExpanderHeader>}>
         <ShutterSetting data={data} updateData={updateData} />
-        <ExposureIsoSetting data={data} updateData={updateData} />
+        <ExposureSetting data={data} updateData={updateData} />
 
         {isDefined(data.exposure.value) && (
           <React.Fragment>

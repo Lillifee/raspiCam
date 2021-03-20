@@ -94,6 +94,7 @@ export const photoSettingDesc = {
 };
 
 export type PhotoSettingDesc = typeof photoSettingDesc;
+export type PhotoSetting = Setting<PhotoSettingDesc>;
 
 export const photoSettingConverter = (
   settings: Setting<PhotoSettingDesc>,
@@ -102,5 +103,5 @@ export const photoSettingConverter = (
 
   const timeout = settings.timelapse ? timelapseTimeout : settings.timeout;
 
-  return { ...passThroughSettings, timeout };
+  return { ...passThroughSettings, timeout, thumb: '320:240:35' };
 };

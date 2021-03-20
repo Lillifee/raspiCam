@@ -35,11 +35,12 @@ export const raspiModes: RaspiMode[] = ['Photo', 'Video'];
 export type RaspiFileType = 'IMAGE' | 'VIDEO';
 
 export interface RaspiFile {
+  type: RaspiFileType;
   name: string;
   base: string;
   ext: string;
   thumb?: string;
-  type: RaspiFileType;
+  date?: number;
 }
 
 export interface RaspiControlStatus {
@@ -51,4 +52,8 @@ export interface RaspiControlStatus {
 
 export interface RaspiStatus extends RaspiControlStatus {
   latestFile?: RaspiFile;
+}
+
+export interface Gallery {
+  files: RaspiFile[];
 }

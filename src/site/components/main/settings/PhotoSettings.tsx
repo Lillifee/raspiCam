@@ -1,6 +1,5 @@
 import React from 'react';
-import { PhotoSettingDesc } from '../../../shared/settings/photo';
-import { Setting } from '../../../shared/settings/types';
+import { PhotoSetting, PhotoSettingDesc } from '../../../../shared/settings/photo';
 import { BooleanSetting } from './common/BooleanSetting';
 import { EnumDropdownSetting } from './common/EnumDropdownSetting';
 import { EnumSlider } from './common/EnumSlider';
@@ -52,7 +51,7 @@ const timelapsePresets = [
 
 export interface PhotoSettingsProps {
   data: PhotoSettingDesc;
-  updateData: (data: Setting<PhotoSettingDesc>) => void;
+  updateData: (data: PhotoSetting) => void;
 }
 
 export const TimelapseSetting: React.FC<PhotoSettingsProps> = ({ data, updateData }) => (

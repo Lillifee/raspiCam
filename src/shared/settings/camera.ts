@@ -150,6 +150,7 @@ export const cameraSettingDesc = {
 };
 
 export type CameraSettingDesc = typeof cameraSettingDesc;
+export type CameraSetting = Setting<CameraSettingDesc>;
 
 export const cameraSettingConverter = (
   settings: Setting<CameraSettingDesc>,
