@@ -7,10 +7,10 @@
   "scripts": {
     "start:site": "webpack serve --mode development --config webpack.site.js",
     "start:server": "nodemon --watch src/server src/server/index.ts",
-    "code:check": "yarn code:check-eslint && yarn code:check-tsc",
+    "code:check": "npm run code:check-eslint && yarn code:check-tsc",
     "code:check-eslint": "eslint --fix src/",
     "code:check-tsc": "tsc -p ./tsconfig.json",
-    "build": "yarn build:site && yarn build:server",
+    "build": "npm run build:site && npm run build:server",
     "build:site": "webpack --config webpack.site.js",
     "build:server": "webpack --config webpack.server.js"
   },
