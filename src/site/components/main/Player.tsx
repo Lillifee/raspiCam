@@ -1,6 +1,6 @@
 import * as React from 'react';
 import styled from 'styled-components';
-import { abbreviateNumber, roundToSignificant } from '../../../shared/helperFunctions';
+// import { abbreviateNumber, roundToSignificant } from '../../../shared/helperFunctions';
 import { createPlayerStats, player, PlayerStats } from '../bwPlayer';
 
 // #region styled
@@ -81,14 +81,14 @@ export const Player: React.FC<PlayerProps> = ({ loading }) => {
       <BlurOverlay
         blur={loading || !stats.streamRunning || !stats.playerRunning || stats.droppingFrames}
       >
-        <div>dropped: {stats.totalDroppedFrames}</div>
+        {/* <div>dropped: {stats.totalDroppedFrames}</div>
         <div>frames: {stats.framesPerCycle}</div>
         <div>avgFps: {stats.avgFps}</div>
         <div>avgSize: {abbreviateNumber('bit/s')(roundToSignificant(stats.avgSize, 2))}</div>
         {loading && <div>loading</div>}
         {!stats.playerRunning && <div>player not running</div>}
         {!stats.streamRunning && <div>stream not running</div>}
-        {stats.droppingFrames && <div>drop frames</div>}
+        {stats.droppingFrames && <div>drop frames</div>} */}
       </BlurOverlay>
     </Container>
   );

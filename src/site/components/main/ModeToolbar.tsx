@@ -29,7 +29,7 @@ const ToolbarFiller = styled.div`
 `;
 
 const ToolbarButton = styled(ButtonIcon)`
-  filter: drop-shadow(0 0 1px black);
+  filter: drop-shadow(1px 1px 1px black);
   pointer-events: all;
 `;
 

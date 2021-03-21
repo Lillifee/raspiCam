@@ -100,7 +100,7 @@ npm run build
 
 ## 
 
-# Start RaspiCam
+# Run RaspiCam
 
 Change to the raspiCam folder and start the server:
 
@@ -114,11 +114,59 @@ Wait until the following message appears:
 
 Open the browser and navigate to: `http://__ip_address__:8000`
 
+# Tipps
+
+Check the following [article](https://dev.to/bogdaaamn/run-your-nodejs-application-on-a-headless-raspberry-pi-4jnn) to run the raspiCam headless. It includes a step by step instruction for:
+
+- [PM2](https://github.com/Unitech/pm2) - Autostart the process
+- [NGINX](https://docs.nginx.com/nginx/admin-guide/web-server/reverse-proxy/) - Reverse proxy to run raspiCam on port 80
 
 
 
+# Screenshots
+
+![picture](screenshots/shot1.png)
+
+![picture](screenshots/shot2.png)
+
+![picture](screenshots/shot3.png)
+
+![picture](screenshots/shot4.png)
+
+![picture](screenshots/shot5.png)
+
+![picture](screenshots/shot6.png)
 
 
+## Settings
+
+
+![picture](screenshots/settings1.png)
+
+![picture](screenshots/settings2.png)
+
+![picture](screenshots/settings3.png)
+
+![picture](screenshots/settings4.png)
+
+
+# Roadmap and ideas
+
+## Stream
+ - Investigate MJPEG stream
+    - Stream could be used for other applications e.g. Octoprint
+
+## Settings
+ - Search settings
+ - Setting explaination 
+
+## Gallery
+ - sort order
+ - loading indication
+ - support videos
+ - group timelapse photos
+ - select and delete items
+ - download multiple items (zip)
 
 
 
