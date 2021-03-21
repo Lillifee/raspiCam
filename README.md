@@ -21,6 +21,8 @@ You can find the 3d printing files on https://www.prusaprinters.org/prints/48519
 
 ![picture](screenshots/camera.jpg)
 
+![picture](screenshots/shot2.png)
+
 # Installation
 
 ## Raspberry PI OS
