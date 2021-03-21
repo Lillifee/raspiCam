@@ -2,8 +2,8 @@
 
 RaspiCam is a react application to stream, take pictures or record videos from your raspberry pi camera over a web interface. The live stream is provided over a simple HTTP request and displayed by the brilliant [Broadway h264 player](https://github.com/mbebenita/Broadway).
 
-- **Simple**: mobile first designed user interface to provide a flawless user experience on the smartphone.
-- **Lightweight**: raspicam uses the build in raspistill and raspivid to stream, capture and record videos.
+- **Simple**: a mobile-first designed user interface to provide a flawless user experience on the smartphone.
+- **Lightweight**: raspiCam uses the build-in raspistill and raspivid to stream, capture and record videos.
 
 ## Hardware
 I'm using a **Raspberry PI Zero W** with a **Raspberry PI HQ camera**.
@@ -32,7 +32,7 @@ sudo apt upgrade
 
 ### Enable camera
 
-Enable the camera on "**Interfacing options**" -> "**Camera**":
+Enable the camera in the raspi-config: "**Interfacing options**" -> "**Camera**":
 ```
 sudo raspi-config
 ```
@@ -50,8 +50,7 @@ sudo apt install nodejs
 ### Raspberry PI Zero W
 
 The latest versions of node doesn't provide a armv61 version.
-Therefore we need to find the latest node for the armv61 version. 
-The latest LTS version for armv61 i could find was v10.24.0. 
+The last LTS version i could find was v10.24.0. 
 
 ```
 curl -o node-v10.24.0-linux-armv6l.tar.gz https://nodejs.org/download/release/v10.24.0/node-v10.24.0-linux-armv6l.tar.gz
@@ -61,10 +60,7 @@ sudo cp -r node-v10.24.0-linux-armv6l/* /usr/local/
 sudo reboot
 ```
 
-Hint to check your arm version:
-```
-uname -m
-```
+
 
 ### Check the node installation
 To verify the installation, run the following command to print the installed node version.
@@ -84,6 +80,8 @@ sudo apt install exiv2
 
 ### RaspiCam
 
+Clone the repository, install and build the raspiCam can take a while.
+Especially on the zero, I would suggest the copy approach.
 
 Copy the **build** folder from this repository to your Raspberry PI.
 
@@ -104,12 +102,8 @@ npm run build
 
 # Start RaspiCam
 
-First you should know the IP address of your raspberry pi.
-```
-ifconfig wlan0
-```
-
 Change to the raspiCam folder and start the server:
+
 ```
 node build/server.js
 ```
