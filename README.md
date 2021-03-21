@@ -17,6 +17,8 @@ RaspiCam is a react application to stream, take pictures or record videos from y
 ## Hardware
 I'm using a **Raspberry PI Zero W** with a **Raspberry PI HQ camera**.
 
+You can find the 3d printing files on https://www.prusaprinters.org/prints/48519-raspberry-pi-zero-webcam-hq-camera
+
 ![picture](screenshots/camera.jpg)
 
 # Installation
@@ -137,6 +139,10 @@ Check the following [article](https://dev.to/bogdaaamn/run-your-nodejs-applicati
 - Close the web developer tools
 - Increase the quality compensation in the settings
 
+
+# Credits
+- [Broadway h264 player](https://github.com/mbebenita/Broadway).
+
 # Screenshots
 
 ![picture](screenshots/shot1.png)
@@ -183,5 +189,5 @@ Check the following [article](https://dev.to/bogdaaamn/run-your-nodejs-applicati
  - select and delete items
  - download multiple items (zip)
 
-
-
+## Keywords
+broadway live player node.js raspberry pi stream h264 monitoring timelapse video recording capture raspivid raspistill
