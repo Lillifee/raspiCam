@@ -5,6 +5,15 @@ RaspiCam is a react application to stream, take pictures or record videos from y
 - **Simple**: a mobile-first designed user interface to provide a flawless user experience on the smartphone.
 - **Lightweight**: raspiCam uses the build-in raspistill and raspivid to stream, capture and record videos.
 
+## Usecases
+- Monitoring camera
+- Timelapse photography
+- Video recorder
+- Camera to go with remote trigger (smartphone)
+- Use it as a tool to find the best camera settings for your project.
+    - Adjust the settings without manually start and stop the raspivid or raspistill.
+    - Copy the result from the terminal and use it for your project.
+
 ## Hardware
 I'm using a **Raspberry PI Zero W** with a **Raspberry PI HQ camera**.
 
@@ -121,7 +130,12 @@ Check the following [article](https://dev.to/bogdaaamn/run-your-nodejs-applicati
 - [PM2](https://github.com/Unitech/pm2) - Autostart the process
 - [NGINX](https://docs.nginx.com/nginx/admin-guide/web-server/reverse-proxy/) - Reverse proxy to run raspiCam on port 80
 
+# Troubleshooting
 
+**Slow live stream**
+- Check the WIFI connection 
+- Close the web developer tools
+- Increase the quality compensation in the settings
 
 # Screenshots
 
@@ -157,8 +171,9 @@ Check the following [article](https://dev.to/bogdaaamn/run-your-nodejs-applicati
     - Stream could be used for other applications e.g. Octoprint
 
 ## Settings
+ - Preview settings
  - Search settings
- - Setting explaination 
+ - Setting explanation 
 
 ## Gallery
  - sort order
