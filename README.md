@@ -96,7 +96,7 @@ sudo apt install exiv2
 Clone the repository, install and build the raspiCam can take a while.
 Especially on the zero, I would suggest the copy approach.
 
-Copy the **build** folder from this repository to your Raspberry PI.
+[Download](https://github.com/Lillifee/raspiCam/releases/latest/download/raspiCam.zip) the latest release, extract it to a new raspiCam folder and copy it to your Raspberry PI.
 
 or
 
@@ -110,18 +110,19 @@ cd raspiCam/
 npm install
 npm run build
 ```
+The bundled package should appear in the **build** folder.
 
 ## 
 
 # Run RaspiCam
 
-Change to the raspiCam folder and start the server:
+Change to the raspiCam or build folder and start the server:
 
 ```
-node build/server.js
+node server.js
 ```
 
-Wait until the following message appears:
+As soon the server is up and running, the following message appear:
 
 ` [server] server listening on 8000 `
 
