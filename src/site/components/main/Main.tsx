@@ -16,6 +16,7 @@ import { defaultRaspiStatus } from '../../../shared/settings/defaultSettings';
 import { Capture } from './Capture';
 import { Player } from './Player';
 import { useFullscreen } from '../common/hooks/useFullscreen';
+import { previewSettingDesc } from '../../../shared/settings/preview';
 
 //#region styled
 
@@ -109,6 +110,7 @@ export const Main: React.FC = () => {
 
   const [photo, updatePhoto] = useFetchSettings('/api/photo', photoSettingDesc);
   const [vid, updateVid] = useFetchSettings('/api/vid', vidSettingDesc);
+  const [preview, updatePreview] = useFetchSettings('/api/preview', previewSettingDesc);
   const [camera, updateCamera] = useFetchSettings('/api/camera', cameraSettingDesc, setLoading);
   const [stream, updateStream] = useFetchSettings('/api/stream', streamSettingDesc, setLoading);
 
@@ -143,12 +145,14 @@ export const Main: React.FC = () => {
             photo={photo}
             vid={vid}
             stream={stream}
+            preview={preview}
             activeSetting={activeSetting}
             activateSetting={activateSetting}
             updateCamera={updateCamera}
             updatePhoto={updatePhoto}
             updateVid={updateVid}
             updateStream={updateStream}
+            updatePreview={updatePreview}
           />
         </OverlayContent>
 

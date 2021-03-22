@@ -1,4 +1,5 @@
 import { booleanSetting, numberSetting } from './helper';
+import { Setting } from './types';
 
 /**
  * Preview settings
@@ -34,3 +35,4 @@ export const previewSettingDesc = {
 };
 
 export type PreviewSettingDesc = typeof previewSettingDesc;
+export type PreviewSetting = Setting<PreviewSettingDesc>;

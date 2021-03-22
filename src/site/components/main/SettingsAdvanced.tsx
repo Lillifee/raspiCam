@@ -10,6 +10,8 @@ import { PhotoSettings } from './settings/PhotoSettings';
 import { StreamSettings } from './settings/StreamSettings';
 import { VideoSettings } from './settings/VideoSettings';
 import { ActiveSetting, Filler } from './Main';
+import { PreviewSetting, PreviewSettingDesc } from '../../../shared/settings/preview';
+import { PreviewSettings } from './settings/PreviewSettings';
 
 //#region styled
 
@@ -43,12 +45,14 @@ export interface SettingsProps {
   photo: PhotoSettingDesc;
   vid: VidSettingDesc;
   stream: StreamSettingDesc;
+  preview: PreviewSettingDesc;
 
   activateSetting: (setting: ActiveSetting) => void;
   updateCamera: (data: CameraSetting) => void;
   updatePhoto: (data: PhotoSetting) => void;
   updateVid: (data: VidSetting) => void;
   updateStream: (data: StreamSetting) => void;
+  updatePreview: (data: PreviewSetting) => void;
 }
 
 export const SettingsAdvanced: React.FC<SettingsProps> = ({
@@ -56,12 +60,14 @@ export const SettingsAdvanced: React.FC<SettingsProps> = ({
   photo,
   vid,
   stream,
+  preview,
   activeSetting,
   activateSetting,
   updateCamera,
   updatePhoto,
   updateVid,
   updateStream,
+  updatePreview,
 }) => {
   return (
     <SettingsPane>
@@ -70,6 +76,7 @@ export const SettingsAdvanced: React.FC<SettingsProps> = ({
         <PhotoSettings data={photo} updateData={updatePhoto} />
         <VideoSettings data={vid} updateData={updateVid} />
         <StreamSettings data={stream} updateData={updateStream} />
+        <PreviewSettings data={preview} updateData={updatePreview} />
       </SettingsContainer>
 
       <Filler enableClick={isDefined(activeSetting)} onClick={() => activateSetting(undefined)} />

@@ -179,7 +179,6 @@ Check the following [article](https://dev.to/bogdaaamn/run-your-nodejs-applicati
     - Stream could be used for other applications e.g. Octoprint
 
 ## Settings
- - Preview settings
  - Search settings
  - Setting explanation 
 
