@@ -53,9 +53,9 @@ module.exports = (env, argv) => ({
     }),
     new CopyPlugin({
       patterns: [
-        { from: './Broadway/Decoder.js' },
-        { from: './Broadway/avc.wasm' },
-        { from: './src/site/public/favicon.ico' },
+        { from: path.join(__dirname, 'broadway', 'Decoder.js') },
+        { from: path.join(__dirname, 'broadway', 'avc.wasm') },
+        { from: path.join(__dirname, 'src', 'site', 'public', 'favicon.ico') },
       ],
     }),
   ],
