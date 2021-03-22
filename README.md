@@ -135,6 +135,9 @@ Check the following [article](https://dev.to/bogdaaamn/run-your-nodejs-applicati
 - [PM2](https://github.com/Unitech/pm2) - Autostart the process
 - [NGINX](https://docs.nginx.com/nginx/admin-guide/web-server/reverse-proxy/) - Reverse proxy to run raspiCam on port 80
 
+# Credits
+- [Broadway h264 player](https://github.com/mbebenita/Broadway).
+
 # Troubleshooting
 
 **Slow live stream**
@@ -142,9 +145,16 @@ Check the following [article](https://dev.to/bogdaaamn/run-your-nodejs-applicati
 - Close the web developer tools
 - Increase the quality compensation in the settings
 
+Found a bug? Don't hesitate to create a new issue. 
 
-# Credits
-- [Broadway h264 player](https://github.com/mbebenita/Broadway).
+Please add your running setting to the ticket. 
+You can find the latest command sent to raspiCam in the terminal output:
+
+**HINT** If you found the right settings for your project, you can simple copy the command from there.
+
+![picture](screenshots/terminal.png)
+
+
 
 # Screenshots
 
@@ -159,7 +169,6 @@ Check the following [article](https://dev.to/bogdaaamn/run-your-nodejs-applicati
 ![picture](screenshots/shot5.png)
 
 ![picture](screenshots/shot6.png)
-
 
 ## Settings
 
