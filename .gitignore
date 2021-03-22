@@ -3,6 +3,7 @@
 
 # production
 /lib
+/build
 
 # photos
 /src/server/photos
