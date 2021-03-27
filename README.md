@@ -21,6 +21,11 @@ You can find the 3d printing files on https://www.prusaprinters.org/prints/48519
 
 ![picture](screenshots/camera.jpg)
 
+If you prefer a **Raspberry PI4**: 
+https://www.prusaprinters.org/prints/61556-raspberry-pi4-hq-camera-aluminium-mix
+
+![picture](screenshots/cameraPi4.jpg)
+
 ![picture](screenshots/shot2.png)
 
 # Installation
@@ -53,6 +58,8 @@ sudo raspi-config
 
 
 ## Install Node.js
+
+### Raspberry PI 4
 
 Enable the NodeSource repository by running the following command in your terminal:
 ```
