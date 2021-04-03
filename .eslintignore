@@ -4,3 +4,5 @@
 # production
 /build
 /lib
+
+./package.json
