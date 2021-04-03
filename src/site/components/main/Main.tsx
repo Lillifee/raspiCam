@@ -2,21 +2,21 @@ import * as React from 'react';
 import styled from 'styled-components';
 import { isDefined } from '../../../shared/helperFunctions';
 import { cameraSettingDesc } from '../../../shared/settings/camera';
+import { defaultRaspiStatus } from '../../../shared/settings/defaultSettings';
 import { applySettings } from '../../../shared/settings/helper';
 import { photoSettingDesc } from '../../../shared/settings/photo';
+import { previewSettingDesc } from '../../../shared/settings/preview';
 import { streamSettingDesc } from '../../../shared/settings/stream';
 import { RaspiStatus, Setting, TypeSetting } from '../../../shared/settings/types';
 import { vidSettingDesc } from '../../../shared/settings/vid';
 import { useFetch } from '../common/hooks/useFetch';
+import { useFullscreen } from '../common/hooks/useFullscreen';
+import { Capture } from './Capture';
+import { ModeToolbar } from './ModeToolbar';
+import { Player } from './Player';
 import { SettingsAdvanced } from './SettingsAdvanced';
 import { SettingsQuick } from './SettingsQuick';
 import { SettingsToolbar } from './SettingsToolbar';
-import { ModeToolbar } from './ModeToolbar';
-import { defaultRaspiStatus } from '../../../shared/settings/defaultSettings';
-import { Capture } from './Capture';
-import { Player } from './Player';
-import { useFullscreen } from '../common/hooks/useFullscreen';
-import { previewSettingDesc } from '../../../shared/settings/preview';
 
 //#region styled
 

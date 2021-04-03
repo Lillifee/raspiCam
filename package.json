@@ -15,11 +15,14 @@
     "build:server": "webpack --config webpack.server.js"
   },
   "dependencies": {
+    "buffer": "^6.0.3",
     "chalk": "^4.1.0",
     "express": "^4.17.1",
+    "jmuxer": "^2.0.0",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
     "react-router-dom": "^5.2.0",
+    "stream-browserify": "^3.0.0",
     "styled-components": "^5.2.1",
     "styled-normalize": "^8.0.7",
     "yargs": "^16.2.0"

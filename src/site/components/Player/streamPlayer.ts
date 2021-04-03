@@ -1,16 +1,13 @@
+import JMuxer from 'jmuxer';
 import { PlayerOptions, PlayerStats } from '.';
 import { parseFragmentType } from './streamHelper';
 
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-const Player = require('../../../../broadway/Player');
-
 export interface StreamPlayer {
-  canvas: HTMLCanvasElement;
   addFrame: (frame: Uint8Array) => void;
 }
 
 /**
- * Broadway player
+ * JMuxer player
  *
  * @param options player options
  * @param stats player statistics
@@ -19,8 +16,12 @@ export const streamPlayer = (
   options: Required<PlayerOptions>,
   stats: PlayerStats,
 ): StreamPlayer => {
-  const { useWorker, webgl, size } = options;
-  const player = new Player({ useWorker, webgl, size });
+  const jmuxer = new JMuxer({
+    node: 'player',
+    mode: 'video',
+    flushingTime: 0,
+  });
+
   const frames: Uint8Array[] = [];
 
   const decodeFrame = (): void => {
@@ -34,19 +35,13 @@ export const streamPlayer = (
 
       // Decode the frame
       if (!stats.droppingFrames) {
-        player.decode(frame);
+        jmuxer.feed({ video: frame });
+        stats.framesPerCycle++;
       }
     }
 
     // Decode the next frame as soon as possible
     requestAnimationFrame(decodeFrame);
-  };
-
-  player.onPictureDecoded = (_: Buffer, width: number, height: number) => {
-    // Add statistic informations
-    stats.playerResolution.width = width;
-    stats.playerResolution.height = height;
-    stats.framesPerCycle++;
   };
 
   const addFrame = (frame: Uint8Array) => {
@@ -60,5 +55,5 @@ export const streamPlayer = (
   };
 
   decodeFrame();
-  return { addFrame, canvas: player.canvas };
+  return { addFrame };
 };

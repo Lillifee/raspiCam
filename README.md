@@ -1,6 +1,6 @@
 # 📷 RaspiCam
 
-RaspiCam is a react application to stream, take pictures or record videos from your raspberry pi camera over a web interface. The live stream is provided over a simple HTTP request and displayed by the brilliant [Broadway h264 player](https://github.com/mbebenita/Broadway).
+RaspiCam is a react application to stream, take pictures or record videos from your raspberry pi camera over a web interface. The live stream is provided over a simple HTTP request and displayed using by the brilliant [JMuxer](https://github.com/samirkumardas/jmuxer).
 
 - **Simple**: a mobile-first designed user interface to provide a flawless user experience on the smartphone.
 - **Lightweight**: raspiCam uses the build-in raspistill and raspivid to stream, capture and record videos.
@@ -143,7 +143,7 @@ Check the following [article](https://dev.to/bogdaaamn/run-your-nodejs-applicati
 - [NGINX](https://docs.nginx.com/nginx/admin-guide/web-server/reverse-proxy/) - Reverse proxy to run raspiCam on port 80
 
 # Credits
-- [Broadway h264 player](https://github.com/mbebenita/Broadway).
+- [JMuxer](https://github.com/samirkumardas/jmuxer).
 
 # Troubleshooting
 
@@ -208,4 +208,4 @@ You can find the latest command sent to raspiCam in the terminal output:
  - download multiple items (zip)
 
 ## Keywords
-broadway live player node.js raspberry pi stream h264 monitoring timelapse video recording capture raspivid raspistill
+jmuxer live player node.js raspberry pi stream h264 monitoring timelapse video recording capture raspivid raspistill raspicam

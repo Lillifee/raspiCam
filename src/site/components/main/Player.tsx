@@ -1,7 +1,6 @@
 import * as React from 'react';
 import styled from 'styled-components';
-// import { abbreviateNumber, roundToSignificant } from '../../../shared/helperFunctions';
-import { createPlayerStats, player, PlayerStats } from '../bwPlayer';
+import { createPlayerStats, player, PlayerStats } from '../Player';
 
 // #region styled
 
@@ -11,15 +10,15 @@ const Container = styled.div`
   position: relative;
 `;
 
-const PlayerWrapper = styled.div`
+const VideoContainer = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+`;
 
-  > canvas {
-    max-width: 100%;
-    max-height: 100%;
-  }
+const Video = styled.video`
+  max-width: 100%;
+  max-height: 100%;
 `;
 
 interface BlurOverlayProps {
@@ -39,27 +38,22 @@ const BlurOverlay = styled.div<BlurOverlayProps>`
 
 /**
  * Player hook
- * Creates a webSocket Broadway player instance and append it to the passed container
+ * Creates a JMuxer player instance and append it to the passed container
  *
  * @param {string} url websocket url without (e.g. 192.168.1.10:8081)
  * @param {React.RefObject<HTMLElement>} container html reference object
  */
-const usePlayer = (url: string, container: React.RefObject<HTMLElement>) => {
+const usePlayer = (url: string) => {
   const [stats, setStats] = React.useState<PlayerStats>(createPlayerStats());
 
   // TODO create player in a separate effect and start/stop based on stream running
   React.useEffect(() => {
-    const element = container.current;
-    if (!element) return;
-
     const bwPlayer = player({ url, onStats: setStats });
-    element.appendChild(bwPlayer.canvas);
 
     return () => {
-      element.removeChild(bwPlayer.canvas);
       bwPlayer.stop();
     };
-  }, [url, container]);
+  }, [url]);
 
   return [stats];
 };
@@ -72,12 +66,14 @@ export interface PlayerProps {
  * Player to display the live stream
  */
 export const Player: React.FC<PlayerProps> = ({ loading }) => {
-  const playerWrapperRef = React.useRef<HTMLDivElement>(null);
-  const [stats] = usePlayer('/api/stream/live', playerWrapperRef);
+  const [stats] = usePlayer('/api/stream/live');
 
   return (
     <Container>
-      <PlayerWrapper ref={playerWrapperRef} />
+      <VideoContainer>
+        <Video id="player" muted={true} autoPlay={true} />
+      </VideoContainer>
+
       <BlurOverlay
         blur={loading || !stats.streamRunning || !stats.playerRunning || stats.droppingFrames}
       >

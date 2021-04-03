@@ -13,7 +13,7 @@ const styledComponentTransformer = {
  * Switch the server path during development
  */
 // const devServer = '192.168.3.80:8000';
-const devServer = '192.168.3.70:8000';
+const devServer = '192.168.3.61:8000';
 
 module.exports = (env, argv) => ({
   mode: argv.mode || 'production',
@@ -52,11 +52,7 @@ module.exports = (env, argv) => ({
       template: './src/site/public/index.html',
     }),
     new CopyPlugin({
-      patterns: [
-        { from: path.join(__dirname, 'broadway', 'Decoder.js') },
-        { from: path.join(__dirname, 'broadway', 'avc.wasm') },
-        { from: path.join(__dirname, 'src', 'site', 'public', 'favicon.ico') },
-      ],
+      patterns: [{ from: path.join(__dirname, 'src', 'site', 'public', 'favicon.ico') }],
     }),
   ],
 
@@ -82,5 +78,9 @@ module.exports = (env, argv) => ({
 
   resolve: {
     extensions: ['.tsx', '.ts', '.js'],
+    alias: {
+      buffer: 'buffer',
+      stream: 'stream-browserify',
+    },
   },
 });

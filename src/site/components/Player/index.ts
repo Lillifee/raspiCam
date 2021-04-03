@@ -27,22 +27,6 @@ export interface PlayerOptions {
   dropFrames?: number;
 
   /**
-   * Use the web worker (default true)
-   */
-  useWorker?: boolean;
-
-  /**
-   * Use WebGL (default true)
-   */
-  webgl?: boolean;
-
-  /**
-   * Player startup size. By default 1280x768
-   * The size automatically adjusts to the stream on each frame.
-   */
-  size?: PlayerSize;
-
-  /**
    * Amount of statistic calculation per seconds
    * By default 5 calculations per second
    * 200ms to indicate if the stream is still running.
@@ -82,11 +66,6 @@ export interface PlayerStats {
   avgSize: number;
 
   /**
-   * Rendered stream resolution
-   */
-  playerResolution: PlayerSize;
-
-  /**
    * Player running indication
    * If no more frames rendered within the last 200ms.
    */
@@ -118,20 +97,12 @@ export interface Player {
    * Stop the player
    */
   stop: () => void;
-
-  /**
-   * Canvas of the live stream
-   */
-  canvas: HTMLCanvasElement;
 }
 
 /**
  * Create default Player options
  */
 export const createPlayerOptions = (options: PlayerOptions): Required<PlayerOptions> => ({
-  webgl: true,
-  useWorker: true,
-  size: { width: 1280, height: 768 },
   reconnect: 100,
   dropFrames: 10,
   statsPerSecond: 5,
@@ -151,11 +122,10 @@ export const createPlayerStats = (): PlayerStats => ({
   droppingFrames: false,
   streamRunning: false,
   totalDroppedFrames: 0,
-  playerResolution: { width: 0, height: 0 },
 });
 
 /**
- * Live H264 broadway player
+ * Live H264 player
  *
  * @param playerOptions player options
  * @return Player
@@ -182,5 +152,5 @@ export const player = (playerOptions: PlayerOptions): Player => {
 
   start();
 
-  return { start, stop, canvas: player.canvas };
+  return { start, stop };
 };
