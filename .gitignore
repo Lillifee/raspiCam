@@ -3,7 +3,8 @@
 
 # production
 /lib
-/build
+/dist
+/.parcel-cache
 
 # photos
 /src/server/photos
