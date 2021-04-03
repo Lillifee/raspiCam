@@ -26,7 +26,7 @@ https://www.prusaprinters.org/prints/61556-raspberry-pi4-hq-camera-aluminium-mix
 
 ![picture](screenshots/raspiPi4HqCamera.jpg)
 
-![picture](screenshots/shot2.png)
+![picture](screenshots/raspiCamSettingsShot2.png)
 
 # Installation
 
