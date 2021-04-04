@@ -4,7 +4,6 @@ import { Gallery, raspiModes, RaspiStatus } from '../shared/settings/types';
 import { FileWatcher } from './watcher';
 import { RaspiControl } from './control';
 import { SettingsBase, SettingsHelper } from './settings';
-
 /**
  * Initialize the express server
  */
