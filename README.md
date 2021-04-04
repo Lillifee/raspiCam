@@ -19,7 +19,7 @@ I'm using a **Raspberry PI Zero W** with a **Raspberry PI HQ camera**.
 
 You can find the 3d printing files on https://www.prusaprinters.org/prints/48519-raspberry-pi-zero-webcam-hq-camera
 
-![picture](screenshots/raspiPi4HqCamera.jpg)
+![picture](screenshots/raspiZeroHqCamera.jpg)
 
 If you prefer a **Raspberry PI4**: 
 https://www.prusaprinters.org/prints/61556-raspberry-pi4-hq-camera-aluminium-mix
