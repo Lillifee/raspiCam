@@ -19,12 +19,12 @@ I'm using a **Raspberry PI Zero W** with a **Raspberry PI HQ camera**.
 
 You can find the 3d printing files on https://www.prusaprinters.org/prints/48519-raspberry-pi-zero-webcam-hq-camera
 
-![picture](screenshots/raspiZeroHqCamera.jpg)
+![picture](screenshots/camera.jpg)
 
 If you prefer a **Raspberry PI4**: 
 https://www.prusaprinters.org/prints/61556-raspberry-pi4-hq-camera-aluminium-mix
 
-![picture](screenshots/raspiPi4HqCamera.jpg)
+![picture](screenshots/cameraPi4.jpg)
 
 ![picture](screenshots/raspiCamSettingsShot2.png)
 
@@ -165,28 +165,28 @@ You can find the latest command sent to raspiCam in the terminal output:
 
 # Screenshots
 
-![picture](screenshots/raspiCamSettingsShot1.png)
+![picture](screenshots/shot1.png)
 
-![picture](screenshots/raspiCamSettingsShot2.png)
+![picture](screenshots/shot2.png)
 
-![picture](screenshots/raspiCamSettingsShot3.png)
+![picture](screenshots/shot3.png)
 
-![picture](screenshots/raspiCamSettingsShot4.png)
+![picture](screenshots/shot4.png)
 
-![picture](screenshots/raspiCamSettingsShot5.png)
+![picture](screenshots/shot5.png)
 
-![picture](screenshots/raspiCamSettingsShot6.png)
+![picture](screenshots/shot6.png)
 
 ## Settings
 
 
-![picture](screenshots/raspiCamSettings1.png)
+![picture](screenshots/settings1.png)
 
-![picture](screenshots/raspiCamSettings2.png)
+![picture](screenshots/settings2.png)
 
-![picture](screenshots/raspiCamSettings3.png)
+![picture](screenshots/settings3.png)
 
-![picture](screenshots/raspiCamSettings4.png)
+![picture](screenshots/settings4.png)
 
 
 # Roadmap and ideas
