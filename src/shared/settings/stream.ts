@@ -1,5 +1,5 @@
 import { abbreviateNumber, appendUnit } from '../helperFunctions';
-import { numberSetting, enumSetting } from './helper';
+import { enumSetting, numberSetting } from './helper';
 import { Setting } from './types';
 
 /**

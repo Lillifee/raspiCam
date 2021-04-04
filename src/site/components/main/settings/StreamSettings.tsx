@@ -2,14 +2,14 @@ import React from 'react';
 import { StreamSetting, StreamSettingDesc } from '../../../../shared/settings/stream';
 import { EnumDropdownSetting } from './common/EnumDropdownSetting';
 import { EnumSlider } from './common/EnumSlider';
-import { updateTypedField, restoreSettings } from './common/helperFunctions';
+import { restoreSettings, updateTypedField } from './common/helperFunctions';
 import { NumberSetting } from './common/NumberSetting';
 import { SettingsExpander } from './common/SettingsExpander';
 import {
-  SettingsWrapper,
   SettingsHeader,
   SettingsHeaderText,
   SettingsRestoreButton,
+  SettingsWrapper,
 } from './common/Styled';
 
 const videoResolutionPresets = [

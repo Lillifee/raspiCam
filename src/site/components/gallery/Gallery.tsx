@@ -1,6 +1,6 @@
 import * as React from 'react';
 import styled from 'styled-components';
-import { Gallery, photosPath, RaspiFile } from '../../../shared/settings/types';
+import { Gallery, RaspiFile, photosPath } from '../../../shared/settings/types';
 import { useFetch } from '../common/hooks/useFetch';
 import { Toolbar } from './Toolbar';
 
@@ -87,7 +87,7 @@ export const Main: React.FC = () => {
                 rel="noreferrer"
                 href={`${photosPath}/${file.base}`}
               >
-                <Thumbnail src={`${photosPath}/${file.thumb}`} />
+                <Thumbnail src={`${photosPath}/${file.thumb || ''}`} />
               </PreviewLink>
             ))}
           </ImageContainer>

@@ -2,7 +2,7 @@ import React from 'react';
 import { isDefined } from '../../../../../shared/helperFunctions';
 import { NumberTypeSetting } from '../../../../../shared/settings/types';
 import { Time } from '../../../styled/Time';
-import { SettingName, SettingHorizontalWrapper } from './Styled';
+import { SettingHorizontalWrapper, SettingName } from './Styled';
 
 export interface TimeSettingProps extends NumberTypeSetting {
   update: (value: number) => void;

@@ -1,5 +1,4 @@
-import { ChildProcess, spawn } from 'child_process';
-import { StdioOptions } from 'child_process';
+import { ChildProcess, StdioOptions, spawn } from 'child_process';
 import { Readable } from 'stream';
 import { createLogger } from './logger';
 

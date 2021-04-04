@@ -1,7 +1,7 @@
+import { exec } from 'child_process';
 import fs from 'fs';
 import path from 'path';
-import { exec } from 'child_process';
-import { photosPath, RaspiFile, RaspiFileType } from '../shared/settings/types';
+import { RaspiFile, RaspiFileType, photosPath } from '../shared/settings/types';
 import { createLogger } from './logger';
 
 const logger = createLogger('watcher');

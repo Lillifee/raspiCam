@@ -1,9 +1,10 @@
 import express from 'express';
 import path from 'path';
-import { Gallery, raspiModes, RaspiStatus } from '../shared/settings/types';
-import { FileWatcher } from './watcher';
+import { Gallery, RaspiControlStatus, RaspiStatus, raspiModes } from '../shared/settings/types';
 import { RaspiControl } from './control';
 import { SettingsBase, SettingsHelper } from './settings';
+import { FileWatcher } from './watcher';
+
 /**
  * Initialize the express server
  */
@@ -21,24 +22,22 @@ const server = (
 
   //#region Helper functions
 
-  const getSettings = (x: SettingsBase) => async (_: express.Request, res: express.Response) =>
+  const getSettings = (x: SettingsBase) => (_: express.Request, res: express.Response) =>
     res.send(x.read());
 
-  const applySettings = (x: SettingsBase) => async (
-    req: express.Request,
-    res: express.Response,
-  ) => {
+  const applySettings = (x: SettingsBase) => (req: express.Request, res: express.Response) => {
     x.apply(req.body);
     res.status(200).send(x.read());
   };
 
-  const applyAndRestart = (x: SettingsBase) => async (
-    req: express.Request,
-    res: express.Response,
-  ) => {
+  const applyAndRestart = (x: SettingsBase) => (req: express.Request, res: express.Response) => {
     const applied = x.apply(req.body);
-    if (applied) await control.restartStream();
-    return res.status(200).send(x.read());
+    const sendSettings = () => res.status(200).send(x.read());
+    if (applied) {
+      control.restartStream().then(sendSettings).catch(sendSettings);
+    } else {
+      sendSettings();
+    }
   };
 
   const getStatus = (): RaspiStatus => ({
@@ -63,23 +62,24 @@ const server = (
   app.get('/api/photo', getSettings(settingsHelper.photo));
   app.post('/api/photo', applySettings(settingsHelper.photo));
 
-  app.get('/api/control', async (_, res) => {
+  app.get('/api/control', (_, res) => {
     res.send(getStatus());
   });
 
-  app.post('/api/control', async (req, res) => {
-    if (raspiModes.includes(req.body.mode)) {
-      control.setMode(req.body.mode);
+  app.post('/api/control', (req, res) => {
+    const body = req.body as RaspiControlStatus;
+    if (raspiModes.includes(body.mode)) {
+      control.setMode(body.mode);
     }
     res.send(getStatus());
   });
 
-  app.get('/api/start', async (_, res) => {
+  app.get('/api/start', (_, res) => {
     control.start();
     res.status(200).send('starting...');
   });
 
-  app.get('/api/stop', async (_, res) => {
+  app.get('/api/stop', (_, res) => {
     control.stop();
     res.status(200).send('stopping...');
   });
@@ -100,7 +100,7 @@ const server = (
     }
   });
 
-  app.get('/api/gallery', async (_, res) => {
+  app.get('/api/gallery', (_, res) => {
     const gallery: Gallery = {
       files: fileWatcher.getFiles(),
     };

@@ -1,7 +1,7 @@
 import { shallowEqualObjects } from '../shared/helperFunctions';
-import { cameraSettingDesc, cameraSettingConverter } from '../shared/settings/camera';
+import { cameraSettingConverter, cameraSettingDesc } from '../shared/settings/camera';
 import { defaultSettings } from '../shared/settings/defaultSettings';
-import { extractSettings, applySettings } from '../shared/settings/helper';
+import { applySettings, extractSettings } from '../shared/settings/helper';
 import { photoSettingConverter, photoSettingDesc } from '../shared/settings/photo';
 import { previewSettingDesc } from '../shared/settings/preview';
 import { streamSettingDesc } from '../shared/settings/stream';

@@ -1,4 +1,4 @@
-import { useEffect, useCallback, useReducer, useMemo, useRef } from 'react';
+import { useCallback, useEffect, useMemo, useReducer, useRef } from 'react';
 import { ActionTypes, createActions } from '../actionHelper';
 import { useDebounce } from './useDebounce';
 import { useTimer } from './useTimer';
@@ -48,7 +48,11 @@ const createFetchSlice = <T>() => {
           isUpdating: false,
         };
       case 'USER_INPUT':
-        return { ...state, input: { ...state.input, ...action.payload }, isUpdating: true };
+        return {
+          ...state,
+          input: { ...state.input, ...action.payload },
+          isUpdating: true,
+        };
       default:
         return state;
     }
@@ -80,11 +84,11 @@ export const useFetch = <T>(
   const abortUpdate = useRef(new AbortController());
 
   // Fetch data callback
-  const fetchData = useCallback(async () => {
+  const fetchData = useCallback(() => {
     abortFetch.current = new AbortController();
     dispatch(actions.FETCH());
 
-    return fetch(url, { signal: abortFetch.current.signal })
+    fetch(url, { signal: abortFetch.current.signal })
       .then((res) => res.json())
       .then((json) => dispatch(actions.FETCH_SUCCESS(json)))
       .catch((error) => {
@@ -104,7 +108,7 @@ export const useFetch = <T>(
       dispatch(actions.UPDATE(data));
 
       // Post the updated data
-      return fetch(url, {
+      fetch(url, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(data),
@@ -112,12 +116,12 @@ export const useFetch = <T>(
       })
         .then((res) => res.json())
         .then((json) => dispatch(actions.UPDATE_SUCCESS(json)))
+        .finally(startRefresh)
         .catch((error) => {
           if (!abortUpdate.current.signal.aborted) {
             dispatch(actions.UPDATE_FAILURE(error));
           }
-        })
-        .finally(startRefresh);
+        });
     },
     [url, actions, startRefresh],
   );

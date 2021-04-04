@@ -1,5 +1,5 @@
 import { appendUnit } from '../helperFunctions';
-import { numberSetting, enumSetting, booleanSetting } from './helper';
+import { booleanSetting, enumSetting, numberSetting } from './helper';
 import { Setting } from './types';
 
 /**

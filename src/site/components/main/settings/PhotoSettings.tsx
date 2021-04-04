@@ -3,14 +3,14 @@ import { PhotoSetting, PhotoSettingDesc } from '../../../../shared/settings/phot
 import { BooleanSetting } from './common/BooleanSetting';
 import { EnumDropdownSetting } from './common/EnumDropdownSetting';
 import { EnumSlider } from './common/EnumSlider';
-import { updateTypedField, restoreSettings } from './common/helperFunctions';
+import { restoreSettings, updateTypedField } from './common/helperFunctions';
 import { NumberSetting } from './common/NumberSetting';
 import { SettingsExpander } from './common/SettingsExpander';
 import {
-  SettingsWrapper,
   SettingsHeader,
   SettingsHeaderText,
   SettingsRestoreButton,
+  SettingsWrapper,
 } from './common/Styled';
 import { TimeSetting } from './common/TimeSetting';
 

@@ -8,7 +8,7 @@ import { useCallback, useEffect, useRef } from 'react';
  * @return [ start : () => void, stop: () => void ]
  */
 export const useTimer = (
-  callback: () => Promise<void> | void,
+  callback: () => void,
   interval?: number,
 ): [
   () => void, // Start timer
@@ -31,8 +31,8 @@ export const useTimer = (
   const start = useCallback(() => {
     stop();
     if (interval) {
-      timeout.current = setTimeout(async () => {
-        await callback();
+      timeout.current = setTimeout(() => {
+        callback();
         start();
       }, interval);
     }

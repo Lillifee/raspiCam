@@ -2,10 +2,10 @@ import React from 'react';
 import { EnumTypeSetting } from '../../../../../shared/settings/types';
 import { Slider } from '../../../styled/Slider';
 import {
-  SettingVerticalWrapper,
-  SettingNameValueContainer,
   SettingName,
+  SettingNameValueContainer,
   SettingValue,
+  SettingVerticalWrapper,
 } from './Styled';
 
 export interface EnumSliderSettingProps extends EnumTypeSetting {

@@ -1,10 +1,10 @@
 import http from 'http';
 import yargs from 'yargs';
-import { createSettingsHelper } from './settings';
-import server from './server';
 import raspiControl from './control';
-import { fileWatcher } from './watcher';
 import { createLogger } from './logger';
+import server from './server';
+import { createSettingsHelper } from './settings';
+import { fileWatcher } from './watcher';
 
 const logger = createLogger('server');
 

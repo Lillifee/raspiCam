@@ -2,10 +2,10 @@ import * as React from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import {
-  photosPath,
   RaspiControlStatus,
   RaspiMode,
   RaspiStatus,
+  photosPath,
 } from '../../../shared/settings/types';
 import { Icon, IconType } from '../common/Icon';
 import { ButtonIcon } from '../styled/ButtonIcon';

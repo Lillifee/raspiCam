@@ -6,15 +6,15 @@ import { BooleanSetting } from './common/BooleanSetting';
 import { EnumDropdownSetting } from './common/EnumDropdownSetting';
 import { EnumSlider } from './common/EnumSlider';
 import { EnumSliderSetting } from './common/EnumSliderSetting';
-import { updateTypedField, restoreSettings } from './common/helperFunctions';
+import { restoreSettings, updateTypedField } from './common/helperFunctions';
 import { NumberSetting } from './common/NumberSetting';
 import { SettingsExpander, SettingsExpanderHeader } from './common/SettingsExpander';
 import {
-  SettingsWrapper,
+  SettingHorizontalWrapper,
   SettingsHeader,
   SettingsHeaderText,
   SettingsRestoreButton,
-  SettingHorizontalWrapper,
+  SettingsWrapper,
 } from './common/Styled';
 
 const secToMicro = (seconds: number) => Math.round(seconds * 1e6);

@@ -1,5 +1,5 @@
 import { appendUnit } from '../helperFunctions';
-import { enumSetting, numberSetting, booleanSetting } from './helper';
+import { booleanSetting, enumSetting, numberSetting } from './helper';
 import { streamSettingDesc } from './stream';
 import { Setting } from './types';
 

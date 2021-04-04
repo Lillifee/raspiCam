@@ -1,15 +1,15 @@
 import * as React from 'react';
 import styled, { keyframes } from 'styled-components';
-import { CameraSettingDesc, CameraSetting } from '../../../shared/settings/camera';
-import { PhotoSettingDesc, PhotoSetting } from '../../../shared/settings/photo';
+import { CameraSetting, CameraSettingDesc } from '../../../shared/settings/camera';
+import { PhotoSetting, PhotoSettingDesc } from '../../../shared/settings/photo';
+import { ActiveSetting, Filler } from './Main';
 import {
+  AwbSetting,
+  EffectSetting,
   ExposureSetting,
   ShutterSetting,
-  EffectSetting,
-  AwbSetting,
 } from './settings/CameraSettings';
 import { TimelapseSetting } from './settings/PhotoSettings';
-import { ActiveSetting, Filler } from './Main';
 
 //#region styled
 

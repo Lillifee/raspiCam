@@ -2,10 +2,10 @@ import path from 'path';
 import internal from 'stream';
 import { getIsoDataTime } from '../shared/helperFunctions';
 import { RaspiControlStatus, RaspiMode } from '../shared/settings/types';
-import { photosAbsPath } from './watcher';
 import { createLogger } from './logger';
 import { spawnProcess } from './process';
 import { SettingsHelper } from './settings';
+import { photosAbsPath } from './watcher';
 
 const logger = createLogger('control');
 
@@ -39,7 +39,7 @@ const raspiControl = (settingsHelper: SettingsHelper): RaspiControl => {
     const mode = modeHelper.Stream(settingsHelper);
     logger.info('starting', 'Stream', '...');
 
-    return streamProcess.start(mode.command, mode.settings).catch((e) => {
+    return streamProcess.start(mode.command, mode.settings).catch((e: Error) => {
       logger.error('Stream failed:', e.message);
       status.lastError = e.message;
     });
@@ -49,7 +49,7 @@ const raspiControl = (settingsHelper: SettingsHelper): RaspiControl => {
 
   const restartStream = async () => {
     if (streamProcess.running()) {
-      await startStream();
+      return startStream();
     }
   };
 
@@ -75,18 +75,20 @@ const raspiControl = (settingsHelper: SettingsHelper): RaspiControl => {
     actionProcess
       .start(mode.command, mode.settings)
       .then(() => startStream())
-      .catch((e) => {
+      .catch((e: Error) => {
         logger.error(status.mode, 'failed:', e.message);
         status.lastError = e.message;
       });
   };
 
-  const stop = async () => {
+  const stop = () => {
     logger.info('stop', status.mode, '...');
     actionProcess.stop();
   };
 
-  startStream();
+  startStream().catch(() => {
+    // not needed
+  });
 
   return { start, stop, getStatus, setMode, restartStream, getStream };
 };

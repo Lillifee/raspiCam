@@ -3,15 +3,15 @@ import styled from 'styled-components';
 import { isDefined } from '../../../shared/helperFunctions';
 import { CameraSetting, CameraSettingDesc } from '../../../shared/settings/camera';
 import { PhotoSetting, PhotoSettingDesc } from '../../../shared/settings/photo';
+import { PreviewSetting, PreviewSettingDesc } from '../../../shared/settings/preview';
 import { StreamSetting, StreamSettingDesc } from '../../../shared/settings/stream';
 import { VidSetting, VidSettingDesc } from '../../../shared/settings/vid';
+import { ActiveSetting, Filler } from './Main';
 import { CameraSettings } from './settings/CameraSettings';
 import { PhotoSettings } from './settings/PhotoSettings';
+import { PreviewSettings } from './settings/PreviewSettings';
 import { StreamSettings } from './settings/StreamSettings';
 import { VideoSettings } from './settings/VideoSettings';
-import { ActiveSetting, Filler } from './Main';
-import { PreviewSetting, PreviewSettingDesc } from '../../../shared/settings/preview';
-import { PreviewSettings } from './settings/PreviewSettings';
 
 //#region styled
 

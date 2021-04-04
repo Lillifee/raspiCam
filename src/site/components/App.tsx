@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { BrowserRouter, Switch, Route } from 'react-router-dom';
+import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import { ThemeProvider } from 'styled-components';
 import { Main as Gallery } from './gallery/Gallery';
 import { Main as Camera } from './main/Main';

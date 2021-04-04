@@ -1,6 +1,6 @@
 import * as React from 'react';
 import styled from 'styled-components';
-import { createPlayerStats, player, PlayerStats } from '../Player';
+import { PlayerStats, createPlayerStats, player } from '../Player';
 
 // #region styled
 
