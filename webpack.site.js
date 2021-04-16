@@ -1,7 +1,5 @@
-const path = require('path');
-const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const CopyPlugin = require('copy-webpack-plugin');
+const path = require('path');
 const createStyledComponentsTransformer = require('typescript-plugin-styled-components').default;
 
 const styledComponentTransformer = {
@@ -50,9 +48,7 @@ module.exports = (env, argv) => ({
   plugins: [
     new HtmlWebpackPlugin({
       template: './src/site/public/index.html',
-    }),
-    new CopyPlugin({
-      patterns: [{ from: path.join(__dirname, 'src', 'site', 'public', 'favicon.ico') }],
+      favicon: './src/site/public/favicon.ico',
     }),
   ],
 
