@@ -31,7 +31,7 @@ const CaptureButton = styled.button<ActionButtonProps>`
   border: 3px solid ${(p) => p.theme.Foreground};
   border-radius: ${(p) => (p.running ? '15%' : '50%')};
   background: ${(p) => (p.running ? 'rgba(255,0,0,0.5)' : 'transparent')};
-  box-shadow: inset 1px 1px 5px ${(p) => p.theme.Background};
+  filter: drop-shadow(0px 0px 2px ${(p) => p.theme.Background});
 
   :not(:active) {
     transition: background-color 0.5s;

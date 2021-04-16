@@ -30,7 +30,7 @@ const QuickSettingsContainer = styled.div`
   grid-auto-rows: auto;
   grid-column-gap: 2.5em;
   backdrop-filter: blur(3px);
-  background-color: rgba(20, 20, 20, 0.8);
+  background-color: ${(p) => p.theme.LayerBackground};
   animation: 0.2s ${FadeIn};
   pointer-events: all;
   padding: 0.5em 1em;

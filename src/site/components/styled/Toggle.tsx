@@ -16,7 +16,7 @@ const CheckBoxLabel = styled.label`
   height: 20px;
   border-radius: 15px;
   background: ${(props) => props.theme.Background};
-  border: 2px solid ${(props) => props.theme.Background};
+  border: 1px solid ${(props) => props.theme.Background};
 
   cursor: pointer;
   &::after {

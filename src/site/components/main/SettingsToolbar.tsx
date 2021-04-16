@@ -11,7 +11,7 @@ const ToolbarContainer = styled.div`
   display: flex;
   flex-direction: row;
   backdrop-filter: blur(5px);
-  background-color: rgba(20, 20, 20, 0.8);
+  background-color: ${(p) => p.theme.LayerBackground};
   pointer-events: all;
 
   @media (orientation: landscape) {

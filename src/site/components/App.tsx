@@ -4,9 +4,10 @@ import { ThemeProvider } from 'styled-components';
 import { Main as Gallery } from './gallery/Gallery';
 import { Main as Camera } from './main/Main';
 import { GlobalStyle } from './theme/GlobalStyle';
-import { theme } from './theme/themes';
+import { darkTheme } from './theme/themes';
 
 export const App: React.FC = () => {
+  const [theme, setTheme] = React.useState(darkTheme);
   return (
     <ThemeProvider theme={theme}>
       <GlobalStyle />
@@ -16,7 +17,7 @@ export const App: React.FC = () => {
             <Gallery />
           </Route>
           <Route path="/">
-            <Camera />
+            <Camera setTheme={setTheme} />
           </Route>
         </Switch>
       </BrowserRouter>

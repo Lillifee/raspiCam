@@ -20,9 +20,9 @@ export const SettingsExpanderHeader = styled.div`
 `;
 
 const Content = styled.div`
-  background: rgba(20, 20, 20, 0.6);
-  padding: 0 0.6em;
+  background: ${(p) => p.theme.SubLayerBackground};
   border-left: 3px solid ${(p) => p.theme.PrimaryBackground};
+  padding: 0 0.6em;
   margin-bottom: 2em;
   border-radius: 0 6px 6px 0;
 `;

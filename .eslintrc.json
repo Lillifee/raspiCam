@@ -41,6 +41,7 @@
   "rules": {
     "react/prop-types": "off",
     "prettier/prettier": "error",
+    "arrow-body-style": ["error", "as-needed"],
     
     // Require the imports to be sorted correctly
     "import/order": [

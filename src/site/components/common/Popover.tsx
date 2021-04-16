@@ -34,7 +34,7 @@ export const PopoverContainer = styled.div`
   flex-direction: column;
   padding: 0.5em 1em;
   backdrop-filter: blur(5px);
-  background-color: rgba(20, 20, 20, 0.8);
+  background-color: ${(p) => p.theme.LayerBackground};
   animation: 0.2s ${fadeIn};
 `;
 
@@ -49,10 +49,12 @@ const Container = styled.div<PositionSize>`
   flex: 1;
   display: grid;
   grid-template-columns:
-    minmax(0, ${(p) => p.left}px) minmax(min(${(p) => p.maxWidth}px, 100%), ${(p) => p.maxWidth}px)
+    minmax(0, ${(p) => p.left}px)
+    minmax(min(${(p) => p.maxWidth}px, 100%), ${(p) => p.maxWidth}px)
     minmax(0, ${(p) => p.right}px);
   grid-template-rows:
-    minmax(0, ${(p) => p.top}px) minmax(min(${(p) => p.maxHeight}px, 100%), ${(p) => p.maxHeight}px)
+    minmax(0, ${(p) => p.top}px)
+    minmax(min(${(p) => p.maxHeight}px, 100%), ${(p) => p.maxHeight}px)
     minmax(0, ${(p) => p.bottom}px);
 
   pointer-events: all;

@@ -1,5 +1,5 @@
 import * as React from 'react';
-import styled from 'styled-components';
+import styled, { DefaultTheme } from 'styled-components';
 import { isDefined } from '../../../shared/helperFunctions';
 import { CameraSetting, CameraSettingDesc } from '../../../shared/settings/camera';
 import { PhotoSetting, PhotoSettingDesc } from '../../../shared/settings/photo';
@@ -7,6 +7,7 @@ import { PreviewSetting, PreviewSettingDesc } from '../../../shared/settings/pre
 import { StreamSetting, StreamSettingDesc } from '../../../shared/settings/stream';
 import { VidSetting, VidSettingDesc } from '../../../shared/settings/vid';
 import { ActiveSetting, Filler } from './Main';
+import { ApplicationSettings } from './settings/ApplicationSettings';
 import { CameraSettings } from './settings/CameraSettings';
 import { PhotoSettings } from './settings/PhotoSettings';
 import { PreviewSettings } from './settings/PreviewSettings';
@@ -31,7 +32,7 @@ const SettingsContainer = styled.div<ContainerProps>`
   display: flex;
   overflow-y: scroll;
   backdrop-filter: blur(5px);
-  background-color: rgba(20, 20, 20, 0.8);
+  background-color: ${(p) => p.theme.LayerBackground};
   color: ${(p) => p.theme.Foreground};
   transition: flex 0.2s;
   pointer-events: all;
@@ -53,6 +54,7 @@ export interface SettingsProps {
   updateVid: (data: VidSetting) => void;
   updateStream: (data: StreamSetting) => void;
   updatePreview: (data: PreviewSetting) => void;
+  setTheme: (theme: DefaultTheme) => void;
 }
 
 export const SettingsAdvanced: React.FC<SettingsProps> = ({
@@ -68,18 +70,18 @@ export const SettingsAdvanced: React.FC<SettingsProps> = ({
   updateVid,
   updateStream,
   updatePreview,
-}) => {
-  return (
-    <SettingsPane>
-      <SettingsContainer show={activeSetting === 'Settings'}>
-        <CameraSettings data={camera} updateData={updateCamera} />
-        <PhotoSettings data={photo} updateData={updatePhoto} />
-        <VideoSettings data={vid} updateData={updateVid} />
-        <StreamSettings data={stream} updateData={updateStream} />
-        <PreviewSettings data={preview} updateData={updatePreview} />
-      </SettingsContainer>
+  setTheme,
+}) => (
+  <SettingsPane>
+    <SettingsContainer show={activeSetting === 'Settings'}>
+      <CameraSettings data={camera} updateData={updateCamera} />
+      <PhotoSettings data={photo} updateData={updatePhoto} />
+      <VideoSettings data={vid} updateData={updateVid} />
+      <StreamSettings data={stream} updateData={updateStream} />
+      <PreviewSettings data={preview} updateData={updatePreview} />
+      <ApplicationSettings setTheme={setTheme} />
+    </SettingsContainer>
 
-      <Filler enableClick={isDefined(activeSetting)} onClick={() => activateSetting(undefined)} />
-    </SettingsPane>
-  );
-};
+    <Filler enableClick={isDefined(activeSetting)} onClick={() => activateSetting(undefined)} />
+  </SettingsPane>
+);

@@ -9,6 +9,7 @@ const GalleryContainer = styled.div`
   display: flex;
   flex-direction: column;
   color: ${(p) => p.theme.Foreground};
+  background: ${(p) => p.theme.Background};
   overflow-y: auto;
 `;
 

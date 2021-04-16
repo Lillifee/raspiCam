@@ -29,7 +29,7 @@ const ToolbarFiller = styled.div`
 `;
 
 const ToolbarButton = styled(ButtonIcon)`
-  filter: drop-shadow(1px 1px 1px black);
+  filter: drop-shadow(0px 0px 2px ${(p) => p.theme.Background});
   pointer-events: all;
 `;
 
@@ -49,7 +49,7 @@ const CameraModeList = styled.div<CameraModeListProps>`
   flex: ${(p) => (p.show ? '1' : '0')};
   overflow: hidden;
   flex-direction: row;
-  background: black;
+  background: ${(p) => p.theme.SubLayerBackground};
   transition: flex 0.3s;
   border-radius: 2px;
 `;

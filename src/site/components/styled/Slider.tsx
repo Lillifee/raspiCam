@@ -27,7 +27,7 @@ const SliderStyled = styled.input<SliderProps>`
     height: 22px;
     background: ${(props) =>
       props.unset ? props.theme.Background : props.theme.PrimaryBackground};
-    border: 2px solid ${(props) => props.theme.SubBackground};
+    border: 1px solid ${(props) => props.theme.Border};
     border-radius: 15px;
   }
 

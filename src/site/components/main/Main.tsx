@@ -1,5 +1,5 @@
 import * as React from 'react';
-import styled from 'styled-components';
+import styled, { DefaultTheme } from 'styled-components';
 import { isDefined } from '../../../shared/helperFunctions';
 import { cameraSettingDesc } from '../../../shared/settings/camera';
 import { defaultRaspiStatus } from '../../../shared/settings/defaultSettings';
@@ -45,7 +45,7 @@ const MainContainer = styled.div`
   overflow: hidden;
   z-index: 20;
   pointer-events: none;
-
+  background: ${(p) => p.theme.RootBackground};
   @media (orientation: landscape) {
     flex-direction: row;
   }
@@ -95,7 +95,11 @@ const useFetchSettings = <T extends { [k in keyof T]: TypeSetting }>(
   return [data, update];
 };
 
-export const Main: React.FC = () => {
+export interface Props {
+  setTheme: (theme: DefaultTheme) => void;
+}
+
+export const Main: React.FC<Props> = ({ setTheme }) => {
   const mainRef = React.useRef<HTMLDivElement>(null);
   const [isFullscreen, setFullscreen] = useFullscreen(mainRef);
 
@@ -153,6 +157,7 @@ export const Main: React.FC = () => {
             updateVid={updateVid}
             updateStream={updateStream}
             updatePreview={updatePreview}
+            setTheme={setTheme}
           />
         </OverlayContent>
 

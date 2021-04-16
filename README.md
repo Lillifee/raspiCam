@@ -177,17 +177,11 @@ You can find the latest command sent to raspiCam in the terminal output:
 
 ![picture](screenshots/raspiCamSettingsShot6.png)
 
-## Settings
+# Theme
 
+![picture](screenshots/raspiCamTheme1.png)
 
-![picture](screenshots/raspiCamSettings1.png)
-
-![picture](screenshots/raspiCamSettings2.png)
-
-![picture](screenshots/raspiCamSettings3.png)
-
-![picture](screenshots/raspiCamSettings4.png)
-
+![picture](screenshots/raspiCamTheme2.png)
 
 # Roadmap and ideas
 

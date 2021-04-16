@@ -49,8 +49,8 @@ export const spawnProcess = (options?: {
   const running = () => !!process;
   const output = () => process?.stdout;
 
-  const start = (command: string, args: Record<string, unknown>): Promise<void> => {
-    return new Promise<void>((resolve, reject) => {
+  const start = (command: string, args: Record<string, unknown>): Promise<void> =>
+    new Promise<void>((resolve, reject) => {
       const spawnArgs = getSpawnArgs(args);
       logger.log(command, spawnArgs.join(' '));
 
@@ -61,7 +61,6 @@ export const spawnProcess = (options?: {
       process.on('error', (e) => reject(e));
       process.on('exit', () => resolve());
     });
-  };
 
   return { start, stop, running, output };
 };

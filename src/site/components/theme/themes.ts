@@ -1,16 +1,18 @@
 import { DefaultTheme } from 'styled-components';
 
-export const theme: DefaultTheme = {
-  Background: '#242424',
-  Border: '#373737',
+export const darkTheme: DefaultTheme = {
+  Name: 'Dark',
+
+  RootBackground: '#242424',
+
+  LayerBackground: 'rgba(20, 20, 20, 0.8)',
+  SubLayerBackground: 'rgba(20, 20, 20, 0.6)',
+
+  Background: '#3d3d3d',
+  Border: '#1d1d1d',
+
   Foreground: '#e2e2e2',
-
-  SubBackground: '#1d1d1d',
-  SubBorder: '#2c2c2c',
   SubForeground: '#a2a2a2',
-
-  HighlightBackground: '#373737',
-  HighlightForeground: '#e2e2e2',
 
   SelectedBackground: '#323232',
   SelectedForeground: '#e2e2e2',
@@ -25,4 +27,37 @@ export const theme: DefaultTheme = {
     l: '1.5em',
     xl: '2em',
   },
+};
+
+export const lightTheme: DefaultTheme = {
+  Name: 'Light',
+
+  RootBackground: '#ffffff',
+  LayerBackground: 'rgba(255, 255, 255, 0.8)',
+  SubLayerBackground: 'rgba(255, 255, 255, 0.6)',
+
+  Background: '#dfdfdf',
+  Border: '#383838',
+
+  Foreground: '#3c3c3c',
+  SubForeground: '#7c7c7c',
+
+  SelectedBackground: '#ebebeb',
+  SelectedForeground: '#3c3c3c',
+
+  PrimaryBackground: '#78b956',
+  PrimaryForeground: '#1d1d1d',
+
+  FontSize: {
+    xs: '0.7em',
+    s: '0.8em',
+    m: '1em',
+    l: '1.5em',
+    xl: '2em',
+  },
+};
+
+export const allThemes: Record<string, DefaultTheme> = {
+  Dark: darkTheme,
+  Light: lightTheme,
 };

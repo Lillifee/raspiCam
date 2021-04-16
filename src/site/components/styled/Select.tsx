@@ -8,7 +8,7 @@ export const Select = styled.select`
   background: ${(p) => p.theme.Background};
   color: ${(p) => p.theme.Foreground};
   font-size: 14px;
-  border: 2px solid ${(p) => p.theme.SubBackground};
+  border: 1px solid ${(p) => p.theme.Border};
   text-align-last: center;
   outline: none;
   cursor: pointer;

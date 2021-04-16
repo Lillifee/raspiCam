@@ -51,5 +51,5 @@ export const RadioContainer = styled.div`
 
   overflow: hidden;
   background: ${(p) => p.theme.Background};
-  border: 1px solid ${(p) => p.theme.SubBackground};
+  border: 1px solid ${(p) => p.theme.Border};
 `;

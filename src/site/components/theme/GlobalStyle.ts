@@ -12,8 +12,8 @@ export const GlobalStyle = createGlobalStyle`
     display: flex;
     flex-direction: column;
     overflow: hidden;
-    background: #1d1d1d;
     user-select: none;
+    background: ${(p) => p.theme.RootBackground};
   }
 
   body {
@@ -26,11 +26,11 @@ export const GlobalStyle = createGlobalStyle`
   }
 
   *::-webkit-scrollbar-track {
-    background: #1d1d1d;
+    background: ${(p) => p.theme.LayerBackground};
   }
 
   *::-webkit-scrollbar-thumb {
-    background-color: #444444;
+    background-color: ${(p) => p.theme.Background};
     border-radius: 0px;
     border: 0;
   }

@@ -5,11 +5,11 @@ const TimeStyled = styled.input`
   padding: 0.2em 0.5em;
   background: ${(p) => p.theme.Background};
   color: ${(p) => p.theme.Foreground};
-  border: 2px solid ${(p) => p.theme.SubBackground};
+  border: 1px solid ${(p) => p.theme.Border};
   font-size: ${(p) => p.theme.FontSize.s};
   outline: none;
   &::-webkit-calendar-picker-indicator {
-    filter: invert(1);
+    filter: ${(p) => (p.theme.Name === 'Dark' ? 'invert(1)' : 'invert(0)')};
   }
 `;
 

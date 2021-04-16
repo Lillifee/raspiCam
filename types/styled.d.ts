@@ -5,16 +5,18 @@ declare module 'styled-components' {
     Override the default theme properties of styled components.
   */
   export interface DefaultTheme {
+    Name: string;
+
+    RootBackground: string;
+
+    LayerBackground: string;
+    SubLayerBackground: string;
+
     Background: string;
-    Foreground: string;
     Border: string;
 
-    SubBackground: string;
+    Foreground: string;
     SubForeground: string;
-    SubBorder: string;
-
-    HighlightBackground: string;
-    HighlightForeground: string;
 
     SelectedBackground: string;
     SelectedForeground: string;
