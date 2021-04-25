@@ -16,6 +16,9 @@
     "build:server": "webpack --config webpack.server.js"
   },
   "dependencies": {
+    "@tensorflow-models/coco-ssd": "^2.2.2",
+    "@tensorflow-models/mobilenet": "^2.1.0",
+    "@tensorflow/tfjs": "^3.5.0",
     "buffer": "^6.0.3",
     "chalk": "^4.1.0",
     "express": "^4.17.1",
