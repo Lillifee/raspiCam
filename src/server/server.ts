@@ -1,6 +1,11 @@
 import express from 'express';
 import path from 'path';
-import { Gallery, RaspiControlStatus, RaspiStatus, raspiModes } from '../shared/settings/types';
+import {
+  RaspiGallery,
+  RaspiControlStatus,
+  RaspiStatus,
+  raspiModes,
+} from '../shared/settings/types';
 import { RaspiControl } from './control';
 import { SettingsBase, SettingsHelper } from './settings';
 import { FileWatcher } from './watcher';
@@ -101,7 +106,7 @@ const server = (
   });
 
   app.get('/api/gallery', (_, res) => {
-    const gallery: Gallery = {
+    const gallery: RaspiGallery = {
       files: fileWatcher.getFiles(),
     };
     res.status(200).send(gallery);

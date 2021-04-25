@@ -2,7 +2,7 @@ import * as React from 'react';
 import styled, { keyframes } from 'styled-components';
 import { CameraSetting, CameraSettingDesc } from '../../../shared/settings/camera';
 import { PhotoSetting, PhotoSettingDesc } from '../../../shared/settings/photo';
-import { ActiveSetting, Filler } from './Main';
+import { ActiveSetting, Filler } from './Camera';
 import {
   AwbSetting,
   EffectSetting,

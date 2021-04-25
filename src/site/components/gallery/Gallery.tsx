@@ -1,6 +1,6 @@
 import * as React from 'react';
 import styled from 'styled-components';
-import { Gallery, RaspiFile, photosPath } from '../../../shared/settings/types';
+import { RaspiGallery, RaspiFile, photosPath } from '../../../shared/settings/types';
 import { useFetch } from '../common/hooks/useFetch';
 import { Toolbar } from './Toolbar';
 
@@ -61,8 +61,8 @@ const dateTimeFormat = new Intl.DateTimeFormat('en-GB', {
   dateStyle: 'full',
 } as Intl.DateTimeFormatOptions);
 
-export const Main: React.FC = () => {
-  const [gallery] = useFetch<Gallery>('/api/gallery', { files: [] });
+export const Gallery: React.FC = () => {
+  const [gallery] = useFetch<RaspiGallery>('/api/gallery', { files: [] });
 
   const groupedFiles = gallery.data.files.reduce<Record<string, RaspiFile[]>>((result, file) => {
     const date = dateTimeFormat.format(new Date(file.date || 0));

@@ -54,6 +54,6 @@ export interface RaspiStatus extends RaspiControlStatus {
   latestFile?: RaspiFile;
 }
 
-export interface Gallery {
+export interface RaspiGallery {
   files: RaspiFile[];
 }

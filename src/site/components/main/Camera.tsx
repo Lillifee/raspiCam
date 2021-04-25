@@ -99,7 +99,7 @@ export interface Props {
   setTheme: (theme: DefaultTheme) => void;
 }
 
-export const Main: React.FC<Props> = ({ setTheme }) => {
+export const Camera: React.FC<Props> = ({ setTheme }) => {
   const mainRef = React.useRef<HTMLDivElement>(null);
   const [isFullscreen, setFullscreen] = useFullscreen(mainRef);
 

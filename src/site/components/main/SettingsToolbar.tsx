@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { RaspiStatus } from '../../../shared/settings/types';
 import { IconType } from '../common/Icon';
 import { ButtonIcon } from '../styled/ButtonIcon';
-import { ActiveSetting } from './Main';
+import { ActiveSetting } from './Camera';
 
 //#region styled
 

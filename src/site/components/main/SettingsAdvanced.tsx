@@ -6,7 +6,7 @@ import { PhotoSetting, PhotoSettingDesc } from '../../../shared/settings/photo';
 import { PreviewSetting, PreviewSettingDesc } from '../../../shared/settings/preview';
 import { StreamSetting, StreamSettingDesc } from '../../../shared/settings/stream';
 import { VidSetting, VidSettingDesc } from '../../../shared/settings/vid';
-import { ActiveSetting, Filler } from './Main';
+import { ActiveSetting, Filler } from './Camera';
 import { ApplicationSettings } from './settings/ApplicationSettings';
 import { CameraSettings } from './settings/CameraSettings';
 import { PhotoSettings } from './settings/PhotoSettings';
