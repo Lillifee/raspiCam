@@ -102,10 +102,6 @@ sudo apt install exiv2
 
 Download the latest release and extract it to a new raspiCam folder.
 
-[RaspiCam.zip](https://github.com/Lillifee/raspiCam/releases/latest/download/raspiCam.zip) or 
-[RaspiCam.tar.gz](https://github.com/Lillifee/raspiCam/releases/latest/download/raspiCam.tar.gz)
-
-
 ```
 mkdir raspiCam && cd raspiCam
 wget https://github.com/Lillifee/raspiCam/releases/latest/download/raspiCam.tar.gz
