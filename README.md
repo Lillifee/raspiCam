@@ -100,24 +100,33 @@ sudo apt install exiv2
 
 ### RaspiCam
 
-Clone the repository, install and build the raspiCam can take a while.
-Especially on the zero, I would suggest the copy approach.
+Download the latest release and extract it to a new raspiCam folder.
 
-[Download](https://github.com/Lillifee/raspiCam/releases/latest/download/raspiCam.zip) the latest release, extract it to a new raspiCam folder and copy it to your Raspberry PI.
+[RaspiCam.zip](https://github.com/Lillifee/raspiCam/releases/latest/download/raspiCam.zip) or 
+[RaspiCam.tar.gz](https://github.com/Lillifee/raspiCam/releases/latest/download/raspiCam.tar.gz)
 
-or
-
-Clone the repository and build the package: 
 
 ```
-git clone https://github.com/Lillifee/raspiCam.git
-
-cd raspiCam/
-
-npm install
-npm run build
+mkdir raspiCam && cd raspiCam
+wget https://github.com/Lillifee/raspiCam/releases/latest/download/raspiCam.tar.gz
+tar -xvzf raspiCam.tar.gz
 ```
-The bundled package should appear in the **build** folder.
+
+<details>
+  <summary>Alternative: Clone the repository and build it</summary>
+    Clone the repository and build the package: 
+
+    ```
+    git clone https://github.com/Lillifee/raspiCam.git
+
+    cd raspiCam/
+
+    npm install
+    npm run build
+    ```
+    The bundled package should appear in the **build** folder.
+</details>
+
 
 ## 
 
