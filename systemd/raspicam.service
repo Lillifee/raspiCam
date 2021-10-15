@@ -1,0 +1,13 @@
+[Unit]
+Description=raspicam.js
+Documentation=https://github.com/Lillifee/raspiCam
+After=network.target
+
+[Service]
+WorkingDirectory=/home/pi/raspiCam
+ExecStart=/usr/bin/node server.js
+Restart=on-failure
+User=pi
+
+[Install]
+WantedBy=multi-user.target

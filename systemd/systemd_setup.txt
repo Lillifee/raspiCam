@@ -1,0 +1,5 @@
+sudo cp raspicam.service /etc/systemd/system
+sudo systemctl enable raspicam.service
+sudo systemctl start raspicam.service
+sudo systemctl stop raspicam.service
+journalctl -u raspicam
