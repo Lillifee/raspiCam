@@ -94,9 +94,10 @@ const raspiControl = (settingsHelper: SettingsHelper): RaspiControl => {
 };
 
 const modeHelper: {
-  [key in RaspiMode | 'Stream']: (
-    settingsHelper: SettingsHelper,
-  ) => { settings: Record<string, unknown>; command: string };
+  [key in RaspiMode | 'Stream']: (settingsHelper: SettingsHelper) => {
+    settings: Record<string, unknown>;
+    command: string;
+  };
 } = {
   Photo: (settingsHelper: SettingsHelper) => {
     const { camera, preview, photo } = settingsHelper;

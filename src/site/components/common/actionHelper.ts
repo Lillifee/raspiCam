@@ -13,7 +13,7 @@ export const createActions = <T extends ActionCreatorsMap>(
   Object.entries(actions).reduce(
     (result, [key, value]) => ({
       ...result,
-      [key]: (...args: any) => ({ type: key, payload: value(...args) as ReturnType<T[string]> }),
+      [key]: (...args) => ({ type: key, payload: value(...args) as ReturnType<T[string]> }),
     }),
     {} as ActionCreatorsReturnMap<T>,
   );

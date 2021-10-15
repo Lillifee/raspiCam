@@ -90,8 +90,8 @@ export const useFetch = <T>(
 
     fetch(url, { signal: abortFetch.current.signal })
       .then((res) => res.json())
-      .then((json) => dispatch(actions.FETCH_SUCCESS(json)))
-      .catch((error) => {
+      .then((json: T) => dispatch(actions.FETCH_SUCCESS(json)))
+      .catch((error: Error) => {
         if (!abortFetch.current.signal.aborted) {
           dispatch(actions.FETCH_FAILURE(error));
         }
@@ -115,9 +115,9 @@ export const useFetch = <T>(
         signal: abortUpdate.current.signal,
       })
         .then((res) => res.json())
-        .then((json) => dispatch(actions.UPDATE_SUCCESS(json)))
+        .then((json: T) => dispatch(actions.UPDATE_SUCCESS(json)))
         .finally(startRefresh)
-        .catch((error) => {
+        .catch((error: Error) => {
           if (!abortUpdate.current.signal.aborted) {
             dispatch(actions.UPDATE_FAILURE(error));
           }

@@ -9,8 +9,10 @@ export interface Logger {
 }
 
 export const createLogger = (module: string): Logger => {
-  const log = (fn: chalk.ChalkFunction) => (...text: unknown[]) =>
-    console.log(fn(`[${module}]`, ...text));
+  const log =
+    (fn: chalk.ChalkFunction) =>
+    (...text: unknown[]) =>
+      console.log(fn(`[${module}]`, ...text));
 
   return {
     log: log(chalk.blackBright),

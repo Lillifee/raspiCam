@@ -1,5 +1,4 @@
 import http from 'http';
-import yargs from 'yargs';
 import raspiControl from './control';
 import { createLogger } from './logger';
 import server from './server';
@@ -7,19 +6,6 @@ import { createSettingsHelper } from './settings';
 import { fileWatcher } from './watcher';
 
 const logger = createLogger('server');
-
-/**
- * Parse the command line arguments
- */
-const argv = yargs
-  .option('port', {
-    alias: 'p',
-    type: 'number',
-    description: 'Port number of the express server',
-    default: 8000,
-  })
-  .help()
-  .alias('help', 'h').argv;
 
 const start = () => {
   logger.info('starting services...');
@@ -63,8 +49,8 @@ const start = () => {
   /**
    * Start the web server
    */
-  httpServer.listen(argv.port);
-  logger.success('server listening on', argv.port);
+  httpServer.listen(8000);
+  logger.success('server listening on', 8000);
 };
 
 start();

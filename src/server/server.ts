@@ -5,10 +5,14 @@ import {
   RaspiControlStatus,
   RaspiStatus,
   raspiModes,
+  GenericSettingDesc,
+  Setting,
 } from '../shared/settings/types';
 import { RaspiControl } from './control';
 import { SettingsBase, SettingsHelper } from './settings';
 import { FileWatcher } from './watcher';
+
+type SettingRequest = express.Request<undefined, undefined, Setting<GenericSettingDesc>>;
 
 /**
  * Initialize the express server
@@ -30,12 +34,12 @@ const server = (
   const getSettings = (x: SettingsBase) => (_: express.Request, res: express.Response) =>
     res.send(x.read());
 
-  const applySettings = (x: SettingsBase) => (req: express.Request, res: express.Response) => {
+  const applySettings = (x: SettingsBase) => (req: SettingRequest, res: express.Response) => {
     x.apply(req.body);
     res.status(200).send(x.read());
   };
 
-  const applyAndRestart = (x: SettingsBase) => (req: express.Request, res: express.Response) => {
+  const applyAndRestart = (x: SettingsBase) => (req: SettingRequest, res: express.Response) => {
     const applied = x.apply(req.body);
     const sendSettings = () => res.status(200).send(x.read());
     if (applied) {

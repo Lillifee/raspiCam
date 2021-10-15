@@ -6,6 +6,8 @@ export const restoreSettings = <T extends Record<string, unknown>>(data: T): Res
     {},
   ) as RestoredSetting<T>;
 
-export const updateTypedField = <T extends Record<string, unknown>>(
-  updateData: (data: T) => void,
-) => <K extends keyof T>(field: K) => (value: T[K]): void => updateData({ [field]: value } as T);
+export const updateTypedField =
+  <T extends Record<string, unknown>>(updateData: (data: T) => void) =>
+  <K extends keyof T>(field: K) =>
+  (value: T[K]): void =>
+    updateData({ [field]: value } as T);
