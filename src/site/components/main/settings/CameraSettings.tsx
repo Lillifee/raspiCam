@@ -165,6 +165,7 @@ export const CameraSettings: React.FC<CameraSettingsProps> = ({ data, updateData
 
       <SettingsExpander header={<SettingsExpanderHeader>Other</SettingsExpanderHeader>}>
         <NumberSetting {...data.mode} update={updateField('mode')} />
+        <NumberSetting {...data.rotation} update={updateField('rotation')} />
         <BooleanSetting {...data.hflip} update={updateField('hflip')} />
         <BooleanSetting {...data.vflip} update={updateField('vflip')} />
         <EnumDropdownSetting {...data.flicker} update={updateField('flicker')} />

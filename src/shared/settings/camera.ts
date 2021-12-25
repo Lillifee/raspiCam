@@ -140,6 +140,9 @@ export const cameraSettingDesc = {
   /** Selects which camera to use on a multi-camera system. Use 0 or 1. */
   camselect: enumSetting('Camera', ['0', '1'], '0'),
 
+  /** Set rotation  */
+  rotation: numberSetting('Rotation', 0, 270, 0, 90),
+
   // TODO not supported properties
 
   /** Set sensor region of interest e.g. 0.5,0.5,0.25,0.25  */

@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { BrowserRouter, Route, Switch } from 'react-router-dom';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { ThemeProvider } from 'styled-components';
 import { Gallery } from './gallery/Gallery';
 import { Camera } from './main/Camera';
@@ -12,14 +12,10 @@ export const App: React.FC = () => {
     <ThemeProvider theme={theme}>
       <GlobalStyle />
       <BrowserRouter>
-        <Switch>
-          <Route path="/gallery">
-            <Gallery />
-          </Route>
-          <Route path="/">
-            <Camera setTheme={setTheme} />
-          </Route>
-        </Switch>
+        <Routes>
+          <Route path="/gallery" element={<Gallery />} />
+          <Route path="/" element={<Camera setTheme={setTheme} />} />
+        </Routes>
       </BrowserRouter>
     </ThemeProvider>
   );
