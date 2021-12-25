@@ -28,12 +28,6 @@ const start = () => {
    */
   const control = raspiControl(settingsHelper);
 
-  // TODO load and apply stored settings
-  // settingsHelper.stream.apply(initialSettings.stream);
-  // settingsHelper.still.apply(initialSettings.still);
-  // settingsHelper.vid.apply(initialSettings.vid);
-  // settingsHelper.preview.apply(initialSettings.preview);
-
   /**
    * Create photos and thumbnail directory
    */

@@ -5,8 +5,9 @@
 /lib
 /build
 
-# photos
+# photos and settings
 /src/server/photos
+/src/server/settings
 
 yarn-debug.log*
 yarn-error.log*

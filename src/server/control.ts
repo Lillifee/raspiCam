@@ -40,7 +40,7 @@ const raspiControl = (settingsHelper: SettingsHelper): RaspiControl => {
     logger.info('starting', 'Stream', '...');
 
     return streamProcess.start(mode.command, mode.settings).catch((e: Error) => {
-      logger.error('Stream failed:', e.message);
+      logger.error('stream failed:', e.message);
       status.lastError = e.message;
     });
   };
