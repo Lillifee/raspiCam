@@ -140,9 +140,36 @@ As soon the server is up and running, the following message appear:
 
 Open the browser and navigate to: `http://__ip_address__:8000`
 
+# Run RaspiCam as a service
+
+To automatically start the RaspiCam on startup, you can run the RaspiCam as a service.
+Check the [raspicam.service](https://github.com/Lillifee/raspiCam/blob/master/systemd/raspicam.service) in the systemd folder in the repository and adapt it to your needs.
+
+Copy the raspicam.service file to your raspberry and move the raspicam.service configuration file to the systemd:
+```
+sudo cp raspicam.service /etc/systemd/system
+```
+
+Enable and start the raspicam service:
+```
+sudo systemctl enable raspicam.service
+sudo systemctl start raspicam.service
+```
+
+If you encounter problems (e.g.: the server doesn't start), check the logs:
+```
+journalctl -u raspicam
+```
+
+Or stop and disable the service:
+```
+sudo systemctl disable raspicam.service
+sudo systemctl stop raspicam.service
+```
+
 # Tipps
 
-Check the following [article](https://dev.to/bogdaaamn/run-your-nodejs-application-on-a-headless-raspberry-pi-4jnn) to run the raspiCam headless. It includes a step by step instruction for:
+You can also check the following [article](https://dev.to/bogdaaamn/run-your-nodejs-application-on-a-headless-raspberry-pi-4jnn) to run the raspiCam headless. It includes a step by step instruction for:
 
 - [PM2](https://github.com/Unitech/pm2) - Autostart the process
 - [NGINX](https://docs.nginx.com/nginx/admin-guide/web-server/reverse-proxy/) - Reverse proxy to run raspiCam on port 80
