@@ -24,8 +24,14 @@ jobs:
       run: yarn --frozen-lockfile
     - name: Build
       run: yarn build
+    - name: Create archive folder
+      run: mkdir archive
+    - name: Create zip
+      run: cd build && zip -r ../archive/raspiCam.zip * && cd -
+    - name: Create tar.gz
+      run: cd build && tar -zcf ../archive/raspiCam.tar.gz * && cd -
     - name: Archive build
       uses: actions/upload-artifact@v2
       with:
         name: raspiCam
-        path: build
+        path: archive
