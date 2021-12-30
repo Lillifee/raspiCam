@@ -145,7 +145,7 @@ Open the browser and navigate to: `http://__ip_address__:8000`
 To automatically start the RaspiCam on startup, you can run the RaspiCam as a service.
 Check the [raspicam.service](https://github.com/Lillifee/raspiCam/blob/master/systemd/raspicam.service) in the systemd folder in the repository and adapt it to your needs.
 
-Copy the raspicam.service file to your raspberry and move the raspicam.service configuration file to the systemd:
+Copy the raspicam.service file to the systemd:
 ```
 sudo cp raspicam.service /etc/systemd/system
 ```
@@ -234,4 +234,4 @@ You can find the latest command sent to raspiCam in the terminal output:
  - download multiple items (zip)
 
 ## Keywords
-jmuxer live player node.js raspberry pi stream h264 monitoring timelapse video recording capture raspivid raspistill raspicam
+jmuxer web application raspberry hq camera software react live player node.js raspberry pi stream h264 monitoring timelapse video recording capture raspivid raspistill raspicam
