@@ -39,8 +39,8 @@ export interface RaspiFile {
   name: string;
   base: string;
   ext: string;
+  date: number;
   thumb?: string;
-  date?: number;
 }
 
 export interface RaspiControlStatus {

@@ -11,9 +11,7 @@ const Container = styled.div`
 `;
 
 const VideoContainer = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  margin: 0 auto;
 `;
 
 const Video = styled.video`

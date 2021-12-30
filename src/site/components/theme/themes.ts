@@ -8,7 +8,7 @@ export const darkTheme: DefaultTheme = {
   LayerBackground: 'rgba(20, 20, 20, 0.8)',
   SubLayerBackground: 'rgba(20, 20, 20, 0.6)',
 
-  Background: '#3d3d3d',
+  Background: '#242424',
   Border: '#1d1d1d',
 
   Foreground: '#e2e2e2',

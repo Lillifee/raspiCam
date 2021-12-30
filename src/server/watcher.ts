@@ -39,7 +39,7 @@ export const fileWatcher = (): FileWatcher => {
   const addFile = (fileName: string) => {
     const { name, base, ext } = path.parse(fileName);
     const type = fileTypes[ext.substring(1)];
-    const file: RaspiFile = { name, base, ext, type };
+    const file: RaspiFile = { name, base, ext, type, date: 0 };
 
     // Invalid type or thumbnail
     if (!type || isThumbnail(file)) return;
