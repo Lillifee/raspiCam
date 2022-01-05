@@ -11,16 +11,41 @@ const ToolbarContainer = styled.div`
   pointer-events: all;
   position: sticky;
   top: 0px;
+  z-index: 1;
 `;
 
 const Button = styled(ButtonIcon)`
   padding: 0.8em;
 `;
 
-export const Toolbar: React.FC = () => (
+const Filler = styled.div`
+  flex: 1;
+`;
+
+const ActionContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+`;
+
+export interface Props {
+  showActions: boolean;
+  deleteFiles: () => void;
+  clearSelection: () => void;
+}
+
+export const Toolbar: React.FC<Props> = ({ showActions, deleteFiles, clearSelection }) => (
   <ToolbarContainer>
     <Link to="/">
       <Button type="PhotoCamera" />
     </Link>
+
+    <Filler />
+
+    {showActions && (
+      <ActionContainer>
+        <Button type="Delete" onClick={deleteFiles} />
+        <Button type="Clear" onClick={clearSelection} />
+      </ActionContainer>
+    )}
   </ToolbarContainer>
 );

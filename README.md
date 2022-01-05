@@ -28,6 +28,8 @@ https://www.prusaprinters.org/prints/61556-raspberry-pi4-hq-camera-aluminium-mix
 
 ![picture](screenshots/raspiCamSettingsShot2.png)
 
+![picture](screenshots/raspiCamGallery1.png)
+
 # Installation
 
 ## Raspberry PI OS
@@ -207,13 +209,18 @@ You can find the latest command sent to raspiCam in the terminal output:
 
 ![picture](screenshots/raspiCamSettingsShot5.png)
 
-![picture](screenshots/raspiCamSettingsShot6.png)
+
+![picture](screenshots/raspiCamGallery1.png)
+
+![picture](screenshots/raspiCamGallery2.png)
 
 # Theme
 
 ![picture](screenshots/raspiCamTheme1.png)
 
 ![picture](screenshots/raspiCamTheme2.png)
+
+![picture](screenshots/raspiCamTheme3.png)
 
 # Roadmap and ideas
 
@@ -226,11 +233,7 @@ You can find the latest command sent to raspiCam in the terminal output:
  - Setting explanation 
 
 ## Gallery
- - sort order
- - loading indication
- - support videos
  - group timelapse photos
- - select and delete items
  - download multiple items (zip)
 
 ## Keywords

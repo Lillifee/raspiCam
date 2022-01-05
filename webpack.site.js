@@ -53,6 +53,7 @@ module.exports = (env, argv) => ({
   ],
 
   devServer: {
+    historyApiFallback: true,
     proxy: {
       '/api': {
         target: `http://${devServer}`,

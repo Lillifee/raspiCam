@@ -1,8 +1,8 @@
 import * as React from 'react';
 import styled from 'styled-components';
-import { RaspiGallery, RaspiFile, photosPath } from '../../../shared/settings/types';
+import { RaspiGallery, RaspiFile } from '../../../shared/settings/types';
 import { useFetch } from '../common/hooks/useFetch';
-import { Icon } from '../common/Icon';
+import { GalleryItem } from './GalleryItem';
 import { Toolbar } from './Toolbar';
 
 const GalleryContainer = styled.div`
@@ -24,41 +24,8 @@ const GroupContainer = styled.div`
   align-items: stretch;
 
   @media (max-width: 500px) {
-    grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
   }
-`;
-
-const Thumbnail = styled.img`
-  max-width: 100%;
-  height: auto;
-  object-fit: cover;
-  flex: 1;
-`;
-
-const PreviewContainer = styled.div`
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  min-height: 80px;
-  fill: ${(p) => p.theme.Foreground};
-  background: ${(p) => p.theme.LayerBackground};
-`;
-
-const FallbackIcon = styled.div`
-  margin: 0.2em;
-`;
-
-const FallbackText = styled.div`
-  margin: 0.2em;
-  color: ${({ theme }) => theme.Foreground};
-  font-size: ${({ theme }) => theme.FontSize.s};
-`;
-
-const PreviewLink = styled.a`
-  display: flex;
-  text-decoration: none;
 `;
 
 const Group = styled.div`
@@ -70,9 +37,7 @@ const Group = styled.div`
 const Header = styled.div`
   font-size: ${(p) => p.theme.FontSize.l};
   font-weight: 300;
-  position: sticky;
-  top: 0px;
-  margin: 0 1.5em;
+  /* top: 0px; */
   padding: 0.45em;
 `;
 
@@ -81,7 +46,8 @@ const dateTimeFormat = new Intl.DateTimeFormat('en-GB', {
 } as Intl.DateTimeFormatOptions);
 
 export const Gallery: React.FC = () => {
-  const [gallery] = useFetch<RaspiGallery>('/api/gallery', { files: [] });
+  const [gallery, , refresh] = useFetch<RaspiGallery>('/api/gallery', { files: [] });
+  const [selectedFiles, setSelectFiles] = React.useState<string[]>([]);
 
   const groupedFiles = gallery.data.files
     .sort((a, b) => b.date - a.date)
@@ -92,34 +58,46 @@ export const Gallery: React.FC = () => {
       return result;
     }, {});
 
+  const toggleSelection = (fileBase: string) =>
+    setSelectFiles((files) =>
+      files.find((x) => x === fileBase)
+        ? files.filter((x) => x !== fileBase)
+        : [...files, fileBase],
+    );
+
+  const clearSelection = () => setSelectFiles([]);
+
+  const deleteFiles = React.useCallback(() => {
+    fetch('/api/gallery/delete', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(selectedFiles),
+    })
+      .finally(refresh)
+      .catch((error) => console.error('Delete failed', error));
+
+    clearSelection();
+  }, [selectedFiles, refresh]);
+
   return (
     <GalleryContainer>
-      <Toolbar />
+      <Toolbar
+        showActions={selectedFiles.length > 0}
+        deleteFiles={deleteFiles}
+        clearSelection={clearSelection}
+      />
 
       {Object.entries(groupedFiles).map(([date, files]) => (
         <Group key={date}>
           <Header>{date}</Header>
           <GroupContainer>
             {files.map((file) => (
-              <PreviewLink
+              <GalleryItem
                 key={file.base}
-                target="_blank"
-                rel="noreferrer"
-                href={`${photosPath}/${file.base}`}
-              >
-                <PreviewContainer>
-                  {file.thumb ? (
-                    <Thumbnail src={`${photosPath}/${file.thumb || ''}`} />
-                  ) : (
-                    <React.Fragment>
-                      <FallbackIcon>
-                        <Icon type={file.type === 'VIDEO' ? 'Video' : 'Photo'} />
-                      </FallbackIcon>
-                      <FallbackText>{file.base}</FallbackText>
-                    </React.Fragment>
-                  )}
-                </PreviewContainer>
-              </PreviewLink>
+                file={file}
+                selected={selectedFiles.includes(file.base)}
+                toggleSelection={toggleSelection}
+              />
             ))}
           </GroupContainer>
         </Group>

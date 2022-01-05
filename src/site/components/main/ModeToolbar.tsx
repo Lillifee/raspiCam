@@ -119,19 +119,6 @@ export const ModeToolbar: React.FC<ModeToolbarProps> = ({
             </NoThumbPreview>
           )}
         </PreviewLink>
-        // <PreviewLink
-        //   target="_blank"
-        //   rel="noreferrer"
-        //   href={`${photosPath}/${status.latestFile.base}`}
-        // >
-        //   {status.latestFile.thumb ? (
-        //     <ThumbPreview src={`${photosPath}/${status.latestFile.thumb}`} />
-        //   ) : (
-        //     <NoThumbPreview>
-        //       <Icon type={status.latestFile.type === 'IMAGE' ? 'Photo' : 'Video'} />
-        //     </NoThumbPreview>
-        //   )}
-        // </PreviewLink>
       )}
 
       <ToolbarFiller />

@@ -111,6 +111,30 @@ export const IconMap = {
       <path d="M6.85 12.65h2.3L8 9l-1.15 3.65zM22 7l-1.2 6.29L19.3 7h-1.6l-1.49 6.29L15 7h-.76C12.77 5.17 10.53 4 8 4c-4.42 0-8 3.58-8 8s3.58 8 8 8c3.13 0 5.84-1.81 7.15-4.43l.1.43H17l1.5-6.1L20 16h1.75l2.05-9H22zm-11.7 9l-.7-2H6.4l-.7 2H3.8L7 7h2l3.2 9h-1.9z" />
     </svg>
   ),
+  Checked: (
+    <svg width="24" height="24" viewBox="0 0 24 24">
+      <path d="M0 0h24v24H0z" fill="none" />
+      <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z" />
+    </svg>
+  ),
+  Unchecked: (
+    <svg width="24" height="24" viewBox="0 0 24 24">
+      <path d="M0 0h24v24H0V0z" fill="none" />
+      <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8z" />
+    </svg>
+  ),
+  Delete: (
+    <svg width="24" height="24" viewBox="0 0 24 24">
+      <path d="M0 0h24v24H0V0z" fill="none" />
+      <path d="M16 9v10H8V9h8m-1.5-6h-5l-1 1H5v2h14V4h-3.5l-1-1zM18 7H6v12c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7z" />
+    </svg>
+  ),
+  Clear: (
+    <svg width="24" height="24" viewBox="0 0 24 24">
+      <path d="M0 0h24v24H0V0z" fill="none" />
+      <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z" />
+    </svg>
+  ),
 };
 
 export type IconType = keyof typeof IconMap;

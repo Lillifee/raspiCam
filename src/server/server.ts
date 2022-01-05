@@ -1,5 +1,6 @@
 import express from 'express';
 import path from 'path';
+import { isDefined } from '../shared/helperFunctions';
 import {
   RaspiGallery,
   RaspiControlStatus,
@@ -25,7 +26,7 @@ const server = (
   const app = express();
 
   // Serve the static content from public
-  app.use(express.static(path.join(__dirname, './public')));
+  app.use(express.static(path.join(__dirname, 'public')));
   app.use('/photos', express.static(fileWatcher.getPath()));
   app.use(express.json());
 
@@ -115,6 +116,18 @@ const server = (
     };
     res.status(200).send(gallery);
   });
+
+  app.post('/api/gallery/delete', (req, res) => {
+    const files =
+      Array.isArray(req.body) &&
+      req.body.map((value) => (typeof value === 'string' ? value : undefined)).filter(isDefined);
+
+    files && fileWatcher.deleteFiles(files);
+    res.status(200).send('Gallery files deleted');
+  });
+
+  // All other requests to index html
+  app.get('*', (_, res) => res.sendFile(path.resolve(__dirname, 'public', 'index.html')));
 
   return app;
 };
