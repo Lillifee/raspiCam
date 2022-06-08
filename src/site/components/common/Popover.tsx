@@ -95,11 +95,10 @@ interface RectProps extends Position {
 interface PositionSize extends Position, Size {}
 
 export interface PortalContainerProps {
-  container: Element | HTMLElement;
   children: React.ReactNode;
 }
 
-export const PortalPopover: React.FC = ({ children }) => {
+export const PortalPopover: React.FC<PortalContainerProps> = ({ children }) => {
   const element = React.useMemo<HTMLDivElement>(() => document.createElement('div'), []);
 
   React.useEffect(() => {
@@ -115,6 +114,7 @@ export const PortalPopover: React.FC = ({ children }) => {
 
 interface PopoverContentProps extends Popover, Size {
   parentRect?: RectProps;
+  children: React.ReactNode;
 }
 
 const emptyPosition = { top: 0, left: 0, right: 0, bottom: 0 };
@@ -169,7 +169,9 @@ export const PopoverContent: React.FC<PopoverContentProps> = ({
   );
 };
 
-interface PopoverProps extends Popover, Partial<Size> {}
+interface PopoverProps extends Popover, Partial<Size> {
+  children: React.ReactNode;
+}
 
 export const Popover: React.FC<PopoverProps> = ({ children, maxWidth, maxHeight, ...props }) => {
   const placeholder = React.useRef<HTMLElement>(null);
