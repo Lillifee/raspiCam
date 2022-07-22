@@ -23,9 +23,9 @@ const videoResolutionPresets = [
 ];
 
 const qualityPresets = [
-  { name: 'low', qp: 30 },
-  { name: 'medium', qp: 20 },
-  { name: 'high', qp: 15 },
+  { name: 'low', bitrate: 1000000 },
+  { name: 'medium', bitrate: 10000000 },
+  { name: 'high', bitrate: 15000000 },
 ];
 
 const timeoutPresets = [
@@ -76,13 +76,12 @@ export const VideoSettings: React.FC<VidSettingsProps> = ({ data, updateData }) 
           <EnumSlider
             name="Quality"
             items={qualityPresets}
-            predicate={(x) => x.qp === data.qp.value}
+            predicate={(x) => x.bitrate === data.bitrate.value}
             displayValue={(x) => x.name}
-            update={(x) => updateData({ qp: x.qp })}
+            update={(x) => updateData({ bitrate: x.bitrate })}
           />
         }
       >
-        <NumberSetting {...data.qp} update={updateField('qp')} />
         <NumberSetting {...data.bitrate} update={updateField('bitrate')} />
       </SettingsExpander>
 
@@ -104,9 +103,7 @@ export const VideoSettings: React.FC<VidSettingsProps> = ({ data, updateData }) 
         <EnumDropdownSetting {...data.codec} update={updateField('codec')} />
         <EnumDropdownSetting {...data.profile} update={updateField('profile')} />
         <EnumDropdownSetting {...data.level} update={updateField('level')} />
-        <EnumDropdownSetting {...data.irefresh} update={updateField('irefresh')} />
         <BooleanSetting {...data.inline} update={updateField('inline')} />
-        <BooleanSetting {...data.spstimings} update={updateField('spstimings')} />
         <BooleanSetting {...data.flush} update={updateField('flush')} />
       </SettingsExpander>
     </SettingsWrapper>

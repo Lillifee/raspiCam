@@ -3,7 +3,7 @@
 RaspiCam is a react application to stream, take pictures or record videos from your raspberry pi camera over a web interface. The live stream is provided over a simple HTTP request and displayed using by the brilliant [JMuxer](https://github.com/samirkumardas/jmuxer).
 
 - **Simple**: a mobile-first designed user interface to provide a flawless user experience on the smartphone.
-- **Lightweight**: raspiCam uses the build-in raspistill and raspivid to stream, capture and record videos.
+- **Lightweight**: raspiCam uses the build-in bullseye libcamera-still and libcamera-vid to stream, capture and record videos.
 
 ## Usecases
 - Monitoring camera
@@ -11,7 +11,7 @@ RaspiCam is a react application to stream, take pictures or record videos from y
 - Video recorder
 - Camera to go with remote trigger (smartphone)
 - Use it as a tool to find the best camera settings for your project.
-    - Adjust the settings without manually start and stop the raspivid or raspistill.
+    - Adjust the settings without manually start and stop the libcamera-vid or libcamera-still.
     - Copy the result from the terminal and use it for your project.
 
 ## Hardware
@@ -34,6 +34,8 @@ https://www.prusaprinters.org/prints/61556-raspberry-pi4-hq-camera-aluminium-mix
 
 ## Raspberry PI OS
 
+From version >1.2.0, raspiCam support the libcamera apps of the new Raspberry Pi OS. If you use an older version with raspistill and raspivid, please check version 1.2.0 in the release section.
+
 If your raspberry is already up and running, you can skip this section and continue with the "Install Node.js" section. 
 
 Install the latest Raspberry Pi OS Lite with the [Raspberry PI imager](https://www.raspberrypi.org/software/). Feel free to use the desktop version, but it's not necessary for the application.  
@@ -49,15 +51,6 @@ After the installation, make sure your system is up to date:
 sudo apt update
 sudo apt upgrade
 ```
-
-### Enable camera
-
-Enable the camera in the raspi-config: "**Interfacing options**" -> "**Camera**":
-```
-sudo raspi-config
-```
-
-
 
 ## Install Node.js
 
@@ -237,4 +230,4 @@ You can find the latest command sent to raspiCam in the terminal output:
  - download multiple items (zip)
 
 ## Keywords
-jmuxer web application raspberry hq camera software react live player node.js raspberry pi stream h264 monitoring timelapse video recording capture raspivid raspistill raspicam
+jmuxer web application raspberry hq camera software react live player node.js raspberry pi stream h264 monitoring timelapse video recording capture libcamera-vid libcamera-still libcamera-app bullseye raspicam

@@ -1,4 +1,4 @@
-import { booleanSetting, numberSetting } from './helper';
+import { booleanSetting } from './helper';
 import { Setting } from './types';
 
 /**
@@ -19,12 +19,6 @@ export const previewSettingDesc = {
    * Note that the aspect ratio of the incoming image will be retained, so there may be bars on some edges.
    */
   fullscreen: booleanSetting('fullscreen', false),
-
-  /**
-   * Set preview window opacity
-   * Sets the opacity of the preview windows. 0 = invisible, 255 = fully opaque.
-   */
-  opacity: numberSetting('opacity', 0, 255, 255, 1),
 
   /**
    * Preview window settings <'x,y,w,h'>

@@ -2,7 +2,6 @@ import React from 'react';
 import { PreviewSetting, PreviewSettingDesc } from '../../../../shared/settings/preview';
 import { BooleanSetting } from './common/BooleanSetting';
 import { restoreSettings, updateTypedField } from './common/helperFunctions';
-import { NumberSetting } from './common/NumberSetting';
 import { SettingsExpander, SettingsExpanderHeader } from './common/SettingsExpander';
 import {
   SettingsHeader,
@@ -32,7 +31,6 @@ export const PreviewSettings: React.FC<PreviewSettingsProps> = ({ data, updateDa
       <SettingsExpander header={<SettingsExpanderHeader>HDMI Preview</SettingsExpanderHeader>}>
         <BooleanSetting {...data.nopreview} update={updateField('nopreview')} />
         <BooleanSetting {...data.fullscreen} update={updateField('fullscreen')} />
-        <NumberSetting {...data.opacity} update={updateField('opacity')} />
       </SettingsExpander>
     </SettingsWrapper>
   );

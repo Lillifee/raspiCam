@@ -77,7 +77,6 @@ export type ActiveSetting =
   | 'Settings'
   | 'Timelapse'
   | 'Exposure'
-  | 'Effect'
   | 'Shutter'
   | 'AwbAuto'
   | undefined;

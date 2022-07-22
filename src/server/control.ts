@@ -96,7 +96,7 @@ const raspiControl = (settingsHelper: SettingsHelper): RaspiControl => {
 const modeHelper: {
   [key in RaspiMode | 'Stream']: (settingsHelper: SettingsHelper) => {
     settings: Record<string, unknown>;
-    command: string;
+    command: 'libcamera-still' | 'libcamera-vid';
   };
 } = {
   Photo: (settingsHelper: SettingsHelper) => {
@@ -108,7 +108,7 @@ const modeHelper: {
     };
 
     return {
-      command: 'raspistill',
+      command: 'libcamera-still',
       settings: {
         ...settings,
         output: path.join(photosAbsPath, `${getIsoDataTime()}-%04d.${settings.encoding || 'jpg'}`),
@@ -124,7 +124,7 @@ const modeHelper: {
     };
 
     return {
-      command: 'raspivid',
+      command: 'libcamera-vid',
       settings: {
         ...settings,
         output: path.join(photosAbsPath, `${getIsoDataTime()}.h264`),
@@ -135,7 +135,7 @@ const modeHelper: {
     const { camera, preview, stream } = settingsHelper;
 
     return {
-      command: 'raspivid',
+      command: 'libcamera-vid',
       settings: {
         ...camera.convert(),
         ...preview.convert(),

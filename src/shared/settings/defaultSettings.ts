@@ -18,7 +18,7 @@ export const defaultSettings: DefaultSettings = {
     width: streamSettingDesc.width.defaultValue,
     height: streamSettingDesc.height.defaultValue,
     framerate: streamSettingDesc.framerate.defaultValue,
-    qp: streamSettingDesc.qp.defaultValue,
+    bitrate: streamSettingDesc.bitrate.defaultValue,
   },
   photo: {
     width: photoSettingDesc.width.defaultValue,
@@ -31,7 +31,7 @@ export const defaultSettings: DefaultSettings = {
     width: vidSettingDesc.width.defaultValue,
     height: vidSettingDesc.height.defaultValue,
     framerate: vidSettingDesc.framerate.defaultValue,
-    qp: vidSettingDesc.qp.defaultValue,
+    bitrate: vidSettingDesc.bitrate.defaultValue,
     timeout: 0,
   },
   camera: {},

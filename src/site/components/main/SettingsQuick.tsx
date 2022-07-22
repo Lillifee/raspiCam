@@ -3,12 +3,7 @@ import styled, { keyframes } from 'styled-components';
 import { CameraSetting, CameraSettingDesc } from '../../../shared/settings/camera';
 import { PhotoSetting, PhotoSettingDesc } from '../../../shared/settings/photo';
 import { ActiveSetting, Filler } from './Camera';
-import {
-  AwbSetting,
-  EffectSetting,
-  ExposureSetting,
-  ShutterSetting,
-} from './settings/CameraSettings';
+import { AwbSetting, ExposureSetting, ShutterSetting } from './settings/CameraSettings';
 import { TimelapseSetting } from './settings/PhotoSettings';
 
 //#region styled
@@ -61,7 +56,6 @@ export const SettingsQuick: React.FC<QuickSettingsProps> = ({
       {activeSetting === 'Exposure' && <ExposureSetting data={camera} updateData={updateCamera} />}
       {activeSetting === 'Shutter' && <ShutterSetting data={camera} updateData={updateCamera} />}
       {activeSetting === 'AwbAuto' && <AwbSetting data={camera} updateData={updateCamera} />}
-      {activeSetting === 'Effect' && <EffectSetting data={camera} updateData={updateCamera} />}
       {activeSetting === 'Timelapse' && <TimelapseSetting data={photo} updateData={updatePhoto} />}
     </QuickSettingsContainer>
 

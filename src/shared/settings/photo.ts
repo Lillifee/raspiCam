@@ -7,14 +7,14 @@ import { Setting } from './types';
  * https://www.raspberrypi.org/documentation/raspbian/applications/camera.md
  */
 export const photoSettingDesc = {
+  /** Set JPEG quality <0 to 100> */
+  quality: numberSetting('Quality', 0, 100, 80, 5),
+
   /** Set image width <size> 4056  */
   width: numberSetting('Width', 64, 4056, 4056, 1, appendUnit('px')),
 
   /** Set image height <size> 3040 */
   height: numberSetting('Height', 64, 3040, 3040, 1, appendUnit('px')),
-
-  /** Set JPEG quality <0 to 100> */
-  quality: numberSetting('Quality', 0, 100, 80, 5),
 
   /**
    * Time before the camera takes picture and shuts down.
@@ -50,47 +50,6 @@ export const photoSettingDesc = {
    * Additional setting for timelapse duration.
    */
   timelapseTimeout: numberSetting('Duration', 0, 60 * 60 * 24 * 1000, 0, 1000),
-
-  // /**
-  //  * Sets the JPEG restart marker interval to a specific value.
-  //  * Can be useful for lossy transport streams because it allows a broken JPEG file to still be partially displayed.
-  //  */
-  // restart: booleanSetting('Restart', false),
-
-  // /**
-  //  * Full preview mode
-  //  * This runs the preview window using the full resolution capture mode.
-  //  * Maximum frames per second in this mode is 15fps, and the preview will have the same field of view as the capture.
-  //  * Captures should happen more quickly, as no mode change should be required. This feature is currently under development.
-  //  */
-  // fullpreview: booleanSetting('Full preview mode', false),
-
-  /**
-   * Link latest frame to filename <filename>
-   * Makes a file system link under this name to the latest frame.
-   */
-  // latest: string;
-
-  /** Output verbose information during run */
-  // verbose: string;
-
-  /**
-   * Set thumbnail parameters (x:y:quality)
-   * Allows specification of the thumbnail image inserted into the JPEG file.
-   * If not specified, defaults are a size of 64x48 at quality 35.
-   */
-  // thumb: string | 'none';
-
-  /**
-   * EXIF tag to apply to captures (format as 'key=value')
-   * Allows the insertion of specific EXIF tags into the JPEG image. You can have up to 32 EXIF tag entries.
-   */
-  // exif: string;
-
-  /**
-   * Specify the output filename.
-   */
-  // output: string;
 };
 
 export type PhotoSettingDesc = typeof photoSettingDesc;

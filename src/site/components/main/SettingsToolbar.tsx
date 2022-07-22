@@ -52,7 +52,6 @@ export const SettingsToolbar: React.FC<ToolbarProps> = ({ status, active, activa
   <ToolbarContainer>
     <ToolbarButton icon="Tune" setting="Settings" active={active} activate={activate} />
     <ToolbarButton icon="Exposure" setting="Exposure" active={active} activate={activate} />
-    <ToolbarButton icon="PhotoFilter" setting="Effect" active={active} activate={activate} />
     <ToolbarButton icon="WbAuto" setting="AwbAuto" active={active} activate={activate} />
 
     {status.mode === 'Photo' && (
