@@ -1,6 +1,6 @@
 {
   "name": "raspicam",
-  "version": "1.1.0",
+  "version": "1.3.0",
   "main": "src/server/index.ts",
   "browser": "src/site/index.tsx",
   "author": "Patrick Matt",
