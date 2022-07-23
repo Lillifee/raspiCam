@@ -45,7 +45,7 @@ export const MJPEGPlayer: React.FC<PlayerProps> = ({ loading }) => {
 
   // Refresh the date to trigger an update of the mjpeg image after loading
   React.useEffect(() => {
-    setDate(new Date().valueOf().toString());
+    if (!loading) setDate(new Date().valueOf().toString());
   }, [loading]);
 
   return (

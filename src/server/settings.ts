@@ -65,7 +65,7 @@ const settingsBase = <T extends GenericSettingDesc>(
     try {
       fs.accessSync(settingsFilePath);
       const settings = JSON.parse(fs.readFileSync(settingsFilePath, 'utf-8')) as Setting<T>;
-      settingDesc = applySettings(settingDesc, settings);
+      settingDesc = applySettings(settingDesc, { ...defaultSettings, ...settings });
     } catch (err) {
       // Nothing to do here.
     }

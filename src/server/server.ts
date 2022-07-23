@@ -87,12 +87,12 @@ const server = (
 
   app.get('/api/start', (_, res) => {
     control.start();
-    res.status(200).send('starting...');
+    res.status(200).send('ok');
   });
 
   app.get('/api/stop', (_, res) => {
     control.stop();
-    res.status(200).send('stopping...');
+    res.status(200).send('ok');
   });
 
   app.get('/api/stream/live', (_, res) => {

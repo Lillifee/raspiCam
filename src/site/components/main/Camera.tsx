@@ -125,7 +125,7 @@ export const Camera: React.FC<Props> = ({ setTheme }) => {
     <MainContainer ref={mainRef}>
       <PlayerWrapper>
         {stream.codec.value === 'MJPEG' ? (
-          <MJPEGPlayer loading={loading} />
+          <MJPEGPlayer loading={loading || !!status.data.running} />
         ) : (
           <H264Player loading={loading} />
         )}
