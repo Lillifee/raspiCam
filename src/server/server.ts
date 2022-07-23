@@ -11,6 +11,7 @@ import {
 } from '../shared/settings/types';
 import { RaspiControl } from './control';
 import { SettingsBase, SettingsHelper } from './settings';
+import { splitJpeg } from './splitJpeg';
 import { FileWatcher } from './watcher';
 
 type SettingRequest = express.Request<undefined, undefined, Setting<GenericSettingDesc>>;
@@ -105,6 +106,35 @@ const server = (
       });
 
       liveStream.pipe(res);
+    } else {
+      res.status(503).send('Camera restarting or in use');
+    }
+  });
+
+  app.get('/api/stream/mjpeg', (_, res) => {
+    const liveStream = control.getStream();
+
+    if (liveStream) {
+      const boundary = 'streamBoundary';
+      res.setHeader('Content-Type', 'multipart/x-mixed-replace;boundary="' + boundary + '"');
+      res.setHeader('Connection', 'close');
+      res.setHeader('Pragma', 'no-cache');
+      res.setHeader('Cache-Control', 'no-cache, private');
+      res.setHeader('Expires', 0);
+      res.setHeader('Max-Age', 0);
+
+      liveStream.pipe(
+        splitJpeg((jpeg) => {
+          res.write(`Content-Type: image/jpeg\n`);
+          res.write(`Content-Length: ${jpeg.length}\n\n`);
+          res.write(jpeg);
+          res.write(`\n--${boundary}\n`);
+        }),
+      );
+
+      res.on('close', () => {
+        res.destroy();
+      });
     } else {
       res.status(503).send('Camera restarting or in use');
     }

@@ -20,12 +20,6 @@ const videoResolutionPresets = [
   { name: '1080p', width: 1920, height: 1080 },
 ];
 
-const qualityPresets = [
-  { name: 'low', bitrate: 1000000 },
-  { name: 'medium', bitrate: 5000000 },
-  { name: 'high', bitrate: 10000000 },
-];
-
 export interface StreamSettingsProps {
   data: StreamSettingDesc;
   updateData: (data: StreamSetting) => void;
@@ -61,18 +55,20 @@ export const StreamSettings: React.FC<StreamSettingsProps> = ({ data, updateData
       </SettingsExpander>
 
       <SettingsExpander
-        header={
-          <EnumSlider
-            name="Quality"
-            items={qualityPresets}
-            predicate={(x) => x.bitrate === data.bitrate.value}
-            displayValue={(x) => x.name}
-            update={(x) => updateData({ bitrate: x.bitrate })}
-          />
-        }
+        header={<EnumDropdownSetting {...data.codec} update={updateField('codec')} />}
       >
-        <NumberSetting {...data.bitrate} update={updateField('bitrate')} />
-        <EnumDropdownSetting {...data.level} update={updateField('level')} />
+        {data.codec.value === 'H264' && (
+          <React.Fragment>
+            <NumberSetting {...data.bitrate} update={updateField('bitrate')} />
+          </React.Fragment>
+        )}
+        {data.codec.value === 'MJPEG' && (
+          <React.Fragment>
+            <NumberSetting {...data.quality} update={updateField('quality')} />
+          </React.Fragment>
+        )}
+
+        <NumberSetting {...data.framerate} update={updateField('framerate')} />
       </SettingsExpander>
     </SettingsWrapper>
   );

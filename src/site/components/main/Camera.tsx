@@ -12,8 +12,9 @@ import { vidSettingDesc } from '../../../shared/settings/vid';
 import { useFetch } from '../common/hooks/useFetch';
 import { useFullscreen } from '../common/hooks/useFullscreen';
 import { Capture } from './Capture';
+import { H264Player } from './H264Player';
+import { MJPEGPlayer } from './MJPEGPlayer';
 import { ModeToolbar } from './ModeToolbar';
-import { Player } from './Player';
 import { SettingsAdvanced } from './SettingsAdvanced';
 import { SettingsQuick } from './SettingsQuick';
 import { SettingsToolbar } from './SettingsToolbar';
@@ -123,7 +124,11 @@ export const Camera: React.FC<Props> = ({ setTheme }) => {
   return (
     <MainContainer ref={mainRef}>
       <PlayerWrapper>
-        <Player loading={loading} />
+        {stream.codec.value === 'MJPEG' ? (
+          <MJPEGPlayer loading={loading} />
+        ) : (
+          <H264Player loading={loading} />
+        )}
       </PlayerWrapper>
 
       <SettingsToolbar status={status.data} active={activeSetting} activate={activateSetting} />

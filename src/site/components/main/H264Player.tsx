@@ -63,7 +63,7 @@ export interface PlayerProps {
 /**
  * Player to display the live stream
  */
-export const Player: React.FC<PlayerProps> = ({ loading }) => {
+export const H264Player: React.FC<PlayerProps> = ({ loading }) => {
   const [stats] = usePlayer('/api/stream/live');
 
   return (

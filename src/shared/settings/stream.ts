@@ -49,7 +49,7 @@ export const streamSettingDesc = {
    * H264 can encode up to 1080p, whereas MJPEG can encode upto the sensor size,
    * but at decreased framerates due to the higher processing and storage requirements.
    */
-  codec: enumSetting('Codec', ['H264', 'MJPEG', 'yuv420', 'libav'], 'H264'),
+  codec: enumSetting('Codec', ['H264', 'MJPEG'], 'H264'), //'yuv420', 'libav'
 };
 
 export type StreamSettingDesc = typeof streamSettingDesc;
