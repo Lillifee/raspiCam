@@ -3,7 +3,7 @@
 RaspiCam is a react application to stream, take pictures or record videos from your raspberry pi camera over a web interface. The live stream is provided over a simple HTTP request and displayed using by the brilliant [JMuxer](https://github.com/samirkumardas/jmuxer).
 
 - **Simple**: a mobile-first designed user interface to provide a flawless user experience on the smartphone.
-- **Lightweight**: raspiCam uses the build-in bullseye libcamera-still and libcamera-vid to stream, capture and record videos.
+- **Lightweight**: raspiCam uses the build-in libcamera-still and libcamera-vid to stream, capture and record videos.
 
 ## Usecases
 - Monitoring camera
@@ -13,6 +13,11 @@ RaspiCam is a react application to stream, take pictures or record videos from y
 - Use it as a tool to find the best camera settings for your project.
     - Adjust the settings without manually start and stop the libcamera-vid or libcamera-still.
     - Copy the result from the terminal and use it for your project.
+- MJPEG stream 
+    - for external applications like octoprint (not tested)
+    - alternative for devices without media source extension
+    - http://ip_address:8000/api/stream/mjpeg
+
 
 ## Hardware
 I'm using a **Raspberry PI Zero W** with a **Raspberry PI HQ camera**.
@@ -216,10 +221,6 @@ You can find the latest command sent to raspiCam in the terminal output:
 ![picture](screenshots/raspiCamTheme3.png)
 
 # Roadmap and ideas
-
-## Stream
- - Investigate MJPEG stream
-    - Stream could be used for other applications e.g. Octoprint
 
 ## Settings
  - Search settings
