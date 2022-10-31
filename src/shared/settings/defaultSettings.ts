@@ -18,6 +18,7 @@ export const defaultSettings: DefaultSettings = {
     width: streamSettingDesc.width.defaultValue,
     height: streamSettingDesc.height.defaultValue,
     framerate: streamSettingDesc.framerate.defaultValue,
+    codec: streamSettingDesc.codec.defaultValue,
     bitrate: streamSettingDesc.bitrate.defaultValue,
   },
   photo: {

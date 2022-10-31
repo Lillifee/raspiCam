@@ -38,7 +38,7 @@ export const vidSettingDesc = {
    * Forces a flush of output data buffers as soon as video data is written.
    * This bypasses any OS caching of written data, and can decrease latency.
    */
-  flush: booleanSetting('Flush ouput buffers', false),
+  flush: booleanSetting('Flush output buffers', false),
 };
 
 export type VidSettingDesc = typeof vidSettingDesc;

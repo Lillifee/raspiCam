@@ -67,8 +67,6 @@ export const StreamSettings: React.FC<StreamSettingsProps> = ({ data, updateData
             <NumberSetting {...data.quality} update={updateField('quality')} />
           </React.Fragment>
         )}
-
-        <NumberSetting {...data.framerate} update={updateField('framerate')} />
       </SettingsExpander>
     </SettingsWrapper>
   );

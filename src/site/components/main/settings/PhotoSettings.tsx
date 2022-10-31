@@ -24,7 +24,7 @@ const photoResolutionPresets = [
   { name: '12.3 MP', width: 4056, height: 3040 },
 ];
 
-const photoTimoutPresets = [
+const photoTimeoutPresets = [
   { name: '100 ms', value: 100 },
   { name: '500 ms', value: 500 },
   { name: '1 s', value: 1000 },
@@ -89,7 +89,7 @@ export const PhotoSettings: React.FC<PhotoSettingsProps> = ({ data, updateData }
 
       <EnumSlider
         name={data.timeout.name}
-        items={photoTimoutPresets}
+        items={photoTimeoutPresets}
         displayValue={(x) => x.name}
         predicate={(x) => x.value === data.timeout.value}
         update={(x) => updateField('timeout')(x.value)}
