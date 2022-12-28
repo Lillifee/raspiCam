@@ -13,8 +13,7 @@ export const splitJpeg = (nextJpeg: (jpeg: Buffer) => void) => {
       const chunkLength = chunk.length;
       let pos = 0;
 
-      // eslint-disable-next-line no-constant-condition
-      while (true) {
+      for (;;) {
         if (size) {
           const eoi = chunk.indexOf(EOI);
           if (eoi === -1) {
@@ -39,7 +38,6 @@ export const splitJpeg = (nextJpeg: (jpeg: Buffer) => void) => {
           if (soi === -1) {
             break;
           } else {
-            // todo might add option or take sample average / 2 to jump position for small gain
             pos = soi + 500;
           }
           const eoi = chunk.indexOf(EOI, pos);

@@ -117,16 +117,13 @@ const modeHelper: {
   },
   Video: (settingsHelper: SettingsHelper) => {
     const { camera, preview, vid } = settingsHelper;
-    const settings = {
-      ...camera.convert(),
-      ...preview.convert(),
-      ...vid.convert(),
-    };
 
     return {
       command: 'libcamera-vid',
       settings: {
-        ...settings,
+        ...camera.convert(),
+        ...preview.convert(),
+        ...vid.convert(),
         output: path.join(photosAbsPath, `${getIsoDataTime()}.h264`),
       },
     };

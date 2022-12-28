@@ -67,7 +67,7 @@ const createFetchSlice = <T>() => {
  * @template T type of the response
  * @param url url to fetch
  * @param data default data
- * @param [refreshInterval] refresh intervall in ms
+ * @param [refreshInterval] refresh interval in ms
  */
 export const useFetch = <T>(
   url: RequestInfo,
