@@ -6,6 +6,7 @@ import { defaultSettings } from '../shared/settings/defaultSettings';
 import { applySettings, extractSettings } from '../shared/settings/helper';
 import { photoSettingConverter, photoSettingDesc } from '../shared/settings/photo';
 import { previewSettingDesc } from '../shared/settings/preview';
+import { stepperSettingDesc } from '../shared/settings/stepper';
 import { streamSettingDesc } from '../shared/settings/stream';
 import { GenericSettingDesc, Setting } from '../shared/settings/types';
 import { vidSettingDesc } from '../shared/settings/vid';
@@ -84,21 +85,23 @@ export const createSettingsHelper = () => {
   }
 
   return {
-    stream: settingsBase('stream.json', streamSettingDesc, defaultSettings.stream),
     photo: settingsBase(
       'photo.json',
       photoSettingDesc,
       defaultSettings.photo,
       photoSettingConverter,
     ),
-    vid: settingsBase('vid.json', vidSettingDesc, defaultSettings.vid),
     camera: settingsBase(
       'camera.json',
       cameraSettingDesc,
       defaultSettings.camera,
       cameraSettingConverter,
     ),
+    stream: settingsBase('stream.json', streamSettingDesc, defaultSettings.stream),
+    vid: settingsBase('vid.json', vidSettingDesc, defaultSettings.vid),
     preview: settingsBase('preview.json', previewSettingDesc, defaultSettings.preview),
+    xAxis: settingsBase('xAxis.json', stepperSettingDesc, defaultSettings.xAxis),
+    yAxis: settingsBase('yAxis.json', stepperSettingDesc, defaultSettings.yAxis),
   };
 };
 

@@ -6,6 +6,7 @@ import { defaultRaspiStatus } from '../../../shared/settings/defaultSettings';
 import { applySettings } from '../../../shared/settings/helper';
 import { photoSettingDesc } from '../../../shared/settings/photo';
 import { previewSettingDesc } from '../../../shared/settings/preview';
+import { stepperSettingDesc } from '../../../shared/settings/stepper';
 import { streamSettingDesc } from '../../../shared/settings/stream';
 import { RaspiStatus, Setting, TypeSetting } from '../../../shared/settings/types';
 import { vidSettingDesc } from '../../../shared/settings/vid';
@@ -18,6 +19,7 @@ import { ModeToolbar } from './ModeToolbar';
 import { SettingsAdvanced } from './SettingsAdvanced';
 import { SettingsQuick } from './SettingsQuick';
 import { SettingsToolbar } from './SettingsToolbar';
+import { StepperControl } from './StepperControl';
 
 //#region styled
 
@@ -115,6 +117,8 @@ export const Camera: React.FC<Props> = ({ setTheme }) => {
   const [photo, updatePhoto] = useFetchSettings('/api/photo', photoSettingDesc);
   const [vid, updateVid] = useFetchSettings('/api/vid', vidSettingDesc);
   const [preview, updatePreview] = useFetchSettings('/api/preview', previewSettingDesc);
+  const [stepperX, updateStepperX] = useFetchSettings('/api/stepperX', stepperSettingDesc);
+  const [stepperY, updateStepperY] = useFetchSettings('/api/stepperY', stepperSettingDesc);
   const [camera, updateCamera] = useFetchSettings('/api/camera', cameraSettingDesc, setLoading);
   const [stream, updateStream] = useFetchSettings('/api/stream', streamSettingDesc, setLoading);
 
@@ -147,6 +151,12 @@ export const Camera: React.FC<Props> = ({ setTheme }) => {
           <Capture status={status.data} refresh={refresh} />
         </OverlayContent>
 
+        {(stepperX.enabled.value || stepperY.enabled.value) && (
+          <OverlayContent>
+            <StepperControl />
+          </OverlayContent>
+        )}
+
         <OverlayContent>
           <SettingsAdvanced
             camera={camera}
@@ -154,6 +164,8 @@ export const Camera: React.FC<Props> = ({ setTheme }) => {
             vid={vid}
             stream={stream}
             preview={preview}
+            stepperX={stepperX}
+            stepperY={stepperY}
             activeSetting={activeSetting}
             activateSetting={activateSetting}
             updateCamera={updateCamera}
@@ -161,6 +173,8 @@ export const Camera: React.FC<Props> = ({ setTheme }) => {
             updateVid={updateVid}
             updateStream={updateStream}
             updatePreview={updatePreview}
+            updateStepperX={updateStepperX}
+            updateStepperY={updateStepperY}
             setTheme={setTheme}
           />
         </OverlayContent>

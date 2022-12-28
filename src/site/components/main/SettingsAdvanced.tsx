@@ -4,6 +4,7 @@ import { isDefined } from '../../../shared/helperFunctions';
 import { CameraSetting, CameraSettingDesc } from '../../../shared/settings/camera';
 import { PhotoSetting, PhotoSettingDesc } from '../../../shared/settings/photo';
 import { PreviewSetting, PreviewSettingDesc } from '../../../shared/settings/preview';
+import { StepperSetting, StepperSettingDesc } from '../../../shared/settings/stepper';
 import { StreamSetting, StreamSettingDesc } from '../../../shared/settings/stream';
 import { VidSetting, VidSettingDesc } from '../../../shared/settings/vid';
 import { ActiveSetting, Filler } from './Camera';
@@ -11,6 +12,7 @@ import { ApplicationSettings } from './settings/ApplicationSettings';
 import { CameraSettings } from './settings/CameraSettings';
 import { PhotoSettings } from './settings/PhotoSettings';
 import { PreviewSettings } from './settings/PreviewSettings';
+import { StepperSettings } from './settings/StepperSettings';
 import { StreamSettings } from './settings/StreamSettings';
 import { VideoSettings } from './settings/VideoSettings';
 
@@ -47,6 +49,8 @@ export interface SettingsProps {
   vid: VidSettingDesc;
   stream: StreamSettingDesc;
   preview: PreviewSettingDesc;
+  stepperX: StepperSettingDesc;
+  stepperY: StepperSettingDesc;
 
   activateSetting: (setting: ActiveSetting) => void;
   updateCamera: (data: CameraSetting) => void;
@@ -54,6 +58,8 @@ export interface SettingsProps {
   updateVid: (data: VidSetting) => void;
   updateStream: (data: StreamSetting) => void;
   updatePreview: (data: PreviewSetting) => void;
+  updateStepperX: (data: StepperSetting) => void;
+  updateStepperY: (data: StepperSetting) => void;
   setTheme: (theme: DefaultTheme) => void;
 }
 
@@ -63,6 +69,8 @@ export const SettingsAdvanced: React.FC<SettingsProps> = ({
   vid,
   stream,
   preview,
+  stepperX,
+  stepperY,
   activeSetting,
   activateSetting,
   updateCamera,
@@ -70,6 +78,8 @@ export const SettingsAdvanced: React.FC<SettingsProps> = ({
   updateVid,
   updateStream,
   updatePreview,
+  updateStepperX,
+  updateStepperY,
   setTheme,
 }) => (
   <SettingsPane>
@@ -79,6 +89,12 @@ export const SettingsAdvanced: React.FC<SettingsProps> = ({
       <VideoSettings data={vid} updateData={updateVid} />
       <StreamSettings data={stream} updateData={updateStream} />
       <PreviewSettings data={preview} updateData={updatePreview} />
+      <StepperSettings
+        stepperX={stepperX}
+        stepperY={stepperY}
+        updateStepperX={updateStepperX}
+        updateStepperY={updateStepperY}
+      />
       <ApplicationSettings setTheme={setTheme} />
     </SettingsContainer>
 

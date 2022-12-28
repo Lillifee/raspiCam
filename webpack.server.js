@@ -1,4 +1,5 @@
 const path = require('path');
+const webpack = require('webpack');
 
 module.exports = {
   mode: 'production',
@@ -25,6 +26,8 @@ module.exports = {
   resolve: {
     extensions: ['.tsx', '.ts', '.js'],
   },
+
+  plugins: [new webpack.ExternalsPlugin('commonjs', ['onoff'])],
 
   // Fix the output warnings of yargs
   // TODO Check for alternative and if yargs necessary.

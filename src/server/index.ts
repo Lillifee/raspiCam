@@ -3,6 +3,7 @@ import raspiControl from './control';
 import { createLogger } from './logger';
 import server from './server';
 import { createSettingsHelper } from './settings';
+import { createStepperControl } from './stepper';
 import { fileWatcher } from './watcher';
 
 const logger = createLogger('server');
@@ -34,10 +35,15 @@ const start = () => {
   const watcher = fileWatcher();
 
   /**
+   * Initialize the stepper control
+   */
+  const stepper = createStepperControl(settingsHelper);
+
+  /**
    * Webserver
    * Start the webserver and serve the website.
    */
-  const app = server(control, settingsHelper, watcher);
+  const app = server(control, settingsHelper, watcher, stepper);
   httpServer.on('request', app);
 
   /**

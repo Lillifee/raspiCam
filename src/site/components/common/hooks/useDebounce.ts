@@ -1,39 +1,102 @@
 import { useCallback, useEffect, useRef } from 'react';
 
 /**
- * Debounce callback hook
+ * Timer hook
  *
- * @param callback debounce action
+ * @param timeout timeout reference
  * @param wait wait time in ms
- * @return debounde trigger function
+ * @return [timeout, clearTimeout]
  */
-export function useDebounce<T extends ((...args: never[]) => void) | (() => void)>(
+const useTimer = <T extends ((...args: never[]) => void) | (() => void)>(
   callback: T,
-  wait?: number,
-): [(...args: Parameters<T>) => void] {
+  duration?: number,
+): [
+  (...args: Parameters<T>) => void,
+  () => void,
+  React.MutableRefObject<NodeJS.Timeout | undefined>,
+] => {
   // Reference of running timer
-  const timeout = useRef<ReturnType<typeof setTimeout>>();
+  const timer = useRef<ReturnType<typeof setTimeout>>();
 
   // Clear timer
   const clearTimer = () => {
-    if (timeout.current) {
-      clearTimeout(timeout.current);
+    if (timer.current) {
+      clearTimeout(timer.current);
     }
   };
 
   // Clear timer on unmount
   useEffect(() => clearTimer, []);
 
-  // Start timer
-  const debounceCallback = useCallback(
-    (...args: never[]) => {
+  const startTimer = useCallback(
+    (...args: Parameters<T>) => {
       clearTimer();
-      if (wait) {
-        timeout.current = setTimeout(() => callback(...args), wait);
+      if (duration) {
+        timer.current = setTimeout(() => {
+          callback(...args);
+          timer.current = undefined;
+        }, duration);
       }
     },
-    [callback, wait],
+    [callback, duration],
+  );
+
+  return [startTimer, clearTimer, timer];
+};
+
+/**
+ * Debounce callback hook
+ *
+ * @param callback action
+ * @param duration duration
+ * @return debounced function
+ */
+export const useDebounce = <T extends ((...args: never[]) => void) | (() => void)>(
+  callback: T,
+  duration?: number,
+): [(...args: Parameters<T>) => void] => {
+  const [startTimer] = useTimer(callback, duration);
+
+  // Start timer
+  const debounceCallback = useCallback(
+    (...args: Parameters<T>) => startTimer(...args),
+    [startTimer],
   );
 
   return [debounceCallback];
-}
+};
+
+/**
+ * Throttle callback hook
+ *
+ * @param callback action
+ * @param duration duration
+ * @return throttled function
+ */
+export const useThrottle = <T extends ((...args: never[]) => void) | (() => void)>(
+  callback: T,
+  duration?: number,
+) => {
+  const lastArgs = useRef<Parameters<T>>();
+
+  const executeCallback = useCallback(() => {
+    if (lastArgs.current) {
+      callback(...lastArgs.current);
+      lastArgs.current = undefined;
+    }
+  }, [callback]);
+
+  const [startTimer, , timer] = useTimer(executeCallback, duration);
+
+  const throttleCallback = useCallback(
+    (...args: Parameters<T>) => {
+      lastArgs.current = args;
+      if (timer.current) return;
+
+      startTimer();
+    },
+    [startTimer, timer],
+  );
+
+  return [throttleCallback];
+};

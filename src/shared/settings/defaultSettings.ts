@@ -1,6 +1,7 @@
 import { CameraSettingDesc } from './camera';
 import { PhotoSettingDesc, photoSettingDesc } from './photo';
 import { PreviewSettingDesc, previewSettingDesc } from './preview';
+import { stepperSettingDesc, StepperSettingDesc } from './stepper';
 import { StreamSettingDesc, streamSettingDesc } from './stream';
 import { RaspiStatus, Setting } from './types';
 import { VidSettingDesc, vidSettingDesc } from './vid';
@@ -11,6 +12,8 @@ interface DefaultSettings {
   vid: Setting<VidSettingDesc>;
   camera: Setting<CameraSettingDesc>;
   preview: Setting<PreviewSettingDesc>;
+  xAxis: Setting<StepperSettingDesc>;
+  yAxis: Setting<StepperSettingDesc>;
 }
 
 export const defaultSettings: DefaultSettings = {
@@ -38,6 +41,22 @@ export const defaultSettings: DefaultSettings = {
   camera: {},
   preview: {
     nopreview: previewSettingDesc.nopreview.defaultValue,
+  },
+  xAxis: {
+    enabled: false,
+    maxSpeed: stepperSettingDesc.maxSpeed.defaultValue,
+    acceleration: stepperSettingDesc.acceleration.defaultValue,
+    stepPin: 27,
+    dirPin: 17,
+    enaPin: 22,
+  },
+  yAxis: {
+    enabled: false,
+    maxSpeed: stepperSettingDesc.maxSpeed.defaultValue,
+    acceleration: stepperSettingDesc.acceleration.defaultValue,
+    stepPin: 9,
+    dirPin: 10,
+    enaPin: 11, // todo use both ena pins?
   },
 };
 

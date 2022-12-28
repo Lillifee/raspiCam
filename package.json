@@ -20,6 +20,7 @@
     "chalk": "^4.1.2",
     "express": "^4.18.1",
     "jmuxer": "^2.0.4",
+    "onoff": "^6.0.3",
     "react": "^18.1.0",
     "react-dom": "^18.1.0",
     "react-router-dom": "^6.3.0",

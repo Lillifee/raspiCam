@@ -8,10 +8,12 @@ import {
   raspiModes,
   GenericSettingDesc,
   Setting,
+  RaspiStepperControl,
 } from '../shared/settings/types';
 import { RaspiControl } from './control';
 import { SettingsBase, SettingsHelper } from './settings';
 import { splitJpeg } from './splitJpeg';
+import { StepperControl } from './stepper';
 import { FileWatcher } from './watcher';
 
 type SettingRequest = express.Request<undefined, undefined, Setting<GenericSettingDesc>>;
@@ -23,6 +25,7 @@ const server = (
   control: RaspiControl,
   settingsHelper: SettingsHelper,
   fileWatcher: FileWatcher,
+  stepperControl: StepperControl,
 ): express.Express => {
   const app = express();
 
@@ -72,6 +75,30 @@ const server = (
 
   app.get('/api/photo', getSettings(settingsHelper.photo));
   app.post('/api/photo', applySettings(settingsHelper.photo));
+
+  app.get('/api/stepperX', getSettings(settingsHelper.xAxis));
+  app.post('/api/stepperX', (req: SettingRequest, res: express.Response) => {
+    settingsHelper.xAxis.apply(req.body);
+    stepperControl.applySettings();
+    res.status(200).send(settingsHelper.xAxis.read());
+  });
+
+  app.get('/api/stepperY', getSettings(settingsHelper.yAxis));
+  app.post('/api/stepperY', (req: SettingRequest, res: express.Response) => {
+    settingsHelper.yAxis.apply(req.body);
+    stepperControl.applySettings();
+    res.status(200).send(settingsHelper.yAxis.read());
+  });
+
+  app.post('/api/stepper/control', (req, res) => {
+    const body = req.body as RaspiStepperControl;
+
+    if (isDefined(body)) {
+      stepperControl.setSpeed(body);
+    }
+
+    res.status(200).send('ok');
+  });
 
   app.get('/api/control', (_, res) => {
     res.send(getStatus());

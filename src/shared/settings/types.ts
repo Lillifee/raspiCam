@@ -57,3 +57,8 @@ export interface RaspiStatus extends RaspiControlStatus {
 export interface RaspiGallery {
   files: RaspiFile[];
 }
+
+export interface RaspiStepperControl {
+  x: number;
+  y: number;
+}
