@@ -45,7 +45,7 @@ export const cameraSettingDesc = {
   shutter: numberSetting('Shutter time', 0, 2500000, 0, 10000), // Default??
 
   /** Sets the combined analogue and digital gains */
-  gain: numberSetting('Gain', 0, 4, 1, 0.1),
+  gain: numberSetting('Gain', 0, 100, 1, 0.1),
 
   /** Set metering mode */
   metering: enumSetting('Metering mode', ['centre', 'spot', 'average', 'custom'], 'average'),
