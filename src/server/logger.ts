@@ -1,24 +1,9 @@
 import chalk from 'chalk';
 
-export interface Logger {
-  log: (...text: unknown[]) => void;
-  info: (...text: unknown[]) => void;
-  success: (...text: unknown[]) => void;
-  warning: (...text: unknown[]) => void;
-  error: (...text: unknown[]) => void;
-}
-
-export const createLogger = (module: string): Logger => {
-  const log =
-    (fn: chalk.ChalkFunction) =>
-    (...text: unknown[]) =>
-      console.log(fn(`[${module}]`, ...text));
-
-  return {
-    log: log(chalk.blackBright),
-    info: log(chalk.blueBright),
-    success: log(chalk.greenBright),
-    warning: log(chalk.yellowBright),
-    error: log(chalk.redBright),
-  };
-};
+export const createLogger = (module: string) => ({
+  log: (...text: unknown[]) => console.log(chalk.blackBright(`[${module}]`, ...text)),
+  info: (...text: unknown[]) => console.log(chalk.blueBright(`[${module}]`, ...text)),
+  success: (...text: unknown[]) => console.log(chalk.greenBright(`[${module}]`, ...text)),
+  warning: (...text: unknown[]) => console.log(chalk.yellowBright(`[${module}]`, ...text)),
+  error: (...text: unknown[]) => console.log(chalk.redBright(`[${module}]`, ...text)),
+});
