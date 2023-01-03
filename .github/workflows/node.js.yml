@@ -5,33 +5,32 @@ name: RaspiCam
 
 on:
   push:
-    branches: [ master ]
+    branches: [master]
   pull_request:
-    branches: [ master ]
+    branches: [master]
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v2
-    - name: Use Node.js
-      uses: actions/setup-node@v1
-      with:
-        node-version: '12.x'
-    - name: Yarn
-      run: yarn --frozen-lockfile
-    - name: Build
-      run: yarn build
-    - name: Create archive folder
-      run: mkdir archive
-    - name: Create zip
-      run: cd build && zip -r ../archive/raspiCam.zip * && cd -
-    - name: Create tar.gz
-      run: cd build && tar -zcf ../archive/raspiCam.tar.gz * && cd -
-    - name: Archive build
-      uses: actions/upload-artifact@v2
-      with:
-        name: raspiCam
-        path: archive
+      - uses: actions/checkout@v3
+      - name: Use Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16
+      - name: Yarn
+        run: yarn --frozen-lockfile
+      - name: Build
+        run: yarn build
+      - name: Create archive folder
+        run: mkdir archive
+      - name: Create zip
+        run: cd build && zip -r ../archive/raspiCam.zip * && cd -
+      - name: Create tar.gz
+        run: cd build && tar -zcf ../archive/raspiCam.tar.gz * && cd -
+      - name: Archive build
+        uses: actions/upload-artifact@v2
+        with:
+          name: raspiCam
+          path: archive
