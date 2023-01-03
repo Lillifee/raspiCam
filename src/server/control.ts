@@ -1,7 +1,7 @@
 import path from 'path';
 import internal from 'stream';
 import { getIsoDataTime } from '../shared/helperFunctions';
-import { RaspiControlStatus, RaspiMode } from '../shared/settings/types';
+import { RaspiMode, RaspiStatus } from '../shared/settings/types';
 import { createLogger } from './logger';
 import { spawnProcess } from './process';
 import { SettingsHelper } from './settings';
@@ -12,9 +12,8 @@ const logger = createLogger('control');
 export interface RaspiControl {
   start: () => void;
   stop: () => void;
-  setMode: (mode: RaspiMode) => void;
   restartStream: () => Promise<void>;
-  getStatus: () => RaspiControlStatus;
+  getStatus: () => RaspiStatus;
   getStream: () => internal.Readable | null | undefined;
 }
 
@@ -28,20 +27,15 @@ const raspiControl = (settingsHelper: SettingsHelper): RaspiControl => {
     resolveOnData: true,
   });
 
-  const status: RaspiControlStatus = {
-    mode: 'Photo',
-  };
-
   const startStream = async () => {
     actionProcess.stop();
     streamProcess.stop();
 
-    const mode = modeHelper.Stream(settingsHelper);
+    const stream = modeHelper.Stream(settingsHelper);
     logger.info('starting', 'Stream', '...');
 
-    return streamProcess.start(mode.command, mode.settings).catch((e: Error) => {
+    return streamProcess.start(stream.command, stream.settings).catch((e: Error) => {
       logger.error('stream failed:', e.message);
-      status.lastError = e.message;
     });
   };
 
@@ -53,13 +47,7 @@ const raspiControl = (settingsHelper: SettingsHelper): RaspiControl => {
     }
   };
 
-  const setMode = (mode: RaspiMode) => {
-    if (actionProcess.running()) stop();
-    status.mode = mode;
-  };
-
   const getStatus = () => ({
-    ...status,
     running: actionProcess.running(),
     streamRunning: streamProcess.running(),
   });
@@ -68,29 +56,35 @@ const raspiControl = (settingsHelper: SettingsHelper): RaspiControl => {
     streamProcess.stop();
     actionProcess.stop();
 
-    status.running = true;
-    const mode = modeHelper[status.mode](settingsHelper);
-    logger.info('starting', status.mode, '...');
+    const control = settingsHelper.control.convert();
+    if (!control.mode) return;
+
+    const mode = modeHelper[control.mode](settingsHelper);
+    logger.info('starting', control.mode, '...');
 
     actionProcess
       .start(mode.command, mode.settings)
       .then(() => startStream())
       .catch((e: Error) => {
-        logger.error(status.mode, 'failed:', e.message);
-        status.lastError = e.message;
+        logger.error(control.mode, 'failed:', e.message);
       });
   };
 
   const stop = () => {
-    logger.info('stop', status.mode, '...');
+    logger.info('stopping', '...');
     actionProcess.stop();
   };
 
-  startStream().catch(() => {
-    // not needed
-  });
+  const control = settingsHelper.control.convert();
+  if (control.captureStartup) {
+    start();
+  } else {
+    startStream().catch(() => {
+      // not needed
+    });
+  }
 
-  return { start, stop, getStatus, setMode, restartStream, getStream };
+  return { start, stop, getStatus, restartStream, getStream };
 };
 
 const modeHelper: {
@@ -117,26 +111,32 @@ const modeHelper: {
   },
   Video: (settingsHelper: SettingsHelper) => {
     const { camera, preview, vid } = settingsHelper;
+    const settings = {
+      ...camera.convert(),
+      ...preview.convert(),
+      ...vid.convert(),
+    };
 
     return {
       command: 'libcamera-vid',
       settings: {
-        ...camera.convert(),
-        ...preview.convert(),
-        ...vid.convert(),
+        ...settings,
         output: path.join(photosAbsPath, `${getIsoDataTime()}.h264`),
       },
     };
   },
   Stream: (settingsHelper: SettingsHelper) => {
     const { camera, preview, stream } = settingsHelper;
+    const settings = {
+      ...camera.convert(),
+      ...preview.convert(),
+      ...stream.convert(),
+    };
 
     return {
       command: 'libcamera-vid',
       settings: {
-        ...camera.convert(),
-        ...preview.convert(),
-        ...stream.convert(),
+        ...settings,
         timeout: 0,
         profile: 'baseline',
         inline: true,

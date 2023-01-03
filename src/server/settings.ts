@@ -2,6 +2,7 @@ import fs from 'fs';
 import path from 'path';
 import { shallowEqualObjects } from '../shared/helperFunctions';
 import { cameraSettingConverter, cameraSettingDesc } from '../shared/settings/camera';
+import { controlSettingDesc } from '../shared/settings/control';
 import { defaultSettings } from '../shared/settings/defaultSettings';
 import { applySettings, extractSettings } from '../shared/settings/helper';
 import { photoSettingConverter, photoSettingDesc } from '../shared/settings/photo';
@@ -99,6 +100,7 @@ export const createSettingsHelper = () => {
       cameraSettingConverter,
     ),
     preview: settingsBase('preview.json', previewSettingDesc, defaultSettings.preview),
+    control: settingsBase('control.json', controlSettingDesc, defaultSettings.control),
   };
 };
 

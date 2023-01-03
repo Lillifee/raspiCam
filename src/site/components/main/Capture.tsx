@@ -1,6 +1,6 @@
 import * as React from 'react';
 import styled from 'styled-components';
-import { RaspiControlStatus } from '../../../shared/settings/types';
+import { RaspiStatus } from '../../../shared/settings/types';
 
 //#region styled
 
@@ -43,7 +43,7 @@ const CaptureButton = styled.button<ActionButtonProps>`
 
 //#endregion
 
-const useCaptureAction = (status: RaspiControlStatus, refresh: () => void): [() => void] => {
+const useCaptureAction = (status: RaspiStatus, refresh: () => void): [() => void] => {
   const action = React.useCallback(() => {
     const requestUrl = status.running ? '/api/stop' : '/api/start';
     fetch(requestUrl)
@@ -55,7 +55,7 @@ const useCaptureAction = (status: RaspiControlStatus, refresh: () => void): [() 
 };
 
 export interface CaptureProps {
-  status: RaspiControlStatus;
+  status: RaspiStatus;
   refresh: () => void;
 }
 

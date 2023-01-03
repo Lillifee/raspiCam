@@ -1,4 +1,5 @@
 import { CameraSettingDesc } from './camera';
+import { controlSettingDesc, ControlSettingDesc } from './control';
 import { PhotoSettingDesc, photoSettingDesc } from './photo';
 import { PreviewSettingDesc, previewSettingDesc } from './preview';
 import { StreamSettingDesc, streamSettingDesc } from './stream';
@@ -11,6 +12,7 @@ interface DefaultSettings {
   vid: Setting<VidSettingDesc>;
   camera: Setting<CameraSettingDesc>;
   preview: Setting<PreviewSettingDesc>;
+  control: Setting<ControlSettingDesc>;
 }
 
 export const defaultSettings: DefaultSettings = {
@@ -39,8 +41,9 @@ export const defaultSettings: DefaultSettings = {
   preview: {
     nopreview: previewSettingDesc.nopreview.defaultValue,
   },
+  control: {
+    mode: controlSettingDesc.mode.defaultValue,
+  },
 };
 
-export const defaultRaspiStatus: RaspiStatus = {
-  mode: 'Photo',
-};
+export const defaultRaspiStatus: RaspiStatus = {};

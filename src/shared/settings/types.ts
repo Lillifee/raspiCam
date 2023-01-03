@@ -1,31 +1,36 @@
-interface BaseTypeSetting<T> {
+export interface BaseTypeSetting<T = unknown> {
   name: string;
-  value?: T;
   description?: string;
   defaultValue: T | undefined;
-  format: (value: T | undefined) => string;
+  value?: T;
   validate: (value: unknown) => T | undefined;
 }
 
-export interface NumberTypeSetting extends BaseTypeSetting<number> {
+// TODO Try to move format to BaseTypeSetting
+interface FormattableBaseTypeSetting<T> extends BaseTypeSetting<T> {
+  format: (value?: T) => string;
+}
+
+export interface NumberTypeSetting extends FormattableBaseTypeSetting<number> {
   type: 'NUMBER';
   minValue: number;
   maxValue: number;
   stepValue: number;
 }
 
-export interface EnumTypeSetting extends BaseTypeSetting<string> {
+export interface EnumTypeSetting<T> extends FormattableBaseTypeSetting<T> {
   type: 'ENUM';
-  possibleValues: string[];
+  possibleValues: T[];
 }
 
-export interface BooleanTypeSetting extends BaseTypeSetting<boolean> {
+export interface BooleanTypeSetting extends FormattableBaseTypeSetting<boolean> {
   type: 'BOOLEAN';
 }
 
-export type TypeSetting = BooleanTypeSetting | NumberTypeSetting | EnumTypeSetting;
-export type GenericSettingDesc = Record<string, TypeSetting>;
-export type Setting<T extends { [k in keyof T]: TypeSetting }> = { [K in keyof T]?: T[K]['value'] };
+export type GenericSettingDesc = Record<string, BaseTypeSetting>;
+export type Setting<T extends { [k in keyof T]: BaseTypeSetting }> = {
+  [K in keyof T]?: T[K]['value'];
+};
 
 export type RaspiMode = 'Photo' | 'Video';
 
@@ -43,14 +48,9 @@ export interface RaspiFile {
   thumb?: string;
 }
 
-export interface RaspiControlStatus {
-  mode: RaspiMode;
+export interface RaspiStatus {
   running?: boolean;
   streamRunning?: boolean;
-  lastError?: string;
-}
-
-export interface RaspiStatus extends RaspiControlStatus {
   latestFile?: RaspiFile;
 }
 

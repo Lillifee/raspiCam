@@ -8,12 +8,12 @@ import {
   SettingVerticalWrapper,
 } from './Styled';
 
-export interface EnumSliderSettingProps extends EnumTypeSetting {
+export interface EnumSliderSettingProps<T> extends EnumTypeSetting<T> {
   disabled?: boolean;
-  update: (value?: string) => void;
+  update: (value?: T) => void;
 }
 
-export const EnumSliderSetting: React.FC<EnumSliderSettingProps> = ({
+export const EnumSliderSetting = <T extends string>({
   name,
   value,
   defaultValue,
@@ -21,7 +21,7 @@ export const EnumSliderSetting: React.FC<EnumSliderSettingProps> = ({
   disabled,
   format,
   update,
-}) => {
+}: EnumSliderSettingProps<T>) => {
   const index = possibleValues.findIndex((x) => x === value);
   const displayIndex = index >= 0 ? index : possibleValues.findIndex((x) => x === defaultValue);
 

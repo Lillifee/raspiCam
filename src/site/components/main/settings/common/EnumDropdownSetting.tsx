@@ -4,23 +4,23 @@ import { EnumTypeSetting } from '../../../../../shared/settings/types';
 import { Select } from '../../../styled/Select';
 import { SettingHorizontalWrapper, SettingName } from './Styled';
 
-export interface EnumDropdownSettingProps extends EnumTypeSetting {
-  update: (value: string) => void;
+export interface EnumDropdownSettingProps<T> extends EnumTypeSetting<T> {
+  update: (value: T) => void;
 }
 
-export const EnumDropdownSetting: React.FC<EnumDropdownSettingProps> = ({
+export const EnumDropdownSetting = <T extends string>({
   name,
   value,
   defaultValue,
   possibleValues,
   format,
   update,
-}) => (
+}: EnumDropdownSettingProps<T>) => (
   <SettingHorizontalWrapper>
     <SettingName fontSize="s">{name}</SettingName>
     <Select
       value={format(isDefined(value) ? value : defaultValue)}
-      onChange={(e) => update(e.target.value)}
+      onChange={(e) => update(e.target.value as T)}
     >
       {possibleValues.map((value) => (
         <option key={value} value={value}>

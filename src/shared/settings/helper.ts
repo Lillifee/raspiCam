@@ -37,11 +37,11 @@ export const booleanSetting = (name: string, defaultValue = false): BooleanTypeS
   validate: (value: unknown) => value === true,
 });
 
-export const enumSetting = (
+export const enumSetting = <T extends string>(
   name: string,
-  possibleValues: string[],
-  defaultValue: string,
-): EnumTypeSetting => ({
+  possibleValues: T[],
+  defaultValue: T,
+): EnumTypeSetting<T> => ({
   type: 'ENUM',
   name,
   possibleValues,

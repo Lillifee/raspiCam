@@ -1,12 +1,8 @@
 import * as React from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
-import {
-  RaspiControlStatus,
-  RaspiMode,
-  RaspiStatus,
-  photosPath,
-} from '../../../shared/settings/types';
+import { ControlSetting, ControlSettingDesc } from '../../../shared/settings/control';
+import { RaspiMode, RaspiStatus, photosPath } from '../../../shared/settings/types';
 import { Icon, IconType } from '../common/Icon';
 import { ButtonIcon } from '../styled/ButtonIcon';
 
@@ -81,8 +77,9 @@ const NoThumbPreview = styled.div`
 
 export interface ModeToolbarProps {
   status: RaspiStatus;
+  control: ControlSettingDesc;
   isFullscreen: boolean;
-  setControl: (data: RaspiControlStatus) => void;
+  updateControl: (data: ControlSetting) => void;
   setFullscreen: () => void;
 }
 
@@ -101,8 +98,9 @@ const cameraModes: {
 
 export const ModeToolbar: React.FC<ModeToolbarProps> = ({
   status,
+  control,
   isFullscreen,
-  setControl,
+  updateControl,
   setFullscreen,
 }) => {
   const [showMode, setShowMode] = React.useState(false);
@@ -130,14 +128,14 @@ export const ModeToolbar: React.FC<ModeToolbarProps> = ({
               key={mode}
               type={value.icon}
               onClick={() => {
-                setControl({ mode: mode as RaspiMode });
+                updateControl({ mode: mode as RaspiMode });
                 setShowMode(false);
               }}
             />
           ))}
         </CameraModeList>
         <ToolbarButton
-          type={cameraModes[status.mode].icon}
+          type={cameraModes[control.mode.value || 'Photo'].icon}
           onClick={() => setShowMode(!showMode)}
         />
       </CameraModeDropdown>

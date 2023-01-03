@@ -1,14 +1,7 @@
 import express from 'express';
 import path from 'path';
 import { isDefined } from '../shared/helperFunctions';
-import {
-  RaspiGallery,
-  RaspiControlStatus,
-  RaspiStatus,
-  raspiModes,
-  GenericSettingDesc,
-  Setting,
-} from '../shared/settings/types';
+import { RaspiGallery, RaspiStatus, GenericSettingDesc, Setting } from '../shared/settings/types';
 import { RaspiControl } from './control';
 import { SettingsBase, SettingsHelper } from './settings';
 import { splitJpeg } from './splitJpeg';
@@ -73,15 +66,10 @@ const server = (
   app.get('/api/photo', getSettings(settingsHelper.photo));
   app.post('/api/photo', applySettings(settingsHelper.photo));
 
-  app.get('/api/control', (_, res) => {
-    res.send(getStatus());
-  });
+  app.get('/api/control', getSettings(settingsHelper.control));
+  app.post('/api/control', applySettings(settingsHelper.control));
 
-  app.post('/api/control', (req, res) => {
-    const body = req.body as RaspiControlStatus;
-    if (raspiModes.includes(body.mode)) {
-      control.setMode(body.mode);
-    }
+  app.get('/api/status', (_, res) => {
     res.send(getStatus());
   });
 

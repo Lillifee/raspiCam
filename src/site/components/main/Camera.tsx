@@ -2,12 +2,13 @@ import * as React from 'react';
 import styled, { DefaultTheme } from 'styled-components';
 import { isDefined } from '../../../shared/helperFunctions';
 import { cameraSettingDesc } from '../../../shared/settings/camera';
+import { controlSettingDesc } from '../../../shared/settings/control';
 import { defaultRaspiStatus } from '../../../shared/settings/defaultSettings';
 import { applySettings } from '../../../shared/settings/helper';
 import { photoSettingDesc } from '../../../shared/settings/photo';
 import { previewSettingDesc } from '../../../shared/settings/preview';
 import { streamSettingDesc } from '../../../shared/settings/stream';
-import { RaspiStatus, Setting, TypeSetting } from '../../../shared/settings/types';
+import { RaspiStatus, Setting, BaseTypeSetting } from '../../../shared/settings/types';
 import { vidSettingDesc } from '../../../shared/settings/vid';
 import { useFetch } from '../common/hooks/useFetch';
 import { useFullscreen } from '../common/hooks/useFullscreen';
@@ -82,7 +83,7 @@ export type ActiveSetting =
   | 'AwbAuto'
   | undefined;
 
-const useFetchSettings = <T extends { [k in keyof T]: TypeSetting }>(
+const useFetchSettings = <T extends { [k in keyof T]: BaseTypeSetting }>(
   url: RequestInfo,
   settingDesc: T,
   setLoading?: (loading: boolean) => void,
@@ -106,17 +107,14 @@ export const Camera: React.FC<Props> = ({ setTheme }) => {
   const [loading, setLoading] = React.useState(false);
   const [activeSetting, setActiveSetting] = React.useState<ActiveSetting>();
 
-  const [status, setControl, refresh] = useFetch<RaspiStatus>(
-    'api/control',
-    defaultRaspiStatus,
-    1000,
-  );
+  const [status, , refresh] = useFetch<RaspiStatus>('api/status', defaultRaspiStatus, 1000);
 
   const [photo, updatePhoto] = useFetchSettings('/api/photo', photoSettingDesc);
   const [vid, updateVid] = useFetchSettings('/api/vid', vidSettingDesc);
   const [preview, updatePreview] = useFetchSettings('/api/preview', previewSettingDesc);
   const [camera, updateCamera] = useFetchSettings('/api/camera', cameraSettingDesc, setLoading);
   const [stream, updateStream] = useFetchSettings('/api/stream', streamSettingDesc, setLoading);
+  const [control, updateControl] = useFetchSettings('/api/control', controlSettingDesc);
 
   const activateSetting = (setting: ActiveSetting) =>
     setActiveSetting((currentSetting) => (currentSetting === setting ? undefined : setting));
@@ -131,13 +129,14 @@ export const Camera: React.FC<Props> = ({ setTheme }) => {
         )}
       </PlayerWrapper>
 
-      <SettingsToolbar status={status.data} active={activeSetting} activate={activateSetting} />
+      <SettingsToolbar control={control} active={activeSetting} activate={activateSetting} />
 
       <MainPane>
         <OverlayContent>
           <ModeToolbar
             status={status.data}
-            setControl={setControl}
+            control={control}
+            updateControl={updateControl}
             isFullscreen={isFullscreen}
             setFullscreen={setFullscreen}
           />
@@ -154,6 +153,7 @@ export const Camera: React.FC<Props> = ({ setTheme }) => {
             vid={vid}
             stream={stream}
             preview={preview}
+            control={control}
             activeSetting={activeSetting}
             activateSetting={activateSetting}
             updateCamera={updateCamera}
@@ -161,6 +161,7 @@ export const Camera: React.FC<Props> = ({ setTheme }) => {
             updateVid={updateVid}
             updateStream={updateStream}
             updatePreview={updatePreview}
+            updateControl={updateControl}
             setTheme={setTheme}
           />
         </OverlayContent>

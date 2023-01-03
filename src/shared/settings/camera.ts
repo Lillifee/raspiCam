@@ -48,7 +48,7 @@ export const cameraSettingDesc = {
   gain: numberSetting('Gain', 0, 100, 1, 0.1),
 
   /** Set metering mode */
-  metering: enumSetting('Metering mode', ['centre', 'spot', 'average', 'custom'], 'average'),
+  metering: enumSetting('Metering mode', ['centre', 'spot', 'average'], 'average'),
 
   /** Set exposure mode */
   exposure: enumSetting('Exposure mode', ['normal', 'sport', 'long'], 'normal'),

@@ -1,6 +1,6 @@
 import * as React from 'react';
 import styled from 'styled-components';
-import { RaspiStatus } from '../../../shared/settings/types';
+import { ControlSettingDesc } from '../../../shared/settings/control';
 import { IconType } from '../common/Icon';
 import { ButtonIcon } from '../styled/ButtonIcon';
 import { ActiveSetting } from './Camera';
@@ -43,18 +43,18 @@ const ToolbarButton: React.FC<ToolbarButtonProps> = ({ icon, setting, activate }
 );
 
 export interface ToolbarProps {
-  status: RaspiStatus;
+  control: ControlSettingDesc;
   active: ActiveSetting;
   activate: (setting: ActiveSetting) => void;
 }
 
-export const SettingsToolbar: React.FC<ToolbarProps> = ({ status, active, activate }) => (
+export const SettingsToolbar: React.FC<ToolbarProps> = ({ control, active, activate }) => (
   <ToolbarContainer>
     <ToolbarButton icon="Tune" setting="Settings" active={active} activate={activate} />
     <ToolbarButton icon="Exposure" setting="Exposure" active={active} activate={activate} />
     <ToolbarButton icon="WbAuto" setting="AwbAuto" active={active} activate={activate} />
 
-    {status.mode === 'Photo' && (
+    {control.mode.value === 'Photo' && (
       <React.Fragment>
         <ToolbarButton icon="ShutterSpeed" setting="Shutter" active={active} activate={activate} />
         <ToolbarButton icon="Timelapse" setting="Timelapse" active={active} activate={activate} />
