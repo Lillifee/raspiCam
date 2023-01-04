@@ -9,7 +9,7 @@ const TimeStyled = styled.input`
   font-size: ${(p) => p.theme.FontSize.s};
   outline: none;
   &::-webkit-calendar-picker-indicator {
-    filter: ${(p) => (p.theme.Name === 'Dark' ? 'invert(1)' : 'invert(0)')};
+    filter: ${(p) => (p.theme.Name === 'dark' ? 'invert(1)' : 'invert(0)')};
   }
 `;
 

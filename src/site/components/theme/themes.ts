@@ -1,7 +1,7 @@
 import { DefaultTheme } from 'styled-components';
 
 export const darkTheme: DefaultTheme = {
-  Name: 'Dark',
+  Name: 'dark',
 
   RootBackground: '#242424',
 
@@ -30,7 +30,7 @@ export const darkTheme: DefaultTheme = {
 };
 
 export const lightTheme: DefaultTheme = {
-  Name: 'Light',
+  Name: 'light',
 
   RootBackground: '#ffffff',
   LayerBackground: 'rgba(255, 255, 255, 0.8)',
@@ -58,6 +58,6 @@ export const lightTheme: DefaultTheme = {
 };
 
 export const allThemes: Record<string, DefaultTheme> = {
-  Dark: darkTheme,
-  Light: lightTheme,
+  dark: darkTheme,
+  light: lightTheme,
 };

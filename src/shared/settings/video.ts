@@ -4,7 +4,7 @@ import { streamSettingDesc } from './stream';
 import { Setting } from './types';
 
 /**
- * Vid settings
+ * Video settings
  * https://www.raspberrypi.org/documentation/raspbian/applications/camera.md
  */
 export const videoSettingDesc = {

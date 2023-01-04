@@ -11,14 +11,14 @@ export const previewSettingDesc = {
    * Disables the preview window completely. Note that even though the preview is disabled,
    * the camera will still be producing frames, so will be using power.
    */
-  nopreview: booleanSetting('no preview', true),
+  nopreview: booleanSetting('No preview', true),
 
   /**
    * Fullscreen preview mode
    * Forces the preview window to use the whole screen.
    * Note that the aspect ratio of the incoming image will be retained, so there may be bars on some edges.
    */
-  fullscreen: booleanSetting('fullscreen', false),
+  fullscreen: booleanSetting('Fullscreen', false),
 
   /**
    * Preview window settings <'x,y,w,h'>

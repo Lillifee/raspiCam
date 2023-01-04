@@ -1,5 +1,5 @@
 import React from 'react';
-import { VideoSetting, VideoSettingDesc } from '../../../../shared/settings/vid';
+import { VideoSetting, VideoSettingDesc } from '../../../../shared/settings/video';
 import { BooleanSetting } from './common/BooleanSetting';
 import { EnumDropdownSetting } from './common/EnumDropdownSetting';
 import { EnumSlider } from './common/EnumSlider';

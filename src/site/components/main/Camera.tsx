@@ -10,7 +10,7 @@ import { photoSettingDesc } from '../../../shared/settings/photo';
 import { previewSettingDesc } from '../../../shared/settings/preview';
 import { streamSettingDesc } from '../../../shared/settings/stream';
 import { RaspiStatus, Setting, BaseTypeSetting } from '../../../shared/settings/types';
-import { videoSettingDesc } from '../../../shared/settings/vid';
+import { videoSettingDesc } from '../../../shared/settings/video';
 import { useFetch } from '../common/hooks/useFetch';
 import { useFullscreen } from '../common/hooks/useFullscreen';
 import { allThemes } from '../theme/themes';
@@ -130,7 +130,7 @@ export const Camera: React.FC<Props> = ({ setTheme }) => {
   );
 
   React.useEffect(() => {
-    const applicationTheme = allThemes[application.theme.value || 'Dark'];
+    const applicationTheme = allThemes[application.theme.value || 'dark'];
     setTheme(applicationTheme);
   }, [setTheme, application.theme]);
 

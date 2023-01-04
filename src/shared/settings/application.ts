@@ -6,7 +6,7 @@ import { GridLineType, Setting } from './types';
  */
 export const applicationSettingDesc = {
   /** Defines the application theme */
-  theme: enumSetting('Theme', ['Dark', 'Light'], 'Dark'),
+  theme: enumSetting('Theme', ['dark', 'light'], 'dark'),
 
   /** Defines the application theme */
   gridLines: enumSetting<GridLineType>(

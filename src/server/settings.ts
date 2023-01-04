@@ -10,7 +10,7 @@ import { photoSettingConverter, photoSettingDesc } from '../shared/settings/phot
 import { previewSettingDesc } from '../shared/settings/preview';
 import { streamSettingDesc } from '../shared/settings/stream';
 import { GenericSettingDesc, Setting } from '../shared/settings/types';
-import { videoSettingDesc as videoSettingDesc } from '../shared/settings/vid';
+import { videoSettingDesc as videoSettingDesc } from '../shared/settings/video';
 import { createLogger } from './logger';
 
 const logger = createLogger('settings');

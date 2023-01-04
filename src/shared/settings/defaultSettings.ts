@@ -5,7 +5,7 @@ import { PhotoSettingDesc, photoSettingDesc } from './photo';
 import { PreviewSettingDesc, previewSettingDesc } from './preview';
 import { StreamSettingDesc, streamSettingDesc } from './stream';
 import { RaspiStatus, Setting } from './types';
-import { VideoSettingDesc, videoSettingDesc } from './vid';
+import { VideoSettingDesc, videoSettingDesc } from './video';
 
 interface DefaultSettings {
   stream: Setting<StreamSettingDesc>;

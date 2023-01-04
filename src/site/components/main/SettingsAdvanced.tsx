@@ -7,7 +7,7 @@ import { ControlSetting, ControlSettingDesc } from '../../../shared/settings/con
 import { PhotoSetting, PhotoSettingDesc } from '../../../shared/settings/photo';
 import { PreviewSetting, PreviewSettingDesc } from '../../../shared/settings/preview';
 import { StreamSetting, StreamSettingDesc } from '../../../shared/settings/stream';
-import { VideoSetting, VideoSettingDesc } from '../../../shared/settings/vid';
+import { VideoSetting, VideoSettingDesc } from '../../../shared/settings/video';
 import { ActiveSetting, Filler } from './Camera';
 import { ApplicationSettings } from './settings/ApplicationSettings';
 import { CameraSettings } from './settings/CameraSettings';
