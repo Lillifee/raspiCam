@@ -1,12 +1,12 @@
 import { booleanSetting, enumSetting } from './helper';
-import { raspiModes, Setting } from './types';
+import { Setting } from './types';
 
 /**
  * Control settings
  */
 export const controlSettingDesc = {
   /** Capture mode */
-  mode: enumSetting('Mode', raspiModes, 'Photo'),
+  mode: enumSetting('Mode', ['Photo', 'Video'], 'Photo'),
 
   /** Capture on startup */
   captureStartup: booleanSetting('Capture on startup', false),
