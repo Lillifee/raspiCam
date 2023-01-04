@@ -1,5 +1,5 @@
 import { enumSetting } from './helper';
-import { Setting } from './types';
+import { GridLineType, Setting } from './types';
 
 /**
  * Application settings
@@ -7,6 +7,13 @@ import { Setting } from './types';
 export const applicationSettingDesc = {
   /** Defines the application theme */
   theme: enumSetting('Theme', ['Dark', 'Light'], 'Dark'),
+
+  /** Defines the application theme */
+  gridLines: enumSetting<GridLineType>(
+    'Grid lines',
+    ['none', '3x3', '4x4', 'golden ratio'],
+    'none',
+  ),
 };
 
 export type ApplicationSettingDesc = typeof applicationSettingDesc;

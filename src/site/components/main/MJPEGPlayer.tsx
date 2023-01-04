@@ -10,6 +10,7 @@ const Container = styled.div`
 `;
 
 const VideoContainer = styled.div`
+  display: flex;
   margin: 0 auto;
 `;
 

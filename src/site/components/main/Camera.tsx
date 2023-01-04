@@ -15,6 +15,7 @@ import { useFetch } from '../common/hooks/useFetch';
 import { useFullscreen } from '../common/hooks/useFullscreen';
 import { allThemes } from '../theme/themes';
 import { Capture } from './Capture';
+import { GridLines } from './GridLines';
 import { H264Player } from './H264Player';
 import { MJPEGPlayer } from './MJPEGPlayer';
 import { ModeToolbar } from './ModeToolbar';
@@ -75,6 +76,12 @@ const PlayerWrapper = styled.section`
   height: 100%;
 `;
 
+const PlayerContainer = styled.div`
+  display: flex;
+  overflow: hidden;
+  position: relative;
+`;
+
 //#endregion
 
 export type ActiveSetting =
@@ -133,11 +140,14 @@ export const Camera: React.FC<Props> = ({ setTheme }) => {
   return (
     <MainContainer ref={mainRef}>
       <PlayerWrapper>
-        {stream.codec.value === 'MJPEG' ? (
-          <MJPEGPlayer loading={loading || !!status.data.running} />
-        ) : (
-          <H264Player loading={loading} />
-        )}
+        <PlayerContainer>
+          {stream.codec.value === 'MJPEG' ? (
+            <MJPEGPlayer loading={loading || !!status.data.running} />
+          ) : (
+            <H264Player loading={loading} />
+          )}
+          <GridLines type={application.gridLines.value} />
+        </PlayerContainer>
       </PlayerWrapper>
 
       <SettingsToolbar control={control} active={activeSetting} activate={activateSetting} />

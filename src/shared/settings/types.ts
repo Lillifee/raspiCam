@@ -33,6 +33,7 @@ export type Setting<T extends { [k in keyof T]: BaseTypeSetting }> = {
 };
 
 export type RaspiMode = 'Photo' | 'Video';
+export type GridLineType = 'none' | '3x3' | '4x4' | 'golden ratio';
 
 export const photosPath = './photos';
 export const raspiModes: RaspiMode[] = ['Photo', 'Video'];

@@ -24,6 +24,7 @@ export const ApplicationSettings: React.FC<ApplicationSettingsProps> = ({ data, 
 
       <SettingsExpander header={<SettingsExpanderHeader>General</SettingsExpanderHeader>}>
         <EnumDropdownSetting {...data.theme} update={updateField('theme')} />
+        <EnumDropdownSetting {...data.gridLines} update={updateField('gridLines')} />
       </SettingsExpander>
     </SettingsWrapper>
   );
