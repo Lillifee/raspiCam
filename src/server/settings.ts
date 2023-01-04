@@ -1,6 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 import { shallowEqualObjects } from '../shared/helperFunctions';
+import { applicationSettingDesc } from '../shared/settings/application';
 import { cameraSettingConverter, cameraSettingDesc } from '../shared/settings/camera';
 import { controlSettingDesc } from '../shared/settings/control';
 import { defaultSettings } from '../shared/settings/defaultSettings';
@@ -9,7 +10,7 @@ import { photoSettingConverter, photoSettingDesc } from '../shared/settings/phot
 import { previewSettingDesc } from '../shared/settings/preview';
 import { streamSettingDesc } from '../shared/settings/stream';
 import { GenericSettingDesc, Setting } from '../shared/settings/types';
-import { vidSettingDesc } from '../shared/settings/vid';
+import { videoSettingDesc as videoSettingDesc } from '../shared/settings/vid';
 import { createLogger } from './logger';
 
 const logger = createLogger('settings');
@@ -92,7 +93,7 @@ export const createSettingsHelper = () => {
       defaultSettings.photo,
       photoSettingConverter,
     ),
-    vid: settingsBase('vid.json', vidSettingDesc, defaultSettings.vid),
+    video: settingsBase('video.json', videoSettingDesc, defaultSettings.video),
     camera: settingsBase(
       'camera.json',
       cameraSettingDesc,
@@ -101,6 +102,11 @@ export const createSettingsHelper = () => {
     ),
     preview: settingsBase('preview.json', previewSettingDesc, defaultSettings.preview),
     control: settingsBase('control.json', controlSettingDesc, defaultSettings.control),
+    application: settingsBase(
+      'application.json',
+      applicationSettingDesc,
+      defaultSettings.application,
+    ),
   };
 };
 

@@ -60,14 +60,17 @@ const server = (
   app.get('/api/stream', getSettings(settingsHelper.stream));
   app.post('/api/stream', applyAndRestart(settingsHelper.stream));
 
-  app.get('/api/vid', getSettings(settingsHelper.vid));
-  app.post('/api/vid', applySettings(settingsHelper.vid));
+  app.get('/api/video', getSettings(settingsHelper.video));
+  app.post('/api/video', applySettings(settingsHelper.video));
 
   app.get('/api/photo', getSettings(settingsHelper.photo));
   app.post('/api/photo', applySettings(settingsHelper.photo));
 
   app.get('/api/control', getSettings(settingsHelper.control));
   app.post('/api/control', applySettings(settingsHelper.control));
+
+  app.get('/api/application', getSettings(settingsHelper.application));
+  app.post('/api/application', applySettings(settingsHelper.application));
 
   app.get('/api/status', (_, res) => {
     res.send(getStatus());

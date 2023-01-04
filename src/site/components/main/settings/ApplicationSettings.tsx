@@ -1,22 +1,21 @@
 import React from 'react';
-import { DefaultTheme, useTheme } from 'styled-components';
-import { Select } from '../../styled/Select';
-import { allThemes } from '../../theme/themes';
-import { SettingsExpander, SettingsExpanderHeader } from './common/SettingsExpander';
 import {
-  SettingHorizontalWrapper,
-  SettingName,
-  SettingsHeader,
-  SettingsHeaderText,
-  SettingsWrapper,
-} from './common/Styled';
+  ApplicationSetting,
+  ApplicationSettingDesc,
+} from '../../../../shared/settings/application';
+import { EnumDropdownSetting } from './common/EnumDropdownSetting';
+import { updateTypedField } from './common/helperFunctions';
+import { SettingsExpander, SettingsExpanderHeader } from './common/SettingsExpander';
+import { SettingsHeader, SettingsHeaderText, SettingsWrapper } from './common/Styled';
 
 export interface ApplicationSettingsProps {
-  setTheme: (theme: DefaultTheme) => void;
+  data: ApplicationSettingDesc;
+  updateData: (data: ApplicationSetting) => void;
 }
 
-export const ApplicationSettings: React.FC<ApplicationSettingsProps> = ({ setTheme }) => {
-  const activeTheme = useTheme();
+export const ApplicationSettings: React.FC<ApplicationSettingsProps> = ({ data, updateData }) => {
+  const updateField = updateTypedField(updateData);
+
   return (
     <SettingsWrapper>
       <SettingsHeader fontSize="m">
@@ -24,16 +23,7 @@ export const ApplicationSettings: React.FC<ApplicationSettingsProps> = ({ setThe
       </SettingsHeader>
 
       <SettingsExpander header={<SettingsExpanderHeader>General</SettingsExpanderHeader>}>
-        <SettingHorizontalWrapper>
-          <SettingName fontSize="s">Theme</SettingName>
-          <Select value={activeTheme.Name} onChange={(e) => setTheme(allThemes[e.target.value])}>
-            {Object.keys(allThemes).map((theme) => (
-              <option key={theme} value={theme}>
-                {theme}
-              </option>
-            ))}
-          </Select>
-        </SettingHorizontalWrapper>
+        <EnumDropdownSetting {...data.theme} update={updateField('theme')} />
       </SettingsExpander>
     </SettingsWrapper>
   );

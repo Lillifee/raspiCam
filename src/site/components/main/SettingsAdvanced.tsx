@@ -1,12 +1,13 @@
 import * as React from 'react';
-import styled, { DefaultTheme } from 'styled-components';
+import styled from 'styled-components';
 import { isDefined } from '../../../shared/helperFunctions';
+import { ApplicationSetting, ApplicationSettingDesc } from '../../../shared/settings/application';
 import { CameraSetting, CameraSettingDesc } from '../../../shared/settings/camera';
 import { ControlSetting, ControlSettingDesc } from '../../../shared/settings/control';
 import { PhotoSetting, PhotoSettingDesc } from '../../../shared/settings/photo';
 import { PreviewSetting, PreviewSettingDesc } from '../../../shared/settings/preview';
 import { StreamSetting, StreamSettingDesc } from '../../../shared/settings/stream';
-import { VidSetting, VidSettingDesc } from '../../../shared/settings/vid';
+import { VideoSetting, VideoSettingDesc } from '../../../shared/settings/vid';
 import { ActiveSetting, Filler } from './Camera';
 import { ApplicationSettings } from './settings/ApplicationSettings';
 import { CameraSettings } from './settings/CameraSettings';
@@ -46,47 +47,49 @@ export interface SettingsProps {
   activeSetting: ActiveSetting;
   camera: CameraSettingDesc;
   photo: PhotoSettingDesc;
-  vid: VidSettingDesc;
+  video: VideoSettingDesc;
   stream: StreamSettingDesc;
   preview: PreviewSettingDesc;
   control: ControlSettingDesc;
+  application: ApplicationSettingDesc;
 
   activateSetting: (setting: ActiveSetting) => void;
   updateCamera: (data: CameraSetting) => void;
   updatePhoto: (data: PhotoSetting) => void;
-  updateVid: (data: VidSetting) => void;
+  updateVideo: (data: VideoSetting) => void;
   updateStream: (data: StreamSetting) => void;
   updatePreview: (data: PreviewSetting) => void;
   updateControl: (data: ControlSetting) => void;
-  setTheme: (theme: DefaultTheme) => void;
+  updateApplication: (data: ApplicationSetting) => void;
 }
 
 export const SettingsAdvanced: React.FC<SettingsProps> = ({
   camera,
   photo,
-  vid,
+  video,
   stream,
   preview,
   control,
+  application,
   activeSetting,
   activateSetting,
   updateCamera,
   updatePhoto,
-  updateVid,
+  updateVideo,
   updateStream,
   updatePreview,
   updateControl,
-  setTheme,
+  updateApplication,
 }) => (
   <SettingsPane>
     <SettingsContainer show={activeSetting === 'Settings'}>
       <CameraSettings data={camera} updateData={updateCamera} />
       <PhotoSettings data={photo} updateData={updatePhoto} />
-      <VideoSettings data={vid} updateData={updateVid} />
+      <VideoSettings data={video} updateData={updateVideo} />
       <StreamSettings data={stream} updateData={updateStream} />
       <ControlSettings data={control} updateData={updateControl} />
       <PreviewSettings data={preview} updateData={updatePreview} />
-      <ApplicationSettings setTheme={setTheme} />
+      <ApplicationSettings data={application} updateData={updateApplication} />
     </SettingsContainer>
 
     <Filler enableClick={isDefined(activeSetting)} onClick={() => activateSetting(undefined)} />

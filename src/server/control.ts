@@ -110,11 +110,11 @@ const modeHelper: {
     };
   },
   Video: (settingsHelper: SettingsHelper) => {
-    const { camera, preview, vid } = settingsHelper;
+    const { camera, preview, video } = settingsHelper;
     const settings = {
       ...camera.convert(),
       ...preview.convert(),
-      ...vid.convert(),
+      ...video.convert(),
     };
 
     return {

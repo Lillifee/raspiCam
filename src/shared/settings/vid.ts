@@ -7,7 +7,7 @@ import { Setting } from './types';
  * Vid settings
  * https://www.raspberrypi.org/documentation/raspbian/applications/camera.md
  */
-export const vidSettingDesc = {
+export const videoSettingDesc = {
   ...streamSettingDesc,
   /**
    * Width of resulting video. This should be between 64 and 1920.
@@ -41,5 +41,5 @@ export const vidSettingDesc = {
   flush: booleanSetting('Flush output buffers', false),
 };
 
-export type VidSettingDesc = typeof vidSettingDesc;
-export type VidSetting = Setting<VidSettingDesc>;
+export type VideoSettingDesc = typeof videoSettingDesc;
+export type VideoSetting = Setting<VideoSettingDesc>;
