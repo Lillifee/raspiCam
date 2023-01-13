@@ -20,6 +20,7 @@ import { allThemes } from '../theme/themes';
 import { Capture } from './Capture';
 import { GridLines } from './GridLines';
 import { ModeToolbar } from './ModeToolbar';
+import { ErrorBoundary } from './settings/common/ErrorBoundary';
 import { SettingsAdvanced } from './SettingsAdvanced';
 import { SettingsQuick } from './SettingsQuick';
 import { SettingsToolbar } from './SettingsToolbar';
@@ -142,15 +143,17 @@ export const Camera: React.FC<Props> = ({ setTheme }) => {
     <MainContainer ref={mainRef}>
       <PlayerWrapper>
         <PlayerContainer>
-          {stream.codec.value === 'MJPEG' ? (
-            <MJPEGPlayer loading={loading || !!status.data.running} />
-          ) : stream.codec.value === 'H264' ? (
-            application.player.value === 'JMuxer' ? (
-              <JMuxerPlayer loading={loading} />
-            ) : (
-              <BroadwayPlayer loading={loading} />
-            )
-          ) : null}
+          <ErrorBoundary errorHeader="You can try to change the stream codec or the selected player in the settings and retry.">
+            {stream.codec.value === 'MJPEG' ? (
+              <MJPEGPlayer loading={loading || !!status.data.running} />
+            ) : stream.codec.value === 'H264' ? (
+              application.player.value === 'JMuxer' ? (
+                <JMuxerPlayer loading={loading} />
+              ) : (
+                <BroadwayPlayer loading={loading} />
+              )
+            ) : null}
+          </ErrorBoundary>
           <GridLines type={application.gridLines.value} />
         </PlayerContainer>
       </PlayerWrapper>
