@@ -13,9 +13,9 @@ import { RaspiStatus, Setting, BaseTypeSetting } from '../../../shared/settings/
 import { videoSettingDesc } from '../../../shared/settings/video';
 import { useFetch } from '../common/hooks/useFetch';
 import { useFullscreen } from '../common/hooks/useFullscreen';
-import { BroadwayPlayer } from '../player/BroadwayPlayer';
-import { JMuxerPlayer } from '../player/JMuxerPlayer';
-import { MJPEGPlayer } from '../player/MJPEGPlayer';
+import { BroadwayPlayer } from '../stream/BroadwayPlayer';
+import { JMuxerPlayer } from '../stream/JMuxerPlayer';
+import { MJPEGPlayer } from '../stream/MJPEGPlayer';
 import { allThemes } from '../theme/themes';
 import { Capture } from './Capture';
 import { GridLines } from './GridLines';
