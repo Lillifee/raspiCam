@@ -47,7 +47,7 @@ export const streamSettingDesc = {
   /**
    * Specifies the encoder codec to use.
    * H264 can encode up to 1080p, whereas MJPEG can encode upto the sensor size,
-   * but at decreased framerates due to the higher processing and storage requirements.
+   * but at decreased framerate due to the higher processing and storage requirements.
    */
   codec: enumSetting('Codec', ['H264', 'MJPEG'], 'H264'), //'yuv420', 'libav'
 };

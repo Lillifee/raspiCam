@@ -1,4 +1,8 @@
 import React from 'react';
+import {
+  ApplicationSetting,
+  ApplicationSettingDesc,
+} from '../../../../shared/settings/application';
 import { StreamSetting, StreamSettingDesc } from '../../../../shared/settings/stream';
 import { EnumDropdownSetting } from './common/EnumDropdownSetting';
 import { EnumSlider } from './common/EnumSlider';
@@ -21,12 +25,20 @@ const videoResolutionPresets = [
 ];
 
 export interface StreamSettingsProps {
-  data: StreamSettingDesc;
-  updateData: (data: StreamSetting) => void;
+  stream: StreamSettingDesc;
+  application: ApplicationSettingDesc;
+  updateStream: (data: StreamSetting) => void;
+  updateApplication: (app: ApplicationSetting) => void;
 }
 
-export const StreamSettings: React.FC<StreamSettingsProps> = ({ data, updateData }) => {
-  const updateField = updateTypedField(updateData);
+export const StreamSettings: React.FC<StreamSettingsProps> = ({
+  stream,
+  application,
+  updateStream,
+  updateApplication,
+}) => {
+  const updateStreamField = updateTypedField(updateStream);
+  const updateApplicationField = updateTypedField(updateApplication);
 
   return (
     <SettingsWrapper>
@@ -34,7 +46,7 @@ export const StreamSettings: React.FC<StreamSettingsProps> = ({ data, updateData
         <SettingsHeaderText>Stream</SettingsHeaderText>
         <SettingsRestoreButton
           type="SettingsRestore"
-          onClick={() => updateData(restoreSettings(data))}
+          onClick={() => updateStream(restoreSettings(stream))}
         />
       </SettingsHeader>
 
@@ -43,29 +55,31 @@ export const StreamSettings: React.FC<StreamSettingsProps> = ({ data, updateData
           <EnumSlider
             name="Resolution"
             items={videoResolutionPresets}
-            predicate={(x) => x.width === data.width.value && x.height === data.height.value}
+            predicate={(x) => x.width === stream.width.value && x.height === stream.height.value}
             displayValue={(x) => x.name}
-            update={(x) => updateData({ width: x.width, height: x.height })}
+            update={(x) => updateStream({ width: x.width, height: x.height })}
           />
         }
       >
-        <NumberSetting {...data.width} update={updateField('width')} />
-        <NumberSetting {...data.height} update={updateField('height')} />
-        <NumberSetting {...data.framerate} update={updateField('framerate')} />
+        <NumberSetting {...stream.width} update={updateStreamField('width')} />
+        <NumberSetting {...stream.height} update={updateStreamField('height')} />
+        <NumberSetting {...stream.framerate} update={updateStreamField('framerate')} />
       </SettingsExpander>
 
       <SettingsExpander
-        header={<EnumDropdownSetting {...data.codec} update={updateField('codec')} />}
+        header={<EnumDropdownSetting {...stream.codec} update={updateStreamField('codec')} />}
       >
-        {data.codec.value === 'H264' && (
+        {stream.codec.value === 'H264' && (
           <React.Fragment>
-            <NumberSetting {...data.bitrate} update={updateField('bitrate')} />
+            <NumberSetting {...stream.bitrate} update={updateStreamField('bitrate')} />
+            <EnumDropdownSetting
+              {...application.player}
+              update={updateApplicationField('player')}
+            />
           </React.Fragment>
         )}
-        {data.codec.value === 'MJPEG' && (
-          <React.Fragment>
-            <NumberSetting {...data.quality} update={updateField('quality')} />
-          </React.Fragment>
+        {stream.codec.value === 'MJPEG' && (
+          <NumberSetting {...stream.quality} update={updateStreamField('quality')} />
         )}
       </SettingsExpander>
     </SettingsWrapper>

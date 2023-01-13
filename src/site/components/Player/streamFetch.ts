@@ -1,4 +1,5 @@
-import { PlayerOptions, PlayerStats } from '.';
+import { PlayerOptions } from './player';
+import { PlayerStats } from './stats';
 
 /**
  * Fetch the stream and publish the data using the onData callback function

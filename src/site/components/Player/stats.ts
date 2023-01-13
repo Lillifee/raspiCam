@@ -1,4 +1,66 @@
-import { PlayerOptions, PlayerStats } from '.';
+import { PlayerOptions } from './player';
+
+/**
+ * Player stats are calculations triggered by an interval,
+ * defined in the @PlayerOptions by @statsPerSecond
+ */
+export interface PlayerStats {
+  /**
+   * Frames during the last cycle
+   */
+  framesPerCycle: number;
+
+  /**
+   * Stream size during the last cycle
+   */
+  sizePerCycle: number;
+
+  /**
+   * Average frames per seconds over the last 3 seconds
+   */
+  avgFps: number;
+
+  /**
+   * Average stream size over the last 3 seconds in byte
+   * Rounded to 100kB
+   */
+  avgSize: number;
+
+  /**
+   * Player running indication
+   * If no more frames rendered within the last 200ms.
+   */
+  playerRunning: boolean;
+
+  /**
+   * Stream running indication
+   */
+  streamRunning: boolean;
+
+  /**
+   * dropping frames during the last cycle indication
+   */
+  droppingFrames: boolean;
+
+  /**
+   * Total dropped frames since player start
+   */
+  totalDroppedFrames: number;
+}
+
+/**
+ * Create initial player statistics
+ */
+export const createInitialPlayerStats = (): PlayerStats => ({
+  framesPerCycle: 0,
+  sizePerCycle: 0,
+  avgFps: 0,
+  avgSize: 0,
+  playerRunning: false,
+  droppingFrames: false,
+  streamRunning: false,
+  totalDroppedFrames: 0,
+});
 
 /**
  * Average calculator per seconds.
@@ -22,7 +84,7 @@ const avgCalculator = (statsPerSecond: number, duration: number) => {
 };
 
 /**
- * Caluclate the player statistics
+ * Calculate the player statistics
  *
  * @param {Required<PlayerOptions>} options
  * @param {PlayerStats} stats

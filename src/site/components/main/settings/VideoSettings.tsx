@@ -38,12 +38,12 @@ const timeoutPresets = [
 ];
 
 export interface VidSettingsProps {
-  data: VideoSettingDesc;
-  updateData: (data: VideoSetting) => void;
+  video: VideoSettingDesc;
+  updateVideo: (data: VideoSetting) => void;
 }
 
-export const VideoSettings: React.FC<VidSettingsProps> = ({ data, updateData }) => {
-  const updateField = updateTypedField(updateData);
+export const VideoSettings: React.FC<VidSettingsProps> = ({ video, updateVideo }) => {
+  const updateField = updateTypedField(updateVideo);
 
   return (
     <SettingsWrapper>
@@ -51,7 +51,7 @@ export const VideoSettings: React.FC<VidSettingsProps> = ({ data, updateData }) 
         <SettingsHeaderText>Video</SettingsHeaderText>
         <SettingsRestoreButton
           type="SettingsRestore"
-          onClick={() => updateData(restoreSettings(data))}
+          onClick={() => updateVideo(restoreSettings(video))}
         />
       </SettingsHeader>
 
@@ -60,15 +60,15 @@ export const VideoSettings: React.FC<VidSettingsProps> = ({ data, updateData }) 
           <EnumSlider
             name="Resolution"
             items={videoResolutionPresets}
-            predicate={(x) => x.width === data.width.value && x.height === data.height.value}
+            predicate={(x) => x.width === video.width.value && x.height === video.height.value}
             displayValue={(x) => x.name}
-            update={(x) => updateData({ width: x.width, height: x.height })}
+            update={(x) => updateVideo({ width: x.width, height: x.height })}
           />
         }
       >
-        <NumberSetting {...data.width} update={updateField('width')} />
-        <NumberSetting {...data.height} update={updateField('height')} />
-        <NumberSetting {...data.framerate} update={updateField('framerate')} />
+        <NumberSetting {...video.width} update={updateField('width')} />
+        <NumberSetting {...video.height} update={updateField('height')} />
+        <NumberSetting {...video.framerate} update={updateField('framerate')} />
       </SettingsExpander>
 
       <SettingsExpander
@@ -76,13 +76,13 @@ export const VideoSettings: React.FC<VidSettingsProps> = ({ data, updateData }) 
           <EnumSlider
             name="Quality"
             items={qualityPresets}
-            predicate={(x) => x.bitrate === data.bitrate.value}
+            predicate={(x) => x.bitrate === video.bitrate.value}
             displayValue={(x) => x.name}
-            update={(x) => updateData({ bitrate: x.bitrate })}
+            update={(x) => updateVideo({ bitrate: x.bitrate })}
           />
         }
       >
-        <NumberSetting {...data.bitrate} update={updateField('bitrate')} />
+        <NumberSetting {...video.bitrate} update={updateField('bitrate')} />
       </SettingsExpander>
 
       <SettingsExpander
@@ -90,21 +90,21 @@ export const VideoSettings: React.FC<VidSettingsProps> = ({ data, updateData }) 
           <EnumSlider
             name="Duration"
             items={timeoutPresets}
-            predicate={(x) => x.value === data.timeout.value}
+            predicate={(x) => x.value === video.timeout.value}
             displayValue={(x) => x.name}
-            update={(x) => updateData({ timeout: x.value })}
+            update={(x) => updateVideo({ timeout: x.value })}
           />
         }
       >
-        <TimeSetting {...data.timeout} update={updateField('timeout')} />
+        <TimeSetting {...video.timeout} update={updateField('timeout')} />
       </SettingsExpander>
 
       <SettingsExpander header={<SettingsExpanderHeader>Other</SettingsExpanderHeader>}>
-        <EnumDropdownSetting {...data.codec} update={updateField('codec')} />
-        <EnumDropdownSetting {...data.profile} update={updateField('profile')} />
-        <EnumDropdownSetting {...data.level} update={updateField('level')} />
-        <BooleanSetting {...data.inline} update={updateField('inline')} />
-        <BooleanSetting {...data.flush} update={updateField('flush')} />
+        <EnumDropdownSetting {...video.codec} update={updateField('codec')} />
+        <EnumDropdownSetting {...video.profile} update={updateField('profile')} />
+        <EnumDropdownSetting {...video.level} update={updateField('level')} />
+        <BooleanSetting {...video.inline} update={updateField('inline')} />
+        <BooleanSetting {...video.flush} update={updateField('flush')} />
       </SettingsExpander>
     </SettingsWrapper>
   );

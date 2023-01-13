@@ -9,12 +9,15 @@ import { SettingsExpander, SettingsExpanderHeader } from './common/SettingsExpan
 import { SettingsHeader, SettingsHeaderText, SettingsWrapper } from './common/Styled';
 
 export interface ApplicationSettingsProps {
-  data: ApplicationSettingDesc;
-  updateData: (data: ApplicationSetting) => void;
+  application: ApplicationSettingDesc;
+  updateApplication: (data: ApplicationSetting) => void;
 }
 
-export const ApplicationSettings: React.FC<ApplicationSettingsProps> = ({ data, updateData }) => {
-  const updateField = updateTypedField(updateData);
+export const ApplicationSettings: React.FC<ApplicationSettingsProps> = ({
+  application,
+  updateApplication,
+}) => {
+  const updateField = updateTypedField(updateApplication);
 
   return (
     <SettingsWrapper>
@@ -23,8 +26,8 @@ export const ApplicationSettings: React.FC<ApplicationSettingsProps> = ({ data, 
       </SettingsHeader>
 
       <SettingsExpander header={<SettingsExpanderHeader>General</SettingsExpanderHeader>}>
-        <EnumDropdownSetting {...data.theme} update={updateField('theme')} />
-        <EnumDropdownSetting {...data.gridLines} update={updateField('gridLines')} />
+        <EnumDropdownSetting {...application.theme} update={updateField('theme')} />
+        <EnumDropdownSetting {...application.gridLines} update={updateField('gridLines')} />
       </SettingsExpander>
     </SettingsWrapper>
   );

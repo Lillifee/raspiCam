@@ -29,6 +29,7 @@
   },
   "devDependencies": {
     "@types/express": "^4.17.15",
+    "@types/jmuxer": "^2.0.3",
     "@types/node": "^18.11.18",
     "@types/react": "^18.0.26",
     "@types/react-dom": "^18.0.10",
@@ -36,6 +37,7 @@
     "@types/styled-components": "^5.1.26",
     "@typescript-eslint/eslint-plugin": "^5.48.0",
     "@typescript-eslint/parser": "^5.48.0",
+    "copy-webpack-plugin": "^11.0.0",
     "eslint": "^8.31.0",
     "eslint-config-prettier": "^8.6.0",
     "eslint-plugin-import": "^2.26.0",

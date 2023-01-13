@@ -13,11 +13,12 @@ import { RaspiStatus, Setting, BaseTypeSetting } from '../../../shared/settings/
 import { videoSettingDesc } from '../../../shared/settings/video';
 import { useFetch } from '../common/hooks/useFetch';
 import { useFullscreen } from '../common/hooks/useFullscreen';
+import { BroadwayPlayer } from '../player/BroadwayPlayer';
+import { JMuxerPlayer } from '../player/JMuxerPlayer';
+import { MJPEGPlayer } from '../player/MJPEGPlayer';
 import { allThemes } from '../theme/themes';
 import { Capture } from './Capture';
 import { GridLines } from './GridLines';
-import { H264Player } from './H264Player';
-import { MJPEGPlayer } from './MJPEGPlayer';
 import { ModeToolbar } from './ModeToolbar';
 import { SettingsAdvanced } from './SettingsAdvanced';
 import { SettingsQuick } from './SettingsQuick';
@@ -143,9 +144,13 @@ export const Camera: React.FC<Props> = ({ setTheme }) => {
         <PlayerContainer>
           {stream.codec.value === 'MJPEG' ? (
             <MJPEGPlayer loading={loading || !!status.data.running} />
-          ) : (
-            <H264Player loading={loading} />
-          )}
+          ) : stream.codec.value === 'H264' ? (
+            application.player.value === 'JMuxer' ? (
+              <JMuxerPlayer loading={loading} />
+            ) : (
+              <BroadwayPlayer loading={loading} />
+            )
+          ) : null}
           <GridLines type={application.gridLines.value} />
         </PlayerContainer>
       </PlayerWrapper>

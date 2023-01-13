@@ -14,6 +14,9 @@ export const applicationSettingDesc = {
     ['none', '3x3', '4x4', 'golden ratio'],
     'none',
   ),
+
+  /** Player for H264 stream  */
+  player: enumSetting('Player', ['Broadway', 'JMuxer'], 'JMuxer'),
 };
 
 export type ApplicationSettingDesc = typeof applicationSettingDesc;

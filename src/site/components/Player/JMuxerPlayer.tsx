@@ -1,6 +1,9 @@
 import * as React from 'react';
 import styled from 'styled-components';
-import { PlayerStats, createPlayerStats, player } from '../Player';
+import { BlurOverlay } from './Common';
+import { createPlayerOptions, player, Player, PlayerOptions } from './player';
+import { createInitialPlayerStats, PlayerStats } from './stats';
+import { streamJMuxer } from './streamJMuxer';
 
 // #region styled
 
@@ -20,37 +23,31 @@ const Video = styled.video`
   max-height: 100%;
 `;
 
-interface BlurOverlayProps {
-  blur: boolean;
-}
-
-const BlurOverlay = styled.div<BlurOverlayProps>`
-  backdrop-filter: ${(p) => (p.blur ? 'blur(10px)' : '')};
-  background-color: ${(p) => (p.blur ? 'rgba(0, 0, 0, 0.5)' : '')};
-  transition: backdrop-filter ease-in-out 0.3s, background-color ease-in-out 0.3s;
-  position: absolute;
-  width: 100%;
-  height: 100%;
-`;
-
 // #endregion
+
+const jMuxerPlayer = (playerOptions: PlayerOptions): Player => {
+  const options = createPlayerOptions(playerOptions);
+  const stats = createInitialPlayerStats();
+
+  const jMuxer = streamJMuxer(options, stats);
+  return player(jMuxer, options, stats);
+};
 
 /**
  * Player hook
  * Creates a JMuxer player instance and append it to the passed container
  *
  * @param {string} url websocket url without (e.g. 192.168.1.10:8081)
- * @param {React.RefObject<HTMLElement>} container html reference object
  */
 const usePlayer = (url: string) => {
-  const [stats, setStats] = React.useState<PlayerStats>(createPlayerStats());
+  const [stats, setStats] = React.useState<PlayerStats>(createInitialPlayerStats());
 
   // TODO create player in a separate effect and start/stop based on stream running
   React.useEffect(() => {
-    const bwPlayer = player({ url, onStats: setStats });
+    const player = jMuxerPlayer({ url, onStats: setStats });
 
     return () => {
-      bwPlayer.stop();
+      player.stop();
     };
   }, [url]);
 
@@ -64,7 +61,7 @@ export interface PlayerProps {
 /**
  * Player to display the live stream
  */
-export const H264Player: React.FC<PlayerProps> = ({ loading }) => {
+export const JMuxerPlayer: React.FC<PlayerProps> = ({ loading }) => {
   const [stats] = usePlayer('/api/stream/live');
 
   return (

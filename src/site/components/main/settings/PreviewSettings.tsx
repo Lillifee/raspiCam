@@ -11,12 +11,12 @@ import {
 } from './common/Styled';
 
 export interface PreviewSettingsProps {
-  data: PreviewSettingDesc;
-  updateData: (data: PreviewSetting) => void;
+  preview: PreviewSettingDesc;
+  updatePreview: (data: PreviewSetting) => void;
 }
 
-export const PreviewSettings: React.FC<PreviewSettingsProps> = ({ data, updateData }) => {
-  const updateField = updateTypedField(updateData);
+export const PreviewSettings: React.FC<PreviewSettingsProps> = ({ preview, updatePreview }) => {
+  const updateField = updateTypedField(updatePreview);
 
   return (
     <SettingsWrapper>
@@ -24,13 +24,13 @@ export const PreviewSettings: React.FC<PreviewSettingsProps> = ({ data, updateDa
         <SettingsHeaderText>Preview</SettingsHeaderText>
         <SettingsRestoreButton
           type="SettingsRestore"
-          onClick={() => updateData(restoreSettings(data))}
+          onClick={() => updatePreview(restoreSettings(preview))}
         />
       </SettingsHeader>
 
       <SettingsExpander header={<SettingsExpanderHeader>HDMI Preview</SettingsExpanderHeader>}>
-        <BooleanSetting {...data.nopreview} update={updateField('nopreview')} />
-        <BooleanSetting {...data.fullscreen} update={updateField('fullscreen')} />
+        <BooleanSetting {...preview.nopreview} update={updateField('nopreview')} />
+        <BooleanSetting {...preview.fullscreen} update={updateField('fullscreen')} />
       </SettingsExpander>
     </SettingsWrapper>
   );

@@ -11,12 +11,12 @@ import {
 } from './common/Styled';
 
 export interface ControlSettingsProps {
-  data: ControlSettingDesc;
-  updateData: (data: ControlSetting) => void;
+  control: ControlSettingDesc;
+  updateControl: (data: ControlSetting) => void;
 }
 
-export const ControlSettings: React.FC<ControlSettingsProps> = ({ data, updateData }) => {
-  const updateField = updateTypedField(updateData);
+export const ControlSettings: React.FC<ControlSettingsProps> = ({ control, updateControl }) => {
+  const updateField = updateTypedField(updateControl);
 
   return (
     <SettingsWrapper>
@@ -24,12 +24,12 @@ export const ControlSettings: React.FC<ControlSettingsProps> = ({ data, updateDa
         <SettingsHeaderText>Control</SettingsHeaderText>
         <SettingsRestoreButton
           type="SettingsRestore"
-          onClick={() => updateData(restoreSettings(data))}
+          onClick={() => updateControl(restoreSettings(control))}
         />
       </SettingsHeader>
 
-      <EnumDropdownSetting {...data.mode} update={updateField('mode')} />
-      <BooleanSetting {...data.captureStartup} update={updateField('captureStartup')} />
+      <EnumDropdownSetting {...control.mode} update={updateField('mode')} />
+      <BooleanSetting {...control.captureStartup} update={updateField('captureStartup')} />
     </SettingsWrapper>
   );
 };

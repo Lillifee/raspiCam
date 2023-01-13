@@ -1,21 +1,22 @@
 import JMuxer from 'jmuxer';
-import { PlayerOptions, PlayerStats } from '.';
+import { PlayerOptions } from './player';
+import { PlayerStats } from './stats';
 import { parseFragmentType } from './streamHelper';
 
-export interface StreamPlayer {
+export interface StreamDecoder {
   addFrame: (frame: Uint8Array) => void;
 }
 
 /**
- * JMuxer player
+ * JMuxer decoder
  *
  * @param options player options
  * @param stats player statistics
  */
-export const streamPlayer = (
+export const streamJMuxer = (
   options: Required<PlayerOptions>,
   stats: PlayerStats,
-): StreamPlayer => {
+): StreamDecoder => {
   const jmuxer = new JMuxer({
     node: 'player',
     mode: 'video',
@@ -23,6 +24,16 @@ export const streamPlayer = (
   });
 
   const frames: Uint8Array[] = [];
+
+  const addFrame = (frame: Uint8Array) => {
+    // Drop frames if too many frames in the queue (e.g. minimize browser)
+    if (frames.length < options.dropFrames) {
+      frames.push(frame);
+    } else {
+      stats.totalDroppedFrames++;
+      stats.droppingFrames = true;
+    }
+  };
 
   const decodeFrame = (): void => {
     const frame = frames.shift();
@@ -44,16 +55,7 @@ export const streamPlayer = (
     requestAnimationFrame(decodeFrame);
   };
 
-  const addFrame = (frame: Uint8Array) => {
-    // Drop frames if too many frames in the queue (e.g. minimize browser)
-    if (frames.length < options.dropFrames) {
-      frames.push(frame);
-    } else {
-      stats.totalDroppedFrames++;
-      stats.droppingFrames = true;
-    }
-  };
-
   decodeFrame();
+
   return { addFrame };
 };

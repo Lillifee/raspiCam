@@ -1,3 +1,4 @@
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const path = require('path');
 const createStyledComponentsTransformer = require('typescript-plugin-styled-components').default;
@@ -10,8 +11,7 @@ const styledComponentTransformer = {
 /*
  * Switch the server path during development
  */
-// const devServer = '192.168.3.80:8000';
-const devServer = '192.168.3.73:8000';
+const devServer = '192.168.3.76:8000';
 
 module.exports = (env, argv) => ({
   mode: argv.mode || 'production',
@@ -49,6 +49,12 @@ module.exports = (env, argv) => ({
     new HtmlWebpackPlugin({
       template: './src/site/public/index.html',
       favicon: './src/site/public/favicon.ico',
+    }),
+    new CopyWebpackPlugin({
+      patterns: [
+        { from: path.join(__dirname, 'broadway', 'Decoder.js') },
+        { from: path.join(__dirname, 'broadway', 'avc.wasm') },
+      ],
     }),
   ],
 

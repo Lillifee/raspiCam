@@ -50,32 +50,32 @@ const timelapsePresets = [
 ];
 
 export interface PhotoSettingsProps {
-  data: PhotoSettingDesc;
-  updateData: (data: PhotoSetting) => void;
+  photo: PhotoSettingDesc;
+  updatePhoto: (data: PhotoSetting) => void;
 }
 
-export const TimelapseSetting: React.FC<PhotoSettingsProps> = ({ data, updateData }) => (
+export const TimelapseSetting: React.FC<PhotoSettingsProps> = ({ photo, updatePhoto }) => (
   <EnumSlider
     name="Timelapse"
     items={timelapsePresets}
-    predicate={(x) => x.value === data.timelapse.value}
+    predicate={(x) => x.value === photo.timelapse.value}
     displayValue={(x) => x.name}
-    update={(x) => updateData({ timelapse: x.value })}
+    update={(x) => updatePhoto({ timelapse: x.value })}
   />
 );
 
-export const FilterSetting: React.FC<PhotoSettingsProps> = ({ data, updateData }) => (
+export const FilterSetting: React.FC<PhotoSettingsProps> = ({ photo, updatePhoto }) => (
   <EnumSlider
     name="Timelapse"
     items={timelapsePresets}
-    predicate={(x) => x.value === data.timelapse.value}
+    predicate={(x) => x.value === photo.timelapse.value}
     displayValue={(x) => x.name}
-    update={(x) => updateData({ timelapse: x.value })}
+    update={(x) => updatePhoto({ timelapse: x.value })}
   />
 );
 
-export const PhotoSettings: React.FC<PhotoSettingsProps> = ({ data, updateData }) => {
-  const updateField = updateTypedField(updateData);
+export const PhotoSettings: React.FC<PhotoSettingsProps> = ({ photo, updatePhoto }) => {
+  const updateField = updateTypedField(updatePhoto);
 
   return (
     <SettingsWrapper>
@@ -83,15 +83,15 @@ export const PhotoSettings: React.FC<PhotoSettingsProps> = ({ data, updateData }
         <SettingsHeaderText>Photo</SettingsHeaderText>
         <SettingsRestoreButton
           type="SettingsRestore"
-          onClick={() => updateData(restoreSettings(data))}
+          onClick={() => updatePhoto(restoreSettings(photo))}
         />
       </SettingsHeader>
 
       <EnumSlider
-        name={data.timeout.name}
+        name={photo.timeout.name}
         items={photoTimeoutPresets}
         displayValue={(x) => x.name}
-        predicate={(x) => x.value === data.timeout.value}
+        predicate={(x) => x.value === photo.timeout.value}
         update={(x) => updateField('timeout')(x.value)}
       />
 
@@ -101,13 +101,13 @@ export const PhotoSettings: React.FC<PhotoSettingsProps> = ({ data, updateData }
             name="Resolution"
             items={photoResolutionPresets}
             displayValue={(x) => x.name}
-            predicate={(x) => x.width === data.width.value && x.height === data.height.value}
-            update={(x) => updateData({ width: x.width, height: x.height })}
+            predicate={(x) => x.width === photo.width.value && x.height === photo.height.value}
+            update={(x) => updatePhoto({ width: x.width, height: x.height })}
           />
         }
       >
-        <NumberSetting {...data.width} update={updateField('width')} />
-        <NumberSetting {...data.height} update={updateField('height')} />
+        <NumberSetting {...photo.width} update={updateField('width')} />
+        <NumberSetting {...photo.height} update={updateField('height')} />
       </SettingsExpander>
 
       <SettingsExpander
@@ -116,19 +116,19 @@ export const PhotoSettings: React.FC<PhotoSettingsProps> = ({ data, updateData }
             name="Quality"
             items={qualityPresets}
             displayValue={(x) => x.name}
-            predicate={(x) => x.value === data.quality.value}
-            update={(x) => updateData({ quality: x.value })}
+            predicate={(x) => x.value === photo.quality.value}
+            update={(x) => updatePhoto({ quality: x.value })}
           />
         }
       >
-        <NumberSetting {...data.quality} update={updateField('quality')} />
-        <EnumDropdownSetting {...data.encoding} update={updateField('encoding')} />
-        <BooleanSetting {...data.raw} update={updateField('raw')} />
+        <NumberSetting {...photo.quality} update={updateField('quality')} />
+        <EnumDropdownSetting {...photo.encoding} update={updateField('encoding')} />
+        <BooleanSetting {...photo.raw} update={updateField('raw')} />
       </SettingsExpander>
 
-      <SettingsExpander header={<TimelapseSetting data={data} updateData={updateData} />}>
-        <TimeSetting {...data.timelapse} update={updateField('timelapse')} />
-        <TimeSetting {...data.timelapseTimeout} update={updateField('timelapseTimeout')} />
+      <SettingsExpander header={<TimelapseSetting photo={photo} updatePhoto={updatePhoto} />}>
+        <TimeSetting {...photo.timelapse} update={updateField('timelapse')} />
+        <TimeSetting {...photo.timelapseTimeout} update={updateField('timelapseTimeout')} />
       </SettingsExpander>
     </SettingsWrapper>
   );

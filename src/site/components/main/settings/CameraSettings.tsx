@@ -35,42 +35,42 @@ const shutterPresets = [
 ];
 
 export interface CameraSettingsProps {
-  data: CameraSettingDesc;
-  updateData: (data: CameraSetting) => void;
+  camera: CameraSettingDesc;
+  updateCamera: (data: CameraSetting) => void;
 }
 
-export const ExposureSetting: React.FC<CameraSettingsProps> = ({ data, updateData }) => (
+export const ExposureSetting: React.FC<CameraSettingsProps> = ({ camera, updateCamera }) => (
   <React.Fragment>
-    <EnumSliderSetting {...data.exposure} update={(x) => updateData({ exposure: x })} />
-    <NumberSetting {...data.ev} update={(x) => updateData({ ev: x })} />
+    <EnumSliderSetting {...camera.exposure} update={(x) => updateCamera({ exposure: x })} />
+    <NumberSetting {...camera.ev} update={(x) => updateCamera({ ev: x })} />
   </React.Fragment>
 );
 
-export const ShutterSetting: React.FC<CameraSettingsProps> = ({ data, updateData }) => (
+export const ShutterSetting: React.FC<CameraSettingsProps> = ({ camera, updateCamera }) => (
   <EnumSlider
-    name={data.shutter.name}
+    name={camera.shutter.name}
     items={shutterPresets}
-    predicate={(x) => x.time === data.shutter.value}
+    predicate={(x) => x.time === camera.shutter.value}
     displayValue={(x) => x.name}
-    update={(x) => updateData({ shutter: x.time })}
+    update={(x) => updateCamera({ shutter: x.time })}
   />
 );
 
-export const AwbSetting: React.FC<CameraSettingsProps> = ({ data, updateData }) => (
+export const AwbSetting: React.FC<CameraSettingsProps> = ({ camera, updateCamera }) => (
   <React.Fragment>
-    <EnumSliderSetting {...data.awb} update={(x) => updateData({ awb: x })} />
+    <EnumSliderSetting {...camera.awb} update={(x) => updateCamera({ awb: x })} />
 
-    {data.awb.value === 'manual' && (
+    {camera.awb.value === 'manual' && (
       <React.Fragment>
-        <NumberSetting {...data.awbb} update={(x) => updateData({ awbb: x })} />
-        <NumberSetting {...data.awbr} update={(x) => updateData({ awbr: x })} />
+        <NumberSetting {...camera.awbb} update={(x) => updateCamera({ awbb: x })} />
+        <NumberSetting {...camera.awbr} update={(x) => updateCamera({ awbr: x })} />
       </React.Fragment>
     )}
   </React.Fragment>
 );
 
-export const CameraSettings: React.FC<CameraSettingsProps> = ({ data, updateData }) => {
-  const updateField = updateTypedField(updateData);
+export const CameraSettings: React.FC<CameraSettingsProps> = ({ camera, updateCamera }) => {
+  const updateField = updateTypedField(updateCamera);
 
   return (
     <SettingsWrapper>
@@ -78,34 +78,34 @@ export const CameraSettings: React.FC<CameraSettingsProps> = ({ data, updateData
         <SettingsHeaderText>Camera</SettingsHeaderText>
         <SettingsRestoreButton
           type="SettingsRestore"
-          onClick={() => updateData(restoreSettings(data))}
+          onClick={() => updateCamera(restoreSettings(camera))}
         />
       </SettingsHeader>
 
       <SettingsExpander header={<SettingsExpanderHeader>General</SettingsExpanderHeader>}>
-        <NumberSetting {...data.sharpness} update={updateField('sharpness')} />
-        <NumberSetting {...data.contrast} update={updateField('contrast')} />
-        <NumberSetting {...data.brightness} update={updateField('brightness')} />
-        <NumberSetting {...data.saturation} update={updateField('saturation')} />
+        <NumberSetting {...camera.sharpness} update={updateField('sharpness')} />
+        <NumberSetting {...camera.contrast} update={updateField('contrast')} />
+        <NumberSetting {...camera.brightness} update={updateField('brightness')} />
+        <NumberSetting {...camera.saturation} update={updateField('saturation')} />
       </SettingsExpander>
 
       <SettingsExpander header={<SettingsExpanderHeader>Exposure</SettingsExpanderHeader>}>
-        <ShutterSetting data={data} updateData={updateData} />
-        <ExposureSetting data={data} updateData={updateData} />
-        <EnumDropdownSetting {...data.denoise} update={updateField('denoise')} />
-        <NumberSetting {...data.gain} update={updateField('gain')} />
-        <EnumSliderSetting {...data.metering} update={updateField('metering')} />
+        <ShutterSetting camera={camera} updateCamera={updateCamera} />
+        <ExposureSetting camera={camera} updateCamera={updateCamera} />
+        <EnumDropdownSetting {...camera.denoise} update={updateField('denoise')} />
+        <NumberSetting {...camera.gain} update={updateField('gain')} />
+        <EnumSliderSetting {...camera.metering} update={updateField('metering')} />
       </SettingsExpander>
 
       <SettingsExpander header={<SettingsExpanderHeader>White Balance</SettingsExpanderHeader>}>
-        <AwbSetting data={data} updateData={updateData} />
+        <AwbSetting camera={camera} updateCamera={updateCamera} />
       </SettingsExpander>
 
       <SettingsExpander header={<SettingsExpanderHeader>Other</SettingsExpanderHeader>}>
-        <NumberSetting {...data.rotation} update={updateField('rotation')} />
-        <BooleanSetting {...data.hflip} update={updateField('hflip')} />
-        <BooleanSetting {...data.vflip} update={updateField('vflip')} />
-        <EnumDropdownSetting {...data.camera} update={updateField('camera')} />
+        <NumberSetting {...camera.rotation} update={updateField('rotation')} />
+        <BooleanSetting {...camera.hflip} update={updateField('hflip')} />
+        <BooleanSetting {...camera.vflip} update={updateField('vflip')} />
+        <EnumDropdownSetting {...camera.camera} update={updateField('camera')} />
       </SettingsExpander>
     </SettingsWrapper>
   );

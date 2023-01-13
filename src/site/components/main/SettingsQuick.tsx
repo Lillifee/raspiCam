@@ -53,10 +53,16 @@ export const SettingsQuick: React.FC<QuickSettingsProps> = ({
 }) => (
   <QuickSettingsPane>
     <QuickSettingsContainer>
-      {activeSetting === 'Exposure' && <ExposureSetting data={camera} updateData={updateCamera} />}
-      {activeSetting === 'Shutter' && <ShutterSetting data={camera} updateData={updateCamera} />}
-      {activeSetting === 'AwbAuto' && <AwbSetting data={camera} updateData={updateCamera} />}
-      {activeSetting === 'Timelapse' && <TimelapseSetting data={photo} updateData={updatePhoto} />}
+      {activeSetting === 'Exposure' && (
+        <ExposureSetting camera={camera} updateCamera={updateCamera} />
+      )}
+      {activeSetting === 'Shutter' && (
+        <ShutterSetting camera={camera} updateCamera={updateCamera} />
+      )}
+      {activeSetting === 'AwbAuto' && <AwbSetting camera={camera} updateCamera={updateCamera} />}
+      {activeSetting === 'Timelapse' && (
+        <TimelapseSetting photo={photo} updatePhoto={updatePhoto} />
+      )}
     </QuickSettingsContainer>
 
     <Filler enableClick={true} onClick={() => activateSetting(undefined)} />
