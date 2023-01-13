@@ -56,17 +56,15 @@ const raspiControl = (settingsHelper: SettingsHelper): RaspiControl => {
     streamProcess.stop();
     actionProcess.stop();
 
-    const control = settingsHelper.control.convert();
-    if (!control.mode) return;
-
-    const mode = modeHelper[control.mode](settingsHelper);
-    logger.info('starting', control.mode, '...');
+    const controlMode = settingsHelper.control.convert().mode || 'Photo';
+    const mode = modeHelper[controlMode](settingsHelper);
+    logger.info('starting', controlMode, '...');
 
     actionProcess
       .start(mode.command, mode.settings)
       .then(() => startStream())
       .catch((e: Error) => {
-        logger.error(control.mode, 'failed:', e.message);
+        logger.error(controlMode, 'failed:', e.message);
       });
   };
 
