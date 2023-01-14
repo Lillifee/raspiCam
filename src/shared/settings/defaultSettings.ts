@@ -1,6 +1,6 @@
 import { ApplicationSettingDesc } from './application';
 import { CameraSettingDesc } from './camera';
-import { ControlSettingDesc } from './control';
+import { controlSettingDesc, ControlSettingDesc } from './control';
 import { PhotoSettingDesc, photoSettingDesc } from './photo';
 import { PreviewSettingDesc, previewSettingDesc } from './preview';
 import { StreamSettingDesc, streamSettingDesc } from './stream';
@@ -43,7 +43,7 @@ export const defaultSettings: DefaultSettings = {
   preview: {
     nopreview: previewSettingDesc.nopreview.defaultValue,
   },
-  control: {},
+  control: { mode: controlSettingDesc.mode.defaultValue },
   application: {},
 };
 
