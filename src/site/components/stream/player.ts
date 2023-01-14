@@ -1,7 +1,7 @@
-import { PlayerStats, statsCalculator } from './stats';
-import { streamFetch } from './streamFetch';
-import { streamSplitter } from './streamHelper';
-import { StreamDecoder } from './streamJMuxer';
+import { PlayerStats, statsCalculator } from './stats.js';
+import { streamFetch } from './streamFetch.js';
+import { streamSplitter } from './streamHelper.js';
+import { StreamDecoder } from './streamJMuxer.js';
 
 export interface PlayerOptions {
   /**

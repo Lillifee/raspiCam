@@ -1,8 +1,8 @@
 import React from 'react';
-import { isDefined } from '../../../../../shared/helperFunctions';
-import { NumberTypeSetting } from '../../../../../shared/settings/types';
-import { Time } from '../../../styled/Time';
-import { SettingHorizontalWrapper, SettingName } from './Styled';
+import { isDefined } from '../../../../../shared/helperFunctions.js';
+import { NumberTypeSetting } from '../../../../../shared/settings/types.js';
+import { Time } from '../../../styled/Time.js';
+import { SettingHorizontalWrapper, SettingName } from './Styled.js';
 
 export interface TimeSettingProps extends NumberTypeSetting {
   update: (value: number) => void;

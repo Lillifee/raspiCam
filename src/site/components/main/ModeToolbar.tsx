@@ -1,10 +1,10 @@
 import * as React from 'react';
 import { Link } from 'react-router-dom';
-import styled from 'styled-components';
-import { ControlSetting, ControlSettingDesc } from '../../../shared/settings/control';
-import { RaspiMode, RaspiStatus, photosPath } from '../../../shared/settings/types';
-import { Icon, IconType } from '../common/Icon';
-import { ButtonIcon } from '../styled/ButtonIcon';
+import { styled } from 'styled-components';
+import { ControlSetting, ControlSettingDesc } from '../../../shared/settings/control.js';
+import { RaspiMode, RaspiStatus, photosPath } from '../../../shared/settings/types.js';
+import { Icon, IconType } from '../common/Icon.js';
+import { ButtonIcon } from '../styled/ButtonIcon.js';
 
 //#region styled
 
@@ -25,7 +25,7 @@ const ToolbarFiller = styled.div`
 `;
 
 const ToolbarButton = styled(ButtonIcon)`
-  filter: drop-shadow(0px 0px 2px ${(p) => p.theme.Background});
+  filter: drop-shadow(0px 0px 2px ${(p) => p.theme?.Background});
   pointer-events: all;
 `;
 
@@ -37,12 +37,12 @@ const CameraModeDropdown = styled.div`
 `;
 
 interface CameraModeListProps {
-  show: boolean;
+  $show: boolean;
 }
 
 const CameraModeList = styled.div<CameraModeListProps>`
   display: flex;
-  flex: ${(p) => (p.show ? '1' : '0')};
+  flex: ${(p) => (p.$show ? '1' : '0')};
   overflow: hidden;
   flex-direction: row;
   background: ${(p) => p.theme.SubLayerBackground};
@@ -122,7 +122,7 @@ export const ModeToolbar: React.FC<ModeToolbarProps> = ({
       <ToolbarFiller />
 
       <CameraModeDropdown>
-        <CameraModeList show={showMode}>
+        <CameraModeList $show={showMode}>
           {Object.entries(cameraModes).map(([mode, value]) => (
             <ToolbarButton
               key={mode}

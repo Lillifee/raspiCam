@@ -1,9 +1,9 @@
 import http from 'http';
-import raspiControl from './control';
-import { createLogger } from './logger';
-import server from './server';
-import { createSettingsHelper } from './settings';
-import { fileWatcher } from './watcher';
+import raspiControl from './control.js';
+import { createLogger } from './logger.js';
+import { server } from './server.js';
+import { createSettingsHelper } from './settings.js';
+import { fileWatcher } from './watcher.js';
 
 const logger = createLogger('server');
 

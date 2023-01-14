@@ -2,19 +2,19 @@ import React from 'react';
 import {
   ApplicationSetting,
   ApplicationSettingDesc,
-} from '../../../../shared/settings/application';
-import { StreamSetting, StreamSettingDesc } from '../../../../shared/settings/stream';
-import { EnumDropdownSetting } from './common/EnumDropdownSetting';
-import { EnumSlider } from './common/EnumSlider';
-import { restoreSettings, updateTypedField } from './common/helperFunctions';
-import { NumberSetting } from './common/NumberSetting';
-import { SettingsExpander } from './common/SettingsExpander';
+} from '../../../../shared/settings/application.js';
+import { StreamSetting, StreamSettingDesc } from '../../../../shared/settings/stream.js';
+import { EnumDropdownSetting } from './common/EnumDropdownSetting.js';
+import { EnumSlider } from './common/EnumSlider.js';
+import { restoreSettings, updateTypedField } from './common/helperFunctions.js';
+import { NumberSetting } from './common/NumberSetting.js';
+import { SettingsExpander } from './common/SettingsExpander.js';
 import {
   SettingsHeader,
   SettingsHeaderText,
   SettingsRestoreButton,
   SettingsWrapper,
-} from './common/Styled';
+} from './common/Styled.js';
 
 const videoResolutionPresets = [
   { name: '240p', width: 426, height: 240 },

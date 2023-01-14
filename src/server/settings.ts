@@ -1,20 +1,21 @@
 import fs from 'fs';
 import path from 'path';
-import { shallowEqualObjects } from '../shared/helperFunctions';
-import { applicationSettingDesc } from '../shared/settings/application';
-import { cameraSettingConverter, cameraSettingDesc } from '../shared/settings/camera';
-import { controlSettingDesc } from '../shared/settings/control';
-import { defaultSettings } from '../shared/settings/defaultSettings';
-import { applySettings, extractSettings } from '../shared/settings/helper';
-import { photoSettingConverter, photoSettingDesc } from '../shared/settings/photo';
-import { previewSettingDesc } from '../shared/settings/preview';
-import { streamSettingDesc } from '../shared/settings/stream';
-import { GenericSettingDesc, Setting } from '../shared/settings/types';
-import { videoSettingDesc as videoSettingDesc } from '../shared/settings/video';
-import { createLogger } from './logger';
+import { shallowEqualObjects } from '../shared/helperFunctions.js';
+import { applicationSettingDesc } from '../shared/settings/application.js';
+import { cameraSettingConverter, cameraSettingDesc } from '../shared/settings/camera.js';
+import { controlSettingDesc } from '../shared/settings/control.js';
+import { defaultSettings } from '../shared/settings/defaultSettings.js';
+import { applySettings, extractSettings } from '../shared/settings/helper.js';
+import { photoSettingConverter, photoSettingDesc } from '../shared/settings/photo.js';
+import { previewSettingDesc } from '../shared/settings/preview.js';
+import { streamSettingDesc } from '../shared/settings/stream.js';
+import { GenericSettingDesc, Setting } from '../shared/settings/types.js';
+import { videoSettingDesc } from '../shared/settings/video.js';
+import { curDirName } from './common.js';
+import { createLogger } from './logger.js';
 
 const logger = createLogger('settings');
-const settingsFolder = path.join(__dirname, 'settings');
+const settingsFolder = path.join(curDirName, 'settings');
 
 /**
  * Settings base functions

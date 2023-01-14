@@ -1,7 +1,7 @@
-import styled, { css } from 'styled-components';
+import { styled, css } from 'styled-components';
 
 export interface RadioButtonProps {
-  active: boolean;
+  $active: boolean;
 }
 
 const activeCss = css`
@@ -41,7 +41,7 @@ export const RadioButton = styled.button<RadioButtonProps>`
     fill: ${(props) => props.theme.SelectedForeground};
   }
 
-  ${(p) => p.active && activeCss}
+  ${(p) => p.$active && activeCss}
 `;
 
 export const RadioContainer = styled.div`

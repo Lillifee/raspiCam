@@ -24,12 +24,12 @@ p.decode(<binary>);
 (function (root, factory) {
   if (typeof define === 'function' && define.amd) {
     // AMD. Register as an anonymous module.
-    define(['./Decoder', './YUVCanvas'], factory);
+    define(['./Decoder.cjs', './YUVCanvas.cjs'], factory);
   } else if (typeof exports === 'object') {
     // Node. Does not work with strict CommonJS, but
     // only CommonJS-like environments that support module.exports,
     // like Node.
-    module.exports = factory(require('./Decoder'), require('./YUVCanvas'));
+    module.exports = factory(require('./Decoder.cjs'), require('./YUVCanvas.cjs'));
   } else {
     // Browser globals (root is window)
     root.Player = factory(root.Decoder, root.YUVCanvas);
@@ -50,7 +50,7 @@ p.decode(<binary>);
 
     this.nowValue = nowValue;
 
-    this._config.workerFile = this._config.workerFile || 'Decoder.js';
+    this._config.workerFile = this._config.workerFile || 'Decoder.cjs';
     if (this._config.preserveDrawingBuffer) {
       this._config.contextOptions = this._config.contextOptions || {};
       this._config.contextOptions.preserveDrawingBuffer = true;

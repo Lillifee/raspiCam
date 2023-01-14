@@ -1,5 +1,5 @@
-import { booleanSetting } from './helper';
-import { Setting } from './types';
+import { booleanSetting } from './helper.js';
+import { Setting } from './types.js';
 
 /**
  * Preview settings

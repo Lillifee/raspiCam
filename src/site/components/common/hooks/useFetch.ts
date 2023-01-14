@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useMemo, useReducer, useRef } from 'react';
-import { ActionTypes, createActions } from '../actionHelper';
-import { useDebounce } from './useDebounce';
-import { useTimer } from './useTimer';
+import { ActionTypes, createActions } from '../actionHelper.js';
+import { useDebounce } from './useDebounce.js';
+import { useTimer } from './useTimer.js';
 
 export interface FetchState<T> {
   data: T;

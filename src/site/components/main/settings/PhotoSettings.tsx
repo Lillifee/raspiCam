@@ -1,18 +1,18 @@
 import React from 'react';
-import { PhotoSetting, PhotoSettingDesc } from '../../../../shared/settings/photo';
-import { BooleanSetting } from './common/BooleanSetting';
-import { EnumDropdownSetting } from './common/EnumDropdownSetting';
-import { EnumSlider } from './common/EnumSlider';
-import { restoreSettings, updateTypedField } from './common/helperFunctions';
-import { NumberSetting } from './common/NumberSetting';
-import { SettingsExpander } from './common/SettingsExpander';
+import { PhotoSetting, PhotoSettingDesc } from '../../../../shared/settings/photo.js';
+import { BooleanSetting } from './common/BooleanSetting.js';
+import { EnumDropdownSetting } from './common/EnumDropdownSetting.js';
+import { EnumSlider } from './common/EnumSlider.js';
+import { restoreSettings, updateTypedField } from './common/helperFunctions.js';
+import { NumberSetting } from './common/NumberSetting.js';
+import { SettingsExpander } from './common/SettingsExpander.js';
 import {
   SettingsHeader,
   SettingsHeaderText,
   SettingsRestoreButton,
   SettingsWrapper,
-} from './common/Styled';
-import { TimeSetting } from './common/TimeSetting';
+} from './common/Styled.js';
+import { TimeSetting } from './common/TimeSetting.js';
 
 const photoResolutionPresets = [
   { name: '0.3 MP', width: 640, height: 480 },

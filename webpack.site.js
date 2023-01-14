@@ -1,27 +1,34 @@
-const CopyWebpackPlugin = require('copy-webpack-plugin');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
-const path = require('path');
-const createStyledComponentsTransformer = require('typescript-plugin-styled-components').default;
+import CopyWebpackPlugin from 'copy-webpack-plugin';
+import HtmlWebpackPlugin from 'html-webpack-plugin';
+import { join, dirname } from 'path';
+import { fileURLToPath } from 'url';
+import { createTransformer } from 'typescript-plugin-styled-components';
 
 const styledComponentTransformer = {
-  production: createStyledComponentsTransformer({ minify: true }),
-  development: createStyledComponentsTransformer({ minify: false }),
+  production: createTransformer({ minify: true }),
+  development: createTransformer({ minify: false }),
 };
+
+const currentDirectoryPath = dirname(fileURLToPath(import.meta.url));
 
 /*
  * Switch the server path during development
  */
 const devServer = '192.168.3.76:8000';
 
-module.exports = (env, argv) => ({
+export default (env, argv) => ({
   mode: argv.mode || 'production',
-  entry: './src/site/index.tsx',
+  entry: './src/site/main.tsx',
   devtool: 'source-map',
 
   output: {
-    path: path.join(__dirname, 'build', 'public'),
+    path: join(currentDirectoryPath, 'build', 'public'),
     publicPath: '/',
     filename: `site.js`,
+  },
+
+  experiments: {
+    outputModule: true,
   },
 
   module: {
@@ -52,8 +59,8 @@ module.exports = (env, argv) => ({
     }),
     new CopyWebpackPlugin({
       patterns: [
-        { from: path.join(__dirname, 'broadway', 'Decoder.js') },
-        { from: path.join(__dirname, 'broadway', 'avc.wasm') },
+        { from: join(currentDirectoryPath, 'broadway', 'Decoder.cjs') },
+        { from: join(currentDirectoryPath, 'broadway', 'avc.wasm') },
       ],
     }),
   ],
@@ -80,7 +87,11 @@ module.exports = (env, argv) => ({
   },
 
   resolve: {
-    extensions: ['.tsx', '.ts', '.js'],
+    extensions: ['.tsx', '.ts', '...'],
+    extensionAlias: {
+      '.js': ['.ts', '.tsx', '.js'],
+      '.mjs': ['.mts', '.mjs'],
+    },
     alias: {
       buffer: 'buffer',
       stream: 'stream-browserify',

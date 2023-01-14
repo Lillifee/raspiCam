@@ -1,5 +1,5 @@
-import { booleanSetting, enumSetting } from './helper';
-import { Setting } from './types';
+import { booleanSetting, enumSetting } from './helper.js';
+import { Setting } from './types.js';
 
 /**
  * Control settings

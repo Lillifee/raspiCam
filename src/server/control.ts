@@ -1,11 +1,11 @@
 import path from 'path';
 import internal from 'stream';
-import { getIsoDataTime } from '../shared/helperFunctions';
-import { RaspiMode, RaspiStatus } from '../shared/settings/types';
-import { createLogger } from './logger';
-import { spawnProcess } from './process';
-import { SettingsHelper } from './settings';
-import { photosAbsPath } from './watcher';
+import { getIsoDataTime } from '../shared/helperFunctions.js';
+import { RaspiMode, RaspiStatus } from '../shared/settings/types.js';
+import { createLogger } from './logger.js';
+import { spawnProcess } from './process.js';
+import { SettingsHelper } from './settings.js';
+import { photosAbsPath } from './watcher.js';
 
 const logger = createLogger('control');
 

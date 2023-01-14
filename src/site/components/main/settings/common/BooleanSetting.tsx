@@ -1,8 +1,8 @@
 import React from 'react';
-import { isDefined } from '../../../../../shared/helperFunctions';
-import { BooleanTypeSetting } from '../../../../../shared/settings/types';
-import { Toggle } from '../../../styled/Toggle';
-import { SettingHorizontalWrapper, SettingName } from './Styled';
+import { isDefined } from '../../../../../shared/helperFunctions.js';
+import { BooleanTypeSetting } from '../../../../../shared/settings/types.js';
+import { Toggle } from '../../../styled/Toggle.js';
+import { SettingHorizontalWrapper, SettingName } from './Styled.js';
 
 export interface BooleanSettingProps extends BooleanTypeSetting {
   update: (value: boolean) => void;

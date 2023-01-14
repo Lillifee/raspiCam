@@ -2,11 +2,11 @@ import React from 'react';
 import {
   ApplicationSetting,
   ApplicationSettingDesc,
-} from '../../../../shared/settings/application';
-import { EnumDropdownSetting } from './common/EnumDropdownSetting';
-import { updateTypedField } from './common/helperFunctions';
-import { SettingsExpander, SettingsExpanderHeader } from './common/SettingsExpander';
-import { SettingsHeader, SettingsHeaderText, SettingsWrapper } from './common/Styled';
+} from '../../../../shared/settings/application.js';
+import { EnumDropdownSetting } from './common/EnumDropdownSetting.js';
+import { updateTypedField } from './common/helperFunctions.js';
+import { SettingsExpander, SettingsExpanderHeader } from './common/SettingsExpander.js';
+import { SettingsHeader, SettingsHeaderText, SettingsWrapper } from './common/Styled.js';
 
 export interface ApplicationSettingsProps {
   application: ApplicationSettingDesc;

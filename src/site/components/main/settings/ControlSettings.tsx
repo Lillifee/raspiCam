@@ -1,14 +1,14 @@
 import React from 'react';
-import { ControlSetting, ControlSettingDesc } from '../../../../shared/settings/control';
-import { BooleanSetting } from './common/BooleanSetting';
-import { EnumDropdownSetting } from './common/EnumDropdownSetting';
-import { restoreSettings, updateTypedField } from './common/helperFunctions';
+import { ControlSetting, ControlSettingDesc } from '../../../../shared/settings/control.js';
+import { BooleanSetting } from './common/BooleanSetting.js';
+import { EnumDropdownSetting } from './common/EnumDropdownSetting.js';
+import { restoreSettings, updateTypedField } from './common/helperFunctions.js';
 import {
   SettingsHeader,
   SettingsHeaderText,
   SettingsRestoreButton,
   SettingsWrapper,
-} from './common/Styled';
+} from './common/Styled.js';
 
 export interface ControlSettingsProps {
   control: ControlSettingDesc;

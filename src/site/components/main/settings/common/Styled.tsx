@@ -1,6 +1,6 @@
-import styled from 'styled-components';
-import { ButtonIcon } from '../../../styled/ButtonIcon';
-import { Label } from '../../../styled/Label';
+import { styled } from 'styled-components';
+import { ButtonIcon } from '../../../styled/ButtonIcon.js';
+import { Label } from '../../../styled/Label.js';
 
 export const SettingsWrapper = styled.div`
   display: flex;
@@ -44,5 +44,5 @@ export const SettingNameValueContainer = styled.div`
 
 export const SettingName = styled(Label)``;
 export const SettingValue = styled(Label)`
-  color: ${(p) => p.theme.SubForeground};
+  color: ${(p) => p.theme?.SubForeground};
 `;

@@ -1,18 +1,18 @@
 import React from 'react';
-import { VideoSetting, VideoSettingDesc } from '../../../../shared/settings/video';
-import { BooleanSetting } from './common/BooleanSetting';
-import { EnumDropdownSetting } from './common/EnumDropdownSetting';
-import { EnumSlider } from './common/EnumSlider';
-import { restoreSettings, updateTypedField } from './common/helperFunctions';
-import { NumberSetting } from './common/NumberSetting';
-import { SettingsExpander, SettingsExpanderHeader } from './common/SettingsExpander';
+import { VideoSetting, VideoSettingDesc } from '../../../../shared/settings/video.js';
+import { BooleanSetting } from './common/BooleanSetting.js';
+import { EnumDropdownSetting } from './common/EnumDropdownSetting.js';
+import { EnumSlider } from './common/EnumSlider.js';
+import { restoreSettings, updateTypedField } from './common/helperFunctions.js';
+import { NumberSetting } from './common/NumberSetting.js';
+import { SettingsExpander, SettingsExpanderHeader } from './common/SettingsExpander.js';
 import {
   SettingsHeader,
   SettingsHeaderText,
   SettingsRestoreButton,
   SettingsWrapper,
-} from './common/Styled';
-import { TimeSetting } from './common/TimeSetting';
+} from './common/Styled.js';
+import { TimeSetting } from './common/TimeSetting.js';
 
 const videoResolutionPresets = [
   { name: '240p', width: 426, height: 240 },

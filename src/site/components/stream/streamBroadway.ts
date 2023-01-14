@@ -1,11 +1,11 @@
-import { PlayerOptions } from './player';
-import { PlayerStats } from './stats';
-import { parseFragmentType } from './streamHelper';
+import { PlayerOptions } from './player.js';
+import { PlayerStats } from './stats.js';
+import { parseFragmentType } from './streamHelper.js';
 
-// TODO Add typing for broadway player and enable eslint
-// TODO Or refactor the player to a typescript file.
-// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-var-requires
-const Player = require('../../../../broadway/Player');
+// TODO Try to create a declaration file for the Player
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
+import Player from '../../../../broadway/Player.cjs';
 
 export interface BroadwayStreamDecoder {
   canvas: HTMLCanvasElement;
@@ -23,7 +23,6 @@ export const streamBroadway = (
   stats: PlayerStats,
 ): BroadwayStreamDecoder => {
   const { useWorker, webgl } = options;
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call
   const player = new Player({ useWorker, webgl });
 
   const frames: Uint8Array[] = [];
@@ -49,7 +48,6 @@ export const streamBroadway = (
 
       // Decode the frame
       if (!stats.droppingFrames) {
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call
         player.decode(frame);
         stats.framesPerCycle++;
       }
@@ -59,7 +57,6 @@ export const streamBroadway = (
     requestAnimationFrame(decodeFrame);
   };
 
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
   player.onPictureDecoded = () => {
     // Add statistic information
     stats.framesPerCycle++;
@@ -67,6 +64,5 @@ export const streamBroadway = (
 
   decodeFrame();
 
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access
   return { addFrame, canvas: player.canvas };
 };

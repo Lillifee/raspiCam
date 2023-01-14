@@ -1,18 +1,24 @@
 import express from 'express';
 import path from 'path';
-import { isDefined } from '../shared/helperFunctions';
-import { RaspiGallery, RaspiStatus, GenericSettingDesc, Setting } from '../shared/settings/types';
-import { RaspiControl } from './control';
-import { SettingsBase, SettingsHelper } from './settings';
-import { splitJpeg } from './splitJpeg';
-import { FileWatcher } from './watcher';
+import { isDefined } from '../shared/helperFunctions.js';
+import {
+  RaspiGallery,
+  RaspiStatus,
+  GenericSettingDesc,
+  Setting,
+} from '../shared/settings/types.js';
+import { curDirName } from './common.js';
+import { RaspiControl } from './control.js';
+import { SettingsBase, SettingsHelper } from './settings.js';
+import { splitJpeg } from './splitJpeg.js';
+import { FileWatcher } from './watcher.js';
 
 type SettingRequest = express.Request<undefined, undefined, Setting<GenericSettingDesc>>;
 
 /**
  * Initialize the express server
  */
-const server = (
+export const server = (
   control: RaspiControl,
   settingsHelper: SettingsHelper,
   fileWatcher: FileWatcher,
@@ -20,7 +26,7 @@ const server = (
   const app = express();
 
   // Serve the static content from public
-  app.use(express.static(path.join(__dirname, 'public')));
+  app.use(express.static(path.join(curDirName, 'public')));
   app.use('/photos', express.static(fileWatcher.getPath()));
   app.use(express.json());
 
@@ -148,9 +154,7 @@ const server = (
   });
 
   // All other requests to index html
-  app.get('*', (_, res) => res.sendFile(path.resolve(__dirname, 'public', 'index.html')));
+  app.get('*', (_, res) => res.sendFile(path.resolve(curDirName, 'public', 'index.html')));
 
   return app;
 };
-
-export default server;

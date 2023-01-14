@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import ReactDOM from 'react-dom';
-import styled, { keyframes } from 'styled-components';
-import { shallowEqualObjects } from '../../../shared/helperFunctions';
+import { styled, keyframes } from 'styled-components';
+import { shallowEqualObjects } from '../../../shared/helperFunctions.js';
 
 //#region styled
 
@@ -45,17 +45,26 @@ const Background = styled.div`
   background: transparent;
 `;
 
-const Container = styled.div<PositionSize>`
+interface ContainerPositionSize {
+  $top: number;
+  $left: number;
+  $right: number;
+  $bottom: number;
+  $maxWidth: number;
+  $maxHeight: number;
+}
+
+const Container = styled.div<ContainerPositionSize>`
   flex: 1;
   display: grid;
   grid-template-columns:
-    minmax(0, ${(p) => p.left}px)
-    minmax(min(${(p) => p.maxWidth}px, 100%), ${(p) => p.maxWidth}px)
-    minmax(0, ${(p) => p.right}px);
+    minmax(0, ${(p) => p.$left}px)
+    minmax(min(${(p) => p.$maxWidth}px, 100%), ${(p) => p.$maxWidth}px)
+    minmax(0, ${(p) => p.$right}px);
   grid-template-rows:
-    minmax(0, ${(p) => p.top}px)
-    minmax(min(${(p) => p.maxHeight}px, 100%), ${(p) => p.maxHeight}px)
-    minmax(0, ${(p) => p.bottom}px);
+    minmax(0, ${(p) => p.$top}px)
+    minmax(min(${(p) => p.$maxHeight}px, 100%), ${(p) => p.$maxHeight}px)
+    minmax(0, ${(p) => p.$bottom}px);
 
   pointer-events: all;
 `;
@@ -91,8 +100,6 @@ interface RectProps extends Position {
   width: number;
   height: number;
 }
-
-interface PositionSize extends Position, Size {}
 
 export interface PortalContainerProps {
   children: React.ReactNode;
@@ -159,8 +166,12 @@ export const PopoverContent: React.FC<PopoverContentProps> = ({
   return (
     <Container
       {...gridPosition}
-      maxWidth={maxWidth}
-      maxHeight={maxHeight}
+      $left={gridPosition.left}
+      $top={gridPosition.top}
+      $bottom={gridPosition.bottom}
+      $right={gridPosition.right}
+      $maxWidth={maxWidth}
+      $maxHeight={maxHeight}
       onClick={(e: React.MouseEvent<HTMLDivElement, MouseEvent>) => e.stopPropagation()}
     >
       <Background onClick={onClose} />

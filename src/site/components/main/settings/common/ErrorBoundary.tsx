@@ -1,6 +1,6 @@
 import React, { Component, ErrorInfo, ReactNode } from 'react';
-import styled from 'styled-components';
-import { Button } from '../../../styled/Button';
+import { styled } from 'styled-components';
+import { Button } from '../../../styled/Button.js';
 
 const ErrorContainer = styled.div`
   flex: 1;

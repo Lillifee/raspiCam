@@ -1,8 +1,8 @@
 import * as React from 'react';
-import styled from 'styled-components';
+import { styled } from 'styled-components';
 
 export interface SliderProps {
-  unset?: boolean;
+  $unset?: boolean;
 }
 
 const SliderStyled = styled.input<SliderProps>`
@@ -16,7 +16,7 @@ const SliderStyled = styled.input<SliderProps>`
   @media only screen and (max-width: 1000px) {
     pointer-events: none;
   }
-  ::-webkit-slider-runnable-track {
+  &::-webkit-slider-runnable-track {
     width: 100%;
     height: 8px;
     cursor: pointer;
@@ -24,14 +24,13 @@ const SliderStyled = styled.input<SliderProps>`
     border-radius: 3px;
   }
 
-  ::-webkit-slider-thumb {
+  &::-webkit-slider-thumb {
     cursor: pointer;
     pointer-events: auto;
     appearance: none;
     width: 22px;
     height: 22px;
-    background: ${(props) =>
-      props.unset ? props.theme.Background : props.theme.PrimaryBackground};
+    background: ${({ $unset, theme }) => ($unset ? theme.Background : theme.PrimaryBackground)};
     border: 1px solid ${(props) => props.theme.Border};
     border-radius: 15px;
     margin-top: -7px;

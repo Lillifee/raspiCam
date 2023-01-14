@@ -1,5 +1,6 @@
 import * as React from 'react';
-import styled from 'styled-components';
+import { styled } from 'styled-components';
+import { BlurOverlay } from './Common.js';
 
 // #region styled
 
@@ -17,19 +18,6 @@ const VideoContainer = styled.div`
 const Image = styled.img`
   max-width: 100%;
   max-height: 100%;
-`;
-
-interface BlurOverlayProps {
-  blur: boolean;
-}
-
-const BlurOverlay = styled.div<BlurOverlayProps>`
-  backdrop-filter: ${(p) => (p.blur ? 'blur(10px)' : '')};
-  background-color: ${(p) => (p.blur ? 'rgba(0, 0, 0, 0.5)' : '')};
-  transition: backdrop-filter ease-in-out 0.3s, background-color ease-in-out 0.3s;
-  position: absolute;
-  width: 100%;
-  height: 100%;
 `;
 
 // #endregion
@@ -55,7 +43,7 @@ export const MJPEGPlayer: React.FC<PlayerProps> = ({ loading }) => {
         <Image src={`/api/stream/mjpeg?${date}`} />
       </VideoContainer>
 
-      <BlurOverlay blur={loading}></BlurOverlay>
+      <BlurOverlay $blur={loading}></BlurOverlay>
     </Container>
   );
 };

@@ -1,14 +1,14 @@
 import React from 'react';
-import { PreviewSetting, PreviewSettingDesc } from '../../../../shared/settings/preview';
-import { BooleanSetting } from './common/BooleanSetting';
-import { restoreSettings, updateTypedField } from './common/helperFunctions';
-import { SettingsExpander, SettingsExpanderHeader } from './common/SettingsExpander';
+import { PreviewSetting, PreviewSettingDesc } from '../../../../shared/settings/preview.js';
+import { BooleanSetting } from './common/BooleanSetting.js';
+import { restoreSettings, updateTypedField } from './common/helperFunctions.js';
+import { SettingsExpander, SettingsExpanderHeader } from './common/SettingsExpander.js';
 import {
   SettingsHeader,
   SettingsHeaderText,
   SettingsRestoreButton,
   SettingsWrapper,
-} from './common/Styled';
+} from './common/Styled.js';
 
 export interface PreviewSettingsProps {
   preview: PreviewSettingDesc;

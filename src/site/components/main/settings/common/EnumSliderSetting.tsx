@@ -1,12 +1,12 @@
 import React from 'react';
-import { EnumTypeSetting } from '../../../../../shared/settings/types';
-import { Slider } from '../../../styled/Slider';
+import { EnumTypeSetting } from '../../../../../shared/settings/types.js';
+import { Slider } from '../../../styled/Slider.js';
 import {
   SettingName,
   SettingNameValueContainer,
   SettingValue,
   SettingVerticalWrapper,
-} from './Styled';
+} from './Styled.js';
 
 export interface EnumSliderSettingProps<T> extends EnumTypeSetting<T> {
   disabled?: boolean;
@@ -37,7 +37,7 @@ export const EnumSliderSetting = <T extends string>({
       <Slider
         disabled={disabled}
         value={displayIndex}
-        unset={displayIndex < 0}
+        $unset={displayIndex < 0}
         max={possibleValues.length - 1}
         onChange={(e) => update(possibleValues[e.target.valueAsNumber])}
       />

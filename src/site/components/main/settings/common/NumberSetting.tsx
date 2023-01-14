@@ -1,13 +1,13 @@
 import React from 'react';
-import { isDefined } from '../../../../../shared/helperFunctions';
-import { NumberTypeSetting } from '../../../../../shared/settings/types';
-import { Slider } from '../../../styled/Slider';
+import { isDefined } from '../../../../../shared/helperFunctions.js';
+import { NumberTypeSetting } from '../../../../../shared/settings/types.js';
+import { Slider } from '../../../styled/Slider.js';
 import {
   SettingName,
   SettingNameValueContainer,
   SettingValue,
   SettingVerticalWrapper,
-} from './Styled';
+} from './Styled.js';
 
 export interface NumberSettingProps extends NumberTypeSetting {
   update: (value: number) => void;

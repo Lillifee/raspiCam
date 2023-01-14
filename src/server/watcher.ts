@@ -1,8 +1,9 @@
 import { exec } from 'child_process';
 import fs from 'fs';
 import path from 'path';
-import { RaspiFile, RaspiFileType, photosPath } from '../shared/settings/types';
-import { createLogger } from './logger';
+import { RaspiFile, RaspiFileType, photosPath } from '../shared/settings/types.js';
+import { curDirName } from './common.js';
+import { createLogger } from './logger.js';
 
 const logger = createLogger('watcher');
 
@@ -17,7 +18,7 @@ const fileTypes: { [ext: string]: RaspiFileType } = {
   mjpeg: 'VIDEO',
 };
 
-export const photosAbsPath = path.join(__dirname, photosPath);
+export const photosAbsPath = path.join(curDirName, photosPath);
 
 export interface FileWatcher {
   getFiles: () => RaspiFile[];

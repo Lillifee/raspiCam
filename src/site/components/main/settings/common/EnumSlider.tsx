@@ -1,11 +1,11 @@
 import React from 'react';
-import { Slider } from '../../../styled/Slider';
+import { Slider } from '../../../styled/Slider.js';
 import {
   SettingName,
   SettingNameValueContainer,
   SettingValue,
   SettingVerticalWrapper,
-} from './Styled';
+} from './Styled.js';
 
 export interface EnumSlider<T> {
   name: string;
@@ -32,8 +32,8 @@ export const EnumSlider = <T,>({
       </SettingNameValueContainer>
 
       <Slider
+        $unset={index < 0}
         value={index}
-        unset={index < 0}
         max={items.length - 1}
         onChange={(e) => update(items[e.target.valueAsNumber])}
       />

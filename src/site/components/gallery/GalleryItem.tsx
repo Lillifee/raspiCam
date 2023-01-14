@@ -1,8 +1,8 @@
 import * as React from 'react';
-import styled, { css } from 'styled-components';
-import { RaspiFile, photosPath } from '../../../shared/settings/types';
-import { Icon } from '../common/Icon';
-import { ButtonIcon } from '../styled/ButtonIcon';
+import { styled, css } from 'styled-components';
+import { RaspiFile, photosPath } from '../../../shared/settings/types.js';
+import { Icon } from '../common/Icon.js';
+import { ButtonIcon } from '../styled/ButtonIcon.js';
 
 const SelectButton = styled(ButtonIcon)`
   padding: 0.5em;
@@ -47,7 +47,7 @@ export const PreviewContainerSelected = css`
   }
 `;
 
-const PreviewContainer = styled.div<{ selected: boolean }>`
+const PreviewContainer = styled.div<{ $selected: boolean }>`
   flex: 1;
   display: flex;
   position: relative;
@@ -62,7 +62,7 @@ const PreviewContainer = styled.div<{ selected: boolean }>`
     ${PreviewContainerHover}
   }
 
-  ${({ selected }) => selected && PreviewContainerSelected}
+  ${({ $selected }) => $selected && PreviewContainerSelected}
 `;
 
 const FallbackIcon = styled.div`
@@ -88,7 +88,7 @@ export interface GalleryItemProps {
 
 export const GalleryItem: React.FC<GalleryItemProps> = ({ file, selected, toggleSelection }) => (
   <PreviewLink target="_blank" rel="noreferrer" href={`${photosPath}/${file.base}`}>
-    <PreviewContainer selected={selected}>
+    <PreviewContainer $selected={selected}>
       {file.thumb ? (
         <Thumbnail src={`${photosPath}/${file.thumb || ''}`} />
       ) : (

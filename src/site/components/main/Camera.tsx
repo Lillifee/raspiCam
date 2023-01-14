@@ -1,29 +1,29 @@
 import * as React from 'react';
-import styled, { DefaultTheme } from 'styled-components';
-import { isDefined } from '../../../shared/helperFunctions';
-import { applicationSettingDesc } from '../../../shared/settings/application';
-import { cameraSettingDesc } from '../../../shared/settings/camera';
-import { controlSettingDesc } from '../../../shared/settings/control';
-import { defaultRaspiStatus } from '../../../shared/settings/defaultSettings';
-import { applySettings } from '../../../shared/settings/helper';
-import { photoSettingDesc } from '../../../shared/settings/photo';
-import { previewSettingDesc } from '../../../shared/settings/preview';
-import { streamSettingDesc } from '../../../shared/settings/stream';
-import { RaspiStatus, Setting, BaseTypeSetting } from '../../../shared/settings/types';
-import { videoSettingDesc } from '../../../shared/settings/video';
-import { useFetch } from '../common/hooks/useFetch';
-import { useFullscreen } from '../common/hooks/useFullscreen';
-import { BroadwayPlayer } from '../stream/BroadwayPlayer';
-import { JMuxerPlayer } from '../stream/JMuxerPlayer';
-import { MJPEGPlayer } from '../stream/MJPEGPlayer';
-import { allThemes } from '../theme/themes';
-import { Capture } from './Capture';
-import { GridLines } from './GridLines';
-import { ModeToolbar } from './ModeToolbar';
-import { ErrorBoundary } from './settings/common/ErrorBoundary';
-import { SettingsAdvanced } from './SettingsAdvanced';
-import { SettingsQuick } from './SettingsQuick';
-import { SettingsToolbar } from './SettingsToolbar';
+import { styled, DefaultTheme } from 'styled-components';
+import { isDefined } from '../../../shared/helperFunctions.js';
+import { applicationSettingDesc } from '../../../shared/settings/application.js';
+import { cameraSettingDesc } from '../../../shared/settings/camera.js';
+import { controlSettingDesc } from '../../../shared/settings/control.js';
+import { defaultRaspiStatus } from '../../../shared/settings/defaultSettings.js';
+import { applySettings } from '../../../shared/settings/helper.js';
+import { photoSettingDesc } from '../../../shared/settings/photo.js';
+import { previewSettingDesc } from '../../../shared/settings/preview.js';
+import { streamSettingDesc } from '../../../shared/settings/stream.js';
+import { RaspiStatus, Setting, BaseTypeSetting } from '../../../shared/settings/types.js';
+import { videoSettingDesc } from '../../../shared/settings/video.js';
+import { useFetch } from '../common/hooks/useFetch.js';
+import { useFullscreen } from '../common/hooks/useFullscreen.js';
+import { BroadwayPlayer } from '../stream/BroadwayPlayer.js';
+import { JMuxerPlayer } from '../stream/JMuxerPlayer.js';
+import { MJPEGPlayer } from '../stream/MJPEGPlayer.js';
+import { allThemes } from '../theme/themes.js';
+import { Capture } from './Capture.js';
+import { GridLines } from './GridLines.js';
+import { ModeToolbar } from './ModeToolbar.js';
+import { ErrorBoundary } from './settings/common/ErrorBoundary.js';
+import { SettingsAdvanced } from './SettingsAdvanced.js';
+import { SettingsQuick } from './SettingsQuick.js';
+import { SettingsToolbar } from './SettingsToolbar.js';
 
 //#region styled
 
@@ -36,13 +36,13 @@ export const OverlayContent = styled.div`
 `;
 
 export interface FillerProps {
-  enableClick: boolean;
+  $enableClick: boolean;
 }
 
 export const Filler = styled.div<FillerProps>`
   flex: 1;
   display: flex;
-  pointer-events: ${(p) => (p.enableClick ? 'all' : 'none')};
+  pointer-events: ${(p) => (p.$enableClick ? 'all' : 'none')};
 `;
 
 const MainContainer = styled.div`
@@ -147,10 +147,10 @@ export const Camera: React.FC<Props> = ({ setTheme }) => {
             {stream.codec.value === 'MJPEG' ? (
               <MJPEGPlayer loading={loading || !!status.data.running} />
             ) : stream.codec.value === 'H264' ? (
-              application.player.value === 'JMuxer' ? (
-                <JMuxerPlayer loading={loading} />
-              ) : (
+              application.player.value === 'Broadway' ? (
                 <BroadwayPlayer loading={loading} />
+              ) : (
+                <JMuxerPlayer loading={loading} />
               )
             ) : null}
           </ErrorBoundary>

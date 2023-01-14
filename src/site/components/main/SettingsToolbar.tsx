@@ -1,9 +1,9 @@
 import * as React from 'react';
-import styled from 'styled-components';
-import { ControlSettingDesc } from '../../../shared/settings/control';
-import { IconType } from '../common/Icon';
-import { ButtonIcon } from '../styled/ButtonIcon';
-import { ActiveSetting } from './Camera';
+import { styled } from 'styled-components';
+import { ControlSettingDesc } from '../../../shared/settings/control.js';
+import { IconType } from '../common/Icon.js';
+import { ButtonIcon } from '../styled/ButtonIcon.js';
+import { ActiveSetting } from './Camera.js';
 
 //#region styled
 

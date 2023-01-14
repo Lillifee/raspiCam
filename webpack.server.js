@@ -1,13 +1,16 @@
-const path = require('path');
+import { dirname, join } from 'path';
+import { fileURLToPath } from 'url';
 
-module.exports = {
+const currentDirectoryPath = dirname(fileURLToPath(import.meta.url));
+
+export default {
   mode: 'production',
-  entry: './src/server/index.ts',
+  entry: './src/server/main.ts',
   target: 'node',
   devtool: 'source-map',
 
   output: {
-    path: path.join(__dirname, '/build'),
+    path: join(currentDirectoryPath, '/build'),
     filename: 'server.js',
     publicPath: '/',
   },
@@ -23,7 +26,11 @@ module.exports = {
   },
 
   resolve: {
-    extensions: ['.tsx', '.ts', '.js'],
+    extensions: ['.tsx', '.ts', '...'],
+    extensionAlias: {
+      '.js': ['.ts', '.js'],
+      '.mjs': ['.mts', '.mjs'],
+    },
   },
 
   // Fix the output warnings of yargs

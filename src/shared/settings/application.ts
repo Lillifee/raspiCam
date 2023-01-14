@@ -1,5 +1,5 @@
-import { enumSetting } from './helper';
-import { GridLineType, Setting } from './types';
+import { enumSetting } from './helper.js';
+import { GridLineType, Setting } from './types.js';
 
 /**
  * Application settings

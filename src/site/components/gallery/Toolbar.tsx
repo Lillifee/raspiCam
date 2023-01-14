@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Link } from 'react-router-dom';
-import styled from 'styled-components';
-import { ButtonIcon } from '../styled/ButtonIcon';
+import { styled } from 'styled-components';
+import { ButtonIcon } from '../styled/ButtonIcon.js';
 
 const ToolbarContainer = styled.div`
   display: flex;

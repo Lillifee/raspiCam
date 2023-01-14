@@ -1,9 +1,9 @@
 import * as React from 'react';
-import styled from 'styled-components';
-import { BlurOverlay } from './Common';
-import { createPlayerOptions, player, Player, PlayerOptions } from './player';
-import { createInitialPlayerStats, PlayerStats } from './stats';
-import { streamBroadway } from './streamBroadway';
+import { styled } from 'styled-components';
+import { BlurOverlay } from './Common.js';
+import { createPlayerOptions, player, Player, PlayerOptions } from './player.js';
+import { createInitialPlayerStats, PlayerStats } from './stats.js';
+import { streamBroadway } from './streamBroadway.js';
 
 // #region styled
 
@@ -81,7 +81,7 @@ export const BroadwayPlayer: React.FC<PlayerProps> = ({ loading }) => {
       <VideoContainer ref={containerRef} />
 
       <BlurOverlay
-        blur={loading || !stats.streamRunning || !stats.playerRunning || stats.droppingFrames}
+        $blur={loading || !stats.streamRunning || !stats.playerRunning || stats.droppingFrames}
       />
     </Container>
   );

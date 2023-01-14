@@ -1,5 +1,5 @@
 import * as React from 'react';
-import styled from 'styled-components';
+import { styled } from 'styled-components';
 
 const CheckBoxWrapper = styled.div`
   display: flex;
@@ -40,8 +40,8 @@ const CheckBox = styled.input`
   border-radius: 15px;
   cursor: pointer;
 
-  &:checked + ${CheckBoxLabel} {
-    background: ${(props) => props.theme.PrimaryBackground};
+  &:checked + label {
+    background: ${(props) => props.theme?.PrimaryBackground};
     &::after {
       content: '';
       display: block;
@@ -56,7 +56,7 @@ const CheckBox = styled.input`
 
 export type ToggleProps = React.InputHTMLAttributes<HTMLInputElement>;
 
-export const Toggle: React.FC<ToggleProps> = ({ ...rest }) => (
+export const Toggle: React.FC<React.InputHTMLAttributes<HTMLInputElement>> = ({ ...rest }) => (
   <CheckBoxWrapper>
     <CheckBox id="checkbox" type="checkbox" {...rest} />
     <CheckBoxLabel htmlFor="checkbox" />

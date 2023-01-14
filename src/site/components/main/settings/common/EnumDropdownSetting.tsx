@@ -1,8 +1,8 @@
 import React from 'react';
-import { isDefined } from '../../../../../shared/helperFunctions';
-import { EnumTypeSetting } from '../../../../../shared/settings/types';
-import { Select } from '../../../styled/Select';
-import { SettingHorizontalWrapper, SettingName } from './Styled';
+import { isDefined } from '../../../../../shared/helperFunctions.js';
+import { EnumTypeSetting } from '../../../../../shared/settings/types.js';
+import { Select } from '../../../styled/Select.js';
+import { SettingHorizontalWrapper, SettingName } from './Styled.js';
 
 export interface EnumDropdownSettingProps<T> extends EnumTypeSetting<T> {
   update: (value: T) => void;

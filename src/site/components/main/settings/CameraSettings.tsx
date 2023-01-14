@@ -1,18 +1,18 @@
 import React from 'react';
-import { CameraSetting, CameraSettingDesc } from '../../../../shared/settings/camera';
-import { BooleanSetting } from './common/BooleanSetting';
-import { EnumDropdownSetting } from './common/EnumDropdownSetting';
-import { EnumSlider } from './common/EnumSlider';
-import { EnumSliderSetting } from './common/EnumSliderSetting';
-import { restoreSettings, updateTypedField } from './common/helperFunctions';
-import { NumberSetting } from './common/NumberSetting';
-import { SettingsExpander, SettingsExpanderHeader } from './common/SettingsExpander';
+import { CameraSetting, CameraSettingDesc } from '../../../../shared/settings/camera.js';
+import { BooleanSetting } from './common/BooleanSetting.js';
+import { EnumDropdownSetting } from './common/EnumDropdownSetting.js';
+import { EnumSlider } from './common/EnumSlider.js';
+import { EnumSliderSetting } from './common/EnumSliderSetting.js';
+import { restoreSettings, updateTypedField } from './common/helperFunctions.js';
+import { NumberSetting } from './common/NumberSetting.js';
+import { SettingsExpander, SettingsExpanderHeader } from './common/SettingsExpander.js';
 import {
   SettingsHeader,
   SettingsHeaderText,
   SettingsRestoreButton,
   SettingsWrapper,
-} from './common/Styled';
+} from './common/Styled.js';
 
 const secToMicro = (seconds: number) => Math.round(seconds * 1e6);
 

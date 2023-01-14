@@ -1,9 +1,9 @@
 import * as React from 'react';
-import styled from 'styled-components';
-import { BlurOverlay } from './Common';
-import { createPlayerOptions, player, Player, PlayerOptions } from './player';
-import { createInitialPlayerStats, PlayerStats } from './stats';
-import { streamJMuxer } from './streamJMuxer';
+import { styled } from 'styled-components';
+import { BlurOverlay } from './Common.js';
+import { createPlayerOptions, player, Player, PlayerOptions } from './player.js';
+import { createInitialPlayerStats, PlayerStats } from './stats.js';
+import { streamJMuxer } from './streamJMuxer.js';
 
 // #region styled
 
@@ -71,7 +71,7 @@ export const JMuxerPlayer: React.FC<PlayerProps> = ({ loading }) => {
       </VideoContainer>
 
       <BlurOverlay
-        blur={loading || !stats.streamRunning || !stats.playerRunning || stats.droppingFrames}
+        $blur={loading || !stats.streamRunning || !stats.playerRunning || stats.droppingFrames}
       >
         {/* <div>dropped: {stats.totalDroppedFrames}</div>
         <div>frames: {stats.framesPerCycle}</div>

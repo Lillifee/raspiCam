@@ -1,6 +1,6 @@
 import * as React from 'react';
-import styled from 'styled-components';
-import { RaspiStatus } from '../../../shared/settings/types';
+import { styled } from 'styled-components';
+import { RaspiStatus } from '../../../shared/settings/types.js';
 
 //#region styled
 
@@ -20,7 +20,7 @@ const CaptureContainer = styled.div`
 `;
 
 interface ActionButtonProps {
-  running?: boolean;
+  $running?: boolean;
 }
 
 const CaptureButton = styled.button<ActionButtonProps>`
@@ -29,8 +29,8 @@ const CaptureButton = styled.button<ActionButtonProps>`
   outline: none;
   pointer-events: all;
   border: 3px solid ${(p) => p.theme.Foreground};
-  border-radius: ${(p) => (p.running ? '15%' : '50%')};
-  background: ${(p) => (p.running ? 'rgba(255,0,0,0.5)' : 'transparent')};
+  border-radius: ${(p) => (p.$running ? '15%' : '50%')};
+  background: ${(p) => (p.$running ? 'rgba(255,0,0,0.5)' : 'transparent')};
   filter: drop-shadow(0px 0px 2px ${(p) => p.theme.Background});
 
   :not(:active) {
@@ -63,7 +63,7 @@ export const Capture: React.FC<CaptureProps> = ({ status, refresh }) => {
   const [captureAction] = useCaptureAction(status, refresh);
   return (
     <CaptureContainer>
-      <CaptureButton running={status.running} onClick={captureAction} />
+      <CaptureButton $running={status.running} onClick={captureAction} />
     </CaptureContainer>
   );
 };

@@ -1,6 +1,6 @@
-import { appendUnit } from '../helperFunctions';
-import { booleanSetting, enumSetting, numberSetting } from './helper';
-import { Setting } from './types';
+import { appendUnit } from '../helperFunctions.js';
+import { booleanSetting, enumSetting, numberSetting } from './helper.js';
+import { Setting } from './types.js';
 
 /**
  * Still settings

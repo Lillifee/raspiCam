@@ -1,10 +1,10 @@
 import * as React from 'react';
-import styled, { keyframes } from 'styled-components';
-import { CameraSetting, CameraSettingDesc } from '../../../shared/settings/camera';
-import { PhotoSetting, PhotoSettingDesc } from '../../../shared/settings/photo';
-import { ActiveSetting, Filler } from './Camera';
-import { AwbSetting, ExposureSetting, ShutterSetting } from './settings/CameraSettings';
-import { TimelapseSetting } from './settings/PhotoSettings';
+import { styled, keyframes } from 'styled-components';
+import { CameraSetting, CameraSettingDesc } from '../../../shared/settings/camera.js';
+import { PhotoSetting, PhotoSettingDesc } from '../../../shared/settings/photo.js';
+import { ActiveSetting, Filler } from './Camera.js';
+import { AwbSetting, ExposureSetting, ShutterSetting } from './settings/CameraSettings.js';
+import { TimelapseSetting } from './settings/PhotoSettings.js';
 
 //#region styled
 
@@ -65,6 +65,6 @@ export const SettingsQuick: React.FC<QuickSettingsProps> = ({
       )}
     </QuickSettingsContainer>
 
-    <Filler enableClick={true} onClick={() => activateSetting(undefined)} />
+    <Filler $enableClick={true} onClick={() => activateSetting(undefined)} />
   </QuickSettingsPane>
 );

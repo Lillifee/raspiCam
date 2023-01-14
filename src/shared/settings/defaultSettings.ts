@@ -1,11 +1,11 @@
-import { ApplicationSettingDesc } from './application';
-import { CameraSettingDesc } from './camera';
-import { controlSettingDesc, ControlSettingDesc } from './control';
-import { PhotoSettingDesc, photoSettingDesc } from './photo';
-import { PreviewSettingDesc, previewSettingDesc } from './preview';
-import { StreamSettingDesc, streamSettingDesc } from './stream';
-import { RaspiStatus, Setting } from './types';
-import { VideoSettingDesc, videoSettingDesc } from './video';
+import { ApplicationSettingDesc } from './application.js';
+import { CameraSettingDesc } from './camera.js';
+import { controlSettingDesc, ControlSettingDesc } from './control.js';
+import { PhotoSettingDesc, photoSettingDesc } from './photo.js';
+import { PreviewSettingDesc, previewSettingDesc } from './preview.js';
+import { StreamSettingDesc, streamSettingDesc } from './stream.js';
+import { RaspiStatus, Setting } from './types.js';
+import { VideoSettingDesc, videoSettingDesc } from './video.js';
 
 interface DefaultSettings {
   stream: Setting<StreamSettingDesc>;

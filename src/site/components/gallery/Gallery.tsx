@@ -1,9 +1,9 @@
 import * as React from 'react';
-import styled from 'styled-components';
-import { RaspiGallery, RaspiFile } from '../../../shared/settings/types';
-import { useFetch } from '../common/hooks/useFetch';
-import { GalleryItem } from './GalleryItem';
-import { Toolbar } from './Toolbar';
+import { styled } from 'styled-components';
+import { RaspiGallery, RaspiFile } from '../../../shared/settings/types.js';
+import { useFetch } from '../common/hooks/useFetch.js';
+import { GalleryItem } from './GalleryItem.js';
+import { Toolbar } from './Toolbar.js';
 
 const GalleryContainer = styled.div`
   flex: 1;

@@ -1,6 +1,6 @@
 import * as React from 'react';
-import styled from 'styled-components';
-import { GridLineType } from '../../../shared/settings/types';
+import { styled } from 'styled-components';
+import { GridLineType } from '../../../shared/settings/types.js';
 
 //#region styled
 

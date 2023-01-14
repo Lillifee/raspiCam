@@ -1,6 +1,6 @@
 import React from 'react';
-import styled from 'styled-components';
-import { IconMap, IconProps } from '../common/Icon';
+import { styled } from 'styled-components';
+import { IconMap, IconProps } from '../common/Icon.js';
 
 /* Button icon */
 export const ButtonIconElement: React.FC<React.HTMLProps<HTMLButtonElement> & IconProps> = ({

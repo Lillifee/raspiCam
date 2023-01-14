@@ -1,21 +1,24 @@
 import * as React from 'react';
-import styled from 'styled-components';
-import { isDefined } from '../../../shared/helperFunctions';
-import { ApplicationSetting, ApplicationSettingDesc } from '../../../shared/settings/application';
-import { CameraSetting, CameraSettingDesc } from '../../../shared/settings/camera';
-import { ControlSetting, ControlSettingDesc } from '../../../shared/settings/control';
-import { PhotoSetting, PhotoSettingDesc } from '../../../shared/settings/photo';
-import { PreviewSetting, PreviewSettingDesc } from '../../../shared/settings/preview';
-import { StreamSetting, StreamSettingDesc } from '../../../shared/settings/stream';
-import { VideoSetting, VideoSettingDesc } from '../../../shared/settings/video';
-import { ActiveSetting, Filler } from './Camera';
-import { ApplicationSettings } from './settings/ApplicationSettings';
-import { CameraSettings } from './settings/CameraSettings';
-import { ControlSettings } from './settings/ControlSettings';
-import { PhotoSettings } from './settings/PhotoSettings';
-import { PreviewSettings } from './settings/PreviewSettings';
-import { StreamSettings } from './settings/StreamSettings';
-import { VideoSettings } from './settings/VideoSettings';
+import { styled } from 'styled-components';
+import { isDefined } from '../../../shared/helperFunctions.js';
+import {
+  ApplicationSetting,
+  ApplicationSettingDesc,
+} from '../../../shared/settings/application.js';
+import { CameraSetting, CameraSettingDesc } from '../../../shared/settings/camera.js';
+import { ControlSetting, ControlSettingDesc } from '../../../shared/settings/control.js';
+import { PhotoSetting, PhotoSettingDesc } from '../../../shared/settings/photo.js';
+import { PreviewSetting, PreviewSettingDesc } from '../../../shared/settings/preview.js';
+import { StreamSetting, StreamSettingDesc } from '../../../shared/settings/stream.js';
+import { VideoSetting, VideoSettingDesc } from '../../../shared/settings/video.js';
+import { ActiveSetting, Filler } from './Camera.js';
+import { ApplicationSettings } from './settings/ApplicationSettings.js';
+import { CameraSettings } from './settings/CameraSettings.js';
+import { ControlSettings } from './settings/ControlSettings.js';
+import { PhotoSettings } from './settings/PhotoSettings.js';
+import { PreviewSettings } from './settings/PreviewSettings.js';
+import { StreamSettings } from './settings/StreamSettings.js';
+import { VideoSettings } from './settings/VideoSettings.js';
 
 //#region styled
 
@@ -26,11 +29,11 @@ const SettingsPane = styled.div`
 `;
 
 interface ContainerProps {
-  show: boolean;
+  $show: boolean;
 }
 
 const SettingsContainer = styled.div<ContainerProps>`
-  flex: ${(p) => (p.show ? '0.2 1 400px' : 0)};
+  flex: ${(p) => (p.$show ? '0.2 1 400px' : 0)};
   flex-direction: column;
   display: flex;
   overflow-y: scroll;
@@ -82,7 +85,7 @@ export const SettingsAdvanced: React.FC<SettingsProps> = ({
   updateApplication,
 }) => (
   <SettingsPane>
-    <SettingsContainer show={activeSetting === 'Settings'}>
+    <SettingsContainer $show={activeSetting === 'Settings'}>
       <CameraSettings camera={camera} updateCamera={updateCamera} />
 
       <ControlSettings control={control} updateControl={updateControl} />
@@ -103,6 +106,6 @@ export const SettingsAdvanced: React.FC<SettingsProps> = ({
       <ApplicationSettings application={application} updateApplication={updateApplication} />
     </SettingsContainer>
 
-    <Filler enableClick={isDefined(activeSetting)} onClick={() => activateSetting(undefined)} />
+    <Filler $enableClick={isDefined(activeSetting)} onClick={() => activateSetting(undefined)} />
   </SettingsPane>
 );
