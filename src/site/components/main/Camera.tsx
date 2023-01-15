@@ -2,6 +2,7 @@ import * as React from 'react';
 import { styled, DefaultTheme } from 'styled-components';
 import { isDefined } from '../../../shared/helperFunctions.js';
 import { applicationSettingDesc } from '../../../shared/settings/application.js';
+import { buttonSettingDesc } from '../../../shared/settings/button.js';
 import { cameraSettingDesc } from '../../../shared/settings/camera.js';
 import { controlSettingDesc } from '../../../shared/settings/control.js';
 import { defaultRaspiStatus } from '../../../shared/settings/defaultSettings.js';
@@ -130,6 +131,7 @@ export const Camera: React.FC<Props> = ({ setTheme }) => {
     '/api/application',
     applicationSettingDesc,
   );
+  const [button, updateButton] = useFetchSettings('/api/button', buttonSettingDesc);
 
   React.useEffect(() => {
     const applicationTheme = allThemes[application.theme.value || 'dark'];
@@ -183,6 +185,7 @@ export const Camera: React.FC<Props> = ({ setTheme }) => {
             stream={stream}
             preview={preview}
             control={control}
+            button={button}
             application={application}
             activeSetting={activeSetting}
             activateSetting={activateSetting}
@@ -192,6 +195,7 @@ export const Camera: React.FC<Props> = ({ setTheme }) => {
             updateStream={updateStream}
             updatePreview={updatePreview}
             updateControl={updateControl}
+            updateButton={updateButton}
             updateApplication={updateApplication}
           />
         </OverlayContent>

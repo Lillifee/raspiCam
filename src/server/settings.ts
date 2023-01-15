@@ -2,6 +2,7 @@ import fs from 'fs';
 import path from 'path';
 import { shallowEqualObjects } from '../shared/helperFunctions.js';
 import { applicationSettingDesc } from '../shared/settings/application.js';
+import { buttonSettingDesc } from '../shared/settings/button.js';
 import { cameraSettingConverter, cameraSettingDesc } from '../shared/settings/camera.js';
 import { controlSettingDesc } from '../shared/settings/control.js';
 import { defaultSettings } from '../shared/settings/defaultSettings.js';
@@ -108,6 +109,7 @@ export const createSettingsHelper = () => {
       applicationSettingDesc,
       defaultSettings.application,
     ),
+    button: settingsBase('button.json', buttonSettingDesc, defaultSettings.button),
   };
 };
 

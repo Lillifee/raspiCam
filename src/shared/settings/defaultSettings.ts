@@ -1,4 +1,5 @@
 import { ApplicationSettingDesc } from './application.js';
+import { ButtonSettingDesc, buttonSettingDesc } from './button.js';
 import { CameraSettingDesc } from './camera.js';
 import { controlSettingDesc, ControlSettingDesc } from './control.js';
 import { PhotoSettingDesc, photoSettingDesc } from './photo.js';
@@ -15,6 +16,7 @@ interface DefaultSettings {
   preview: Setting<PreviewSettingDesc>;
   control: Setting<ControlSettingDesc>;
   application: Setting<ApplicationSettingDesc>;
+  button: Setting<ButtonSettingDesc>;
 }
 
 export const defaultSettings: DefaultSettings = {
@@ -45,6 +47,11 @@ export const defaultSettings: DefaultSettings = {
   },
   control: { mode: controlSettingDesc.mode.defaultValue },
   application: {},
+  button: {
+    gpioPin: buttonSettingDesc.gpioPin.defaultValue,
+    debounceTimeout: buttonSettingDesc.debounceTimeout.defaultValue,
+    edge: buttonSettingDesc.edge.defaultValue,
+  },
 };
 
 export const defaultRaspiStatus: RaspiStatus = {};

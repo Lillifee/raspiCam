@@ -5,6 +5,7 @@ import {
   ApplicationSetting,
   ApplicationSettingDesc,
 } from '../../../shared/settings/application.js';
+import { ButtonSetting, ButtonSettingDesc } from '../../../shared/settings/button.js';
 import { CameraSetting, CameraSettingDesc } from '../../../shared/settings/camera.js';
 import { ControlSetting, ControlSettingDesc } from '../../../shared/settings/control.js';
 import { PhotoSetting, PhotoSettingDesc } from '../../../shared/settings/photo.js';
@@ -13,6 +14,7 @@ import { StreamSetting, StreamSettingDesc } from '../../../shared/settings/strea
 import { VideoSetting, VideoSettingDesc } from '../../../shared/settings/video.js';
 import { ActiveSetting, Filler } from './Camera.js';
 import { ApplicationSettings } from './settings/ApplicationSettings.js';
+import { ButtonSettings } from './settings/ButtonSettings.js';
 import { CameraSettings } from './settings/CameraSettings.js';
 import { ControlSettings } from './settings/ControlSettings.js';
 import { PhotoSettings } from './settings/PhotoSettings.js';
@@ -54,6 +56,7 @@ export interface SettingsProps {
   stream: StreamSettingDesc;
   preview: PreviewSettingDesc;
   control: ControlSettingDesc;
+  button: ButtonSettingDesc;
   application: ApplicationSettingDesc;
 
   activateSetting: (setting: ActiveSetting) => void;
@@ -64,6 +67,7 @@ export interface SettingsProps {
   updatePreview: (data: PreviewSetting) => void;
   updateControl: (data: ControlSetting) => void;
   updateApplication: (data: ApplicationSetting) => void;
+  updateButton: (data: ButtonSetting) => void;
 }
 
 export const SettingsAdvanced: React.FC<SettingsProps> = ({
@@ -73,6 +77,7 @@ export const SettingsAdvanced: React.FC<SettingsProps> = ({
   stream,
   preview,
   control,
+  button,
   application,
   activeSetting,
   activateSetting,
@@ -82,6 +87,7 @@ export const SettingsAdvanced: React.FC<SettingsProps> = ({
   updateStream,
   updatePreview,
   updateControl,
+  updateButton,
   updateApplication,
 }) => (
   <SettingsPane>
@@ -104,6 +110,8 @@ export const SettingsAdvanced: React.FC<SettingsProps> = ({
       <PreviewSettings preview={preview} updatePreview={updatePreview} />
 
       <ApplicationSettings application={application} updateApplication={updateApplication} />
+
+      <ButtonSettings button={button} updateButton={updateButton} />
     </SettingsContainer>
 
     <Filler $enableClick={isDefined(activeSetting)} onClick={() => activateSetting(undefined)} />

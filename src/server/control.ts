@@ -20,7 +20,7 @@ export interface RaspiControl {
 /**
  * RaspiControl
  */
-const raspiControl = (settingsHelper: SettingsHelper): RaspiControl => {
+export const createRaspiControl = (settingsHelper: SettingsHelper): RaspiControl => {
   const actionProcess = spawnProcess();
   const streamProcess = spawnProcess({
     stdioOptions: ['ignore', 'pipe', 'inherit'],
@@ -145,5 +145,3 @@ const modeHelper: {
     };
   },
 };
-
-export default raspiControl;

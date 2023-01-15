@@ -27,7 +27,7 @@ export interface FileWatcher {
   deleteFiles: (fileNames: string[]) => void;
 }
 
-export const fileWatcher = (): FileWatcher => {
+export const createFileWatcher = (): FileWatcher => {
   let files: RaspiFile[] = [];
 
   if (!fs.existsSync(photosAbsPath)) {

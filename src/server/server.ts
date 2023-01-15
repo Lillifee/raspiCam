@@ -7,6 +7,7 @@ import {
   GenericSettingDesc,
   Setting,
 } from '../shared/settings/types.js';
+import { ButtonControl } from './button.js';
 import { curDirName } from './common.js';
 import { RaspiControl } from './control.js';
 import { SettingsBase, SettingsHelper } from './settings.js';
@@ -22,6 +23,7 @@ export const server = (
   control: RaspiControl,
   settingsHelper: SettingsHelper,
   fileWatcher: FileWatcher,
+  buttonControl: ButtonControl,
 ): express.Express => {
   const app = express();
 
@@ -77,6 +79,13 @@ export const server = (
 
   app.get('/api/application', getSettings(settingsHelper.application));
   app.post('/api/application', applySettings(settingsHelper.application));
+
+  app.get('/api/button', getSettings(settingsHelper.button));
+  app.post('/api/button', (req: SettingRequest, res: express.Response) => {
+    settingsHelper.button.apply(req.body);
+    buttonControl.applySettings();
+    res.status(200).send(settingsHelper.button.read());
+  });
 
   app.get('/api/status', (_, res) => {
     res.send(getStatus());

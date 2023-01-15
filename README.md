@@ -10,7 +10,7 @@ RaspiCam is a react application to stream, take pictures or record videos from y
 - Monitoring camera
 - Timelapse photography
 - Video recorder
-- Camera to go with remote trigger (smartphone)
+- Camera to go with trigger (GPIO button or smartphone)
 - Use it as a tool to find the best camera settings for your project.
   - Adjust the settings without manually start and stop the libcamera-vid or libcamera-still.
   - Copy the result from the terminal and use it for your project.
@@ -29,6 +29,8 @@ You can find the 3d printing files on https://www.prusaprinters.org/prints/48519
 
 If you prefer a **Raspberry PI4**:
 https://www.prusaprinters.org/prints/61556-raspberry-pi4-hq-camera-aluminium-mix
+
+## Screenshots
 
 ![picture](screenshots/raspiPi4HqCamera.jpg)
 
@@ -174,6 +176,14 @@ Or stop and disable the service:
 sudo systemctl disable raspicam.service
 sudo systemctl stop raspicam.service
 ```
+
+# GPIO
+
+RaspiCam supports triggering an image/video using a [GPIO pin](https://www.raspberrypi.com/documentation/computers/raspberry-pi.html#gpio-and-the-40-pin-header).
+
+Not all GPIO pins are suitable to use as a capture trigger. I would suggest starting with a GPIO pin without additional usage like GPIO 17, 27 22, etc.
+
+![picture](screenshots/raspiCamGPIO.png)
 
 # Tipps
 

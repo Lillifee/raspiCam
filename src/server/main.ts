@@ -1,10 +1,10 @@
 import http from 'http';
-import { Gpio } from 'onoff';
-import raspiControl from './control.js';
+import { createButtonControl } from './button.js';
+import { createRaspiControl } from './control.js';
 import { createLogger } from './logger.js';
 import { server } from './server.js';
 import { createSettingsHelper } from './settings.js';
-import { fileWatcher } from './watcher.js';
+import { createFileWatcher } from './watcher.js';
 
 const logger = createLogger('server');
 
@@ -27,18 +27,23 @@ const start = () => {
    * Raspi control
    * Control (start and stop) the different processes
    */
-  const control = raspiControl(settingsHelper);
+  const control = createRaspiControl(settingsHelper);
+
+  /**
+   * Create button control
+   */
+  const button = createButtonControl(control, settingsHelper);
 
   /**
    * Create photos and thumbnail directory
    */
-  const watcher = fileWatcher();
+  const watcher = createFileWatcher();
 
   /**
    * Webserver
    * Start the webserver and serve the website.
    */
-  const app = server(control, settingsHelper, watcher);
+  const app = server(control, settingsHelper, watcher, button);
   httpServer.on('request', app);
 
   /**
@@ -46,9 +51,6 @@ const start = () => {
    */
   httpServer.listen(8000);
   logger.success('server listening on', 8000);
-
-  const button = new Gpio(21, 'in', 'both');
-  button.watch((_, value) => logger.info('button pressed', value));
 };
 
 start();
