@@ -14,14 +14,16 @@
     "code:check-eslint": "eslint --fix ./src/",
     "code:check-tsc": "tsc -p ./tsconfig.json",
     "build": "npm run build:site && npm run build:server",
-    "build:site": "webpack --config webpack.site.js",
-    "build:server": "webpack --config ./webpack.server.js"
+    "build:site": "webpack --config ./webpack.site.js",
+    "build:server": "webpack --config ./webpack.server.js && npm run copy:epoll",
+    "copy:epoll": "cp ./binary/epoll.node ./build/epoll.node"
   },
   "dependencies": {
     "buffer": "^6.0.3",
     "chalk": "^5.2.0",
     "express": "^4.18.2",
     "jmuxer": "^2.0.5",
+    "onoff": "^6.0.3",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.6.2",
@@ -47,6 +49,8 @@
     "eslint-plugin-react": "^7.32.0",
     "eslint-plugin-react-hooks": "^4.6.0",
     "html-webpack-plugin": "^5.5.0",
+    "node-bindings-loader": "^1.5.0",
+    "node-loader": "^2.0.0",
     "prettier": "^2.8.3",
     "react-is": "^18.2.0",
     "ts-loader": "^9.4.2",

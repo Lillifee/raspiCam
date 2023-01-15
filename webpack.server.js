@@ -22,6 +22,19 @@ export default {
         loader: 'ts-loader',
         exclude: [/node_modules/],
       },
+
+      // Used for onoff/epoll node binding
+      {
+        test: /\.js$/,
+        loader: 'node-bindings-loader',
+      },
+      {
+        test: /\.node$/,
+        loader: 'node-loader',
+        options: {
+          name: '[name].[ext]',
+        },
+      },
     ],
   },
 

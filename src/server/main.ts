@@ -1,4 +1,5 @@
 import http from 'http';
+import { Gpio } from 'onoff';
 import raspiControl from './control.js';
 import { createLogger } from './logger.js';
 import { server } from './server.js';
@@ -45,6 +46,9 @@ const start = () => {
    */
   httpServer.listen(8000);
   logger.success('server listening on', 8000);
+
+  const button = new Gpio(21, 'in', 'both');
+  button.watch((_, value) => logger.info('button pressed', value));
 };
 
 start();
