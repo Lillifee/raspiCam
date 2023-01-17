@@ -69,7 +69,7 @@ sudo apt upgrade
 Enable the NodeSource repository by running the following command in your terminal:
 
 ```
-curl -sL https://deb.nodesource.com/setup_14.x | sudo bash -
+curl -sL https://deb.nodesource.com/setup_18.x | sudo bash -
 sudo apt install nodejs
 ```
 
@@ -84,7 +84,14 @@ tar -xzf node-v10.24.0-linux-armv6l.tar.gz
 sudo cp -r node-v10.24.0-linux-armv6l/* /usr/local/
 
 sudo reboot
+
 ```
+To run the latest version on the PI zero you have to build epoll for node10.
+```
+npm install epoll
+```
+and copy the epoll.node from ./node_modules/build/Release/epoll.node to the raspiCam folder. 
+
 
 ### Check the node installation
 
