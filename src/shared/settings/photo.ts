@@ -50,6 +50,11 @@ export const photoSettingDesc = {
    * Additional setting for timelapse duration.
    */
   timelapseTimeout: numberSetting('Duration', 0, 60 * 60 * 24 * 1000, 0, 1000),
+
+  /**
+   * Whether to run an autofocus cycle before capture
+   */
+  'autofocus-on-capture': booleanSetting('Autofocus on capture', false),
 };
 
 export type PhotoSettingDesc = typeof photoSettingDesc;

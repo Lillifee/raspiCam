@@ -102,10 +102,28 @@ export const CameraSettings: React.FC<CameraSettingsProps> = ({ camera, updateCa
       </SettingsExpander>
 
       <SettingsExpander header={<SettingsExpanderHeader>Other</SettingsExpanderHeader>}>
+        <BooleanSetting {...camera.hdr} update={updateField('hdr')} />
         <NumberSetting {...camera.rotation} update={updateField('rotation')} />
         <BooleanSetting {...camera.hflip} update={updateField('hflip')} />
         <BooleanSetting {...camera.vflip} update={updateField('vflip')} />
         <EnumDropdownSetting {...camera.camera} update={updateField('camera')} />
+      </SettingsExpander>
+
+      <SettingsExpander header={<SettingsExpanderHeader>Autofocus</SettingsExpanderHeader>}>
+        <EnumDropdownSetting {...camera['autofocus-mode']} update={updateField('autofocus-mode')} />
+        <EnumDropdownSetting
+          {...camera['autofocus-range']}
+          update={updateField('autofocus-range')}
+        />
+        <EnumDropdownSetting
+          {...camera['autofocus-speed']}
+          update={updateField('autofocus-speed')}
+        />
+        <EnumDropdownSetting
+          {...camera['autofocus-window']}
+          update={updateField('autofocus-window')}
+        />
+        <NumberSetting {...camera['lens-position']} update={updateField('lens-position')} />
       </SettingsExpander>
     </SettingsWrapper>
   );

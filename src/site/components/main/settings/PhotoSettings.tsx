@@ -124,6 +124,10 @@ export const PhotoSettings: React.FC<PhotoSettingsProps> = ({ photo, updatePhoto
         <NumberSetting {...photo.quality} update={updateField('quality')} />
         <EnumDropdownSetting {...photo.encoding} update={updateField('encoding')} />
         <BooleanSetting {...photo.raw} update={updateField('raw')} />
+        <BooleanSetting
+          {...photo['autofocus-on-capture']}
+          update={updateField('autofocus-on-capture')}
+        />
       </SettingsExpander>
 
       <SettingsExpander header={<TimelapseSetting photo={photo} updatePhoto={updatePhoto} />}>

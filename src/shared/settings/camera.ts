@@ -23,6 +23,9 @@ export const cameraSettingDesc = {
   /** Set vertical flip */
   vflip: booleanSetting('Vertical flip', false),
 
+  /** Set HDR (High Dynamic Range) */
+  hdr: booleanSetting('HDR', false),
+
   /** Set rotation  */
   rotation: numberSetting('Rotation', 0, 180, 0, 180),
 
@@ -76,6 +79,21 @@ export const cameraSettingDesc = {
 
   /** Set the denoising mode */
   denoise: enumSetting('Denoise', ['auto', 'off', 'cdn_off ', 'cdn_fast', 'cdn_hq'], 'auto'),
+
+  /** Specifies the autofocus mode */
+  'autofocus-mode': enumSetting('Mode', ['default', 'manual', 'auto', 'continuous'], 'default'),
+
+  /** Specifies the autofocus range */
+  'autofocus-range': enumSetting('Range', ['normal', 'macro', 'full'], 'normal'),
+
+  /** Specifies the autofocus speed */
+  'autofocus-speed': enumSetting('Speed', ['normal', 'fast'], 'normal'),
+
+  /** Specify the autofocus window */
+  'autofocus-window': enumSetting('Window', ['0,0,1,1', '0.25,0.25,0.5,0.5'], '0,0,1,1'),
+
+  /** Specify the lens position */
+  'lens-position': numberSetting('Lens position', 0, 20, 1, 0.1),
 };
 
 export type CameraSettingDesc = typeof cameraSettingDesc;
