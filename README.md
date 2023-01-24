@@ -86,12 +86,14 @@ sudo cp -r node-v10.24.0-linux-armv6l/* /usr/local/
 sudo reboot
 
 ```
+
 To run the latest version on the PI zero you have to build epoll for node10.
+
 ```
 npm install epoll
 ```
-and copy the epoll.node from ./node_modules/build/Release/epoll.node to the raspiCam folder. 
 
+and copy the epoll.node from ./node_modules/build/Release/epoll.node to the raspiCam folder.
 
 ### Check the node installation
 
@@ -152,6 +154,10 @@ As soon the server is up and running, the following message appear:
 `[server] server listening on 8000`
 
 Open the browser and navigate to: `http://__ip_address__:8000`
+
+## Command line options:
+
+_-p_ or _--port 80_ - server port (default 8000)
 
 # Run RaspiCam as a service
 
