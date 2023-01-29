@@ -11,6 +11,7 @@ import { ControlSetting, ControlSettingDesc } from '../../../shared/settings/con
 import { PhotoSetting, PhotoSettingDesc } from '../../../shared/settings/photo.js';
 import { PreviewSetting, PreviewSettingDesc } from '../../../shared/settings/preview.js';
 import { StreamSetting, StreamSettingDesc } from '../../../shared/settings/stream.js';
+import { RaspiStatus } from '../../../shared/settings/types.js';
 import { VideoSetting, VideoSettingDesc } from '../../../shared/settings/video.js';
 import { ActiveSetting, Filler } from './Camera.js';
 import { ApplicationSettings } from './settings/ApplicationSettings.js';
@@ -49,6 +50,7 @@ const SettingsContainer = styled.div<ContainerProps>`
 //#endregion
 
 export interface SettingsProps {
+  status: RaspiStatus;
   activeSetting: ActiveSetting;
   camera: CameraSettingDesc;
   photo: PhotoSettingDesc;
@@ -58,7 +60,6 @@ export interface SettingsProps {
   control: ControlSettingDesc;
   button: ButtonSettingDesc;
   application: ApplicationSettingDesc;
-
   activateSetting: (setting: ActiveSetting) => void;
   updateCamera: (data: CameraSetting) => void;
   updatePhoto: (data: PhotoSetting) => void;
@@ -71,6 +72,7 @@ export interface SettingsProps {
 }
 
 export const SettingsAdvanced: React.FC<SettingsProps> = ({
+  status,
   camera,
   photo,
   video,
@@ -111,7 +113,7 @@ export const SettingsAdvanced: React.FC<SettingsProps> = ({
 
       <ApplicationSettings application={application} updateApplication={updateApplication} />
 
-      <ButtonSettings button={button} updateButton={updateButton} />
+      <ButtonSettings status={status} button={button} updateButton={updateButton} />
     </SettingsContainer>
 
     <Filler $enableClick={isDefined(activeSetting)} onClick={() => activateSetting(undefined)} />

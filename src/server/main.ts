@@ -15,7 +15,7 @@ const args = yargs(process.argv.slice(2))
   })
   .parseSync();
 
-const start = () => {
+const start = async () => {
   logger.info('starting services...');
 
   /**
@@ -39,7 +39,7 @@ const start = () => {
   /**
    * Create button control
    */
-  const button = createButtonControl(control, settingsHelper);
+  const button = await createButtonControl(control, settingsHelper);
 
   /**
    * Create photos and thumbnail directory
@@ -60,4 +60,4 @@ const start = () => {
   logger.success('server listening on', args.p);
 };
 
-start();
+start().catch((error) => logger.error('server startup error', error));

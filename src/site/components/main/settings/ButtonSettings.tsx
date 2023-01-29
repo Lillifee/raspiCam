@@ -1,5 +1,7 @@
 import React from 'react';
 import { ButtonSetting, ButtonSettingDesc } from '../../../../shared/settings/button.js';
+import { RaspiStatus } from '../../../../shared/settings/types.js';
+import { Label, SubLabel } from '../../styled/Label.js';
 import { EnumDropdownSetting } from './common/EnumDropdownSetting.js';
 import { restoreSettings, updateTypedField } from './common/helperFunctions.js';
 import { NumberSetting } from './common/NumberSetting.js';
@@ -12,11 +14,12 @@ import {
 } from './common/Styled.js';
 
 export interface ButtonSettingsProps {
+  status: RaspiStatus;
   button: ButtonSettingDesc;
   updateButton: (data: ButtonSetting) => void;
 }
 
-export const ButtonSettings: React.FC<ButtonSettingsProps> = ({ button, updateButton }) => {
+export const ButtonSettings: React.FC<ButtonSettingsProps> = ({ status, button, updateButton }) => {
   const updateField = updateTypedField(updateButton);
 
   return (
@@ -29,12 +32,21 @@ export const ButtonSettings: React.FC<ButtonSettingsProps> = ({ button, updateBu
         />
       </SettingsHeader>
 
-      <SettingsExpander
-        header={<EnumDropdownSetting {...button.gpioPin} update={updateField('gpioPin')} />}
-      >
-        <EnumDropdownSetting {...button.edge} update={updateField('edge')} />
-        <NumberSetting {...button.debounceTimeout} update={updateField('debounceTimeout')} />
-      </SettingsExpander>
+      {status.gpioAvailable ? (
+        <SettingsExpander
+          header={<EnumDropdownSetting {...button.gpioPin} update={updateField('gpioPin')} />}
+        >
+          <EnumDropdownSetting {...button.edge} update={updateField('edge')} />
+          <NumberSetting {...button.debounceTimeout} update={updateField('debounceTimeout')} />
+        </SettingsExpander>
+      ) : (
+        <React.Fragment>
+          <Label fontSize="m">GPIO is not available.</Label>
+          <SubLabel fontSize="s">
+            Install the onoff library on your raspberry pi using &apos;npm install onoff&apos;
+          </SubLabel>
+        </React.Fragment>
+      )}
     </SettingsWrapper>
   );
 };

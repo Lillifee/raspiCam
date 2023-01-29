@@ -5,7 +5,7 @@ import { useCallback, useEffect, useRef } from 'react';
  *
  * @param callback debounce action
  * @param wait wait time in ms
- * @return debounde trigger function
+ * @return debounce trigger function
  */
 export function useDebounce<T extends ((...args: never[]) => void) | (() => void)>(
   callback: T,

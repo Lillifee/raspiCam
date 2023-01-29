@@ -55,6 +55,7 @@ export const server = (
   const getStatus = (): RaspiStatus => ({
     ...control.getStatus(),
     latestFile: fileWatcher.getLatestFile(),
+    gpioAvailable: buttonControl.available,
   });
 
   //#endregion

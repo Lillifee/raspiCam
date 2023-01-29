@@ -84,16 +84,7 @@ tar -xzf node-v10.24.0-linux-armv6l.tar.gz
 sudo cp -r node-v10.24.0-linux-armv6l/* /usr/local/
 
 sudo reboot
-
 ```
-
-To run the latest version on the PI zero you have to build epoll for node10.
-
-```
-npm install epoll
-```
-
-and copy the epoll.node from ./node_modules/build/Release/epoll.node to the raspiCam folder.
 
 ### Check the node installation
 
@@ -104,14 +95,6 @@ node --version
 ```
 
 ## Install RaspiCam
-
-### Dependencies
-
-exiv2 is used to extract the thumbnails from the photos.
-
-```
-sudo apt install exiv2
-```
 
 ### RaspiCam
 
@@ -139,6 +122,20 @@ The bundled package should appear in the **build** folder.
 </details>
 
 ##
+
+### Dependencies
+
+exiv2 is used to extract the thumbnails from the photos.
+
+```
+sudo apt install exiv2
+```
+
+onoff is used for GPIO access (optional).
+
+```
+npm install onoff
+```
 
 # Run RaspiCam
 

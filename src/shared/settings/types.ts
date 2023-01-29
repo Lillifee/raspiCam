@@ -52,6 +52,7 @@ export interface RaspiStatus {
   running?: boolean;
   streamRunning?: boolean;
   latestFile?: RaspiFile;
+  gpioAvailable?: boolean;
 }
 
 export interface RaspiGallery {

@@ -179,6 +179,7 @@ export const Camera: React.FC<Props> = ({ setTheme }) => {
 
         <OverlayContent>
           <SettingsAdvanced
+            status={status.data}
             camera={camera}
             photo={photo}
             video={vid}
