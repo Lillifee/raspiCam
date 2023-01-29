@@ -131,7 +131,8 @@ exiv2 is used to extract the thumbnails from the photos.
 sudo apt install exiv2
 ```
 
-onoff is used for GPIO access (optional).
+(optional) onoff to access the GPIO features.
+Switch to the raspiCam folder and run:
 
 ```
 npm install onoff
@@ -191,6 +192,9 @@ sudo systemctl stop raspicam.service
 RaspiCam supports triggering an image/video using a [GPIO pin](https://www.raspberrypi.com/documentation/computers/raspberry-pi.html#gpio-and-the-40-pin-header).
 
 Not all GPIO pins are suitable to use as a capture trigger. I would suggest starting with a GPIO pin without additional usage like GPIO 17, 27 22, etc.
+
+The onoff library is used to access the GPIO pins. Check the site for wiring information or how to configure the GPIO pins to pull-up/pull-down resistors in the /boot/config.txt if needed.
+https://github.com/fivdi/onoff
 
 ![picture](screenshots/raspiCamGPIO.png)
 
