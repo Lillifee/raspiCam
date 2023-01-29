@@ -1,4 +1,4 @@
-import { styled } from 'styled-components';
+import styled from 'styled-components';
 
 export interface LabelProps {
   fontSize?: 'xs' | 's' | 'm' | 'l' | 'xl';

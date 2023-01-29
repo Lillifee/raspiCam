@@ -1,5 +1,5 @@
 import React from 'react';
-import { styled } from 'styled-components';
+import styled from 'styled-components';
 import { IconMap, IconProps } from '../common/Icon.js';
 
 /* Button icon */

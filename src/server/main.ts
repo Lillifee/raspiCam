@@ -1,10 +1,10 @@
 import http from 'http';
-import { createButtonControl } from './button.js';
-import { createRaspiControl } from './control.js';
-import { createLogger } from './logger.js';
-import { server } from './server.js';
-import { createSettingsHelper } from './settings.js';
-import { createFileWatcher } from './watcher.js';
+import { createButtonControl } from './button';
+import { createRaspiControl } from './control';
+import { createLogger } from './logger';
+import { server } from './server';
+import { createSettingsHelper } from './settings';
+import { createFileWatcher } from './watcher';
 import yargs from 'yargs/yargs';
 
 const logger = createLogger('server');

@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { styled, keyframes } from 'styled-components';
+import styled, { keyframes } from 'styled-components';
 import { CameraSetting, CameraSettingDesc } from '../../../shared/settings/camera.js';
 import { PhotoSetting, PhotoSettingDesc } from '../../../shared/settings/photo.js';
 import { ActiveSetting, Filler } from './Camera.js';

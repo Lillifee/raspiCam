@@ -23,7 +23,7 @@ const copyToBuild = (folder: string, file: string) =>
 console.info('- copy dependencies...');
 
 await Promise.all([
-  copyToBuild('./broadway', 'Decoder.cjs'),
+  copyToBuild('./broadway', 'Decoder.js'),
   copyToBuild('./broadway', 'avc.wasm'),
   copyToBuild('./src/site/public', 'index.html'),
   copyToBuild('./src/site/public', 'favicon.ico'),

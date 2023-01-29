@@ -1,6 +1,6 @@
-import { abbreviateNumber, appendUnit } from '../helperFunctions.js';
-import { enumSetting, numberSetting } from './helper.js';
-import { Setting } from './types.js';
+import { abbreviateNumber, appendUnit } from '../helperFunctions';
+import { enumSetting, numberSetting } from './helper';
+import { Setting } from './types';
 
 /**
  * Stream settings

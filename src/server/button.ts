@@ -1,7 +1,7 @@
 import type { Gpio } from 'onoff';
-import { RaspiControl } from './control.js';
-import { createLogger } from './logger.js';
-import { SettingsHelper } from './settings.js';
+import { RaspiControl } from './control';
+import { createLogger } from './logger';
+import { SettingsHelper } from './settings';
 
 const logger = createLogger('button');
 

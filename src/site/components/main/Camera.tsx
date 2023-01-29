@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { styled, DefaultTheme } from 'styled-components';
+import styled, { DefaultTheme } from 'styled-components';
 import { isDefined } from '../../../shared/helperFunctions.js';
 import { applicationSettingDesc } from '../../../shared/settings/application.js';
 import { buttonSettingDesc } from '../../../shared/settings/button.js';

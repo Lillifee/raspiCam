@@ -1,11 +1,11 @@
-import { isDefined } from '../helperFunctions.js';
+import { isDefined } from '../helperFunctions';
 import {
   BooleanTypeSetting,
   EnumTypeSetting,
   GenericSettingDesc,
   NumberTypeSetting,
   Setting,
-} from './types.js';
+} from './types';
 
 const defaultFormatValue = (value?: number | boolean | string) =>
   isDefined(value) ? `${value.toString()}` : '';

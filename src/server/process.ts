@@ -1,6 +1,6 @@
 import { ChildProcess, StdioOptions, spawn } from 'child_process';
 import { Readable } from 'stream';
-import { createLogger } from './logger.js';
+import { createLogger } from './logger';
 
 const logger = createLogger('process');
 

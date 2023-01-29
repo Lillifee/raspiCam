@@ -1,4 +1,4 @@
-import { styled } from 'styled-components';
+import styled from 'styled-components';
 import { ButtonIcon } from '../../../styled/ButtonIcon.js';
 import { Label } from '../../../styled/Label.js';
 

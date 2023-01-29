@@ -1,4 +1,4 @@
-import { PlayerOptions } from './player.js';
+import { PlayerOptions } from './player';
 
 /**
  * Player stats are calculations triggered by an interval,

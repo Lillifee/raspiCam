@@ -1,5 +1,5 @@
-import { enumSetting, numberSetting } from './helper.js';
-import { Setting } from './types.js';
+import { enumSetting, numberSetting } from './helper';
+import { Setting } from './types';
 
 /**
  * Control settings

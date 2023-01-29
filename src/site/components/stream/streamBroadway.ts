@@ -1,11 +1,11 @@
-import { PlayerOptions } from './player.js';
-import { PlayerStats } from './stats.js';
-import { parseFragmentType } from './streamHelper.js';
+import { PlayerOptions } from './player';
+import { PlayerStats } from './stats';
+import { parseFragmentType } from './streamHelper';
 
 // TODO Try to create a declaration file for the Player
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
-import Player from '../../../../broadway/Player.cjs';
+import Player from '../../../../broadway/Player';
 
 export interface BroadwayStreamDecoder {
   canvas: HTMLCanvasElement;

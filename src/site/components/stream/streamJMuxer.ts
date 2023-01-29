@@ -1,7 +1,7 @@
 import JMuxer from 'jmuxer';
-import { PlayerOptions } from './player.js';
-import { PlayerStats } from './stats.js';
-import { parseFragmentType } from './streamHelper.js';
+import { PlayerOptions } from './player';
+import { PlayerStats } from './stats';
+import { parseFragmentType } from './streamHelper';
 
 export interface StreamDecoder {
   addFrame: (frame: Uint8Array) => void;

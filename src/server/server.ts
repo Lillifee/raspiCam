@@ -1,18 +1,13 @@
 import express from 'express';
 import path from 'path';
-import { isDefined } from '../shared/helperFunctions.js';
-import {
-  RaspiGallery,
-  RaspiStatus,
-  GenericSettingDesc,
-  Setting,
-} from '../shared/settings/types.js';
-import { ButtonControl } from './button.js';
-import { curDirName } from './common.js';
-import { RaspiControl } from './control.js';
-import { SettingsBase, SettingsHelper } from './settings.js';
-import { splitJpeg } from './splitJpeg.js';
-import { FileWatcher } from './watcher.js';
+import { isDefined } from '../shared/helperFunctions';
+import { RaspiGallery, RaspiStatus, GenericSettingDesc, Setting } from '../shared/settings/types';
+import { ButtonControl } from './button';
+import { curDirName } from './common';
+import { RaspiControl } from './control';
+import { SettingsBase, SettingsHelper } from './settings';
+import { splitJpeg } from './splitJpeg';
+import { FileWatcher } from './watcher';
 
 type SettingRequest = express.Request<undefined, undefined, Setting<GenericSettingDesc>>;
 

@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { styled } from 'styled-components';
+import styled from 'styled-components';
 import { ControlSettingDesc } from '../../../shared/settings/control.js';
 import { IconType } from '../common/Icon.js';
 import { ButtonIcon } from '../styled/ButtonIcon.js';

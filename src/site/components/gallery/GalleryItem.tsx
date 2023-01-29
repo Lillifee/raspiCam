@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { styled, css } from 'styled-components';
+import styled, { css } from 'styled-components';
 import { RaspiFile, photosPath } from '../../../shared/settings/types.js';
 import { Icon } from '../common/Icon.js';
 import { ButtonIcon } from '../styled/ButtonIcon.js';

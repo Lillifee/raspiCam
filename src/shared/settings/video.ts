@@ -1,7 +1,7 @@
-import { appendUnit } from '../helperFunctions.js';
-import { booleanSetting, numberSetting } from './helper.js';
-import { streamSettingDesc } from './stream.js';
-import { Setting } from './types.js';
+import { appendUnit } from '../helperFunctions';
+import { booleanSetting, numberSetting } from './helper';
+import { streamSettingDesc } from './stream';
+import { Setting } from './types';
 
 /**
  * Video settings

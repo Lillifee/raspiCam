@@ -1,34 +1,32 @@
 {
   "name": "raspicam",
   "version": "2.0.0",
-  "type": "module",
-  "exports": "./src/server/main.ts",
+  "type": "commonjs",
   "browser": {
     "stream": false
   },
   "author": "Patrick Matt",
   "license": "MIT",
-  "node": ">=14.16",
   "scripts": {
-    "start:site": "ts-node-esm ./serve.site.ts",
-    "start:server": "ts-node-esm src/server/main.ts",
+    "start:site": "ts-node-esm ./serve.site.mts",
+    "start:server": "npm run build:server && node ./build/server.js",
     "code:check": "npm run code:check-eslint && yarn code:check-tsc",
     "code:check-eslint": "eslint --fix ./src/",
     "code:check-tsc": "tsc -p ./tsconfig.json",
     "build": "npm run build:site && npm run build:server",
-    "build:server": "ts-node-esm ./build.server.ts",
-    "build:site": "ts-node-esm ./build.site.ts"
+    "build:server": "ts-node-esm ./build.server.mts",
+    "build:site": "ts-node-esm ./build.site.mts"
   },
   "dependencies": {
     "buffer": "^6.0.3",
-    "chalk": "^5.2.0",
+    "chalk": "^4.1.2",
     "express": "^4.18.2",
     "jmuxer": "^2.0.5",
     "onoff": "^6.0.3",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.6.2",
-    "styled-components": "^6.0.0-beta.9",
+    "styled-components": "^5.3.6",
     "styled-normalize": "^8.0.7",
     "yargs": "^17.6.2"
   },

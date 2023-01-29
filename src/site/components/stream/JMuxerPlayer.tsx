@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { styled } from 'styled-components';
+import styled from 'styled-components';
 import { BlurOverlay } from './Common.js';
 import { createPlayerOptions, player, Player, PlayerOptions } from './player.js';
 import { createInitialPlayerStats, PlayerStats } from './stats.js';

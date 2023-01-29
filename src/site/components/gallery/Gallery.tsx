@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { styled } from 'styled-components';
+import styled from 'styled-components';
 import { RaspiGallery, RaspiFile } from '../../../shared/settings/types.js';
 import { useFetch } from '../common/hooks/useFetch.js';
 import { GalleryItem } from './GalleryItem.js';

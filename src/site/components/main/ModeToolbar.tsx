@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Link } from 'react-router-dom';
-import { styled } from 'styled-components';
+import styled from 'styled-components';
 import { ControlSetting, ControlSettingDesc } from '../../../shared/settings/control.js';
 import { RaspiMode, RaspiStatus, photosPath } from '../../../shared/settings/types.js';
 import { Icon, IconType } from '../common/Icon.js';

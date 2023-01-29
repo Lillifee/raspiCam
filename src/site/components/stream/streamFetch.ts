@@ -1,5 +1,5 @@
-import { PlayerOptions } from './player.js';
-import { PlayerStats } from './stats.js';
+import { PlayerOptions } from './player';
+import { PlayerStats } from './stats';
 
 /**
  * Fetch the stream and publish the data using the onData callback function
