@@ -5,15 +5,8 @@ import { createLogger } from './logger';
 import { server } from './server';
 import { createSettingsHelper } from './settings';
 import { createFileWatcher } from './watcher';
-import yargs from 'yargs/yargs';
 
 const logger = createLogger('server');
-
-const args = yargs(process.argv.slice(2))
-  .options({
-    p: { type: 'number', alias: 'port', default: 8000 },
-  })
-  .parseSync();
 
 const start = async () => {
   logger.info('starting services...');
@@ -56,8 +49,8 @@ const start = async () => {
   /**
    * Start the web server
    */
-  httpServer.listen(args.p);
-  logger.success('server listening on', args.p);
+  httpServer.listen(8000);
+  logger.success('server listening on', 8000);
 };
 
 start().catch((error) => logger.error('server startup error', error));

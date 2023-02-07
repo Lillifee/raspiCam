@@ -11,6 +11,7 @@ export const esbuildSeverConfig: esbuild.BuildOptions = {
   platform: 'node',
   sourcemap: 'external',
   external: ['onoff'],
+  target: ['node10'],
   bundle: true,
   minify: true,
 };
