@@ -15,7 +15,7 @@ RaspiCam is a react application to stream, take pictures or record videos from y
   - Adjust the settings without manually start and stop the libcamera-vid or libcamera-still.
   - Copy the result from the terminal and use it for your project.
 - MJPEG stream
-  - for external applications like octoprint (not tested)
+  - for external applications like octoprint
   - alternative for devices without media source extension
   - http://ip_address:8000/api/stream/mjpeg
 
@@ -30,9 +30,9 @@ You can find the 3d printing files on https://www.prusaprinters.org/prints/48519
 If you prefer a **Raspberry PI4**:
 https://www.prusaprinters.org/prints/61556-raspberry-pi4-hq-camera-aluminium-mix
 
-## Screenshots
-
 ![picture](screenshots/raspiPi4HqCamera.jpg)
+
+## Screenshots
 
 ![picture](screenshots/raspiCamSettingsShot2.png)
 
