@@ -75,13 +75,13 @@ sudo apt install nodejs
 
 ### Raspberry PI Zero W
 
-The latest versions of node doesn't provide a armv61 version.
-The last LTS version i could find was v10.24.0.
+The latest versions of node don't provide an official armv6l version.
+Thanks to https://unofficial-builds.nodejs.org we can still use newer node versions.
 
 ```
-curl -o node-v10.24.0-linux-armv6l.tar.gz https://nodejs.org/download/release/v10.24.0/node-v10.24.0-linux-armv6l.tar.gz
-tar -xzf node-v10.24.0-linux-armv6l.tar.gz
-sudo cp -r node-v10.24.0-linux-armv6l/* /usr/local/
+wget https://unofficial-builds.nodejs.org/download/release/v18.9.1/node-v18.9.1-linux-armv6l.tar.gz
+tar -xzf node-v18.9.1-linux-armv6l.tar.gz
+sudo cp -r node-v18.9.1-linux-armv6l/* /usr/local
 
 sudo reboot
 ```
