@@ -1,5 +1,6 @@
 import * as React from 'react';
 import styled from 'styled-components';
+// import { abbreviateNumber, roundToSignificant } from '../../../shared/helperFunctions.js';
 import { BlurOverlay } from './Common.js';
 import { createPlayerOptions, player, Player, PlayerOptions } from './player.js';
 import { createInitialPlayerStats, PlayerStats } from './stats.js';
@@ -16,6 +17,7 @@ const Container = styled.div`
 const VideoContainer = styled.div`
   display: flex;
   margin: 0 auto;
+  justify-content: center;
 `;
 
 const Video = styled.video`
@@ -37,7 +39,7 @@ const jMuxerPlayer = (playerOptions: PlayerOptions): Player => {
  * Player hook
  * Creates a JMuxer player instance and append it to the passed container
  *
- * @param {string} url websocket url without (e.g. 192.168.1.10:8081)
+ * @param {string} url
  */
 const usePlayer = (url: string) => {
   const [stats, setStats] = React.useState<PlayerStats>(createInitialPlayerStats());
@@ -74,9 +76,8 @@ export const JMuxerPlayer: React.FC<PlayerProps> = ({ loading }) => {
         $blur={loading || !stats.streamRunning || !stats.playerRunning || stats.droppingFrames}
       >
         {/* <div>dropped: {stats.totalDroppedFrames}</div>
-        <div>frames: {stats.framesPerCycle}</div>
-        <div>avgFps: {stats.avgFps}</div>
-        <div>avgSize: {abbreviateNumber('bit/s')(roundToSignificant(stats.avgSize, 2))}</div>
+        <div>frames per second: {stats.avgFps}</div>
+        <div>average size: {abbreviateNumber('bit/s')(roundToSignificant(stats.avgSize, 2))}</div>
         {loading && <div>loading</div>}
         {!stats.playerRunning && <div>player not running</div>}
         {!stats.streamRunning && <div>stream not running</div>}

@@ -13,6 +13,7 @@ const Container = styled.div`
 const VideoContainer = styled.div`
   display: flex;
   margin: 0 auto;
+  justify-content: center;
 `;
 
 const Image = styled.img`

@@ -1,9 +1,29 @@
 import * as React from 'react';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
 export interface SliderProps {
   $unset?: boolean;
 }
+
+const trackCss = css<SliderProps>`
+  width: 100%;
+  height: 8px;
+  cursor: pointer;
+  background: ${(props) => props.theme.Background};
+  border-radius: 3px;
+`;
+
+const thumbCss = css<SliderProps>`
+  cursor: pointer;
+  pointer-events: auto;
+  appearance: none;
+  width: 22px;
+  height: 22px;
+  background: ${({ $unset, theme }) => ($unset ? theme.Background : theme.PrimaryBackground)};
+  border: 1px solid ${(props) => props.theme.Border};
+  border-radius: 15px;
+  margin-top: -7px;
+`;
 
 const SliderStyled = styled.input<SliderProps>`
   flex: 1;
@@ -16,24 +36,19 @@ const SliderStyled = styled.input<SliderProps>`
   @media only screen and (max-width: 1000px) {
     pointer-events: none;
   }
+
   &::-webkit-slider-runnable-track {
-    width: 100%;
-    height: 8px;
-    cursor: pointer;
-    background: ${(props) => props.theme.Background};
-    border-radius: 3px;
+    ${trackCss}
+  }
+  &::-moz-range-track {
+    ${trackCss}
   }
 
   &::-webkit-slider-thumb {
-    cursor: pointer;
-    pointer-events: auto;
-    appearance: none;
-    width: 22px;
-    height: 22px;
-    background: ${({ $unset, theme }) => ($unset ? theme.Background : theme.PrimaryBackground)};
-    border: 1px solid ${(props) => props.theme.Border};
-    border-radius: 15px;
-    margin-top: -7px;
+    ${thumbCss}
+  }
+  &::-moz-range-thumb {
+    ${thumbCss}
   }
 
   &:disabled {
