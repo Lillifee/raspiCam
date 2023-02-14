@@ -49,7 +49,6 @@ export const streamBroadway = (
       // Decode the frame
       if (!stats.droppingFrames) {
         player.decode(frame);
-        stats.framesPerCycle++;
       }
     }
 

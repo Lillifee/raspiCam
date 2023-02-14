@@ -1,4 +1,4 @@
-import { enumSetting } from './helper';
+import { booleanSetting, enumSetting } from './helper';
 import { GridLineType, Setting } from './types';
 
 /**
@@ -17,6 +17,9 @@ export const applicationSettingDesc = {
 
   /** Player for H264 stream  */
   player: enumSetting('Player', ['Broadway', 'JMuxer'], 'JMuxer'),
+
+  /** Display the player statistics */
+  playerStats: booleanSetting('Stream statistics', false),
 };
 
 export type ApplicationSettingDesc = typeof applicationSettingDesc;

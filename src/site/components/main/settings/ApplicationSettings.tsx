@@ -3,6 +3,7 @@ import {
   ApplicationSetting,
   ApplicationSettingDesc,
 } from '../../../../shared/settings/application.js';
+import { BooleanSetting } from './common/BooleanSetting.js';
 import { EnumDropdownSetting } from './common/EnumDropdownSetting.js';
 import { updateTypedField } from './common/helperFunctions.js';
 import { SettingsExpander, SettingsExpanderHeader } from './common/SettingsExpander.js';
@@ -28,6 +29,7 @@ export const ApplicationSettings: React.FC<ApplicationSettingsProps> = ({
       <SettingsExpander header={<SettingsExpanderHeader>General</SettingsExpanderHeader>}>
         <EnumDropdownSetting {...application.theme} update={updateField('theme')} />
         <EnumDropdownSetting {...application.gridLines} update={updateField('gridLines')} />
+        <BooleanSetting {...application.playerStats} update={updateField('playerStats')} />
       </SettingsExpander>
     </SettingsWrapper>
   );

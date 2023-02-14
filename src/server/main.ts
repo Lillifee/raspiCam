@@ -1,22 +1,21 @@
 import http from 'http';
+import { parseArguments } from './argument';
 import { createButtonControl } from './button';
 import { createRaspiControl } from './control';
 import { createLogger } from './logger';
 import { server } from './server';
 import { createSettingsHelper } from './settings';
 import { createFileWatcher } from './watcher';
-import yargs from 'yargs/yargs';
 
 const logger = createLogger('server');
 
-const args = yargs(process.argv.slice(2))
-  .options({
-    p: { type: 'number', alias: 'port', default: 8000 },
-  })
-  .parseSync();
-
 const start = async () => {
   logger.info('starting services...');
+
+  /**
+   * Parse the startup arguments
+   */
+  const args = parseArguments();
 
   /**
    * https server
@@ -50,7 +49,7 @@ const start = async () => {
    * Webserver
    * Start the webserver and serve the website.
    */
-  const app = server(control, settingsHelper, watcher, button);
+  const app = server(args, control, settingsHelper, watcher, button);
   httpServer.on('request', app);
 
   /**

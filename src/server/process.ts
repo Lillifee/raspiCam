@@ -1,5 +1,5 @@
 import { ChildProcess, StdioOptions, spawn } from 'child_process';
-import { Readable } from 'stream';
+import { PassThrough } from 'stream';
 import { createLogger } from './logger';
 
 const logger = createLogger('process');
@@ -25,7 +25,7 @@ export interface SpawnProcess {
   start: (command: string, args: Record<string, unknown>) => Promise<void>;
   stop: () => void;
   running: () => boolean;
-  output: () => Readable | null | undefined;
+  stream: PassThrough;
 }
 
 /**
@@ -36,10 +36,10 @@ export const spawnProcess = (options?: {
   resolveOnData?: boolean;
 }): SpawnProcess => {
   let process: ChildProcess | undefined;
+  const stream = new PassThrough();
 
   const stop = () => {
     if (process) {
-      process.stdout?.pause();
       process.unref();
       process.kill();
       process = undefined;
@@ -47,7 +47,6 @@ export const spawnProcess = (options?: {
   };
 
   const running = () => !!process;
-  const output = () => process?.stdout;
 
   const start = (command: string, args: Record<string, unknown>): Promise<void> =>
     new Promise<void>((resolve, reject) => {
@@ -60,7 +59,9 @@ export const spawnProcess = (options?: {
       }
       process.on('error', (e) => reject(e));
       process.on('exit', () => resolve());
+
+      process.stdout?.pipe(stream, { end: false });
     });
 
-  return { start, stop, running, output };
+  return { start, stop, running, stream };
 };

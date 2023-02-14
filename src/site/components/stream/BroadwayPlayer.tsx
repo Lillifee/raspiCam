@@ -2,6 +2,7 @@ import * as React from 'react';
 import styled from 'styled-components';
 import { BlurOverlay } from './Common.js';
 import { createPlayerOptions, player, Player, PlayerOptions } from './player.js';
+import { PlayerStatistics } from './PlayerStatistics.js';
 import { createInitialPlayerStats, PlayerStats } from './stats.js';
 import { streamBroadway } from './streamBroadway.js';
 
@@ -68,12 +69,13 @@ const usePlayer = (url: string, container: React.RefObject<HTMLElement>) => {
 
 export interface PlayerProps {
   loading: boolean;
+  showStats?: boolean;
 }
 
 /**
  * Player to display the live stream
  */
-export const BroadwayPlayer: React.FC<PlayerProps> = ({ loading }) => {
+export const BroadwayPlayer: React.FC<PlayerProps> = ({ loading, showStats }) => {
   const containerRef = React.useRef<HTMLDivElement>(null);
   const [stats] = usePlayer('/api/stream/live', containerRef);
 
@@ -84,6 +86,8 @@ export const BroadwayPlayer: React.FC<PlayerProps> = ({ loading }) => {
       <BlurOverlay
         $blur={loading || !stats.streamRunning || !stats.playerRunning || stats.droppingFrames}
       />
+
+      {showStats && <PlayerStatistics loading={loading} stats={stats} />}
     </Container>
   );
 };

@@ -141,18 +141,20 @@ export const Camera: React.FC<Props> = ({ setTheme }) => {
   const activateSetting = (setting: ActiveSetting) =>
     setActiveSetting((currentSetting) => (currentSetting === setting ? undefined : setting));
 
+  const playerLoading = loading || !!status.data.running;
+
   return (
     <MainContainer ref={mainRef}>
       <PlayerWrapper>
         <PlayerContainer>
           <ErrorBoundary errorHeader="You can try to change the stream codec or the selected player in the settings and retry.">
             {stream.codec.value === 'MJPEG' ? (
-              <MJPEGPlayer loading={loading || !!status.data.running} />
+              <MJPEGPlayer loading={playerLoading} />
             ) : stream.codec.value === 'H264' ? (
               application.player.value === 'Broadway' ? (
-                <BroadwayPlayer loading={loading} />
+                <BroadwayPlayer loading={playerLoading} showStats={application.playerStats.value} />
               ) : (
-                <JMuxerPlayer loading={loading} />
+                <JMuxerPlayer loading={playerLoading} showStats={application.playerStats.value} />
               )
             ) : null}
           </ErrorBoundary>

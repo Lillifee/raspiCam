@@ -1,8 +1,9 @@
 import * as React from 'react';
 import styled from 'styled-components';
-// import { abbreviateNumber, roundToSignificant } from '../../../shared/helperFunctions.js';
+import { abbreviateNumber, roundToSignificant } from '../../../shared/helperFunctions.js';
 import { BlurOverlay } from './Common.js';
 import { createPlayerOptions, player, Player, PlayerOptions } from './player.js';
+import { PlayerStatistics } from './PlayerStatistics.js';
 import { createInitialPlayerStats, PlayerStats } from './stats.js';
 import { streamJMuxer } from './streamJMuxer.js';
 
@@ -58,12 +59,13 @@ const usePlayer = (url: string) => {
 
 export interface PlayerProps {
   loading: boolean;
+  showStats?: boolean;
 }
 
 /**
  * Player to display the live stream
  */
-export const JMuxerPlayer: React.FC<PlayerProps> = ({ loading }) => {
+export const JMuxerPlayer: React.FC<PlayerProps> = ({ loading, showStats }) => {
   const [stats] = usePlayer('/api/stream/live');
 
   return (
@@ -74,15 +76,8 @@ export const JMuxerPlayer: React.FC<PlayerProps> = ({ loading }) => {
 
       <BlurOverlay
         $blur={loading || !stats.streamRunning || !stats.playerRunning || stats.droppingFrames}
-      >
-        {/* <div>dropped: {stats.totalDroppedFrames}</div>
-        <div>frames per second: {stats.avgFps}</div>
-        <div>average size: {abbreviateNumber('bit/s')(roundToSignificant(stats.avgSize, 2))}</div>
-        {loading && <div>loading</div>}
-        {!stats.playerRunning && <div>player not running</div>}
-        {!stats.streamRunning && <div>stream not running</div>}
-        {stats.droppingFrames && <div>drop frames</div>} */}
-      </BlurOverlay>
+      />
+      {showStats && <PlayerStatistics loading={loading} stats={stats} />}
     </Container>
   );
 };

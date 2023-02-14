@@ -19,7 +19,7 @@ export const streamFetch = (
     stats.streamRunning = false;
     stats.droppingFrames = true;
 
-    fetch(options.url, { signal: abortStream.signal })
+    fetch(options.url, { signal: abortStream.signal, cache: 'no-store' })
       .then((response) => {
         const reader = response.body?.getReader();
         if (!reader) return;
@@ -62,6 +62,7 @@ export const streamFetch = (
         if (!abortStream.signal.aborted) {
           console.log('stream error', e);
           stats.streamRunning = false;
+          reconnect();
         }
       });
   };

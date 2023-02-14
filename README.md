@@ -155,6 +155,7 @@ Open the browser and navigate to: `http://__ip_address__:8000`
 ## Command line options:
 
 _-p_ or _--port 80_ - server port (default 8000)
+_-c_ or _--CORs true_ - allow CORs during development (default true)
 
 # Run RaspiCam as a service
 

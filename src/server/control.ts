@@ -1,5 +1,5 @@
 import path from 'path';
-import internal from 'stream';
+import { PassThrough } from 'stream';
 import { getIsoDataTime } from '../shared/helperFunctions';
 import { RaspiMode, RaspiStatus } from '../shared/settings/types';
 import { createLogger } from './logger';
@@ -14,18 +14,24 @@ export interface RaspiControl {
   stop: () => void;
   restartStream: () => Promise<void>;
   getStatus: () => RaspiStatus;
-  getStream: () => internal.Readable | null | undefined;
+  getStream: () => PassThrough;
 }
 
 /**
  * RaspiControl
  */
 export const createRaspiControl = (settingsHelper: SettingsHelper): RaspiControl => {
+  let streams: PassThrough[] = [];
+
   const actionProcess = spawnProcess();
   const streamProcess = spawnProcess({
     stdioOptions: ['ignore', 'pipe', 'inherit'],
     resolveOnData: true,
   });
+
+  streamProcess.stream.on('data', (chunk: unknown) =>
+    streams.forEach((stream) => stream.write(chunk)),
+  );
 
   const startStream = async () => {
     actionProcess.stop();
@@ -39,7 +45,15 @@ export const createRaspiControl = (settingsHelper: SettingsHelper): RaspiControl
     });
   };
 
-  const getStream = () => streamProcess.output();
+  const getStream = () => {
+    const stream = new PassThrough();
+    stream.once('close', () => {
+      streams = streams.filter((x) => x != stream);
+    });
+
+    streams = [...streams, stream];
+    return stream;
+  };
 
   const restartStream = async () => {
     if (streamProcess.running()) {

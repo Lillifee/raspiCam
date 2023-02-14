@@ -31,7 +31,7 @@ export const streamSettingDesc = {
    * Maximum bitrate is 25Mbits/s (-b 25000000), but much over 17Mbits/s
    * won't show noticeable improvement at 1080p30.
    */
-  bitrate: numberSetting('Bitrate', 0, 25000000, 10000000, 1000000, abbreviateNumber('bits/s', 0)),
+  bitrate: numberSetting('Bitrate', 0, 25000000, 6000000, 1000000, abbreviateNumber('bits/s', 0)),
 
   /**
    * Intra-frame period (H.264 only)

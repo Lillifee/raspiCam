@@ -1,13 +1,18 @@
 import express from 'express';
 import path from 'path';
+import { pipeline } from 'stream';
 import { isDefined } from '../shared/helperFunctions';
 import { RaspiGallery, RaspiStatus, GenericSettingDesc, Setting } from '../shared/settings/types';
+import { Arguments } from './argument';
 import { ButtonControl } from './button';
 import { curDirName } from './common';
 import { RaspiControl } from './control';
+import { createLogger } from './logger';
 import { SettingsBase, SettingsHelper } from './settings';
 import { splitJpeg } from './splitJpeg';
 import { FileWatcher } from './watcher';
+
+const logger = createLogger('server');
 
 type SettingRequest = express.Request<undefined, undefined, Setting<GenericSettingDesc>>;
 
@@ -15,12 +20,27 @@ type SettingRequest = express.Request<undefined, undefined, Setting<GenericSetti
  * Initialize the express server
  */
 export const server = (
+  args: Arguments,
   control: RaspiControl,
   settingsHelper: SettingsHelper,
   fileWatcher: FileWatcher,
   buttonControl: ButtonControl,
 ): express.Express => {
   const app = express();
+
+  if (args.c) {
+    // Run server insecure and allow CORs
+    app.use((_, res, next) => {
+      res.setHeader('Access-Control-Allow-Origin', '*');
+      res.setHeader(
+        'Access-Control-Allow-Headers',
+        'Access-Control-Allow-Headers, Origin,Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers',
+      );
+      res.setHeader('Access-Control-Allow-Methods', 'GET,POST,PUT,PATCH,OPTIONS,HEAD,DELETE');
+      res.setHeader('Access-Control-Allow-Credentials', 'true');
+      next();
+    });
+  }
 
   // Serve the static content from public
   app.use(express.static(path.join(curDirName, 'public')));
@@ -100,17 +120,15 @@ export const server = (
   app.get('/api/stream/live', (_, res) => {
     const liveStream = control.getStream();
 
-    if (liveStream) {
-      res.writeHead(200, { 'Content-Type': 'video/mp4' });
+    res.setHeader('Content-Type', 'video/mp4');
+    res.writeHead(200);
 
-      res.on('close', () => {
-        res.destroy();
-      });
+    pipeline(liveStream, res, (err) => {
+      if (!err) return;
+      if (err.code === 'ERR_STREAM_PREMATURE_CLOSE') return;
 
-      liveStream.pipe(res);
-    } else {
-      res.status(503).send('Camera restarting or in use');
-    }
+      logger.error('live stream pipeline error', err);
+    });
   });
 
   app.get('/api/stream/mjpeg', (_, res) => {
