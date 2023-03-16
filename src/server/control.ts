@@ -17,11 +17,16 @@ export interface RaspiControl {
   getStream: () => PassThrough;
 }
 
+export interface ClientStream {
+  stream: PassThrough;
+  pause?: boolean;
+}
+
 /**
  * RaspiControl
  */
 export const createRaspiControl = (settingsHelper: SettingsHelper): RaspiControl => {
-  let streams: PassThrough[] = [];
+  let streams: ClientStream[] = [];
 
   const actionProcess = spawnProcess();
   const streamProcess = spawnProcess({
@@ -30,7 +35,15 @@ export const createRaspiControl = (settingsHelper: SettingsHelper): RaspiControl
   });
 
   streamProcess.stream.on('data', (chunk: unknown) =>
-    streams.forEach((stream) => stream.write(chunk)),
+    streams
+      .filter((x) => !x.pause)
+      .forEach((cs) => {
+        if (!cs.stream.write(chunk)) {
+          cs.pause = true;
+          logger.warning('client connection problem - pause stream...');
+          cs.stream.once('drain', () => (cs.pause = false));
+        }
+      }),
   );
 
   const startStream = async () => {
@@ -46,13 +59,13 @@ export const createRaspiControl = (settingsHelper: SettingsHelper): RaspiControl
   };
 
   const getStream = () => {
-    const stream = new PassThrough();
-    stream.once('close', () => {
-      streams = streams.filter((x) => x != stream);
+    const clientStream: ClientStream = { stream: new PassThrough() };
+    clientStream.stream.once('close', () => {
+      streams = streams.filter((x) => x != clientStream);
     });
 
-    streams = [...streams, stream];
-    return stream;
+    streams = [...streams, clientStream];
+    return clientStream.stream;
   };
 
   const restartStream = async () => {

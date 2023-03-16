@@ -1,6 +1,5 @@
 import * as React from 'react';
 import styled from 'styled-components';
-import { abbreviateNumber, roundToSignificant } from '../../../shared/helperFunctions.js';
 import { BlurOverlay } from './Common.js';
 import { createPlayerOptions, player, Player, PlayerOptions } from './player.js';
 import { PlayerStatistics } from './PlayerStatistics.js';
