@@ -33,7 +33,7 @@ export interface SpawnProcess {
  */
 export const spawnProcess = (options?: {
   stdioOptions?: StdioOptions;
-  resolveOnData?: boolean;
+  stream?: boolean;
 }): SpawnProcess => {
   let process: ChildProcess | undefined;
   const stream = new PassThrough();
@@ -54,14 +54,20 @@ export const spawnProcess = (options?: {
       logger.log(command, spawnArgs.join(' '));
 
       process = spawn(command, spawnArgs, { stdio: options?.stdioOptions });
-      if (options?.resolveOnData) {
-        process.stdout?.once('data', () => resolve());
-      }
       process.on('error', (e) => reject(e));
       process.on('exit', () => resolve());
 
-      process.stdout?.pipe(stream, { end: false });
+      process.stderr?.on('data', (d) => logger.log(removeNewlines(d)));
+
+      if (options?.stream) {
+        process.stdout?.once('data', () => resolve());
+        process.stdout?.pipe(stream, { end: false });
+      } else {
+        process.stdout?.on('data', logger.info);
+      }
     });
 
   return { start, stop, running, stream };
 };
+
+const removeNewlines = (data: unknown) => String(data).replace(/^\s+|\s+$/g, '');

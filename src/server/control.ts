@@ -31,7 +31,7 @@ export const createRaspiControl = (settingsHelper: SettingsHelper): RaspiControl
   const actionProcess = spawnProcess();
   const streamProcess = spawnProcess({
     stdioOptions: ['ignore', 'pipe', 'inherit'],
-    resolveOnData: true,
+    stream: true,
   });
 
   streamProcess.stream.on('data', (chunk: unknown) =>
@@ -59,7 +59,9 @@ export const createRaspiControl = (settingsHelper: SettingsHelper): RaspiControl
   };
 
   const getStream = () => {
-    const clientStream: ClientStream = { stream: new PassThrough() };
+    // TODO adjustable highwatermark
+    const clientStream: ClientStream = { stream: new PassThrough({ highWaterMark: 128 * 1024 }) };
+
     clientStream.stream.once('close', () => {
       streams = streams.filter((x) => x != clientStream);
     });
