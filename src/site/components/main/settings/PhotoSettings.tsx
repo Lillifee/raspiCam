@@ -6,12 +6,8 @@ import { EnumSlider } from './common/EnumSlider.js';
 import { restoreSettings, updateTypedField } from './common/helperFunctions.js';
 import { NumberSetting } from './common/NumberSetting.js';
 import { SettingsExpander } from './common/SettingsExpander.js';
-import {
-  SettingsHeader,
-  SettingsHeaderText,
-  SettingsRestoreButton,
-  SettingsWrapper,
-} from './common/Styled.js';
+import { SettingsRestore } from './common/SettingsRestore.js';
+import { SettingsHeader, SettingsHeaderText, SettingsWrapper } from './common/Styled.js';
 import { TimeSetting } from './common/TimeSetting.js';
 
 const photoResolutionPresets = [
@@ -81,10 +77,7 @@ export const PhotoSettings: React.FC<PhotoSettingsProps> = ({ photo, updatePhoto
     <SettingsWrapper>
       <SettingsHeader fontSize="m">
         <SettingsHeaderText>Photo</SettingsHeaderText>
-        <SettingsRestoreButton
-          type="SettingsRestore"
-          onClick={() => updatePhoto(restoreSettings(photo))}
-        />
+        <SettingsRestore name="Photo" updateSettings={() => updatePhoto(restoreSettings(photo))} />
       </SettingsHeader>
 
       <EnumSlider

@@ -6,12 +6,8 @@ import { EnumSlider } from './common/EnumSlider.js';
 import { restoreSettings, updateTypedField } from './common/helperFunctions.js';
 import { NumberSetting } from './common/NumberSetting.js';
 import { SettingsExpander, SettingsExpanderHeader } from './common/SettingsExpander.js';
-import {
-  SettingsHeader,
-  SettingsHeaderText,
-  SettingsRestoreButton,
-  SettingsWrapper,
-} from './common/Styled.js';
+import { SettingsRestore } from './common/SettingsRestore.js';
+import { SettingsHeader, SettingsHeaderText, SettingsWrapper } from './common/Styled.js';
 import { TimeSetting } from './common/TimeSetting.js';
 
 const videoResolutionPresets = [
@@ -49,10 +45,7 @@ export const VideoSettings: React.FC<VidSettingsProps> = ({ video, updateVideo }
     <SettingsWrapper>
       <SettingsHeader fontSize="m">
         <SettingsHeaderText>Video</SettingsHeaderText>
-        <SettingsRestoreButton
-          type="SettingsRestore"
-          onClick={() => updateVideo(restoreSettings(video))}
-        />
+        <SettingsRestore name="Video" updateSettings={() => updateVideo(restoreSettings(video))} />
       </SettingsHeader>
 
       <SettingsExpander

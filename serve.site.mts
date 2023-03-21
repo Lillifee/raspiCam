@@ -4,7 +4,7 @@ import http from 'node:http';
 
 console.info('- watch site');
 
-const raspi = { hostname: '192.168.3.139', port: '8000' };
+const raspi = { hostname: '127.0.0.1', port: '8005' };
 
 // Start esbuild's server on a random local port
 const ctx = await esbuild.context({ ...esbuildSiteConfig, minify: false });

@@ -3,12 +3,8 @@ import { PreviewSetting, PreviewSettingDesc } from '../../../../shared/settings/
 import { BooleanSetting } from './common/BooleanSetting.js';
 import { restoreSettings, updateTypedField } from './common/helperFunctions.js';
 import { SettingsExpander, SettingsExpanderHeader } from './common/SettingsExpander.js';
-import {
-  SettingsHeader,
-  SettingsHeaderText,
-  SettingsRestoreButton,
-  SettingsWrapper,
-} from './common/Styled.js';
+import { SettingsRestore } from './common/SettingsRestore.js';
+import { SettingsHeader, SettingsHeaderText, SettingsWrapper } from './common/Styled.js';
 
 export interface PreviewSettingsProps {
   preview: PreviewSettingDesc;
@@ -22,9 +18,9 @@ export const PreviewSettings: React.FC<PreviewSettingsProps> = ({ preview, updat
     <SettingsWrapper>
       <SettingsHeader fontSize="m">
         <SettingsHeaderText>Preview</SettingsHeaderText>
-        <SettingsRestoreButton
-          type="SettingsRestore"
-          onClick={() => updatePreview(restoreSettings(preview))}
+        <SettingsRestore
+          name="Preview"
+          updateSettings={() => updatePreview(restoreSettings(preview))}
         />
       </SettingsHeader>
 

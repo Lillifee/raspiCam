@@ -7,12 +7,8 @@ import { EnumSliderSetting } from './common/EnumSliderSetting.js';
 import { restoreSettings, updateTypedField } from './common/helperFunctions.js';
 import { NumberSetting } from './common/NumberSetting.js';
 import { SettingsExpander, SettingsExpanderHeader } from './common/SettingsExpander.js';
-import {
-  SettingsHeader,
-  SettingsHeaderText,
-  SettingsRestoreButton,
-  SettingsWrapper,
-} from './common/Styled.js';
+import { SettingsRestore } from './common/SettingsRestore.js';
+import { SettingsHeader, SettingsHeaderText, SettingsWrapper } from './common/Styled.js';
 
 const secToMicro = (seconds: number) => Math.round(seconds * 1e6);
 
@@ -76,9 +72,9 @@ export const CameraSettings: React.FC<CameraSettingsProps> = ({ camera, updateCa
     <SettingsWrapper>
       <SettingsHeader fontSize="m">
         <SettingsHeaderText>Camera</SettingsHeaderText>
-        <SettingsRestoreButton
-          type="SettingsRestore"
-          onClick={() => updateCamera(restoreSettings(camera))}
+        <SettingsRestore
+          name="Camera"
+          updateSettings={() => updateCamera(restoreSettings(camera))}
         />
       </SettingsHeader>
 

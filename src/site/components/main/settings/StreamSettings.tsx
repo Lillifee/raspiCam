@@ -9,12 +9,8 @@ import { EnumSlider } from './common/EnumSlider.js';
 import { restoreSettings, updateTypedField } from './common/helperFunctions.js';
 import { NumberSetting } from './common/NumberSetting.js';
 import { SettingsExpander } from './common/SettingsExpander.js';
-import {
-  SettingsHeader,
-  SettingsHeaderText,
-  SettingsRestoreButton,
-  SettingsWrapper,
-} from './common/Styled.js';
+import { SettingsRestore } from './common/SettingsRestore.js';
+import { SettingsHeader, SettingsHeaderText, SettingsWrapper } from './common/Styled.js';
 
 const videoResolutionPresets = [
   { name: '240p', width: 426, height: 240 },
@@ -44,9 +40,9 @@ export const StreamSettings: React.FC<StreamSettingsProps> = ({
     <SettingsWrapper>
       <SettingsHeader fontSize="m">
         <SettingsHeaderText>Stream</SettingsHeaderText>
-        <SettingsRestoreButton
-          type="SettingsRestore"
-          onClick={() => updateStream(restoreSettings(stream))}
+        <SettingsRestore
+          name="Stream"
+          updateSettings={() => updateStream(restoreSettings(stream))}
         />
       </SettingsHeader>
 

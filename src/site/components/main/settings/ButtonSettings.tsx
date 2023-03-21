@@ -6,12 +6,8 @@ import { EnumDropdownSetting } from './common/EnumDropdownSetting.js';
 import { restoreSettings, updateTypedField } from './common/helperFunctions.js';
 import { NumberSetting } from './common/NumberSetting.js';
 import { SettingsExpander } from './common/SettingsExpander.js';
-import {
-  SettingsHeader,
-  SettingsHeaderText,
-  SettingsRestoreButton,
-  SettingsWrapper,
-} from './common/Styled.js';
+import { SettingsRestore } from './common/SettingsRestore.js';
+import { SettingsHeader, SettingsHeaderText, SettingsWrapper } from './common/Styled.js';
 
 export interface ButtonSettingsProps {
   status: RaspiStatus;
@@ -26,10 +22,7 @@ export const ButtonSettings: React.FC<ButtonSettingsProps> = ({ status, button, 
     <SettingsWrapper>
       <SettingsHeader fontSize="m">
         <SettingsHeaderText>GPIO</SettingsHeaderText>
-        <SettingsRestoreButton
-          type="SettingsRestore"
-          onClick={() => updateButton(restoreSettings(button))}
-        />
+        <SettingsRestore name="GPIO" updateSettings={() => updateButton(restoreSettings(button))} />
       </SettingsHeader>
 
       {status.gpioAvailable ? (

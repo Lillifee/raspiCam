@@ -2,11 +2,12 @@ import React from 'react';
 import styled from 'styled-components';
 import { IconMap, IconProps } from '../common/Icon.js';
 
+export type ButtonIconProps = React.HTMLProps<HTMLButtonElement> & IconProps;
+
 /* Button icon */
-export const ButtonIconElement: React.FC<React.HTMLProps<HTMLButtonElement> & IconProps> = ({
-  type,
-  ...rest
-}) => <button {...rest}>{IconMap[type]}</button>;
+export const ButtonIconElement: React.FC<ButtonIconProps> = ({ type, ...rest }) => (
+  <button {...rest}>{IconMap[type]}</button>
+);
 
 export const ButtonIcon = styled(ButtonIconElement)`
   border: 0;

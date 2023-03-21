@@ -3,12 +3,8 @@ import { ControlSetting, ControlSettingDesc } from '../../../../shared/settings/
 import { BooleanSetting } from './common/BooleanSetting.js';
 import { EnumDropdownSetting } from './common/EnumDropdownSetting.js';
 import { restoreSettings, updateTypedField } from './common/helperFunctions.js';
-import {
-  SettingsHeader,
-  SettingsHeaderText,
-  SettingsRestoreButton,
-  SettingsWrapper,
-} from './common/Styled.js';
+import { SettingsRestore } from './common/SettingsRestore.js';
+import { SettingsHeader, SettingsHeaderText, SettingsWrapper } from './common/Styled.js';
 
 export interface ControlSettingsProps {
   control: ControlSettingDesc;
@@ -22,9 +18,9 @@ export const ControlSettings: React.FC<ControlSettingsProps> = ({ control, updat
     <SettingsWrapper>
       <SettingsHeader fontSize="m">
         <SettingsHeaderText>Control</SettingsHeaderText>
-        <SettingsRestoreButton
-          type="SettingsRestore"
-          onClick={() => updateControl(restoreSettings(control))}
+        <SettingsRestore
+          name="Control"
+          updateSettings={() => updateControl(restoreSettings(control))}
         />
       </SettingsHeader>
 
