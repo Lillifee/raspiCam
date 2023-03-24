@@ -1,3 +1,6 @@
+import { DateTime } from 'luxon';
+import { FileNameFormat } from './settings/types';
+
 /**
  * Type guard function to remove undefined and null values
  */
@@ -41,7 +44,20 @@ export const shallowEqualObjects = (
 /**
  * Return current date time
  */
-export const getIsoDataTime = (): string => new Date().toISOString().replace(/[:.]/g, '-');
+export const getIsoDataTime = (): string => DateTime.now().toISO().replace(/[:.]/g, '-');
+export const getUnixDateTime = () => DateTime.now().toUnixInteger();
+export const getDateTime = () => DateTime.now().toFormat('yyyyMMddHHmmss');
+
+export const fileNameFormatter: { [key in FileNameFormat]: () => string } = {
+  'ISO Date time': () =>
+    DateTime.now()
+      .toUTC()
+      .startOf('second')
+      .toISO({ suppressMilliseconds: true })
+      .replace(/[:.]/g, '-'),
+  'Unix time': () => DateTime.now().toUnixInteger().toString(),
+  'Date time': () => DateTime.now().toFormat('yyyyMMddHHmmss'),
+};
 
 const symbol = ['', 'k', 'M', 'G', 'T', 'P', 'E'];
 

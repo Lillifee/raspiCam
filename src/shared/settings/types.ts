@@ -38,6 +38,7 @@ export type Setting<T extends { [k in keyof T]: BaseTypeSetting }> = {
 
 export type RaspiMode = 'Photo' | 'Video';
 export type GridLineType = 'none' | '3x3' | '4x4' | 'golden ratio';
+export type FileNameFormat = 'ISO Date time' | 'Unix time' | 'Date time';
 
 export const photosPath = './photos';
 

@@ -1,6 +1,6 @@
 import path from 'path';
 import { PassThrough } from 'stream';
-import { getIsoDataTime } from '../shared/helperFunctions';
+import { fileNameFormatter, getIsoDataTime } from '../shared/helperFunctions';
 import { RaspiMode, RaspiStatus } from '../shared/settings/types';
 import { createLogger } from './logger';
 import { spawnProcess } from './process';
@@ -120,6 +120,9 @@ export const createRaspiControl = (settingsHelper: SettingsHelper): RaspiControl
   return { start, stop, getStatus, restartStream, getStream };
 };
 
+const getFileName = ({ control }: SettingsHelper) =>
+  fileNameFormatter[control.convert().fileName || 'ISO Date time']();
+
 const modeHelper: {
   [key in RaspiMode | 'Stream']: (settingsHelper: SettingsHelper) => {
     settings: Record<string, unknown>;
@@ -138,7 +141,10 @@ const modeHelper: {
       command: 'libcamera-still',
       settings: {
         ...settings,
-        output: path.join(photosAbsPath, `${getIsoDataTime()}.${settings.encoding || 'jpg'}`),
+        output: path.join(
+          photosAbsPath,
+          `${getFileName(settingsHelper)}.${settings.encoding || 'jpg'}`,
+        ),
       },
     };
   },
@@ -154,7 +160,7 @@ const modeHelper: {
       command: 'libcamera-vid',
       settings: {
         ...settings,
-        output: path.join(photosAbsPath, `${getIsoDataTime()}.h264`),
+        output: path.join(photosAbsPath, `${getFileName(settingsHelper)}.h264`),
       },
     };
   },
