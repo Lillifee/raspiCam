@@ -57,7 +57,6 @@ export const SettingsToolbar: React.FC<ToolbarProps> = ({ control, active, activ
     {control.mode.value === 'Photo' && (
       <React.Fragment>
         <ToolbarButton icon="ShutterSpeed" setting="Shutter" active={active} activate={activate} />
-        <ToolbarButton icon="Timelapse" setting="Timelapse" active={active} activate={activate} />
       </React.Fragment>
     )}
   </ToolbarContainer>

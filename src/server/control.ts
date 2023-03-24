@@ -93,9 +93,13 @@ export const createRaspiControl = (settingsHelper: SettingsHelper): RaspiControl
 
     actionProcess
       .start(mode.command, mode.settings)
-      .then(() => startStream())
       .catch((e: Error) => {
         logger.error(control.mode, 'failed:', e.message);
+      })
+      .finally(() => {
+        startStream().catch(() => {
+          /** not needed */
+        });
       });
   };
 
@@ -134,7 +138,7 @@ const modeHelper: {
       command: 'libcamera-still',
       settings: {
         ...settings,
-        output: path.join(photosAbsPath, `${getIsoDataTime()}-%04d.${settings.encoding || 'jpg'}`),
+        output: path.join(photosAbsPath, `${getIsoDataTime()}.${settings.encoding || 'jpg'}`),
       },
     };
   },

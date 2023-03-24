@@ -1,13 +1,8 @@
 import * as React from 'react';
 import styled from 'styled-components';
+import { Input } from './Input';
 
-const TimeStyled = styled.input`
-  padding: 0.2em 0.5em;
-  background: ${(p) => p.theme.Background};
-  color: ${(p) => p.theme.Foreground};
-  border: 1px solid ${(p) => p.theme.Border};
-  font-size: ${(p) => p.theme.FontSize.s};
-  outline: none;
+const TimeStyled = styled(Input)`
   &::-webkit-calendar-picker-indicator {
     filter: ${(p) => (p.theme.Name === 'dark' ? 'invert(1)' : 'invert(0)')};
   }

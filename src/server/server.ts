@@ -10,6 +10,7 @@ import { RaspiControl } from './control';
 import { createLogger } from './logger';
 import { SettingsBase, SettingsHelper } from './settings';
 import { splitJpeg } from './splitJpeg';
+import { Timelapse } from './timelapse';
 import { FileWatcher } from './watcher';
 
 const logger = createLogger('server');
@@ -25,6 +26,7 @@ export const server = (
   settingsHelper: SettingsHelper,
   fileWatcher: FileWatcher,
   buttonControl: ButtonControl,
+  timelapse: Timelapse,
 ): express.Express => {
   const app = express();
 
@@ -71,6 +73,7 @@ export const server = (
     ...control.getStatus(),
     latestFile: fileWatcher.getLatestFile(),
     gpioAvailable: buttonControl.available,
+    timelapse: timelapse.getState(),
   });
 
   //#endregion
@@ -101,6 +104,13 @@ export const server = (
     settingsHelper.button.apply(req.body);
     buttonControl.applySettings();
     res.status(200).send(settingsHelper.button.read());
+  });
+
+  app.get('/api/timelapse', getSettings(settingsHelper.timelapse));
+  app.post('/api/timelapse', (req: SettingRequest, res: express.Response) => {
+    settingsHelper.timelapse.apply(req.body);
+    timelapse.applySettings();
+    res.status(200).send(settingsHelper.timelapse.read());
   });
 
   app.get('/api/status', (_, res) => {

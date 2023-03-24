@@ -5,6 +5,7 @@ import { controlSettingDesc, ControlSettingDesc } from './control';
 import { PhotoSettingDesc, photoSettingDesc } from './photo';
 import { PreviewSettingDesc, previewSettingDesc } from './preview';
 import { StreamSettingDesc, streamSettingDesc } from './stream';
+import { timelapseSettingDesc, TimelapseSettingDesc } from './timelapse';
 import { RaspiStatus, Setting } from './types';
 import { VideoSettingDesc, videoSettingDesc } from './video';
 
@@ -17,6 +18,7 @@ interface DefaultSettings {
   control: Setting<ControlSettingDesc>;
   application: Setting<ApplicationSettingDesc>;
   button: Setting<ButtonSettingDesc>;
+  timelapse: Setting<TimelapseSettingDesc>;
 }
 
 export const defaultSettings: DefaultSettings = {
@@ -32,7 +34,6 @@ export const defaultSettings: DefaultSettings = {
     height: photoSettingDesc.height.defaultValue,
     quality: photoSettingDesc.quality.defaultValue,
     timeout: photoSettingDesc.timeout.defaultValue,
-    timelapseTimeout: photoSettingDesc.timelapseTimeout.defaultValue,
   },
   video: {
     width: videoSettingDesc.width.defaultValue,
@@ -51,6 +52,10 @@ export const defaultSettings: DefaultSettings = {
     gpioPin: buttonSettingDesc.gpioPin.defaultValue,
     debounceTimeout: buttonSettingDesc.debounceTimeout.defaultValue,
     edge: buttonSettingDesc.edge.defaultValue,
+  },
+  timelapse: {
+    enabled: timelapseSettingDesc.enabled.defaultValue,
+    schedule: timelapseSettingDesc.schedule.defaultValue,
   },
 };
 

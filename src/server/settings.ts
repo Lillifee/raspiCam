@@ -10,6 +10,7 @@ import { applySettings, extractSettings } from '../shared/settings/helper';
 import { photoSettingConverter, photoSettingDesc } from '../shared/settings/photo';
 import { previewSettingDesc } from '../shared/settings/preview';
 import { streamSettingDesc } from '../shared/settings/stream';
+import { timelapseSettingDesc } from '../shared/settings/timelapse';
 import { GenericSettingDesc, Setting } from '../shared/settings/types';
 import { videoSettingDesc } from '../shared/settings/video';
 import { curDirName } from './common';
@@ -110,6 +111,7 @@ export const createSettingsHelper = () => {
       defaultSettings.application,
     ),
     button: settingsBase('button.json', buttonSettingDesc, defaultSettings.button),
+    timelapse: settingsBase('timelapse.json', timelapseSettingDesc, defaultSettings.timelapse),
   };
 };
 

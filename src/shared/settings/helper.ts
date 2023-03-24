@@ -5,6 +5,7 @@ import {
   GenericSettingDesc,
   NumberTypeSetting,
   Setting,
+  StringTypeSetting,
 } from './types';
 
 const defaultFormatValue = (value?: number | boolean | string) =>
@@ -51,6 +52,18 @@ export const enumSetting = <T extends string>(
     const index = possibleValues.findIndex((x) => x === value);
     return index >= 0 ? possibleValues[index] : defaultValue;
   },
+});
+
+export const stringSetting = (
+  name: string,
+  defaultValue: string,
+  validate: (value: unknown) => string,
+): StringTypeSetting => ({
+  type: 'STRING',
+  name,
+  defaultValue,
+  validate,
+  format: defaultFormatValue,
 });
 
 export const extractSettings = <T extends GenericSettingDesc>(settingDesc: T): Setting<T> =>

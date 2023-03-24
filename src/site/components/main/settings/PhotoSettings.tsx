@@ -8,7 +8,6 @@ import { NumberSetting } from './common/NumberSetting.js';
 import { SettingsExpander } from './common/SettingsExpander.js';
 import { SettingsRestore } from './common/SettingsRestore.js';
 import { SettingsHeader, SettingsHeaderText, SettingsWrapper } from './common/Styled.js';
-import { TimeSetting } from './common/TimeSetting.js';
 
 const photoResolutionPresets = [
   { name: '0.3 MP', width: 640, height: 480 },
@@ -36,39 +35,10 @@ const qualityPresets = [
   { name: 'high', value: 100 },
 ];
 
-const timelapsePresets = [
-  { name: 'off', value: undefined },
-  { name: '3 sec', value: 3 * 1000 },
-  { name: '10 sec', value: 10 * 1000 },
-  { name: '1 min', value: 60 * 1000 },
-  { name: '5 min', value: 5 * 60 * 1000 },
-  { name: '10 min', value: 10 * 60 * 1000 },
-];
-
 export interface PhotoSettingsProps {
   photo: PhotoSettingDesc;
   updatePhoto: (data: PhotoSetting) => void;
 }
-
-export const TimelapseSetting: React.FC<PhotoSettingsProps> = ({ photo, updatePhoto }) => (
-  <EnumSlider
-    name="Timelapse"
-    items={timelapsePresets}
-    predicate={(x) => x.value === photo.timelapse.value}
-    displayValue={(x) => x.name}
-    update={(x) => updatePhoto({ timelapse: x.value })}
-  />
-);
-
-export const FilterSetting: React.FC<PhotoSettingsProps> = ({ photo, updatePhoto }) => (
-  <EnumSlider
-    name="Timelapse"
-    items={timelapsePresets}
-    predicate={(x) => x.value === photo.timelapse.value}
-    displayValue={(x) => x.name}
-    update={(x) => updatePhoto({ timelapse: x.value })}
-  />
-);
 
 export const PhotoSettings: React.FC<PhotoSettingsProps> = ({ photo, updatePhoto }) => {
   const updateField = updateTypedField(updatePhoto);
@@ -121,11 +91,6 @@ export const PhotoSettings: React.FC<PhotoSettingsProps> = ({ photo, updatePhoto
           {...photo['autofocus-on-capture']}
           update={updateField('autofocus-on-capture')}
         />
-      </SettingsExpander>
-
-      <SettingsExpander header={<TimelapseSetting photo={photo} updatePhoto={updatePhoto} />}>
-        <TimeSetting {...photo.timelapse} update={updateField('timelapse')} />
-        <TimeSetting {...photo.timelapseTimeout} update={updateField('timelapseTimeout')} />
       </SettingsExpander>
     </SettingsWrapper>
   );

@@ -11,6 +11,7 @@ import { ControlSetting, ControlSettingDesc } from '../../../shared/settings/con
 import { PhotoSetting, PhotoSettingDesc } from '../../../shared/settings/photo.js';
 import { PreviewSetting, PreviewSettingDesc } from '../../../shared/settings/preview.js';
 import { StreamSetting, StreamSettingDesc } from '../../../shared/settings/stream.js';
+import { TimelapseSetting, TimelapseSettingDesc } from '../../../shared/settings/timelapse.js';
 import { RaspiStatus } from '../../../shared/settings/types.js';
 import { VideoSetting, VideoSettingDesc } from '../../../shared/settings/video.js';
 import { ActiveSetting, Filler } from './Camera.js';
@@ -21,6 +22,7 @@ import { ControlSettings } from './settings/ControlSettings.js';
 import { PhotoSettings } from './settings/PhotoSettings.js';
 import { PreviewSettings } from './settings/PreviewSettings.js';
 import { StreamSettings } from './settings/StreamSettings.js';
+import { TimelapseSettings } from './settings/TimelapseSettings.js';
 import { VideoSettings } from './settings/VideoSettings.js';
 
 //#region styled
@@ -59,6 +61,7 @@ export interface SettingsProps {
   preview: PreviewSettingDesc;
   control: ControlSettingDesc;
   button: ButtonSettingDesc;
+  timelapse: TimelapseSettingDesc;
   application: ApplicationSettingDesc;
   activateSetting: (setting: ActiveSetting) => void;
   updateCamera: (data: CameraSetting) => void;
@@ -69,6 +72,7 @@ export interface SettingsProps {
   updateControl: (data: ControlSetting) => void;
   updateApplication: (data: ApplicationSetting) => void;
   updateButton: (data: ButtonSetting) => void;
+  updateTimelapse: (data: TimelapseSetting) => void;
 }
 
 export const SettingsAdvanced: React.FC<SettingsProps> = ({
@@ -81,6 +85,7 @@ export const SettingsAdvanced: React.FC<SettingsProps> = ({
   control,
   button,
   application,
+  timelapse,
   activeSetting,
   activateSetting,
   updateCamera,
@@ -91,16 +96,17 @@ export const SettingsAdvanced: React.FC<SettingsProps> = ({
   updateControl,
   updateButton,
   updateApplication,
+  updateTimelapse,
 }) => (
   <SettingsPane>
     <SettingsContainer $show={activeSetting === 'Settings'}>
       <CameraSettings camera={camera} updateCamera={updateCamera} />
 
-      <ControlSettings control={control} updateControl={updateControl} />
-
       {control.mode.value === 'Photo' && <PhotoSettings photo={photo} updatePhoto={updatePhoto} />}
 
       {control.mode.value === 'Video' && <VideoSettings video={video} updateVideo={updateVideo} />}
+
+      <TimelapseSettings status={status} timelapse={timelapse} updateTimelapse={updateTimelapse} />
 
       <StreamSettings
         stream={stream}
@@ -108,10 +114,11 @@ export const SettingsAdvanced: React.FC<SettingsProps> = ({
         application={application}
         updateApplication={updateApplication}
       />
-
-      <PreviewSettings preview={preview} updatePreview={updatePreview} />
+      <ControlSettings control={control} updateControl={updateControl} />
 
       <ApplicationSettings application={application} updateApplication={updateApplication} />
+
+      <PreviewSettings preview={preview} updatePreview={updatePreview} />
 
       <ButtonSettings status={status} button={button} updateButton={updateButton} />
     </SettingsContainer>

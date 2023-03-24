@@ -43,13 +43,10 @@ export const photoSettingDesc = {
    * The specific value is the time between shots in milliseconds.
    * Note that you should specify %04d at the point in the filename where you want a frame count number to appear.
    * -t 30000 -tl 2000 -o image%04d.jpg
+   *
+   * no longer in use since cron is in use
    */
   timelapse: numberSetting('Timelapse', 0, 60 * 60 * 24 * 1000, 3000, 1000),
-
-  /**
-   * Additional setting for timelapse duration.
-   */
-  timelapseTimeout: numberSetting('Duration', 0, 60 * 60 * 24 * 1000, 0, 1000),
 
   /**
    * Whether to run an autofocus cycle before capture
@@ -62,10 +59,4 @@ export type PhotoSetting = Setting<PhotoSettingDesc>;
 
 export const photoSettingConverter = (
   settings: Setting<PhotoSettingDesc>,
-): Record<string, unknown> => {
-  const { timelapseTimeout, ...passThroughSettings } = settings;
-
-  const timeout = settings.timelapse ? timelapseTimeout : settings.timeout;
-
-  return { ...passThroughSettings, timeout, thumb: '320:240:35' };
-};
+): Record<string, unknown> => ({ ...settings, thumb: '320:240:35' });

@@ -1,10 +1,8 @@
 import * as React from 'react';
 import styled, { keyframes } from 'styled-components';
 import { CameraSetting, CameraSettingDesc } from '../../../shared/settings/camera.js';
-import { PhotoSetting, PhotoSettingDesc } from '../../../shared/settings/photo.js';
 import { ActiveSetting, Filler } from './Camera.js';
 import { AwbSetting, ExposureSetting, ShutterSetting } from './settings/CameraSettings.js';
-import { TimelapseSetting } from './settings/PhotoSettings.js';
 
 //#region styled
 
@@ -36,20 +34,16 @@ const QuickSettingsContainer = styled.div`
 export interface QuickSettingsProps {
   activeSetting: ActiveSetting;
   camera: CameraSettingDesc;
-  photo: PhotoSettingDesc;
 
   activateSetting: (setting: ActiveSetting) => void;
   updateCamera: (data: CameraSetting) => void;
-  updatePhoto: (data: PhotoSetting) => void;
 }
 
 export const SettingsQuick: React.FC<QuickSettingsProps> = ({
   activeSetting,
   camera,
-  photo,
   activateSetting,
   updateCamera,
-  updatePhoto,
 }) => (
   <QuickSettingsPane>
     <QuickSettingsContainer>
@@ -60,9 +54,6 @@ export const SettingsQuick: React.FC<QuickSettingsProps> = ({
         <ShutterSetting camera={camera} updateCamera={updateCamera} />
       )}
       {activeSetting === 'AwbAuto' && <AwbSetting camera={camera} updateCamera={updateCamera} />}
-      {activeSetting === 'Timelapse' && (
-        <TimelapseSetting photo={photo} updatePhoto={updatePhoto} />
-      )}
     </QuickSettingsContainer>
 
     <Filler $enableClick={true} onClick={() => activateSetting(undefined)} />

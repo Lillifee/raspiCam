@@ -1,6 +1,7 @@
 import http from 'http';
 import { parseArguments } from './argument';
 import { createButtonControl } from './button';
+import { createTimelapse } from './timelapse';
 import { createRaspiControl } from './control';
 import { createLogger } from './logger';
 import { server } from './server';
@@ -41,6 +42,11 @@ const start = async () => {
   const button = await createButtonControl(control, settingsHelper);
 
   /**
+   * Create timelapse
+   */
+  const timelapse = createTimelapse(control, settingsHelper);
+
+  /**
    * Create photos and thumbnail directory
    */
   const watcher = createFileWatcher();
@@ -49,7 +55,7 @@ const start = async () => {
    * Webserver
    * Start the webserver and serve the website.
    */
-  const app = server(args, control, settingsHelper, watcher, button);
+  const app = server(args, control, settingsHelper, watcher, button, timelapse);
   httpServer.on('request', app);
 
   /**

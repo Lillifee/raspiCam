@@ -10,6 +10,7 @@ import { applySettings } from '../../../shared/settings/helper.js';
 import { photoSettingDesc } from '../../../shared/settings/photo.js';
 import { previewSettingDesc } from '../../../shared/settings/preview.js';
 import { streamSettingDesc } from '../../../shared/settings/stream.js';
+import { timelapseSettingDesc } from '../../../shared/settings/timelapse.js';
 import { RaspiStatus, Setting, BaseTypeSetting } from '../../../shared/settings/types.js';
 import { videoSettingDesc } from '../../../shared/settings/video.js';
 import { useFetch } from '../common/hooks/useFetch.js';
@@ -87,13 +88,7 @@ const PlayerContainer = styled.div`
 
 //#endregion
 
-export type ActiveSetting =
-  | 'Settings'
-  | 'Timelapse'
-  | 'Exposure'
-  | 'Shutter'
-  | 'AwbAuto'
-  | undefined;
+export type ActiveSetting = 'Settings' | 'Exposure' | 'Shutter' | 'AwbAuto' | undefined;
 
 const useFetchSettings = <T extends { [k in keyof T]: BaseTypeSetting }>(
   url: RequestInfo,
@@ -132,6 +127,7 @@ export const Camera: React.FC<Props> = ({ setTheme }) => {
     applicationSettingDesc,
   );
   const [button, updateButton] = useFetchSettings('/api/button', buttonSettingDesc);
+  const [timelapse, updateTimelapse] = useFetchSettings('/api/timelapse', timelapseSettingDesc);
 
   React.useEffect(() => {
     const applicationTheme = allThemes[application.theme.value || 'dark'];
@@ -190,6 +186,7 @@ export const Camera: React.FC<Props> = ({ setTheme }) => {
             control={control}
             button={button}
             application={application}
+            timelapse={timelapse}
             activeSetting={activeSetting}
             activateSetting={activateSetting}
             updateCamera={updateCamera}
@@ -200,6 +197,7 @@ export const Camera: React.FC<Props> = ({ setTheme }) => {
             updateControl={updateControl}
             updateButton={updateButton}
             updateApplication={updateApplication}
+            updateTimelapse={updateTimelapse}
           />
         </OverlayContent>
 
@@ -207,11 +205,9 @@ export const Camera: React.FC<Props> = ({ setTheme }) => {
           <OverlayContent>
             <SettingsQuick
               camera={camera}
-              photo={photo}
               activeSetting={activeSetting}
               activateSetting={activateSetting}
               updateCamera={updateCamera}
-              updatePhoto={updatePhoto}
             />
           </OverlayContent>
         )}

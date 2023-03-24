@@ -27,6 +27,10 @@ export interface BooleanTypeSetting extends FormattableBaseTypeSetting<boolean> 
   type: 'BOOLEAN';
 }
 
+export interface StringTypeSetting extends FormattableBaseTypeSetting<string> {
+  type: 'STRING';
+}
+
 export type GenericSettingDesc = Record<string, BaseTypeSetting>;
 export type Setting<T extends { [k in keyof T]: BaseTypeSetting }> = {
   [K in keyof T]?: T[K]['value'];
@@ -48,11 +52,18 @@ export interface RaspiFile {
   thumb?: string;
 }
 
+export interface TimelapseState {
+  running?: boolean;
+  nextDate?: string;
+  nextDates: string[];
+}
+
 export interface RaspiStatus {
   running?: boolean;
   streamRunning?: boolean;
   latestFile?: RaspiFile;
   gpioAvailable?: boolean;
+  timelapse?: TimelapseState;
 }
 
 export interface RaspiGallery {
