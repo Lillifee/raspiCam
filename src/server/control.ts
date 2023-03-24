@@ -1,3 +1,4 @@
+import { DateTime } from 'luxon';
 import path from 'path';
 import { PassThrough } from 'stream';
 import { fileNameFormatter, getIsoDataTime } from '../shared/helperFunctions';
@@ -131,10 +132,16 @@ const modeHelper: {
 } = {
   Photo: (settingsHelper: SettingsHelper) => {
     const { camera, preview, photo } = settingsHelper;
+
+    const exifInfo = {
+      exif: `EXIF.DateTimeOriginal=${DateTime.now().toUTC().toISO()}`,
+    };
+
     const settings = {
       ...camera.convert(),
       ...preview.convert(),
       ...photo.convert(),
+      ...exifInfo,
     };
 
     return {
