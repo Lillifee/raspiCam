@@ -1,7 +1,7 @@
 import { DateTime } from 'luxon';
 import path from 'path';
 import { PassThrough } from 'stream';
-import { fileNameFormatter, getIsoDataTime } from '../shared/helperFunctions';
+import { fileNameFormatter } from '../shared/helperFunctions';
 import { RaspiMode, RaspiStatus } from '../shared/settings/types';
 import { createLogger } from './logger';
 import { spawnProcess } from './process';

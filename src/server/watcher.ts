@@ -4,6 +4,7 @@ import path from 'path';
 import { RaspiFile, RaspiFileType, photosPath } from '../shared/settings/types';
 import { curDirName } from './common';
 import { createLogger } from './logger';
+import { SettingsHelper } from './settings';
 
 const logger = createLogger('watcher');
 
@@ -27,7 +28,7 @@ export interface FileWatcher {
   deleteFiles: (fileNames: string[]) => void;
 }
 
-export const createFileWatcher = (): FileWatcher => {
+export const createFileWatcher = (settingsHelper: SettingsHelper): FileWatcher => {
   let files: RaspiFile[] = [];
 
   if (!fs.existsSync(photosAbsPath)) {
@@ -71,7 +72,9 @@ export const createFileWatcher = (): FileWatcher => {
         if (files.findIndex((x) => x.base === file.base) >= 0) return;
 
         file.date = stats.ctime.getTime();
-        extractThumbnail(file);
+        if (settingsHelper.control.read().extractThumbnail) {
+          extractThumbnail(file);
+        }
         files.push(file);
       }
     });

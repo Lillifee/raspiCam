@@ -32,6 +32,7 @@ export const ControlSettings: React.FC<ControlSettingsProps> = ({ control, updat
       </SettingsHeader>
 
       <BooleanSetting {...control.captureStartup} update={updateField('captureStartup')} />
+      <BooleanSetting {...control.extractThumbnail} update={updateField('extractThumbnail')} />
       <EnumDropdownSetting {...control.mode} update={updateField('mode')} />
       <EnumDropdownSetting {...control.fileName} update={updateField('fileName')} />
       <FileExampleLabel fontSize="s">

@@ -49,7 +49,7 @@ const start = async () => {
   /**
    * Create photos and thumbnail directory
    */
-  const watcher = createFileWatcher();
+  const watcher = createFileWatcher(settingsHelper);
 
   /**
    * Webserver

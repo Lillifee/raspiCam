@@ -46,7 +46,11 @@ export const defaultSettings: DefaultSettings = {
   preview: {
     nopreview: previewSettingDesc.nopreview.defaultValue,
   },
-  control: { mode: controlSettingDesc.mode.defaultValue },
+  control: {
+    mode: controlSettingDesc.mode.defaultValue,
+    fileName: controlSettingDesc.fileName.defaultValue,
+    extractThumbnail: controlSettingDesc.extractThumbnail.defaultValue,
+  },
   application: {},
   button: {
     gpioPin: buttonSettingDesc.gpioPin.defaultValue,

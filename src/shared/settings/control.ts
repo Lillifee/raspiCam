@@ -17,6 +17,9 @@ export const controlSettingDesc = {
     ['ISO Date time', 'Unix time', 'Date time'],
     'ISO Date time',
   ),
+
+  /** Extract a thumbnail as preview */
+  extractThumbnail: booleanSetting('Extract thumbnail', true),
 };
 
 export type ControlSettingDesc = typeof controlSettingDesc;
