@@ -44,9 +44,9 @@ export const photoSettingDesc = {
    * Note that you should specify %04d at the point in the filename where you want a frame count number to appear.
    * -t 30000 -tl 2000 -o image%04d.jpg
    *
-   * no longer in use since cron is in use
+   * no longer in use since cron
    */
-  timelapse: numberSetting('Timelapse', 0, 60 * 60 * 24 * 1000, 3000, 1000),
+  // timelapse: numberSetting('Timelapse', 0, 60 * 60 * 24 * 1000, 3000, 1000),
 
   /**
    * Whether to run an autofocus cycle before capture

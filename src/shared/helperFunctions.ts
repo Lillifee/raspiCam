@@ -85,6 +85,15 @@ export const abbreviateNumber =
   };
 
 /**
+ * Multiply and abbreviate number.
+ * e.g. ms with multiplier 0.001 result in seconds
+ */
+export const multiplyAndAbbreviateNumber =
+  (unit = '', fractionDigits = -1, multiplier = 1) =>
+  (number?: number): string =>
+    abbreviateNumber(unit, fractionDigits)(number ? number * multiplier : number);
+
+/**
  * Format number and append unit
  *
  * @param number number

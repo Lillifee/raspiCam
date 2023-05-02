@@ -8,6 +8,7 @@ import { NumberSetting } from './common/NumberSetting.js';
 import { SettingsExpander } from './common/SettingsExpander.js';
 import { SettingsRestore } from './common/SettingsRestore.js';
 import { SettingsHeader, SettingsHeaderText, SettingsWrapper } from './common/Styled.js';
+import { BooleanSetting } from './common/BooleanSetting.js';
 
 export interface ButtonSettingsProps {
   status: RaspiStatus;
@@ -31,6 +32,11 @@ export const ButtonSettings: React.FC<ButtonSettingsProps> = ({ status, button, 
         >
           <EnumDropdownSetting {...button.edge} update={updateField('edge')} />
           <NumberSetting {...button.debounceTimeout} update={updateField('debounceTimeout')} />
+          <NumberSetting {...button.lockoutTime} update={updateField('lockoutTime')} />
+          <BooleanSetting
+            {...button.stopCaptureOnTrigger}
+            update={updateField('stopCaptureOnTrigger')}
+          />
         </SettingsExpander>
       ) : (
         <React.Fragment>

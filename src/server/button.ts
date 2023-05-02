@@ -17,6 +17,7 @@ export const createButtonControl = async (
   import('onoff')
     .then((onoff) => {
       let button: Gpio | undefined;
+      let lockout = false;
 
       const watchButton = () => {
         unwatchButton();
@@ -33,7 +34,20 @@ export const createButtonControl = async (
 
         button.watch((error, value) => {
           logger.info('button control', error || value);
-          raspiControl.getStatus().running ? raspiControl.stop() : raspiControl.start();
+          if (!raspiControl.getStatus().running) {
+            if (lockout) return;
+
+            raspiControl.start();
+
+            if (settings.lockoutTime) {
+              setTimeout(() => (lockout = false), settings.lockoutTime);
+              lockout = true;
+            }
+          } else {
+            if (settings.stopCaptureOnTrigger) {
+              raspiControl.stop();
+            }
+          }
         });
       };
 
