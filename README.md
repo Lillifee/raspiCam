@@ -7,6 +7,7 @@ RaspiCam is a react application to stream, take pictures or record videos from y
 
 ## Usecases
 
+- [Share your configuration with results](https://github.com/Lillifee/raspiCam/discussions/28)
 - Monitoring camera
 - Timelapse photography
 - Video recorder
@@ -18,6 +19,7 @@ RaspiCam is a react application to stream, take pictures or record videos from y
   - for external applications like octoprint
   - alternative for devices without media source extension
   - http://ip_address:8000/api/stream/mjpeg
+
 
 ## Hardware
 
