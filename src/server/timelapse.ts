@@ -27,7 +27,7 @@ export const createTimelapse = (
       cronJob = new CronJob(settings.schedule, () => {
         logger.info('trigger cron job...');
         if (!raspiControl.getStatus().running) {
-          raspiControl.start();
+          raspiControl.start().catch(() => undefined);
         }
       });
       cronJob.start();

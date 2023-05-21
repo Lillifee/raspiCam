@@ -4,14 +4,14 @@ import { PassThrough } from 'stream';
 import { fileNameFormatter } from '../shared/helperFunctions';
 import { RaspiMode, RaspiStatus } from '../shared/settings/types';
 import { createLogger } from './logger';
-import { spawnProcess } from './process';
+import { SpawnArgs, SpawnProcess, spawnProcess } from './process';
 import { SettingsHelper } from './settings';
 import { photosAbsPath } from './watcher';
 
 const logger = createLogger('control');
 
 export interface RaspiControl {
-  start: () => void;
+  start: (mode?: RaspiMode) => Promise<SpawnProcess | undefined>;
   stop: () => void;
   restartStream: () => Promise<void>;
   getStatus: () => RaspiStatus;
@@ -82,26 +82,29 @@ export const createRaspiControl = (settingsHelper: SettingsHelper): RaspiControl
     streamRunning: streamProcess.running(),
   });
 
-  const start = () => {
+  const start = async (controlMode?: RaspiMode) => {
     streamProcess.stop();
     actionProcess.stop();
 
-    const control = settingsHelper.control.convert();
-    if (!control.mode) return;
+    const mode = controlMode || settingsHelper.control.convert().mode;
+    if (!mode) return undefined;
 
-    const mode = modeHelper[control.mode](settingsHelper);
-    logger.info('starting', control.mode, '...');
+    const parameters = modeHelper[mode](settingsHelper);
+    logger.info('starting', mode, '...');
 
-    actionProcess
-      .start(mode.command, mode.settings)
+    await actionProcess
+      .start(parameters.command, parameters.settings)
       .catch((e: Error) => {
-        logger.error(control.mode, 'failed:', e.message);
+        logger.error(mode, 'failed:', e.message);
+        throw e;
       })
       .finally(() => {
         startStream().catch(() => {
           /** not needed */
         });
       });
+
+    return actionProcess;
   };
 
   const stop = () => {
@@ -110,13 +113,8 @@ export const createRaspiControl = (settingsHelper: SettingsHelper): RaspiControl
   };
 
   const control = settingsHelper.control.convert();
-  if (control.captureStartup) {
-    start();
-  } else {
-    startStream().catch(() => {
-      // not needed
-    });
-  }
+  const startup = control.captureStartup ? start : startStream;
+  startup()?.catch(() => undefined);
 
   return { start, stop, getStatus, restartStream, getStream };
 };
@@ -126,8 +124,8 @@ const getFileName = ({ control }: SettingsHelper) =>
 
 const modeHelper: {
   [key in RaspiMode | 'Stream']: (settingsHelper: SettingsHelper) => {
-    settings: Record<string, unknown>;
     command: 'libcamera-still' | 'libcamera-vid';
+    settings: SpawnArgs;
   };
 } = {
   Photo: (settingsHelper: SettingsHelper) => {

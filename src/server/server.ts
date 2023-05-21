@@ -29,6 +29,7 @@ export const server = (
   timelapse: Timelapse,
 ): express.Express => {
   const app = express();
+  let lastSnapshot: Buffer | undefined;
 
   if (args.c) {
     // Run server insecure and allow CORs
@@ -118,8 +119,20 @@ export const server = (
   });
 
   app.get('/api/start', (_, res) => {
-    control.start();
-    res.status(200).send('ok');
+    control
+      .start()
+      .then(() => res.status(200).send('ok'))
+      .catch(() => res.status(500).send('error'));
+  });
+
+  app.get('/api/capture', (_, res) => {
+    control
+      .start('Photo')
+      .then((process) => {
+        const outputPath = process?.parameters()?.args.output;
+        outputPath ? res.sendFile(outputPath) : res.status(404).send();
+      })
+      .catch(() => res.status(500).send('error'));
   });
 
   app.get('/api/stop', (_, res) => {
@@ -155,6 +168,7 @@ export const server = (
 
       liveStream.pipe(
         splitJpeg((jpeg) => {
+          lastSnapshot = jpeg;
           res.write(`Content-Type: image/jpeg\n`);
           res.write(`Content-Length: ${jpeg.length}\n\n`);
           res.write(jpeg);
@@ -168,6 +182,11 @@ export const server = (
     } else {
       res.status(503).send('Camera restarting or in use');
     }
+  });
+
+  app.get('/api/stream/mjpeg/snapshot', (_, res) => {
+    res.contentType('image/jpeg');
+    res.send(lastSnapshot);
   });
 
   app.get('/api/gallery', (_, res) => {

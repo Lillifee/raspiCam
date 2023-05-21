@@ -37,7 +37,7 @@ export const createButtonControl = async (
           if (!raspiControl.getStatus().running) {
             if (lockout) return;
 
-            raspiControl.start();
+            raspiControl.start().catch(() => undefined);
 
             if (settings.lockoutTime) {
               setTimeout(() => (lockout = false), settings.lockoutTime);

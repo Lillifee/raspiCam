@@ -21,10 +21,18 @@ const getSpawnArgs = (options: Record<string, unknown>): string[] =>
     return result;
   }, []);
 
+export type SpawnArgs = Record<string, unknown> & { output: string };
+
+export interface SpawnParameters {
+  command: string;
+  args: SpawnArgs;
+}
+
 export interface SpawnProcess {
-  start: (command: string, args: Record<string, unknown>) => Promise<void>;
+  start: (command: string, args: SpawnArgs) => Promise<void>;
   stop: () => void;
   running: () => boolean;
+  parameters: () => SpawnParameters | undefined;
   stream: PassThrough;
 }
 
@@ -36,6 +44,8 @@ export const spawnProcess = (options?: {
   stream?: boolean;
 }): SpawnProcess => {
   let process: ChildProcess | undefined;
+  let spawnParameters: SpawnParameters | undefined;
+
   const stream = new PassThrough();
 
   const stop = () => {
@@ -48,8 +58,12 @@ export const spawnProcess = (options?: {
 
   const running = () => !!process;
 
-  const start = (command: string, args: Record<string, unknown>): Promise<void> =>
+  const parameters = () => spawnParameters;
+
+  const start = (command: string, args: SpawnArgs): Promise<void> =>
     new Promise<void>((resolve, reject) => {
+      spawnParameters = { command, args };
+
       const spawnArgs = getSpawnArgs(args);
       logger.log(command, spawnArgs.join(' '));
 
@@ -67,7 +81,7 @@ export const spawnProcess = (options?: {
       }
     });
 
-  return { start, stop, running, stream };
+  return { start, stop, running, parameters, stream };
 };
 
 const removeNewlines = (data: unknown) => String(data).replace(/^\s+|\s+$/g, '');
