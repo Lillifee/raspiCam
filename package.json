@@ -1,6 +1,6 @@
 {
   "name": "raspicam",
-  "version": "2.0.0",
+  "version": "2.0.7",
   "type": "commonjs",
   "browser": {
     "stream": false
@@ -15,7 +15,8 @@
     "code:check-tsc": "tsc -p ./tsconfig.json",
     "build": "npm run build:site && npm run build:server",
     "build:server": "ts-node-esm ./build.server.mts",
-    "build:site": "ts-node-esm ./build.site.mts"
+    "build:site": "ts-node-esm ./build.site.mts",
+    "release": "yarn version --patch && git push --follow-tags"
   },
   "dependencies": {
     "buffer": "^6.0.3",
