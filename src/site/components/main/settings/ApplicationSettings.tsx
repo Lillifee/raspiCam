@@ -6,7 +6,15 @@ import {
 import { BooleanSetting } from './common/BooleanSetting.js';
 import { EnumDropdownSetting } from './common/EnumDropdownSetting.js';
 import { updateTypedField } from './common/helperFunctions.js';
-import { SettingsHeader, SettingsHeaderText, SettingsWrapper } from './common/Styled.js';
+import {
+  SettingHorizontalWrapper,
+  SettingName,
+  SettingsHeader,
+  SettingsHeaderText,
+  SettingsWrapper,
+  SettingValue,
+} from './common/Styled.js';
+import { version } from '../../../../../package.json';
 
 export interface ApplicationSettingsProps {
   application: ApplicationSettingDesc;
@@ -28,6 +36,11 @@ export const ApplicationSettings: React.FC<ApplicationSettingsProps> = ({
       <EnumDropdownSetting {...application.theme} update={updateField('theme')} />
       <EnumDropdownSetting {...application.gridLines} update={updateField('gridLines')} />
       <BooleanSetting {...application.playerStats} update={updateField('playerStats')} />
+
+      <SettingHorizontalWrapper>
+        <SettingName fontSize="s">Version</SettingName>
+        <SettingValue fontSize="s">{version}</SettingValue>
+      </SettingHorizontalWrapper>
     </SettingsWrapper>
   );
 };

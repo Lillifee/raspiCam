@@ -7,10 +7,12 @@ import { createLogger } from './logger';
 import { server } from './server';
 import { createSettingsHelper } from './settings';
 import { createFileWatcher } from './watcher';
+import { version } from '../../package.json';
 
 const logger = createLogger('server');
 
 const start = async () => {
+  logger.info('version', version);
   logger.info('starting services...');
 
   /**
