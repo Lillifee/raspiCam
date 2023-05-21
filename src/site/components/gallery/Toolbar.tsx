@@ -31,9 +31,15 @@ export interface Props {
   showActions: boolean;
   deleteFiles: () => void;
   clearSelection: () => void;
+  selectAll: () => void;
 }
 
-export const Toolbar: React.FC<Props> = ({ showActions, deleteFiles, clearSelection }) => (
+export const Toolbar: React.FC<Props> = ({
+  showActions,
+  selectAll,
+  deleteFiles,
+  clearSelection,
+}) => (
   <ToolbarContainer>
     <Link to="/">
       <Button type="PhotoCamera" />
@@ -41,11 +47,15 @@ export const Toolbar: React.FC<Props> = ({ showActions, deleteFiles, clearSelect
 
     <Filler />
 
-    {showActions && (
-      <ActionContainer>
-        <Button type="Delete" onClick={deleteFiles} />
-        <Button type="Clear" onClick={clearSelection} />
-      </ActionContainer>
-    )}
+    <ActionContainer>
+      {showActions ? (
+        <React.Fragment>
+          <Button type="Delete" onClick={deleteFiles} />
+          <Button type="Clear" onClick={clearSelection} />
+        </React.Fragment>
+      ) : (
+        <Button type="Checked" onClick={selectAll} />
+      )}
+    </ActionContainer>
   </ToolbarContainer>
 );

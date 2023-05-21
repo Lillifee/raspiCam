@@ -4,6 +4,7 @@ import { RaspiGallery, RaspiFile } from '../../../shared/settings/types.js';
 import { useFetch } from '../common/hooks/useFetch.js';
 import { GalleryItem } from './GalleryItem.js';
 import { Toolbar } from './Toolbar.js';
+import { ButtonIcon } from '../styled/ButtonIcon.js';
 
 const GalleryContainer = styled.div`
   flex: 1;
@@ -35,10 +36,16 @@ const Group = styled.div`
 `;
 
 const Header = styled.div`
+  display: flex;
+  align-items: center;
   font-size: ${(p) => p.theme.FontSize.l};
   font-weight: 300;
-  /* top: 0px; */
-  padding: 0.45em;
+  padding: 0.45em 0;
+`;
+
+const HeaderButton = styled(ButtonIcon)`
+  padding: 0.5em;
+  border-radius: 1.5em;
 `;
 
 const dateTimeFormat = new Intl.DateTimeFormat('en-GB', {
@@ -65,6 +72,13 @@ export const Gallery: React.FC = () => {
         : [...files, fileBase],
     );
 
+  const toggleSelectionGroup = (selection: string[], add: boolean) =>
+    setSelectFiles((files) =>
+      add ? [...files, ...selection] : files.filter((x) => !selection.includes(x)),
+    );
+
+  const selectAll = () => setSelectFiles(gallery.data.files.map((x) => x.base));
+
   const clearSelection = () => setSelectFiles([]);
 
   const deleteFiles = React.useCallback(() => {
@@ -83,25 +97,36 @@ export const Gallery: React.FC = () => {
     <GalleryContainer>
       <Toolbar
         showActions={selectedFiles.length > 0}
+        selectAll={selectAll}
         deleteFiles={deleteFiles}
         clearSelection={clearSelection}
       />
 
-      {Object.entries(groupedFiles).map(([date, files]) => (
-        <Group key={date}>
-          <Header>{date}</Header>
-          <GroupContainer>
-            {files.map((file) => (
-              <GalleryItem
-                key={file.base}
-                file={file}
-                selected={selectedFiles.includes(file.base)}
-                toggleSelection={toggleSelection}
+      {Object.entries(groupedFiles).map(([date, files]) => {
+        const fileBases = files.map((x) => x.base);
+        const groupChecked = fileBases.every((x) => selectedFiles.includes(x));
+        return (
+          <Group key={date}>
+            <Header>
+              <HeaderButton
+                type={groupChecked ? 'Checked' : 'Unchecked'}
+                onClick={() => toggleSelectionGroup(fileBases, !groupChecked)}
               />
-            ))}
-          </GroupContainer>
-        </Group>
-      ))}
+              {date}
+            </Header>
+            <GroupContainer>
+              {files.map((file) => (
+                <GalleryItem
+                  key={file.base}
+                  file={file}
+                  selected={selectedFiles.includes(file.base)}
+                  toggleSelection={toggleSelection}
+                />
+              ))}
+            </GroupContainer>
+          </Group>
+        );
+      })}
     </GalleryContainer>
   );
 };
