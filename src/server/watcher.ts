@@ -1,10 +1,10 @@
-import { exec } from 'child_process';
 import fs from 'fs';
 import path from 'path';
 import { RaspiFile, RaspiFileType, photosPath } from '../shared/settings/types';
 import { curDirName } from './common';
 import { createLogger } from './logger';
 import { SettingsHelper } from './settings';
+import { spawnSync } from 'child_process';
 
 const logger = createLogger('watcher');
 
@@ -96,25 +96,25 @@ const isThumbnail = (file: RaspiFile): boolean => file.name.includes(thumbnailEx
 const getThumbnailPath = (file: RaspiFile): string => `${file.name}${thumbnailExt}${file.ext}`;
 
 const extractThumbnail = (file: RaspiFile) => {
-  if (file.ext === '.jpg') {
-    const thumbFile = getThumbnailPath(file);
-    const thumbPath = path.join(photosAbsPath, thumbFile);
-    const filePath = path.join(photosAbsPath, file.base);
+  if (file.ext !== '.jpg') return;
 
-    fs.access(thumbPath, (err) => {
-      if (!err) {
-        file.thumb = thumbFile;
-        return;
-      }
+  const thumbFile = getThumbnailPath(file);
+  const thumbPath = path.join(photosAbsPath, thumbFile);
+  const filePath = path.join(photosAbsPath, file.base);
 
-      exec(`exiv2 -ep1 ${filePath}`, (err) => {
-        if (err) {
-          logger.warning('failed to extract thumbnail', file.base);
-        } else {
-          logger.success('extracted thumbnail', thumbFile);
-          file.thumb = thumbFile;
-        }
-      });
-    });
-  }
+  fs.access(thumbPath, (err) => {
+    if (!err) {
+      file.thumb = thumbFile;
+      return;
+    }
+
+    const exiv = spawnSync(`exiv2`, ['-ep1', filePath]);
+
+    if (exiv.status === 0) {
+      file.thumb = thumbFile;
+      logger.success('extracted thumbnail', thumbFile);
+    } else {
+      logger.warning('failed to extract thumbnail', file.base, exiv.error, exiv.output);
+    }
+  });
 };

@@ -12,6 +12,7 @@ import { SettingsBase, SettingsHelper } from './settings';
 import { splitJpeg } from './splitJpeg';
 import { Timelapse } from './timelapse';
 import { FileWatcher } from './watcher';
+import rateLimit from 'express-rate-limit';
 
 const logger = createLogger('server');
 
@@ -28,8 +29,13 @@ export const server = (
   buttonControl: ButtonControl,
   timelapse: Timelapse,
 ): express.Express => {
-  const app = express();
   let lastSnapshot: Buffer | undefined;
+
+  const app = express();
+
+  // set up rate limiter: maximum of five requests per minute
+  const limiter = rateLimit({ windowMs: 60 * 1000, max: 1000 });
+  app.use(limiter);
 
   if (args.c) {
     // Run server insecure and allow CORs
@@ -149,7 +155,6 @@ export const server = (
     pipeline(liveStream, res, (err) => {
       if (!err) return;
       if (err.code === 'ERR_STREAM_PREMATURE_CLOSE') return;
-
       logger.error('live stream pipeline error', err);
     });
   });
@@ -157,31 +162,34 @@ export const server = (
   app.get('/api/stream/mjpeg', (_, res) => {
     const liveStream = control.getStream();
 
-    if (liveStream) {
-      const boundary = 'streamBoundary';
-      res.setHeader('Content-Type', 'multipart/x-mixed-replace;boundary="' + boundary + '"');
-      res.setHeader('Connection', 'close');
-      res.setHeader('Pragma', 'no-cache');
-      res.setHeader('Cache-Control', 'no-cache, private');
-      res.setHeader('Expires', 0);
-      res.setHeader('Max-Age', 0);
+    const boundary = 'streamBoundary';
+    res.setHeader('Content-Type', 'multipart/x-mixed-replace;boundary="' + boundary + '"');
+    res.setHeader('Connection', 'close');
+    res.setHeader('Pragma', 'no-cache');
+    res.setHeader('Cache-Control', 'no-cache, private');
+    res.setHeader('Expires', 0);
+    res.setHeader('Max-Age', 0);
+    res.writeHead(200);
 
-      liveStream.pipe(
-        splitJpeg((jpeg) => {
-          lastSnapshot = jpeg;
-          res.write(`Content-Type: image/jpeg\n`);
-          res.write(`Content-Length: ${jpeg.length}\n\n`);
-          res.write(jpeg);
-          res.write(`\n--${boundary}\n`);
-        }),
-      );
+    pipeline(
+      liveStream,
+      splitJpeg((jpeg) => {
+        lastSnapshot = jpeg;
+        res.write(`Content-Type: image/jpeg\n`);
+        res.write(`Content-Length: ${jpeg.length}\n\n`);
+        res.write(jpeg);
+        res.write(`\n--${boundary}\n`);
+      }),
+      (err) => {
+        if (!err) return;
+        if (err.code === 'ERR_STREAM_PREMATURE_CLOSE') return;
+        logger.error('mjpeg stream pipeline error', err);
+      },
+    );
 
-      res.on('close', () => {
-        res.destroy();
-      });
-    } else {
-      res.status(503).send('Camera restarting or in use');
-    }
+    res.on('close', () => {
+      liveStream.end();
+    });
   });
 
   app.get('/api/stream/mjpeg/snapshot', (_, res) => {

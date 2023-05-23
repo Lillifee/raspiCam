@@ -23,6 +23,7 @@
     "chalk": "^4.1.2",
     "cron": "^2.3.0",
     "express": "^4.18.2",
+    "express-rate-limit": "^6.7.0",
     "jmuxer": "^2.0.5",
     "luxon": "^3.3.0",
     "onoff": "^6.0.3",
@@ -36,6 +37,7 @@
   "devDependencies": {
     "@types/cron": "^2.0.1",
     "@types/express": "^4.17.15",
+    "@types/express-rate-limit": "^6.0.0",
     "@types/jmuxer": "^2.0.3",
     "@types/luxon": "^3.2.0",
     "@types/node": "^18.11.18",
