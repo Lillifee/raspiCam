@@ -17,8 +17,10 @@ export const streamSettingDesc = {
    */
   height: numberSetting('Height', 64, 1520, 720, 1, appendUnit('px')),
 
-  /** At present, the minimum frame rate allowed is 2fps, and the maximum is 30fps. */
-  framerate: numberSetting('Framerate', 2, 30, 25, 1, appendUnit('fps')),
+  /**
+   * At present, the minimum frame rate allowed is 2fps, and the maximum is 120fps.
+   */
+  framerate: numberSetting('Framerate', 2, 120, 25, 1, appendUnit('fps')),
 
   /**
    * JPEG quality
