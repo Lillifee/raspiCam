@@ -101,13 +101,9 @@ export const SettingsAdvanced: React.FC<SettingsProps> = ({
   <SettingsPane>
     <SettingsContainer $show={activeSetting === 'Settings'}>
       <CameraSettings camera={camera} updateCamera={updateCamera} />
-
-      {control.mode.value === 'Photo' && <PhotoSettings photo={photo} updatePhoto={updatePhoto} />}
-
-      {control.mode.value === 'Video' && <VideoSettings video={video} updateVideo={updateVideo} />}
-
+      <PhotoSettings photo={photo} updatePhoto={updatePhoto} />
+      <VideoSettings video={video} updateVideo={updateVideo} />
       <TimelapseSettings status={status} timelapse={timelapse} updateTimelapse={updateTimelapse} />
-
       <StreamSettings
         stream={stream}
         updateStream={updateStream}
@@ -115,11 +111,8 @@ export const SettingsAdvanced: React.FC<SettingsProps> = ({
         updateApplication={updateApplication}
       />
       <ControlSettings control={control} updateControl={updateControl} />
-
       <ApplicationSettings application={application} updateApplication={updateApplication} />
-
       <PreviewSettings preview={preview} updatePreview={updatePreview} />
-
       <ButtonSettings status={status} button={button} updateButton={updateButton} />
     </SettingsContainer>
 
