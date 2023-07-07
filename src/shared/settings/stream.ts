@@ -10,12 +10,12 @@ export const streamSettingDesc = {
   /**
    * Width of resulting video. This should be between 64 and 1920.
    */
-  width: numberSetting('Width', 64, 1920, 1280, 1, appendUnit('px')),
+  width: numberSetting('Width', 64, 2304, 1280, 1, appendUnit('px')),
 
   /**
    * Height of resulting video. This should be between 64 and 1080.
    */
-  height: numberSetting('Height', 64, 1080, 720, 1, appendUnit('px')),
+  height: numberSetting('Height', 64, 1520, 720, 1, appendUnit('px')),
 
   /** At present, the minimum frame rate allowed is 2fps, and the maximum is 30fps. */
   framerate: numberSetting('Framerate', 2, 30, 25, 1, appendUnit('fps')),

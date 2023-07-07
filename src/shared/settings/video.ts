@@ -12,12 +12,12 @@ export const videoSettingDesc = {
   /**
    * Width of resulting video. This should be between 64 and 1920.
    */
-  width: numberSetting('Width', 64, 1920, 1920, 1, appendUnit('px')),
+  width: numberSetting('Width', 64, 2304, 1920, 1, appendUnit('px')),
 
   /**
    * Height of resulting video. This should be between 64 and 1080.
    */
-  height: numberSetting('Height', 64, 1080, 1080, 1, appendUnit('px')),
+  height: numberSetting('Height', 64, 1520, 1080, 1, appendUnit('px')),
 
   /**
    * The total length of time that the program will run for.

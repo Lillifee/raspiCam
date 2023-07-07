@@ -12,12 +12,13 @@ import { SettingsExpander } from './common/SettingsExpander.js';
 import { SettingsRestore } from './common/SettingsRestore.js';
 import { SettingsHeader, SettingsHeaderText, SettingsWrapper } from './common/Styled.js';
 
-const videoResolutionPresets = [
+const streamResolutionPresets = [
   { name: '240p', width: 426, height: 240 },
   { name: '360p', width: 640, height: 360 },
   { name: '480p', width: 854, height: 480 },
   { name: '720p', width: 1280, height: 720 },
   { name: '1080p', width: 1920, height: 1080 },
+  { name: '1640x1232', width: 1640, height: 1232 },
 ];
 
 export interface StreamSettingsProps {
@@ -50,7 +51,7 @@ export const StreamSettings: React.FC<StreamSettingsProps> = ({
         header={
           <EnumSlider
             name="Resolution"
-            items={videoResolutionPresets}
+            items={streamResolutionPresets}
             predicate={(x) => x.width === stream.width.value && x.height === stream.height.value}
             displayValue={(x) => x.name}
             update={(x) => updateStream({ width: x.width, height: x.height })}

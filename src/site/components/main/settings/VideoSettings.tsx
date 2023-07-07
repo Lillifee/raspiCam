@@ -16,6 +16,7 @@ const videoResolutionPresets = [
   { name: '480p', width: 854, height: 480 },
   { name: '720p', width: 1280, height: 720 },
   { name: '1080p', width: 1920, height: 1080 },
+  { name: '1640x1232', width: 1640, height: 1232 },
 ];
 
 const qualityPresets = [
