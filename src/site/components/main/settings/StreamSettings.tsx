@@ -1,8 +1,4 @@
 import React from 'react';
-import {
-  ApplicationSetting,
-  ApplicationSettingDesc,
-} from '../../../../shared/settings/application.js';
 import { StreamSetting, StreamSettingDesc } from '../../../../shared/settings/stream.js';
 import { EnumDropdownSetting } from './common/EnumDropdownSetting.js';
 import { EnumSlider } from './common/EnumSlider.js';
@@ -23,19 +19,11 @@ const streamResolutionPresets = [
 
 export interface StreamSettingsProps {
   stream: StreamSettingDesc;
-  application: ApplicationSettingDesc;
   updateStream: (data: StreamSetting) => void;
-  updateApplication: (app: ApplicationSetting) => void;
 }
 
-export const StreamSettings: React.FC<StreamSettingsProps> = ({
-  stream,
-  application,
-  updateStream,
-  updateApplication,
-}) => {
+export const StreamSettings: React.FC<StreamSettingsProps> = ({ stream, updateStream }) => {
   const updateStreamField = updateTypedField(updateStream);
-  const updateApplicationField = updateTypedField(updateApplication);
 
   return (
     <SettingsWrapper>
@@ -68,11 +56,8 @@ export const StreamSettings: React.FC<StreamSettingsProps> = ({
       >
         {stream.codec.value === 'H264' && (
           <React.Fragment>
-            <EnumDropdownSetting
-              {...application.player}
-              update={updateApplicationField('player')}
-            />
             <NumberSetting {...stream.bitrate} update={updateStreamField('bitrate')} />
+            <EnumDropdownSetting {...stream.player} update={updateStreamField('player')} />
             <EnumDropdownSetting {...stream.profile} update={updateStreamField('profile')} />
             <EnumDropdownSetting {...stream.level} update={updateStreamField('level')} />
           </React.Fragment>

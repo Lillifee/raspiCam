@@ -147,7 +147,7 @@ export const Camera: React.FC<Props> = ({ setTheme }) => {
             {stream.codec.value === 'MJPEG' ? (
               <MJPEGPlayer loading={playerLoading} />
             ) : stream.codec.value === 'H264' ? (
-              application.player.value === 'Broadway' ? (
+              stream.player.value === 'Broadway' ? (
                 <BroadwayPlayer loading={playerLoading} showStats={application.playerStats.value} />
               ) : (
                 <JMuxerPlayer loading={playerLoading} showStats={application.playerStats.value} />

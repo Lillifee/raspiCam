@@ -41,7 +41,7 @@ export const streamSettingDesc = {
   intra: numberSetting('Intra-frame period', 1, 100, 60, 1),
 
   /** Specify H264 profile to use for encoding */
-  profile: enumSetting('H264 Profile', ['baseline', 'main', 'high'], 'baseline'),
+  profile: enumSetting('H264 profile', ['baseline', 'main', 'high'], 'main'),
 
   /** Specifies the H264 encoder level to use for encoding. Options are 4, 4.1, and 4.2. */
   level: enumSetting('H264 level', ['4', '4.1', '4.2'], '4'),
@@ -52,6 +52,9 @@ export const streamSettingDesc = {
    * but at decreased framerate due to the higher processing and storage requirements.
    */
   codec: enumSetting('Codec', ['H264', 'MJPEG'], 'H264'), //'yuv420', 'libav'
+
+  /** Player for H264 stream  */
+  player: enumSetting('Player', ['Broadway', 'JMuxer'], 'JMuxer'),
 };
 
 export type StreamSettingDesc = typeof streamSettingDesc;

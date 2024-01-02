@@ -171,16 +171,21 @@ const modeHelper: {
   },
   Stream: (settingsHelper: SettingsHelper) => {
     const { camera, preview, stream } = settingsHelper;
+
+    const { player, ...streamSettings } = stream.convert();
     const settings = {
       ...camera.convert(),
       ...preview.convert(),
-      ...stream.convert(),
+      ...streamSettings,
     };
+
+    const appSettings = player === 'Broadway' ? { profile: 'baseline' } : {};
 
     return {
       command: 'libcamera-vid',
       settings: {
         ...settings,
+        ...appSettings,
         timeout: 0,
         inline: true,
         output: '-',

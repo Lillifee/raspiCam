@@ -15,9 +15,6 @@ export const applicationSettingDesc = {
     'none',
   ),
 
-  /** Player for H264 stream  */
-  player: enumSetting('Player', ['Broadway', 'JMuxer'], 'JMuxer'),
-
   /** Display the player statistics */
   playerStats: booleanSetting('Stream statistics', false),
 };
