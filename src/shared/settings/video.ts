@@ -1,4 +1,4 @@
-import { appendUnit } from '../helperFunctions';
+import { abbreviateNumber, appendUnit } from '../helperFunctions';
 import { booleanSetting, numberSetting } from './helper';
 import { streamSettingDesc } from './stream';
 import { Setting } from './types';
@@ -18,6 +18,14 @@ export const videoSettingDesc = {
    * Height of resulting video. This should be between 64 and 1080.
    */
   height: numberSetting('Height', 64, 1520, 1080, 1, appendUnit('px')),
+
+  /**
+   * Use bits per second, so 10Mbits/s would be -b 10000000.
+   * For H264, 1080p30 a high quality bitrate would be 15Mbits/s or more.
+   * Maximum bitrate is 25Mbits/s (-b 25000000), but much over 17Mbits/s
+   * won't show noticeable improvement at 1080p30.
+   */
+  bitrate: numberSetting('Bitrate', 0, 25000000, 15000000, 1000000, abbreviateNumber('bits/s', 0)),
 
   /**
    * The total length of time that the program will run for.
