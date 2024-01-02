@@ -20,7 +20,6 @@ RaspiCam is a react application to stream, take pictures or record videos from y
   - alternative for devices without media source extension
   - http://ip_address:8000/api/stream/mjpeg
 
-
 ## Hardware
 
 I'm using a **Raspberry PI Zero W** with a **Raspberry PI HQ camera**.
@@ -162,7 +161,18 @@ _-c_ or _--CORs true_ - allow CORs during development (default true)
 # Run RaspiCam as a service
 
 To automatically start the RaspiCam on startup, you can run the RaspiCam as a service.
-Check the [raspicam.service](https://github.com/Lillifee/raspiCam/blob/master/systemd/raspicam.service) in the systemd folder in the repository and adapt it to your needs.
+Download the [raspicam.service](https://github.com/Lillifee/raspiCam/blob/master/systemd/raspicam.service) from the the repository:
+
+```
+wget https://raw.githubusercontent.com/Lillifee/raspiCam/master/systemd/raspicam.service
+```
+
+Change the working directory and user details in a text editor like nano or vi if raspicam is stored elsewhere or if a different user is being used.
+
+```
+WorkingDirectory=/home/pi/raspiCam
+User=pi
+```
 
 Copy the raspicam.service file to the systemd:
 
