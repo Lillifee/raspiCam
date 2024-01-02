@@ -28,8 +28,9 @@
     "isolatedModules": true
   },
   "ts-node": {
+    "esm": true,
     "transpileOnly": true,
     "files": true, /* Enable d.ts files */
-    "experimentalResolver": true
+    "experimentalResolver": true,
   },
 }

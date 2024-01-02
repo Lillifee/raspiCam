@@ -68,11 +68,13 @@ export const StreamSettings: React.FC<StreamSettingsProps> = ({
       >
         {stream.codec.value === 'H264' && (
           <React.Fragment>
-            <NumberSetting {...stream.bitrate} update={updateStreamField('bitrate')} />
             <EnumDropdownSetting
               {...application.player}
               update={updateApplicationField('player')}
             />
+            <NumberSetting {...stream.bitrate} update={updateStreamField('bitrate')} />
+            <EnumDropdownSetting {...stream.profile} update={updateStreamField('profile')} />
+            <EnumDropdownSetting {...stream.level} update={updateStreamField('level')} />
           </React.Fragment>
         )}
         {stream.codec.value === 'MJPEG' && (

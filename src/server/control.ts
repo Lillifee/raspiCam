@@ -182,7 +182,6 @@ const modeHelper: {
       settings: {
         ...settings,
         timeout: 0,
-        profile: 'baseline',
         inline: true,
         output: '-',
       },

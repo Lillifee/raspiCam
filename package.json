@@ -8,14 +8,14 @@
   "author": "Patrick Matt",
   "license": "MIT",
   "scripts": {
-    "start:site": "ts-node-esm ./serve.site.mts",
+    "start:site": "node --loader ts-node/esm ./serve.site.mts",
     "start:server": "npm run build:server && node ./build/server.js",
     "code:check": "npm run code:check-eslint && yarn code:check-tsc",
     "code:check-eslint": "eslint --fix ./src/",
     "code:check-tsc": "tsc -p ./tsconfig.json",
     "build": "npm run build:site && npm run build:server",
-    "build:server": "ts-node-esm ./build.server.mts",
-    "build:site": "ts-node-esm ./build.site.mts",
+    "build:server": "node --loader ts-node/esm ./build.server.mts",
+    "build:site": "node --loader ts-node/esm ./build.site.mts",
     "release": "yarn version --patch && git push --follow-tags"
   },
   "dependencies": {
