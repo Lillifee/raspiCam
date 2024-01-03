@@ -173,6 +173,7 @@ const modeHelper: {
     const { camera, preview, stream } = settingsHelper;
 
     const { player, ...streamSettings } = stream.convert();
+
     const settings = {
       ...camera.convert(),
       ...preview.convert(),
@@ -180,12 +181,14 @@ const modeHelper: {
     };
 
     const appSettings = player === 'Broadway' ? { profile: 'baseline' } : {};
+    const h264Settings = streamSettings.codec === 'H264' ? { 'libav-format': 'h264' } : {};
 
     return {
       command: 'libcamera-vid',
       settings: {
         ...settings,
         ...appSettings,
+        ...h264Settings,
         timeout: 0,
         inline: true,
         output: '-',
