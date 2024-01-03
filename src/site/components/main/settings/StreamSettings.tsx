@@ -54,16 +54,21 @@ export const StreamSettings: React.FC<StreamSettingsProps> = ({ stream, updateSt
       <SettingsExpander
         header={<EnumDropdownSetting {...stream.codec} update={updateStreamField('codec')} />}
       >
-        {stream.codec.value === 'H264' && (
+        {stream.codec.value === 'MJPEG' ? (
+          <NumberSetting {...stream.quality} update={updateStreamField('quality')} />
+        ) : (
           <React.Fragment>
             <NumberSetting {...stream.bitrate} update={updateStreamField('bitrate')} />
             <EnumDropdownSetting {...stream.player} update={updateStreamField('player')} />
+            {stream.codec.value === 'LIBAV' && (
+              <EnumDropdownSetting
+                {...stream['libav-format']}
+                update={updateStreamField('libav-format')}
+              />
+            )}
             <EnumDropdownSetting {...stream.profile} update={updateStreamField('profile')} />
             <EnumDropdownSetting {...stream.level} update={updateStreamField('level')} />
           </React.Fragment>
-        )}
-        {stream.codec.value === 'MJPEG' && (
-          <NumberSetting {...stream.quality} update={updateStreamField('quality')} />
         )}
       </SettingsExpander>
     </SettingsWrapper>

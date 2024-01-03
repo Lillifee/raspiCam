@@ -41,7 +41,7 @@ export const streamSettingDesc = {
   intra: numberSetting('Intra-frame period', 1, 100, 60, 1),
 
   /** Specify H264 profile to use for encoding */
-  profile: enumSetting('H264 profile', ['baseline', 'main', 'high'], 'main'),
+  profile: enumSetting('H264 profile', ['baseline', 'main', 'high'], 'baseline'),
 
   /** Specifies the H264 encoder level to use for encoding. Options are 4, 4.1, and 4.2. */
   level: enumSetting('H264 level', ['4', '4.1', '4.2'], '4'),
@@ -53,7 +53,13 @@ export const streamSettingDesc = {
    *
    * TODO Check libav codec - PI5 always use libav.
    */
-  codec: enumSetting('Codec', ['H264', 'MJPEG'], 'H264'), //'yuv420', 'libav'
+  codec: enumSetting('Codec', ['H264', 'MJPEG', 'LIBAV'], 'H264'), //'yuv420'
+
+  /**
+   * Set the libav output format to use. These output formats can be specified as containers (e.g. mkv, mp4, avi)
+   * or stream output (e.g. h264 or mpegts). If this option is not provided, libav tries to deduce the output format from the filename specified by the -o command line argument.
+   */
+  'libav-format': enumSetting('libav-format', ['h264'], 'h264'),
 
   /** Player for H264 stream  */
   player: enumSetting('Player', ['Broadway', 'JMuxer'], 'JMuxer'),
@@ -61,3 +67,12 @@ export const streamSettingDesc = {
 
 export type StreamSettingDesc = typeof streamSettingDesc;
 export type StreamSetting = Setting<StreamSettingDesc>;
+
+export const streamSettingConverter = (
+  settings: Setting<StreamSettingDesc>,
+): Record<string, unknown> => {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const { player, ...passThroughSettings } = settings;
+
+  return passThroughSettings;
+};

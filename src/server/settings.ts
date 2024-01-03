@@ -9,7 +9,7 @@ import { defaultSettings } from '../shared/settings/defaultSettings';
 import { applySettings, extractSettings } from '../shared/settings/helper';
 import { photoSettingConverter, photoSettingDesc } from '../shared/settings/photo';
 import { previewSettingDesc } from '../shared/settings/preview';
-import { streamSettingDesc } from '../shared/settings/stream';
+import { streamSettingConverter, streamSettingDesc } from '../shared/settings/stream';
 import { timelapseSettingDesc } from '../shared/settings/timelapse';
 import { GenericSettingDesc, Setting } from '../shared/settings/types';
 import { videoSettingDesc } from '../shared/settings/video';
@@ -89,7 +89,12 @@ export const createSettingsHelper = () => {
   }
 
   return {
-    stream: settingsBase('stream.json', streamSettingDesc, defaultSettings.stream),
+    stream: settingsBase(
+      'stream.json',
+      streamSettingDesc,
+      defaultSettings.stream,
+      streamSettingConverter,
+    ),
     photo: settingsBase(
       'photo.json',
       photoSettingDesc,

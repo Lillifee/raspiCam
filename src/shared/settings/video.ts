@@ -1,5 +1,5 @@
 import { abbreviateNumber, appendUnit } from '../helperFunctions';
-import { booleanSetting, numberSetting } from './helper';
+import { booleanSetting, enumSetting, numberSetting } from './helper';
 import { streamSettingDesc } from './stream';
 import { Setting } from './types';
 
@@ -26,6 +26,9 @@ export const videoSettingDesc = {
    * won't show noticeable improvement at 1080p30.
    */
   bitrate: numberSetting('Bitrate', 0, 25000000, 15000000, 1000000, abbreviateNumber('bits/s', 0)),
+
+  /** Specify H264 profile to use for encoding */
+  profile: enumSetting('H264 profile', ['baseline', 'main', 'high'], 'main'),
 
   /**
    * The total length of time that the program will run for.
