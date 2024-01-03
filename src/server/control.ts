@@ -178,6 +178,8 @@ const modeHelper: {
       ...stream.convert(),
     };
 
+    stream.read().player === 'Broadway' && (settings.profile = 'baseline');
+
     return {
       command: 'libcamera-vid',
       settings: {
