@@ -16,7 +16,10 @@
     "build": "npm run build:site && npm run build:server",
     "build:server": "node --loader ts-node/esm ./build.server.mts",
     "build:site": "node --loader ts-node/esm ./build.site.mts",
-    "release": "yarn version --patch && git push --follow-tags"
+    "release": "yarn release:patch",
+    "release:patch": "yarn version --patch && git push --follow-tags",
+    "release:minor": "yarn version --minor && git push --follow-tags",
+    "release:major": "yarn version --major && git push --follow-tags"
   },
   "dependencies": {
     "buffer": "^6.0.3",
