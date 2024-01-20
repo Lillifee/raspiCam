@@ -23,11 +23,18 @@ export const cameraSettingDesc = {
   /** Set vertical flip */
   vflip: booleanSetting('Vertical flip', false),
 
-  /** Set HDR (High Dynamic Range) */
-  hdr: booleanSetting('HDR', false),
-
   /** Set rotation  */
   rotation: numberSetting('Rotation', 0, 180, 0, 180),
+
+  /** Set roi (region of interest)  */
+  roi: enumSetting(
+    'Region of interest',
+    ['0,0,1,1', '0.25,0.25,0.5,0.5', '0.4,0.4,0.2,0.2', '0.45,0.45,0.1,0.1'],
+    '0,0,1,1',
+  ),
+
+  /** Set HDR (High Dynamic Range) */
+  hdr: booleanSetting('HDR', false),
 
   /** Set image sharpness (-100 - 100) */
   sharpness: numberSetting('Sharpness', -100, 100, 1, 1),

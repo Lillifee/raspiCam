@@ -30,6 +30,18 @@ const shutterPresets = [
   { name: '2.5 s', time: secToMicro(2.5) },
 ];
 
+interface DigitalZoomPreset {
+  name: string;
+  roi: CameraSetting['roi'];
+}
+
+const digitalZoomPresets: DigitalZoomPreset[] = [
+  { name: '1x', roi: undefined },
+  { name: '2x', roi: '0.25,0.25,0.5,0.5' },
+  { name: '5x', roi: '0.4,0.4,0.2,0.2' },
+  { name: '10x', roi: '0.45,0.45,0.1,0.1' },
+];
+
 export interface CameraSettingsProps {
   camera: CameraSettingDesc;
   updateCamera: (data: CameraSetting) => void;
@@ -102,6 +114,13 @@ export const CameraSettings: React.FC<CameraSettingsProps> = ({ camera, updateCa
         <NumberSetting {...camera.rotation} update={updateField('rotation')} />
         <BooleanSetting {...camera.hflip} update={updateField('hflip')} />
         <BooleanSetting {...camera.vflip} update={updateField('vflip')} />
+        <EnumSlider
+          name="Digital zoom"
+          items={digitalZoomPresets}
+          predicate={(x) => x.roi === camera.roi.value}
+          displayValue={(x) => x.name}
+          update={(x) => updateCamera({ roi: x.roi })}
+        />
         <EnumDropdownSetting {...camera.camera} update={updateField('camera')} />
       </SettingsExpander>
 

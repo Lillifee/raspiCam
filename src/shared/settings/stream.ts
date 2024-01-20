@@ -50,8 +50,6 @@ export const streamSettingDesc = {
    * Specifies the encoder codec to use.
    * H264 can encode up to 1080p, whereas MJPEG can encode upto the sensor size,
    * but at decreased framerate due to the higher processing and storage requirements.
-   *
-   * TODO Check libav codec - PI5 always use libav.
    */
   codec: enumSetting('Codec', ['H264', 'MJPEG', 'LIBAV'], 'H264'), //'yuv420'
 
