@@ -57,7 +57,7 @@ export const streamSettingDesc = {
    * Set the libav output format to use. These output formats can be specified as containers (e.g. mkv, mp4, avi)
    * or stream output (e.g. h264 or mpegts). If this option is not provided, libav tries to deduce the output format from the filename specified by the -o command line argument.
    */
-  'libav-format': enumSetting('libav-format', ['h264'], 'h264'),
+  'libav-format': enumSetting('Libav format', ['none', 'h264'], 'h264'),
 
   /** Player for H264 stream  */
   player: enumSetting('Player', ['Broadway', 'JMuxer'], 'JMuxer'),
@@ -71,6 +71,14 @@ export const streamSettingConverter = (
 ): Record<string, unknown> => {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const { player, ...passThroughSettings } = settings;
+
+  if (player === 'Broadway') {
+    passThroughSettings.profile = 'baseline';
+  }
+
+  if (passThroughSettings['libav-format'] === 'none') {
+    passThroughSettings['libav-format'] = undefined;
+  }
 
   return passThroughSettings;
 };

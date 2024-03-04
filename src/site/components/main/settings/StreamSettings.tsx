@@ -60,12 +60,10 @@ export const StreamSettings: React.FC<StreamSettingsProps> = ({ stream, updateSt
           <React.Fragment>
             <NumberSetting {...stream.bitrate} update={updateStreamField('bitrate')} />
             <EnumDropdownSetting {...stream.player} update={updateStreamField('player')} />
-            {stream.codec.value === 'LIBAV' && (
-              <EnumDropdownSetting
-                {...stream['libav-format']}
-                update={updateStreamField('libav-format')}
-              />
-            )}
+            <EnumDropdownSetting
+              {...stream['libav-format']}
+              update={updateStreamField('libav-format')}
+            />
             <EnumDropdownSetting {...stream.profile} update={updateStreamField('profile')} />
             <EnumDropdownSetting {...stream.level} update={updateStreamField('level')} />
           </React.Fragment>
