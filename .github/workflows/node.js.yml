@@ -14,11 +14,11 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: Use Node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
-          node-version: 16
+          node-version: 18
       - name: Yarn
         run: yarn --frozen-lockfile
       - name: Build
@@ -30,7 +30,7 @@ jobs:
       - name: Create tar.gz
         run: cd build && tar -zcf ../archive/raspiCam.tar.gz * && cd -
       - name: Archive build
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: raspiCam
           path: archive
