@@ -17,6 +17,7 @@ const photoResolutionPresets = [
   { name: '8 MP', width: 3264, height: 2448 },
   { name: '8.6 MP', width: 3840, height: 2160 },
   { name: '12.3 MP', width: 4056, height: 3040 },
+  { name: '20.2 MP', width: 5496, height: 3672 },
 ];
 
 const photoTimeoutPresets = [

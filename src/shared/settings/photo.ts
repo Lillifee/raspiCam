@@ -11,10 +11,10 @@ export const photoSettingDesc = {
   quality: numberSetting('Quality', 0, 100, 80, 5),
 
   /** Set image width <size> 4056  */
-  width: numberSetting('Width', 64, 4056, 4056, 1, appendUnit('px')),
+  width: numberSetting('Width', 64, 5496, 4056, 1, appendUnit('px')),
 
   /** Set image height <size> 3040 */
-  height: numberSetting('Height', 64, 3040, 3040, 1, appendUnit('px')),
+  height: numberSetting('Height', 64, 3672, 3040, 1, appendUnit('px')),
 
   /**
    * Time before the camera takes picture and shuts down.
