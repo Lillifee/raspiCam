@@ -124,7 +124,7 @@ const getFileName = ({ control }: SettingsHelper) =>
 
 const modeHelper: {
   [key in RaspiMode | 'Stream']: (settingsHelper: SettingsHelper) => {
-    command: 'libcamera-still' | 'libcamera-vid';
+    command: 'rpicam-still' | 'rpicam-vid';
     settings: SpawnArgs;
   };
 } = {
@@ -143,7 +143,7 @@ const modeHelper: {
     };
 
     return {
-      command: 'libcamera-still',
+      command: 'rpicam-still',
       settings: {
         ...settings,
         output: path.join(
@@ -162,7 +162,7 @@ const modeHelper: {
     };
 
     return {
-      command: 'libcamera-vid',
+      command: 'rpicam-vid',
       settings: {
         ...settings,
         output: path.join(photosAbsPath, `${getFileName(settingsHelper)}.h264`),
@@ -179,7 +179,7 @@ const modeHelper: {
     };
 
     return {
-      command: 'libcamera-vid',
+      command: 'rpicam-vid',
       settings: {
         ...settings,
         timeout: 0,

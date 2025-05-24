@@ -3,7 +3,7 @@
 RaspiCam is a react application to stream, take pictures or record videos from your raspberry pi camera over a web interface.
 
 - **Simple**: a mobile-first designed user interface to provide a flawless user experience on the smartphone.
-- **Lightweight**: raspiCam uses the build-in libcamera-still and libcamera-vid to stream, capture and record videos.
+- **Lightweight**: raspiCam uses the build-in rpicam-still and rpicam-vid to stream, capture and record videos.
 
 ## Usecases
 
@@ -13,7 +13,7 @@ RaspiCam is a react application to stream, take pictures or record videos from y
 - Video recorder
 - Camera to go with trigger (GPIO button or smartphone)
 - Use it as a tool to find the best camera settings for your project.
-  - Adjust the settings without manually start and stop the libcamera-vid or libcamera-still.
+  - Adjust the settings without manually start and stop the rpicam-vid or rpicam-still.
   - Copy the result from the terminal and use it for your project.
 - MJPEG stream
   - for external applications like octoprint
@@ -43,7 +43,7 @@ https://www.prusaprinters.org/prints/61556-raspberry-pi4-hq-camera-aluminium-mix
 
 ## Raspberry PI OS
 
-From version >1.2.0, raspiCam support the libcamera apps of the new Raspberry Pi OS. If you use an older version with raspistill and raspivid, please check version 1.2.0 in the release section.
+From version >1.2.0, raspiCam support the rpicam apps of the new Raspberry Pi OS. If you use an older version with raspistill and raspivid, please check version 1.2.0 in the release section.
 
 If your raspberry is already up and running, you can skip this section and continue with the "Install Node.js" section.
 
@@ -278,4 +278,4 @@ You can find the latest command sent to raspiCam in the terminal output:
 
 ## Keywords
 
-jmuxer web application raspberry hq camera software react live player node.js raspberry pi stream h264 monitoring timelapse video recording capture libcamera-vid libcamera-still libcamera-app bullseye raspicam
+jmuxer web application raspberry hq camera software react live player node.js raspberry pi stream h264 monitoring timelapse video recording capture rpicam-vid rpicam-still rpicam-app bullseye raspicam
