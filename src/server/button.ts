@@ -23,32 +23,35 @@ export const createButtonControl = async (
         unwatchButton();
 
         const settings = settingsHelper.button.convert();
-        if (!settings.gpioPin || settings.gpioPin === 'none') {
-          return;
-        }
+        if (!settings.gpioPin) return;
 
         logger.info('setup gpio pin', settings.gpioPin);
-        button = new onoff.Gpio(parseInt(settings.gpioPin), 'in', settings.edge, {
-          debounceTimeout: settings.debounceTimeout,
-        });
 
-        button.watch((error, value) => {
-          logger.info('button control', error || value);
-          if (!raspiControl.getStatus().running) {
-            if (lockout) return;
+        try {
+          button = new onoff.Gpio(settings.gpioPin, 'in', settings.edge, {
+            debounceTimeout: settings.debounceTimeout,
+          });
 
-            raspiControl.start().catch(() => undefined);
+          button.watch((error, value) => {
+            logger.info('button control', error || value);
+            if (!raspiControl.getStatus().running) {
+              if (lockout) return;
 
-            if (settings.lockoutTime) {
-              setTimeout(() => (lockout = false), settings.lockoutTime);
-              lockout = true;
+              raspiControl.start().catch(() => undefined);
+
+              if (settings.lockoutTime) {
+                setTimeout(() => (lockout = false), settings.lockoutTime);
+                lockout = true;
+              }
+            } else {
+              if (settings.stopCaptureOnTrigger) {
+                raspiControl.stop();
+              }
             }
-          } else {
-            if (settings.stopCaptureOnTrigger) {
-              raspiControl.stop();
-            }
-          }
-        });
+          });
+        } catch (error) {
+          logger.warning('onoff library watch GPIO pin failed.', error);
+        }
       };
 
       const unwatchButton = () => {
