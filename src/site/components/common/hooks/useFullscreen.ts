@@ -31,11 +31,13 @@ const isDocumentFullscreen = (): boolean => {
  * @param {React.RefObject<HTMLDivElement>} element fullscreen element
  * @return isFullscreen: boolean, setFullScreen: () => void
  */
-export const useFullscreen = (element: React.RefObject<HTMLElement>): [boolean, () => void] => {
+export const useFullscreen = (
+  element: React.RefObject<HTMLElement | null>,
+): [boolean, () => void] => {
   const [isFullscreen, setIsFullscreen] = React.useState(isDocumentFullscreen());
 
   const setFullscreen = () => {
-    if (element.current == null) return;
+    if (!element.current) return;
 
     element.current
       .requestFullscreen()

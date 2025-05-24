@@ -15,13 +15,7 @@ export interface EnumSlider<T> {
   update: (item: T) => void;
 }
 
-export const EnumSlider = <T,>({
-  name,
-  items,
-  predicate,
-  displayValue,
-  update,
-}: EnumSlider<T>): JSX.Element => {
+export const EnumSlider = <T,>({ name, items, predicate, displayValue, update }: EnumSlider<T>) => {
   const index = items.findIndex(predicate);
 
   return (

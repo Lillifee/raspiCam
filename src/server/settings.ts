@@ -60,7 +60,7 @@ const settingsBase = <T extends GenericSettingDesc>(
    */
   const save = (settings: Setting<T>) =>
     fs.writeFile(settingsFilePath, JSON.stringify(settings), (err) => {
-      err && logger.error(`failed to write settings to ${fileName}: ${err.message}`);
+      if (err) logger.error(`failed to write settings to ${fileName}: ${err.message}`);
     });
 
   /**
@@ -71,7 +71,7 @@ const settingsBase = <T extends GenericSettingDesc>(
       fs.accessSync(settingsFilePath);
       const settings = JSON.parse(fs.readFileSync(settingsFilePath, 'utf-8')) as Setting<T>;
       settingDesc = applySettings(settingDesc, { ...defaultSettings, ...settings });
-    } catch (err) {
+    } catch {
       // Nothing to do here.
     }
   };

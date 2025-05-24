@@ -1,4 +1,3 @@
-import http from 'http';
 import { parseArguments } from './argument';
 import { createButtonControl } from './button';
 import { createTimelapse } from './timelapse';
@@ -19,12 +18,6 @@ const start = async () => {
    * Parse the startup arguments
    */
   const args = parseArguments();
-
-  /**
-   * https server
-   * Create an http server to bind the express server.
-   */
-  const httpServer = http.createServer();
 
   /**
    * Settings helper
@@ -58,12 +51,11 @@ const start = async () => {
    * Start the webserver and serve the website.
    */
   const app = server(args, control, settingsHelper, watcher, button, timelapse);
-  httpServer.on('request', app);
 
   /**
    * Start the web server
    */
-  httpServer.listen(args.p);
+  app.listen(args.p);
   logger.success('server listening on', args.p);
 };
 

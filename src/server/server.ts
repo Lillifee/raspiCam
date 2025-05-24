@@ -58,8 +58,9 @@ export const server = (
 
   //#region Helper functions
 
-  const getSettings = (x: SettingsBase) => (_: express.Request, res: express.Response) =>
+  const getSettings = (x: SettingsBase) => (_: express.Request, res: express.Response) => {
     res.send(x.read());
+  };
 
   const applySettings = (x: SettingsBase) => (req: SettingRequest, res: express.Response) => {
     x.apply(req.body);
@@ -136,7 +137,11 @@ export const server = (
       .start('Photo')
       .then((process) => {
         const outputPath = process?.parameters()?.args.output;
-        outputPath ? res.sendFile(outputPath) : res.status(404).send();
+        if (outputPath) {
+          res.sendFile(outputPath);
+        } else {
+          res.status(404).send();
+        }
       })
       .catch(() => res.status(500).send('error'));
   });
@@ -209,12 +214,12 @@ export const server = (
       Array.isArray(req.body) &&
       req.body.map((value) => (typeof value === 'string' ? value : undefined)).filter(isDefined);
 
-    files && fileWatcher.deleteFiles(files);
+    if (files) fileWatcher.deleteFiles(files);
     res.status(200).send('Gallery files deleted');
   });
 
   // All other requests to index html
-  app.get('*', (_, res) => res.sendFile(path.resolve(curDirName, 'public', 'index.html')));
+  app.get(/(.*)/, (_, res) => res.sendFile(path.resolve(curDirName, 'public', 'index.html')));
 
   return app;
 };

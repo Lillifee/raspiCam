@@ -69,7 +69,6 @@ export type StreamSetting = Setting<StreamSettingDesc>;
 export const streamSettingConverter = (
   settings: Setting<StreamSettingDesc>,
 ): Record<string, unknown> => {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const { player, ...passThroughSettings } = settings;
 
   if (player === 'Broadway') {

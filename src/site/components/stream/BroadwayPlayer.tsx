@@ -48,7 +48,7 @@ const broadwayPlayer = (playerOptions: PlayerOptions): CanvasPlayer => {
  * @param {string} url websocket url without (e.g. 192.168.1.10:8081)
  * @param {React.RefObject<HTMLElement>} container html reference object
  */
-const usePlayer = (url: string, container: React.RefObject<HTMLElement>) => {
+const usePlayer = (url: string, container: React.RefObject<HTMLElement | null>) => {
   const [stats, setStats] = React.useState<PlayerStats>(createInitialPlayerStats());
 
   React.useEffect(() => {

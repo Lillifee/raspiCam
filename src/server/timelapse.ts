@@ -21,7 +21,7 @@ export const createTimelapse = (
   const applySettings = () => {
     const settings = settingsHelper.timelapse.convert();
 
-    cronJob?.stop();
+    cronJob?.stop()?.catch(() => undefined);
 
     if (settings.enabled && settings.schedule) {
       cronJob = new CronJob(settings.schedule, () => {
@@ -44,7 +44,7 @@ export const createTimelapse = (
       .filter(isDefined);
 
     return {
-      running: !!cronJob?.running,
+      running: !!cronJob?.isActive,
       nextDate: nextDate,
       nextDates: nextDates,
     };

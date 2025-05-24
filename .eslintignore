@@ -1,7 +1,0 @@
-# dependencies
-/node_modules
-/broadway
-
-# production
-/build
-/lib

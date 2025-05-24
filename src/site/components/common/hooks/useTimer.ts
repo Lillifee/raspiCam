@@ -15,7 +15,7 @@ export const useTimer = (
   () => void, // Stop timer
 ] => {
   // Reference of running timer
-  const timeout = useRef<ReturnType<typeof setTimeout>>();
+  const timeout = useRef<ReturnType<typeof setTimeout>>(null);
 
   // Clear timer
   const stop = () => {

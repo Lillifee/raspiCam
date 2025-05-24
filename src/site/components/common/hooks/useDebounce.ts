@@ -12,7 +12,7 @@ export function useDebounce<T extends ((...args: never[]) => void) | (() => void
   wait?: number,
 ): [(...args: Parameters<T>) => void] {
   // Reference of running timer
-  const timeout = useRef<ReturnType<typeof setTimeout>>();
+  const timeout = useRef<ReturnType<typeof setTimeout>>(null);
 
   // Clear timer
   const clearTimer = () => {

@@ -11,7 +11,7 @@ export const StringSetting: React.FC<StringSettingProps> = ({ name, value, updat
   const [inputValue, setInputValue] = useState<string>();
 
   const updateValue = () => {
-    inputValue && update(inputValue);
+    if (inputValue) update(inputValue);
     setInputValue(undefined);
   };
 

@@ -10,7 +10,7 @@ const raspi = { hostname: '127.0.0.1', port: '8005' };
 const ctx = await esbuild.context({ ...esbuildSiteConfig, minify: false });
 
 // The return value tells us where esbuild's local server is
-const { host, port } = await ctx.serve({ servedir: './build/public/', port: 8001 });
+const { hosts, port } = await ctx.serve({ servedir: './build/public/', port: 8001 });
 
 // Then start a proxy server on port 3000
 http
@@ -37,7 +37,7 @@ http
     // Forward to esbuild serve
     const proxyReq = http.request(
       {
-        hostname: host,
+        hostname: hosts[0],
         port: port,
         path: req.url,
         method: req.method,

@@ -46,7 +46,7 @@ export const createFileWatcher = (settingsHelper: SettingsHelper): FileWatcher =
       try {
         logger.info('delete file', file.base);
         fs.unlinkSync(path.join(photosAbsPath, file.base));
-        file.thumb && fs.unlinkSync(path.join(photosAbsPath, file.thumb));
+        if (file.thumb) fs.unlinkSync(path.join(photosAbsPath, file.thumb));
         return false;
       } catch (err) {
         logger.error('failed to delete file', err);
@@ -54,7 +54,8 @@ export const createFileWatcher = (settingsHelper: SettingsHelper): FileWatcher =
       }
     });
 
-  const watchFile = (fileName: string) => {
+  const watchFile = (fileName: string | null) => {
+    if (!fileName) return;
     const { name, base, ext } = path.parse(fileName);
     const type = fileTypes[ext.substring(1)];
     const file: RaspiFile = { name, base, ext, type, date: 0 };

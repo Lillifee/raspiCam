@@ -5,6 +5,7 @@ import { Gallery } from './gallery/Gallery.js';
 import { Camera } from './main/Camera.js';
 import { GlobalStyle } from './theme/GlobalStyle.js';
 import { darkTheme } from './theme/themes.js';
+import { Normalize } from 'styled-normalize';
 
 export const App: React.FC = () => {
   const [theme, setTheme] = React.useState(darkTheme);
@@ -12,6 +13,7 @@ export const App: React.FC = () => {
   return (
     <ThemeProvider theme={theme}>
       <GlobalStyle />
+      <Normalize />
       <BrowserRouter>
         <Routes>
           <Route path="/gallery" element={<Gallery />} />
